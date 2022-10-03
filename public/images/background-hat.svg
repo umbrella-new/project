@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="617" height="26" viewBox="0 0 617 26">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#233a54"/>
+      <stop offset="1" stop-color="#060d19"/>
+    </linearGradient>
+    <filter id="Path_2258" x="0" y="0" width="617" height="26" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood/>
+      <feComposite operator="in" in2="blur"/>
+    </filter>
+    <filter id="Path_2258-2" x="0" y="0" width="617" height="26" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur-2"/>
+      <feFlood flood-color="#fff" flood-opacity="0.161" result="color"/>
+      <feComposite operator="out" in="SourceGraphic" in2="blur-2"/>
+      <feComposite operator="in" in="color"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g data-type="innerShadowGroup">
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Path_2258)">
+      <g id="Path_2258-3" data-name="Path 2258" transform="translate(23 3)" fill="url(#linear-gradient)">
+        <path d="M 590.75 19.75 L 0.1035384610295296 19.75 L -19.39646148681641 0.25 L 590.75 0.25 L 590.75 19.75 Z" stroke="none"/>
+        <path d="M -18.79290771484375 0.5 L 0.20709228515625 19.5 L 590.5 19.5 L 590.5 0.5 L -18.79290771484375 0.5 M -20 0 L 591 0 L 591 20 L 0 20 L -20 0 Z" stroke="none" fill="#000"/>
+      </g>
+    </g>
+    <g id="Path_2258-4" data-name="Path 2258" transform="translate(23 3)" fill="url(#linear-gradient)">
+      <path d="M 590.75 19.75 L 0.1035384610295296 19.75 L -19.39646148681641 0.25 L 590.75 0.25 L 590.75 19.75 Z" stroke="none"/>
+      <path d="M -18.79290771484375 0.5 L 0.20709228515625 19.5 L 590.5 19.5 L 590.5 0.5 L -18.79290771484375 0.5 M -20 0 L 591 0 L 591 20 L 0 20 L -20 0 Z" stroke="none"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Path_2258-2)">
+      <g id="Path_2258-5" data-name="Path 2258" transform="translate(23 3)" fill="#fff">
+        <path d="M 590.75 19.75 L 0.1035384610295296 19.75 L -19.39646148681641 0.25 L 590.75 0.25 L 590.75 19.75 Z" stroke="none"/>
+        <path d="M -18.79290771484375 0.5 L 0.20709228515625 19.5 L 590.5 19.5 L 590.5 0.5 L -18.79290771484375 0.5 M -20 0 L 591 0 L 591 20 L 0 20 L -20 0 Z" stroke="none"/>
+      </g>
+    </g>
+    <g id="Path_2258-6" data-name="Path 2258" transform="translate(23 3)" fill="none">
+      <path d="M 590.75 19.75 L 0.1035384610295296 19.75 L -19.39646148681641 0.25 L 590.75 0.25 L 590.75 19.75 Z" stroke="none"/>
+      <path d="M -18.79290771484375 0.5 L 0.20709228515625 19.5 L 590.5 19.5 L 590.5 0.5 L -18.79290771484375 0.5 M -20 0 L 591 0 L 591 20 L 0 20 L -20 0 Z" stroke="none" fill="#000"/>
+    </g>
+  </g>
+</svg>
