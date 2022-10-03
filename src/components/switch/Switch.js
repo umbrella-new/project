@@ -9,7 +9,7 @@ import DisplayEnergyConsumption from './DisplayEnergyConsumption';
 import ScheduleCalendar from './controls/HeatingSchedule/ScheduleCalendar';
 
 const Switch = () => {
-  const { dispatch, state } = useContext(Context);
+  const { state } = useContext(Context);
   // only display Heater status ' in ESS Switch '
   const isActivated = state.isEssSwitch ? true : false;
   const backgroundSvg = '/images/background-hat.svg';

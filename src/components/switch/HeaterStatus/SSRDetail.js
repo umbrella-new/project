@@ -8,8 +8,8 @@ import SSRInfoContainer from './SSRInfoContainer';
 
 import AdminSSRInfoContainer from './AdminSSRInfoContainer';
 const SSRDetail = ({ data, id }) => {
-  const { isAdministrator } = useContext(Context);
-  // console.log(isAdministrator);
+  const { state } = useContext(Context);
+  const { isAdministrator } = state;
 
   return (
     <Wrapper>

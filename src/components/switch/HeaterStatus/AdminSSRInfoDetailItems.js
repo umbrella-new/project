@@ -14,14 +14,16 @@ const AdminSSRInfoDetailItems = ({
   onSelect,
   displayHiddenMessage,
   setDisplayHiddenMessage,
-  id,
+  descriptionNumber,
 }) => {
   const { wattage, voltage, length, current } = data;
   const { options } = useContext(HeaterStatusContext);
 
   // this two variables will be merged as one with 3 conditions
-  const isEnable = data.buttonStatus;
-  console.log(isEnable);
+  // isEnable is for styling  [false:color gray-deActivated color]
+  const isEnable =
+    data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
+  // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
 
   return (
@@ -65,7 +67,7 @@ const AdminSSRInfoDetailItems = ({
         setIsSettingOpen={setIsSettingOpen}
         selectDescript={selectDescript}
         onSelect={onSelect}
-        id={id}
+        descriptionNumber={descriptionNumber}
         displayHiddenMessage={displayHiddenMessage}
         setDisplayHiddenMessage={setDisplayHiddenMessage}
         isFault={isFault}

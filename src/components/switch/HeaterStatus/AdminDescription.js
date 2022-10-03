@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
@@ -12,33 +13,48 @@ const AdminDescription = ({
   setIsSettingOpen,
   selectDescript,
   onSelect,
-  id,
+  descriptionNumber,
   displayHiddenMessage,
   setDisplayHiddenMessage,
   isFault,
   isEnable,
 }) => {
-  const status = isEnable ? false : isFault ? false : true;
+  const [isChecked, setIsChecked] = useState(false);
+  const onSelectHandler = () => {
+    onSelect(descriptionNumber);
+    setIsChecked(!isChecked);
+  };
+
   return (
     <Wrapper>
       {isSettingOpen ? (
-        <DescriptionWrapper isSettingOpen={isSettingOpen} isFault={status}>
+        <DescriptionWrapper
+          isSettingOpen={isSettingOpen}
+          isFault={isFault}
+          isEnable={isEnable}
+        >
           <ItemDataWrapper>
-            <ItemData isSettingOpen={isSettingOpen} isFault={status}>
+            <ItemData
+              isSettingOpen={isSettingOpen}
+              isFault={isFault}
+              isEnable={isEnable}
+            >
               {data.description}
             </ItemData>
           </ItemDataWrapper>
           {isSettingOpen && (
-            <RadioButtonWrapper onClick={() => onSelect(id)}>
-              <Radiobutton
-                isChecked={id === selectDescript ? true : false}
-              ></Radiobutton>
+            <RadioButtonWrapper onClick={onSelectHandler}>
+              <Radiobutton isChecked={isChecked}></Radiobutton>
             </RadioButtonWrapper>
           )}
         </DescriptionWrapper>
       ) : (
-        <DescriptionWrapper isFault={status}>
-          <ItemData isSettingOpen={isSettingOpen} isFault={status}>
+        <DescriptionWrapper isFault={isFault} isEnable={isEnable}>
+          <ItemData
+            isSettingOpen={isSettingOpen}
+            isFault={isFault}
+            isEnable={isEnable}
+          >
             {data.description}
           </ItemData>
           <SettingButton
@@ -47,7 +63,8 @@ const AdminDescription = ({
             displayHiddenMessage={displayHiddenMessage}
             setDisplayHiddenMessage={setDisplayHiddenMessage}
             // when ssr status is fault button will be disable
-            isFault={status}
+            isFault={isFault}
+            isEnable={isEnable}
           />
         </DescriptionWrapper>
       )}
@@ -73,7 +90,7 @@ const DescriptionWrapper = styled.li`
   padding: 0 0.1rem;
 
   ${(p) =>
-    p.isFault &&
+    p.isEnable ||
     css`
       ${DisableApplyButtonHole}
     `}
@@ -92,7 +109,7 @@ const ItemData = styled.span`
   text-transform: uppercase;
   max-width: 93%;
   line-height: 0.98;
-  color: ${(p) => p.isFault && '#808080'};
+  color: ${(p) => p.isEnable || '#808080'};
 `;
 
 const RadioButtonWrapper = styled.button`

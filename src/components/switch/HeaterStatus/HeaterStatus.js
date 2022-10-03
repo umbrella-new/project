@@ -35,6 +35,7 @@ const HeaterStatus = () => {
             <SSRButton status={switchStatus} id={index + 1} key={index} />
           ))}
         </ButtonGroup>
+
         <ButtonGroup>
           {ssrGroupTwo.map((switchStatus, index) => (
             <SSRButton status={switchStatus} id={index + 5} key={index} />
@@ -45,6 +46,7 @@ const HeaterStatus = () => {
       {state.isExpanded && (
         <DetailWrapper>
           {ssrStateArr.map((data, index) => (
+            // id is the ssr switch number
             <SSRDetail data={data} key={index} id={index + 1} />
           ))}
         </DetailWrapper>

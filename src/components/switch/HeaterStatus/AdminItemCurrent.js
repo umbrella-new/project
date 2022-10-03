@@ -15,8 +15,7 @@ const AdminItemCurrent = ({ data, options, unit, isFault, isEnable }) => {
   const [checked, setChecked] = useState(options[0]);
   const [isClicked, setIsClicked] = useState(false);
 
-  const status = isEnable ? false : isFault ? false : true;
-  const src = !status ? '/images/selector.svg' : '/images/selector-flt.svg';
+  const src = isEnable ? '/images/selector.svg' : '/images/selector-flt.svg';
 
   const handleChecked = (id) => {
     // // Split and type change to calculate
@@ -33,11 +32,19 @@ const AdminItemCurrent = ({ data, options, unit, isFault, isEnable }) => {
     // console.log(id, 'selected');
   };
   return (
-    <ItemCurrentHole isClicked={isClicked} isFault={status}>
-      <ItemCurrentInnerWrapper isClicked={isClicked} isFault={status}>
+    <ItemCurrentHole
+      isClicked={isClicked}
+      isFault={isFault}
+      isEnable={isEnable}
+    >
+      <ItemCurrentInnerWrapper
+        isClicked={isClicked}
+        isFault={isFault}
+        isEnable={isEnable}
+      >
         <SelectedOneAndArrowWrapper isClicked={isClicked}>
-          <SelectedOne isFault={status}>
-            <ItemData isFault={status}>{data}</ItemData>
+          <SelectedOne isEnable={isEnable}>
+            <ItemData isEnable={isEnable}>{data}</ItemData>
           </SelectedOne>
           <ArrowWrapper onClick={displayOptions}>
             <Arrow src={src} />
@@ -91,7 +98,7 @@ const ItemCurrentHole = styled.li`
   position: relative;
 
   ${(p) =>
-    p.isFault &&
+    p.isEnable ||
     css`
       ${DisableApplyButtonHole}
     `}
@@ -122,7 +129,7 @@ const ItemCurrentInnerWrapper = styled.div`
   top: ${(p) => (p.isClicked ? '0' : 'none')};
 
   ${(p) =>
-    p.isFault &&
+    p.isEnable ||
     css`
       ${DisableApplyButtonBG}
     `}
@@ -151,7 +158,7 @@ const SelectedOne = styled.div`
   ${flexboxCenter}
 
   ${(p) =>
-    p.isFault &&
+    p.isEnable ||
     css`
       ${DisableApplyButtonHole}
     `}
@@ -169,7 +176,7 @@ const ItemData = styled.span`
   text-transform: uppercase;
   max-width: 93%;
   line-height: 0.98;
-  color: ${(p) => p.isFault && '#808080'};
+  color: ${(p) => p.isEnable || '#808080'};
 `;
 
 const SelectWrapper = styled.div`

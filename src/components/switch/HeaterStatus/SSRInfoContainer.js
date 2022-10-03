@@ -7,8 +7,13 @@ import {
 
 const SSRInfoContainer = ({ data }) => {
   const titles = Object.keys(data).slice(2);
+
   // this two variables will be merged as one with 3 conditions
-  const isEnable = data.buttonStatus ? true : false;
+  // isEnable is for styling  [false:color gray-deActivated color]
+  const isEnable =
+    data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
+
+  // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
 
   return (

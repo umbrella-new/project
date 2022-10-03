@@ -6,19 +6,24 @@ import DescriptionButtonContainer from './DescriptionButtonContainer';
 import HoverMessageBox from './HoverMessageBox';
 import SettingButton from './SettingButton';
 
-const AdminSSRInfoContainer = ({ data }) => {
+const AdminSSRInfoContainer = ({ data, id }) => {
+  console.log(data);
   const titles = Object.keys(data).slice(2);
 
-  const isEnable = data.buttonStatus;
+  // this two variables will be merged as one with 3 conditions
+  // isEnable is for styling  [false:color gray-deActivated color]
+  const isEnable =
+    data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
+  // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
 
-  // console.log(titles);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
-  const [selectDescript, setSelectDescript] = useState('1st');
+  // const [selectDescript, setSelectDescript] = useState('1st');
   const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
 
-  const handleSelectDescript = (id) => {
-    setSelectDescript(id);
+  const handleSelectDescript = (descriptionNumber) => {
+    // add business logic
+    console.log('selected', `ssr${id}`, descriptionNumber);
   };
 
   return (
@@ -43,11 +48,10 @@ const AdminSSRInfoContainer = ({ data }) => {
                 data={data}
                 isSettingOpen={isSettingOpen}
                 setIsSettingOpen={setIsSettingOpen}
-                selectDescript={selectDescript}
                 onSelect={handleSelectDescript}
                 displayHiddenMessage={displayHiddenMessage}
                 setDisplayHiddenMessage={setDisplayHiddenMessage}
-                id={`1st`}
+                descriptionNumber={`1st`}
               />
               <SettingButton
                 isSettingOpen={isSettingOpen}
@@ -63,9 +67,8 @@ const AdminSSRInfoContainer = ({ data }) => {
                 data={data}
                 isSettingOpen={isSettingOpen}
                 setIsSettingOpen={setIsSettingOpen}
-                selectDescript={selectDescript}
                 onSelect={handleSelectDescript}
-                id={`2nd`}
+                descriptionNumber={`2nd`}
               />
               <SettingHoleInvisible></SettingHoleInvisible>
             </DescriptionAndButtonWrapper>
@@ -75,9 +78,8 @@ const AdminSSRInfoContainer = ({ data }) => {
                 data={data}
                 isSettingOpen={isSettingOpen}
                 setIsSettingOpen={setIsSettingOpen}
-                selectDescript={selectDescript}
                 onSelect={handleSelectDescript}
-                id={`3rd`}
+                descriptionNumber={`3rd`}
               />
               <SettingHoleInvisible></SettingHoleInvisible>
             </DescriptionAndButtonWrapper>

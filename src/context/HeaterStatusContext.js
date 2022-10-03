@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { createContext, useReducer } from 'react';
+import { Context } from './Context';
 
 export const HeaterStatusContext = createContext(null);
 
 const HeaterStatusProvider = ({ children }) => {
+  const { state } = useContext(Context);
   const options = {
     select: [
       'tc-01',
@@ -24,19 +26,33 @@ const HeaterStatusProvider = ({ children }) => {
     length: [2.1, 3, 3.3, 4.9, 6, 7.3],
   };
 
-  const ssrInitialState = {
-    select: 'tc-01',
-    buttonStatus: true,
-    current: 2.95,
-    wattage: 1400,
-    voltage: 240,
-    length: 2.1,
-    description: `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” /2.95 A /1400 W /480 V /2.1 M`,
-  };
+  const ssrInitialState = state.isAdministrator
+    ? {
+        select: 'tc-01',
+        buttonStatus: true,
+        current: [2.95, 2.95, 2.95],
+        wattage: [1400, 1400, 1400],
+        voltage: [240, 240, 240],
+        length: [2.1, 2.1, 2.1],
+        description: [
+          `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” /2.95 A /1400 W /480 V /2.1 M`,
+          `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” /2.95 A /1400 W /480 V /2.1 M`,
+          `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” /2.95 A /1400 W /480 V /2.1 M`,
+        ],
+      }
+    : {
+        select: 'tc-01',
+        buttonStatus: true,
+        current: 2.95,
+        wattage: 1400,
+        voltage: 240,
+        length: 2.1,
+        description: `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” /2.95 A /1400 W /480 V /2.1 M`,
+      };
 
   const initialState = {
     ssr1: { ...ssrInitialState },
-    ssr2: { ...ssrInitialState },
+    ssr2: { ...ssrInitialState, buttonStatus: 'flt' },
     ssr3: { ...ssrInitialState },
     ssr4: { ...ssrInitialState },
     ssr5: { ...ssrInitialState },
@@ -54,7 +70,7 @@ const HeaterStatusProvider = ({ children }) => {
           ...state,
           [action.id]: {
             ...state[action.id],
-            buttonStatus: [...state[action.id].buttonStatus.map((ele) => !ele)],
+            buttonStatus: !state[action.id].buttonStatus,
           },
         };
       }

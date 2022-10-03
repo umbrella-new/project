@@ -10,7 +10,7 @@ const ToggleSWitch = ({ data, id }) => {
   console.log(data);
 
   // true || false || 'flt
-  const status = data[1] === 'flt' ? 'flt' : data[0] ? 'on' : 'off';
+  const status = data === 'flt' ? 'flt' : data ? 'on' : 'off';
 
   const switchIconSrc =
     status === 'on'
