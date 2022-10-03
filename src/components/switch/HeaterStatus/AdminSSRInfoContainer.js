@@ -7,7 +7,7 @@ import HoverMessageBox from './HoverMessageBox';
 import SettingButton from './SettingButton';
 
 const AdminSSRInfoContainer = ({ data, id }) => {
-  console.log(data);
+  // id is ssr number
   const titles = Object.keys(data).slice(2);
 
   // this two variables will be merged as one with 3 conditions
@@ -17,8 +17,9 @@ const AdminSSRInfoContainer = ({ data, id }) => {
   // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
 
+  console.log(isEnable);
+
   const [isSettingOpen, setIsSettingOpen] = useState(false);
-  // const [selectDescript, setSelectDescript] = useState('1st');
   const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
 
   const handleSelectDescript = (descriptionNumber) => {
@@ -26,13 +27,37 @@ const AdminSSRInfoContainer = ({ data, id }) => {
     console.log('selected', `ssr${id}`, descriptionNumber);
   };
 
+  const array = [
+    {
+      current: data.current[0],
+      wattage: data.wattage[0],
+      voltage: data.voltage[0],
+      length: data.length[0],
+      description: data.description[0],
+    },
+    {
+      current: data.current[1],
+      wattage: data.wattage[1],
+      voltage: data.voltage[1],
+      length: data.length[1],
+      description: data.description[1],
+    },
+    {
+      current: data.current[2],
+      wattage: data.wattage[2],
+      voltage: data.voltage[2],
+      length: data.length[2],
+      description: data.description[2],
+    },
+  ];
+
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{titles[0]} (a)</Title>
-        <Title>{titles[1]} (w)</Title>
-        <Title>{titles[2]} (v)</Title>
-        <Title>{titles[3]} (m)</Title>
+        <Title>{titles[0]}</Title>
+        <Title>{titles[1]}</Title>
+        <Title>{titles[2]}</Title>
+        <Title>{titles[3]}</Title>
         <Title>{titles[4]}</Title>
       </TitleWrapper>
 
@@ -42,6 +67,44 @@ const AdminSSRInfoContainer = ({ data, id }) => {
         isFault={isFault}
       >
         {isSettingOpen ? (
+          array.map((data, index) => (
+            <DescriptionAndButtonWrapper>
+              <AdminSSRInfoDetailItems
+                data={data}
+                isSettingOpen={isSettingOpen}
+                setIsSettingOpen={setIsSettingOpen}
+                onSelect={handleSelectDescript}
+                displayHiddenMessage={displayHiddenMessage}
+                setDisplayHiddenMessage={setDisplayHiddenMessage}
+                descriptionNumber={`1st`}
+                id={id}
+                isEnable={isEnable}
+                isFault={isFault}
+                column={index}
+              />
+
+              <SettingButton
+                isSettingOpen={isSettingOpen}
+                setIsSettingOpen={setIsSettingOpen}
+                displayHiddenMessage={displayHiddenMessage}
+                setDisplayHiddenMessage={setDisplayHiddenMessage}
+                isFault={isFault}
+              />
+            </DescriptionAndButtonWrapper>
+          ))
+        ) : (
+          <AdminSSRInfoDetailItems
+            data={array[0]}
+            isSettingOpen={isSettingOpen}
+            setIsSettingOpen={setIsSettingOpen}
+            displayHiddenMessage={displayHiddenMessage}
+            setDisplayHiddenMessage={setDisplayHiddenMessage}
+            id={id}
+            isEnable={isEnable}
+            isFault={isFault}
+          />
+        )}
+        {/* {isSettingOpen ? (
           <>
             <DescriptionAndButtonWrapper>
               <AdminSSRInfoDetailItems
@@ -52,7 +115,9 @@ const AdminSSRInfoContainer = ({ data, id }) => {
                 displayHiddenMessage={displayHiddenMessage}
                 setDisplayHiddenMessage={setDisplayHiddenMessage}
                 descriptionNumber={`1st`}
+                id={id}
               />
+
               <SettingButton
                 isSettingOpen={isSettingOpen}
                 setIsSettingOpen={setIsSettingOpen}
@@ -69,6 +134,7 @@ const AdminSSRInfoContainer = ({ data, id }) => {
                 setIsSettingOpen={setIsSettingOpen}
                 onSelect={handleSelectDescript}
                 descriptionNumber={`2nd`}
+                id={id}
               />
               <SettingHoleInvisible></SettingHoleInvisible>
             </DescriptionAndButtonWrapper>
@@ -80,6 +146,7 @@ const AdminSSRInfoContainer = ({ data, id }) => {
                 setIsSettingOpen={setIsSettingOpen}
                 onSelect={handleSelectDescript}
                 descriptionNumber={`3rd`}
+                id={id}
               />
               <SettingHoleInvisible></SettingHoleInvisible>
             </DescriptionAndButtonWrapper>
@@ -91,8 +158,9 @@ const AdminSSRInfoContainer = ({ data, id }) => {
             setIsSettingOpen={setIsSettingOpen}
             displayHiddenMessage={displayHiddenMessage}
             setDisplayHiddenMessage={setDisplayHiddenMessage}
+            id={id}
           />
-        )}
+        )} */}
       </ItemWrapper>
 
       {isSettingOpen && <DescriptionButtonContainer />}
@@ -152,6 +220,7 @@ const ItemWrapper = styled.div`
   display: flex;
   /* align-items: stretch; */
   align-items: ${(p) => (p.isSettingOpen ? 'space-evenly' : 'center')};
+
   border-radius: ${(p) => (p.isSettingOpen ? '12px 12px 0 12px' : '12px')};
   flex-direction: ${(p) => (p.isSettingOpen ? 'column' : 'row')};
   height: ${(p) => (p.isSettingOpen ? 'none' : '24px')};
@@ -180,26 +249,14 @@ const ItemWrapper = styled.div`
           opacity: 1;
         `}
 
-  border: ${(p) => (p.isFault ? '1px solid red' : '')}
+  border: ${(p) => (p.isFault ? '1px solid red' : '')};
 `;
 
 const DescriptionAndButtonWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-const SettingHole = styled.button`
-  width: 17px;
-  height: 17px;
 
-  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
-    0% no-repeat padding-box;
-  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
-  border: 0.5px solid #000000;
-  border-radius: 25px;
-  opacity: 1;
-
-  ${flexboxCenter}
-`;
 const SettingHoleInvisible = styled.div`
   width: 17px;
   height: 17px;
@@ -215,13 +272,4 @@ const SettingTop = styled.div`
   opacity: 0.8;
 
   ${flexboxCenter}
-`;
-const SettingIcon = styled.img``;
-
-const HiddenMessageWrapper = styled.div`
-  position: absolute;
-
-  z-index: 10000;
-  border: 1px solid red;
-  display: ${(p) => (p.displayHiddenMessage ? 'block' : 'none')};
 `;

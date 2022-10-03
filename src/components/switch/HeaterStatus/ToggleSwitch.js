@@ -7,7 +7,6 @@ import { flexboxCenter } from '../../../styles/commonStyles';
 const ToggleSWitch = ({ data, id }) => {
   const { ssrDispatch } = useContext(HeaterStatusContext);
   const machineName = 'we-cove-02';
-  console.log(data);
 
   // true || false || 'flt
   const status = data === 'flt' ? 'flt' : data ? 'on' : 'off';

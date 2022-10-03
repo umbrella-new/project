@@ -15,16 +15,22 @@ const AdminSSRInfoDetailItems = ({
   displayHiddenMessage,
   setDisplayHiddenMessage,
   descriptionNumber,
+  id,
+  isEnable,
+  isFault,
+  column,
 }) => {
+  // console.log(data);
+  // console.log(isEnable);
   const { wattage, voltage, length, current } = data;
   const { options } = useContext(HeaterStatusContext);
 
-  // this two variables will be merged as one with 3 conditions
-  // isEnable is for styling  [false:color gray-deActivated color]
-  const isEnable =
-    data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
-  // isEnable is for styling  [true:red border]
-  const isFault = data.buttonStatus === 'flt' ? true : false;
+  // // this two variables will be merged as one with 3 conditions
+  // // isEnable is for styling  [false:color gray-deActivated color]
+  // const isEnable =
+  //   data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
+  // // isEnable is for styling  [true:red border]
+  // const isFault = data.buttonStatus === 'flt' ? true : false;
 
   return (
     <Wrapper isSettingOpen={isSettingOpen}>
@@ -34,6 +40,8 @@ const AdminSSRInfoDetailItems = ({
         options={options.current}
         isEnable={isEnable}
         isFault={isFault}
+        id={id}
+        column={column}
       />
 
       <AdminItem
@@ -43,6 +51,8 @@ const AdminSSRInfoDetailItems = ({
         options={options.wattage}
         isEnable={isEnable}
         isFault={isFault}
+        id={id}
+        column={column}
       />
       <AdminItem
         data={`${voltage} v`}
@@ -51,6 +61,8 @@ const AdminSSRInfoDetailItems = ({
         options={options.voltage}
         isEnable={isEnable}
         isFault={isFault}
+        id={id}
+        column={column}
       />
       <AdminItem
         data={`${length} m`}
@@ -59,6 +71,8 @@ const AdminSSRInfoDetailItems = ({
         options={options.length}
         isEnable={isEnable}
         isFault={isFault}
+        id={id}
+        column={column}
       />
 
       <AdminDescription
@@ -72,6 +86,7 @@ const AdminSSRInfoDetailItems = ({
         setDisplayHiddenMessage={setDisplayHiddenMessage}
         isFault={isFault}
         isEnable={isEnable}
+        column={column}
       />
     </Wrapper>
   );

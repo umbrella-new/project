@@ -11,7 +11,6 @@ const AdminDescription = ({
   data,
   isSettingOpen,
   setIsSettingOpen,
-  selectDescript,
   onSelect,
   descriptionNumber,
   displayHiddenMessage,
@@ -20,6 +19,7 @@ const AdminDescription = ({
   isEnable,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
+
   const onSelectHandler = () => {
     onSelect(descriptionNumber);
     setIsChecked(!isChecked);
@@ -39,7 +39,7 @@ const AdminDescription = ({
               isFault={isFault}
               isEnable={isEnable}
             >
-              {data.description}
+              {`${data.description} / ${data.current} a / ${data.wattage} w / ${data.voltage} v `}
             </ItemData>
           </ItemDataWrapper>
           {isSettingOpen && (
@@ -55,7 +55,7 @@ const AdminDescription = ({
             isFault={isFault}
             isEnable={isEnable}
           >
-            {data.description}
+            {`${data.description} / ${data.current} a / ${data.wattage} w / ${data.voltage} v `}
           </ItemData>
           <SettingButton
             isSettingOpen={isSettingOpen}

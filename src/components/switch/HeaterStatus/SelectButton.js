@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 const SelectButton = ({ onSelect }) => {
-  const handleOnClick = () => {
-    onSelect();
-  };
+  // const handleOnClick = () => {
+  //   onSelect();
+  // };
   return (
-    <WrapperHole onClick={handleOnClick}>
+    <WrapperHole onClick={onSelect}>
       <ButtonOuterWrapper>
         <ButtonHole>
           <ButtonTop>

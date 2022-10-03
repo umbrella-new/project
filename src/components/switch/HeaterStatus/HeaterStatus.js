@@ -12,7 +12,6 @@ const HeaterStatus = () => {
   const { ssrState, ssrDispatch } = useContext(HeaterStatusContext);
   const { dispatch, state } = useContext(Context);
   const ssrStateArr = Object.values(ssrState);
-
   const statusArr = ssrStateArr.map((status) => status.buttonStatus);
 
   // Split the array into to for styling

@@ -111,7 +111,7 @@ const ItemInnerWrapper = styled.div`
   position: ${(p) => (p.isClicked ? 'absolute' : 'none')};
   padding-bottom: ${(p) => (p.isClicked ? '0.1rem' : '0')};
   z-index: ${(p) => (p.isClicked ? '100' : '0')};
-  top: ${(p) => (p.isClicked ? '0' : 'none')};
+  top: ${(p) => (p.isClicked ? '0.02rem' : 'none')};
 
   ${(p) =>
     p.isEnable ||

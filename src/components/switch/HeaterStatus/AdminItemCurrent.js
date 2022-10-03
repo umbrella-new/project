@@ -10,7 +10,15 @@ import {
 import RadioBox from './RadioBox';
 import SelectButton from './SelectButton';
 
-const AdminItemCurrent = ({ data, options, unit, isFault, isEnable }) => {
+const AdminItemCurrent = ({
+  data,
+  options,
+  unit,
+  isFault,
+  isEnable,
+  id,
+  column,
+}) => {
   const { ssrDispatch } = useContext(HeaterStatusContext);
   const [checked, setChecked] = useState(options[0]);
   const [isClicked, setIsClicked] = useState(false);
@@ -21,15 +29,24 @@ const AdminItemCurrent = ({ data, options, unit, isFault, isEnable }) => {
     // // Split and type change to calculate
     // const numId = Number(id.split(' ')[0]);
     // console.log(numId);
+    console.log(id);
     setChecked(id);
   };
   const displayOptions = () => {
     setIsClicked(!isClicked);
   };
 
-  const selectHandler = (id) => {
+  const selectHandler = () => {
     // this needs to connect with reducer in HeaterStatusContext
-    // console.log(id, 'selected');
+    console.log(checked, 'selected', `ssr${id}`, column);
+    // ssrDispatch with ssrnumber, column number(index), data
+    ssrDispatch({
+      type: 'current',
+      id: `ssr${id}`,
+      index: column,
+      data: checked,
+    });
+    setIsClicked(!isClicked);
   };
   return (
     <ItemCurrentHole
@@ -64,14 +81,7 @@ const AdminItemCurrent = ({ data, options, unit, isFault, isEnable }) => {
                 />
               ))}
             </SelectWrapper>
-            <SelectButton
-              onSelect={() =>
-                ssrDispatch({
-                  type: 'wattage',
-                  id: checked,
-                })
-              }
-            />
+            <SelectButton onSelect={selectHandler} />
           </>
         )}
       </ItemCurrentInnerWrapper>
@@ -126,7 +136,7 @@ const ItemCurrentInnerWrapper = styled.div`
   position: ${(p) => (p.isClicked ? 'absolute' : 'none')};
   padding-bottom: ${(p) => (p.isClicked ? '0.1rem' : '0')};
   z-index: ${(p) => (p.isClicked ? '100' : '0')};
-  top: ${(p) => (p.isClicked ? '0' : 'none')};
+  top: ${(p) => (p.isClicked ? '0.02rem' : 'none')};
 
   ${(p) =>
     p.isEnable ||
