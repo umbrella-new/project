@@ -1,11 +1,9 @@
-import { useContext, useState } from 'react';
 import { createContext, useReducer } from 'react';
 import { Context } from './Context';
 
 export const HeaterStatusContext = createContext(null);
 
 const HeaterStatusProvider = ({ children }) => {
-  const { state } = useContext(Context);
   const options = {
     select: [
       'tc-01',
@@ -75,10 +73,7 @@ const HeaterStatusProvider = ({ children }) => {
         };
       }
       case 'current': {
-        return {
-          ...state,
-          [action.id]: { ...state[action.id], ...state[action.id].current, current[action.index]: action.data },
-        };
+        return state;
       }
       default: {
         return state;

@@ -1,15 +1,26 @@
-import { useContext, useState } from 'react';
+// APIs
+import { useContext } from 'react';
+import { useSelector } from 'react-redux';
+
+// Styling
 import styled from 'styled-components';
 import { Context } from '../../../context/Context';
-
 import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
+
 import { flexboxCenter } from '../../../styles/commonStyles';
+
+// Components
 import ApplyButton from '../controls/ApplyButton';
 import SSRButton from './SSRButton';
 import SSRDetail from './SSRDetail';
 
 const HeaterStatus = () => {
+  // const ssrState = useSelector((state) => state.ssrState);
+  const test = useSelector((state) => state.test);
+  console.log(test);
+
   const { ssrState, ssrDispatch } = useContext(HeaterStatusContext);
+
   const { dispatch, state } = useContext(Context);
   const ssrStateArr = Object.values(ssrState);
   const statusArr = ssrStateArr.map((status) => status.buttonStatus);

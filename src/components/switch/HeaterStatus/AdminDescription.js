@@ -1,10 +1,15 @@
+// APIs
 import { useState } from 'react';
+
+// Styling
 import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
   DisableApplyButtonHole,
 } from '../../../styles/commonStyles';
+
+// Components
 import SettingButton from './SettingButton';
 
 const AdminDescription = ({
@@ -24,6 +29,8 @@ const AdminDescription = ({
     onSelect(descriptionNumber);
     setIsChecked(!isChecked);
   };
+
+  // Migrating to redux toolkit!!!!
 
   return (
     <Wrapper>

@@ -17,8 +17,6 @@ const AdminSSRInfoContainer = ({ data, id }) => {
   // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
 
-  console.log(isEnable);
-
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
 

@@ -1,7 +1,12 @@
 import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
 import { Context } from '../../../context/Context';
 import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
+import { toggle } from '../../../store/slices/heaterStatusSlice';
+import { dummy } from '../../../store/slices/testSlice';
+
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ToggleSWitch = ({ data, id }) => {
@@ -18,6 +23,12 @@ const ToggleSWitch = ({ data, id }) => {
       ? '/images/ssr-switch-off.svg'
       : '/images/ssr-switch-flt.svg';
 
+  const dispatch = useDispatch();
+  const handleToggler = () => {
+    dispatch(toggle(`ssr${id}`));
+    // dispatch(dummy(7));
+  };
+
   return (
     <Wrapper>
       <Title>
@@ -26,6 +37,7 @@ const ToggleSWitch = ({ data, id }) => {
       <SwitchButton
         disabled={status === 'flt' ? true : false}
         onClick={() => ssrDispatch({ type: `toggle`, id: `ssr${id}` })}
+        // onClick={handleToggler}
       >
         <SwitchImg src={switchIconSrc} />
       </SwitchButton>
