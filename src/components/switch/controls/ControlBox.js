@@ -37,7 +37,9 @@ const ControlBox = () => {
 
           <SnowSensor />
           <ConstantHeat />
+
           <HeatingSchedule />
+
           <WindFactor />
           <DisplayTemperatureStates />
         </ControlsList>

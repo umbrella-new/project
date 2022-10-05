@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const ssrInitialState = {
   select: 'tc-01',
   buttonStatus: true,
-  current: [2.95, 3, 4],
-  wattage: [1400, 1400, 1400],
-  voltage: [240, 240, 240],
-  length: [2.1, 2.1, 2.1],
+  current: [2.95, null, null],
+  wattage: [1400, null, null],
+  voltage: [240, null, null],
+  length: [2.1, null, null],
   description: [
-    `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” `,
-    `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” `,
-    `RS-CRIB HEATER - TRSC - 7L-2S-A48 - P1 - SS-316 7’ X 1” X 1/2” `,
+    `RS-CRIB HEATER - TRSC - 7L-2S-A48`,
+    `RS-CRIB HEATER - TRSC - 7L-2S-A48`,
+    `RS-CRIB HEATER - TRSC - 7L-2S-A48`,
   ],
 };
 
@@ -28,23 +28,22 @@ const heaterStatusSlice = createSlice({
   },
   reducers: {
     toggle: (state, action) => {
-      console.log(action.payload);
-      console.log(state[action.payload].buttonStatus);
-      return (state[action.payload].buttonStatus = true);
+      state[action.payload].buttonStatus = !state[action.payload].buttonStatus;
     },
     changeSwitch: (state, action) => {
       console.log(action.payload);
-      return state;
     },
-    select: (state, action) => {
-      return (state[action.id].select = action.data);
+    selector: (state, action) => {
+      console.log(action.payload.id);
+      state[action.payload.id].select = action.payload.data;
     },
     current: (state, action) => {
-      return (state[action.id].current[action.index] = action.data);
+      state[action.id].current[action.index] = action.data;
     },
   },
 });
 
 export default heaterStatusSlice;
-export const { toggle, changeSwitch, select, current } =
+export const selectSSRState = (state) => state.ssrState;
+export const { toggle, changeSwitch, selector, current } =
   heaterStatusSlice.actions;

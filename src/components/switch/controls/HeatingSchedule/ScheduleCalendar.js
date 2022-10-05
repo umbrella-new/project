@@ -1,175 +1,308 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { useDatepicker, START_DATE, useMonth } from '@datepicker-react/hooks';
+
 import { Context } from '../../../../context/Context';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+
+import Month from './Month';
+import NavButton from './NavButton';
+import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
+import TimePicker from './TimePicker';
 
 const ScheduleCalendar = () => {
   const { dispatch, state } = useContext(Context);
 
+  const [dateState, setDateState] = useState({
+    startDate: null,
+    endDate: null,
+    focusedInput: START_DATE,
+  });
+
+  console.log(dateState.startDate && typeof dateState.startDate);
+
+  const handleDateChange = (data) => {
+    if (!data.focusedInput) {
+      setDateState({ ...data, focusedInput: START_DATE });
+    } else {
+      setDateState(data);
+    }
+  };
+
+  const {
+    firstDayOfWeek,
+    activeMonths,
+    isDateSelected,
+    isDateHovered,
+    isFirstOrLastSelectedDate,
+    isDateBlocked,
+    isDateFocused,
+    focusedDate,
+    onDateHover,
+    onDateSelect,
+    onDateFocus,
+    goToPreviousMonths,
+    goToNextMonths,
+    goToPreviousYear,
+    goToNextYear,
+    onResetDates,
+  } = useDatepicker({
+    startDate: dateState.startDate,
+    endDate: dateState.endDate,
+    focusedInput: dateState.focusedInput,
+    onDatesChange: handleDateChange,
+  });
+
+  console.log(activeMonths);
+
   const handleOnClick = (id) => {
     switch (id) {
       case '1': {
-        return;
+        onResetDates();
       }
       case '2': {
+        dispatch({ type: 'heatingSchedule-scheduler' });
         return;
       }
       case '3': {
         dispatch({ type: 'heatingSchedule-scheduler' });
         return;
       }
+      default:
+        return;
     }
   };
+  const months = [
+    'January',
+    'Feburary',
+    'March',
+    'April',
+    'may',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const currMonth = months[activeMonths[0].month];
+  const nextMonth = months[activeMonths[1].month];
 
+  const startDate = dateState.startDate;
+
+  console.log(START_DATE);
   return (
-    <Wrapper>
-      <BackgroundSvg src={'/images/calender-background.svg'} />
-      <PositionAbsolute>
-        <TitleWrapper>
-          <IconAndTitleWrapper>
-            <TitleIcon src={'/images/scheduler-icon.svg'} />
-            <Title>start date - end date</Title>
-          </IconAndTitleWrapper>
-        </TitleWrapper>
+    <DatepickerContext.Provider
+      value={{
+        focusedDate,
+        isDateFocused,
+        isDateSelected,
+        isDateHovered,
+        isDateBlocked,
+        isFirstOrLastSelectedDate,
+        onDateSelect,
+        onDateFocus,
+        onDateHover,
+      }}
+    >
+      <Wrapper>
+        <BackgroundSvg src={'/images/calender-background.svg'} />
+        <PositionAbsolute>
+          <TitleWrapper>
+            <IconAndTitleWrapper>
+              <TitleIcon src={'/images/scheduler-icon.svg'} />
+              <Title>start date - end date</Title>
+            </IconAndTitleWrapper>
+          </TitleWrapper>
 
-        <CalendarWrapper>
-          <Calendar>
-            <YearAndMonthWrapper>
-              <YearAndMonthOuter>
-                <YearAndMonthInner>
-                  <YearAndMonthTop>
-                    <YearAndMonthTitle>2021</YearAndMonthTitle>
-                  </YearAndMonthTop>
-                </YearAndMonthInner>
-              </YearAndMonthOuter>
+          <CalendarWrapper>
+            <Calendar>
+              <YearAndMonthWrapper>
+                <YearOuter>
+                  <YearInner>
+                    <YearTop>
+                      <GoButton
+                        src='/images/go-previous.svg'
+                        onClick={() => goToPreviousYear(`1`)}
+                      />
+                      <YearTitle>{activeMonths[0].year}</YearTitle>
+                      <GoButton
+                        src='/images/go-next.svg'
+                        onClick={() => goToNextYear('1')}
+                      />
+                    </YearTop>
+                  </YearInner>
+                </YearOuter>
 
-              <YearAndMonthOuter>
-                <YearAndMonthInner>
-                  <YearAndMonthTop>
-                    <YearAndMonthTitle>december</YearAndMonthTitle>
-                  </YearAndMonthTop>
-                </YearAndMonthInner>
-              </YearAndMonthOuter>
-            </YearAndMonthWrapper>
-          </Calendar>
-          <WatchWrapper>
-            <TimeWrapper>
-              <TimeOuter>
-                <TimeInner>
-                  <TimeAndDivision>3:50</TimeAndDivision>
-                </TimeInner>
-              </TimeOuter>
-              <DivisionWrapper>
-                <DivisionOuter>
-                  <DivisionInner>
-                    <TimeAndDivision>a.m</TimeAndDivision>
-                  </DivisionInner>
-                </DivisionOuter>
-                <DivisionOuter>
-                  <DivisionInner>
-                    <TimeAndDivision>p.m</TimeAndDivision>
-                  </DivisionInner>
-                </DivisionOuter>
-              </DivisionWrapper>
-            </TimeWrapper>
-            <Watch></Watch>
-          </WatchWrapper>
-
-          <Calendar>
-            <YearAndMonthWrapper>
-              <YearAndMonthOuter>
-                <YearAndMonthInner>
-                  <YearAndMonthTop>
-                    <YearAndMonthTitle>2022</YearAndMonthTitle>
-                  </YearAndMonthTop>
-                </YearAndMonthInner>
-              </YearAndMonthOuter>
-
-              <YearAndMonthOuter>
-                <YearAndMonthInner>
-                  <YearAndMonthTop>
-                    <YearAndMonthTitle>January</YearAndMonthTitle>
-                  </YearAndMonthTop>
-                </YearAndMonthInner>
-              </YearAndMonthOuter>
-            </YearAndMonthWrapper>
-          </Calendar>
-
-          <WatchWrapper>
-            <TimeWrapper>
-              <TimeOuter>
-                <TimeInner>
-                  <TimeAndDivision>4:50</TimeAndDivision>
-                </TimeInner>
-              </TimeOuter>
-              <DivisionWrapper>
-                <DivisionOuter>
-                  <DivisionInner>
-                    <TimeAndDivision>a.m</TimeAndDivision>
-                  </DivisionInner>
-                </DivisionOuter>
-                <DivisionOuter>
-                  <DivisionInner>
-                    <TimeAndDivision>p.m</TimeAndDivision>
-                  </DivisionInner>
-                </DivisionOuter>
-              </DivisionWrapper>
-            </TimeWrapper>
-            <Watch></Watch>
-          </WatchWrapper>
-        </CalendarWrapper>
-
-        <DisplayAndButtonWrapper>
-          <DisplayDateWrapper>
-            <DisplayDateOuter>
-              <DisplayDateInner>
-                <DateTitleWrapper>
-                  <DateTitle>start date</DateTitle>
-                </DateTitleWrapper>
-
-                <DisplayTop>
-                  <Date>2021/december/sat 25-3:50a.m.</Date>
-                </DisplayTop>
-              </DisplayDateInner>
-            </DisplayDateOuter>
-
-            <DisplayDateOuter>
-              <DisplayDateInner>
-                <DateTitleWrapper>
-                  <DateTitle>end date</DateTitle>
-                </DateTitleWrapper>
-
-                <DisplayTop>
-                  <Date>2022/february/sun 06-4:50a.m.</Date>
-                </DisplayTop>
-              </DisplayDateInner>
-            </DisplayDateOuter>
-          </DisplayDateWrapper>
-
-          <ButtonWrapper>
-            <ButtonGroupWrapperInvisible></ButtonGroupWrapperInvisible>
-            <ButtonGroupWrapper>
-              <SchedulerButton
-                name='clear'
-                id='1'
-                onClickHandler={handleOnClick}
+                <MonthOuter>
+                  <MonthInner>
+                    <MonthTop>
+                      <GoButton
+                        src='/images/go-previous.svg'
+                        onClick={goToPreviousMonths}
+                      />
+                      <MonthTitle>{currMonth}</MonthTitle>
+                      <GoButton
+                        src='/images/go-next.svg'
+                        onClick={goToNextMonths}
+                      />
+                    </MonthTop>
+                  </MonthInner>
+                </MonthOuter>
+              </YearAndMonthWrapper>
+              <Month
+                key={`${activeMonths[0].year}-${activeMonths[0].month}`}
+                year={activeMonths[0].year}
+                month={activeMonths[0].month}
+                firstDayOfWeek={firstDayOfWeek}
               />
-              <SchedulerButton
-                name='cancel'
-                id='2'
-                onClickHandler={handleOnClick}
+            </Calendar>
+
+            <WatchWrapper>
+              <TimeWrapper>
+                <TimeOuter>
+                  <TimeInner>
+                    <TimeAndDivision>3:50</TimeAndDivision>
+                  </TimeInner>
+                </TimeOuter>
+                <DivisionWrapper>
+                  <DivisionOuter>
+                    <DivisionInner>
+                      <TimeAndDivision>a.m</TimeAndDivision>
+                    </DivisionInner>
+                  </DivisionOuter>
+                  <DivisionOuter>
+                    <DivisionInner>
+                      <TimeAndDivision>p.m</TimeAndDivision>
+                    </DivisionInner>
+                  </DivisionOuter>
+                </DivisionWrapper>
+              </TimeWrapper>
+              <Watch></Watch>
+            </WatchWrapper>
+
+            <Calendar>
+              <YearAndMonthWrapper>
+                <YearOuter>
+                  <YearInner>
+                    <YearTop>
+                      <GoButton />
+                      <YearTitle>{activeMonths[1].year}</YearTitle>
+                      <GoButton />
+                    </YearTop>
+                  </YearInner>
+                </YearOuter>
+
+                <MonthOuter>
+                  <MonthInner>
+                    <MonthTop>
+                      <GoButton />
+                      <MonthTitle>{nextMonth}</MonthTitle>
+                      <GoButton />
+                    </MonthTop>
+                  </MonthInner>
+                </MonthOuter>
+              </YearAndMonthWrapper>
+
+              <Month
+                key={`${activeMonths[1].year}-${activeMonths[1].month}`}
+                year={activeMonths[1].year}
+                month={activeMonths[1].month}
+                firstDayOfWeek={firstDayOfWeek}
+                // startDay={
+                //   dateState.startDate && dateState.startDate
+                // }
+                // endDay={dateState.endDate && dateState.endDate}
               />
-              <SchedulerButton
-                name='apply'
-                id='3'
-                onClickHandler={handleOnClick}
-              />
-            </ButtonGroupWrapper>
-          </ButtonWrapper>
-        </DisplayAndButtonWrapper>
-      </PositionAbsolute>
-    </Wrapper>
+            </Calendar>
+
+            <WatchWrapper>
+              <TimePicker />
+              {/* <TimeWrapper>
+                <TimeOuter>
+                  <TimeInner>
+                    <TimeAndDivision>4:50</TimeAndDivision>
+                  </TimeInner>
+                </TimeOuter>
+                
+                <DivisionWrapper>
+                  <DivisionOuter>
+                    <DivisionInner>
+                      <TimeAndDivision>a.m</TimeAndDivision>
+                    </DivisionInner>
+                  </DivisionOuter>
+                  <DivisionOuter>
+                    <DivisionInner>
+                      <TimeAndDivision>p.m</TimeAndDivision>
+                    </DivisionInner>
+                  </DivisionOuter>
+                </DivisionWrapper>
+              </TimeWrapper>
+              <Watch></Watch> */}
+            </WatchWrapper>
+          </CalendarWrapper>
+
+          <DisplayAndButtonWrapper>
+            <DisplayDateWrapper>
+              <DisplayDateOuter>
+                <DisplayDateInner>
+                  <DateTitleWrapper>
+                    <DateTitle>start date</DateTitle>
+                  </DateTitleWrapper>
+
+                  <DisplayTop>
+                    <Date>
+                      {dateState.startDate !== null
+                        ? dateState.startDate.toLocaleString()
+                        : 'Choose the start date'}
+                    </Date>
+                  </DisplayTop>
+                </DisplayDateInner>
+              </DisplayDateOuter>
+
+              <DisplayDateOuter>
+                <DisplayDateInner>
+                  <DateTitleWrapper>
+                    <DateTitle>end date</DateTitle>
+                  </DateTitleWrapper>
+
+                  <DisplayTop>
+                    <Date>
+                      {dateState.endDate
+                        ? dateState.endDate.toLocaleString()
+                        : 'Choose the end date'}
+                    </Date>
+                  </DisplayTop>
+                </DisplayDateInner>
+              </DisplayDateOuter>
+            </DisplayDateWrapper>
+
+            <ButtonWrapper>
+              <ButtonGroupWrapperInvisible></ButtonGroupWrapperInvisible>
+              <ButtonGroupWrapper>
+                <SchedulerButton
+                  name='clear'
+                  id='1'
+                  onClickHandler={handleOnClick}
+                />
+                <SchedulerButton
+                  name='cancel'
+                  id='2'
+                  onClickHandler={handleOnClick}
+                />
+                <SchedulerButton
+                  name='apply'
+                  id='3'
+                  onClickHandler={handleOnClick}
+                />
+              </ButtonGroupWrapper>
+            </ButtonWrapper>
+          </DisplayAndButtonWrapper>
+        </PositionAbsolute>
+      </Wrapper>
+    </DatepickerContext.Provider>
   );
 };
 
@@ -239,6 +372,9 @@ const Calendar = styled.div`
   opacity: 1;
 
   padding: 0.1rem 0.1rem;
+
+  /* display: flex;
+  flex-direction: column; */
 `;
 
 const YearAndMonthWrapper = styled.div`
@@ -247,9 +383,10 @@ const YearAndMonthWrapper = styled.div`
 
   ${flexboxCenter}
   justify-content: space-between;
+  margin-bottom: 22px;
 `;
 
-const YearAndMonthOuter = styled.div`
+const YearOuter = styled.div`
   width: 119px;
   height: 38px;
 
@@ -262,7 +399,7 @@ const YearAndMonthOuter = styled.div`
 
   ${flexboxCenter}
 `;
-const YearAndMonthInner = styled.div`
+const YearInner = styled.div`
   width: 104px;
   height: 24px;
 
@@ -273,7 +410,7 @@ const YearAndMonthInner = styled.div`
 
   ${flexboxCenter}
 `;
-const YearAndMonthTop = styled.div`
+const YearTop = styled.div`
   width: 102px;
   height: 22px;
 
@@ -282,11 +419,61 @@ const YearAndMonthTop = styled.div`
   opacity: 1;
 
   ${flexboxCenter}
+  &:first-child {
+    justify-content: space-between;
+  }
 `;
-const YearAndMonthTitle = styled.span`
+
+const GoButton = styled.img`
+  cursor: pointer;
+`;
+
+const YearTitle = styled.span`
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1.2px;
+`;
+
+const MonthOuter = styled.div`
+  width: 140px;
+  height: 38px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 18px;
+  opacity: 1;
+
+  ${flexboxCenter}
+`;
+const MonthInner = styled.div`
+  width: 124px;
+  height: 24px;
+
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 12px;
+  opacity: 1;
+
+  ${flexboxCenter}
+`;
+const MonthTop = styled.div`
+  width: 122px;
+  height: 22px;
+
+  border: 1px solid #233a54;
+  border-radius: 16px;
+  opacity: 1;
+
+  ${flexboxCenter}
+  justify-content: space-between;
+`;
+
+const MonthTitle = styled.span`
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.1px;
 `;
 
 const WatchWrapper = styled.div`
@@ -449,9 +636,8 @@ const DisplayTop = styled.div`
 `;
 
 const Date = styled.span`
-  color: var(--unnamed-color-fcff01);
-  text-align: left;
-  font-size: 10px;
+  /* text-align: left; */
+  font-size: 12px;
   letter-spacing: 1px;
   color: #fcff01;
   opacity: 1;

@@ -8,9 +8,10 @@ const SettingButton = ({
   displayHiddenMessage,
   setDisplayHiddenMessage,
   isFault,
+  column,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper column={column}>
       <SettingHole
         disabled={isFault ? true : false}
         onClick={() => setIsSettingOpen(!isSettingOpen)}
@@ -33,10 +34,20 @@ const SettingButton = ({
 
 export default SettingButton;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 18px;
+  height: 18px;
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 20px;
+  opacity: 1;
+  ${flexboxCenter}
+  visibility: ${(p) => p.column === 1 && 'hidden'};
+  visibility: ${(p) => p.column === 2 && 'hidden'};
+`;
 const SettingHole = styled.button`
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;

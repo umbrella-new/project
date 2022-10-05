@@ -6,10 +6,8 @@ const testSlice = createSlice({
     value: 0,
   },
   reducers: {
-    dummy: (state, action) => {
-      state.value += action.payload;
-      console.log(state);
-      return state;
+    dummy: (state) => {
+      state.value += 2;
     },
   },
 });

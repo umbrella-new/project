@@ -5,6 +5,7 @@ import { flexboxCenter } from '../../../styles/commonStyles';
 import AdminDescription from './AdminDescription';
 import AdminItem from './AdminItem';
 import AdminItemCurrent from './AdminItemCurrent';
+import SettingButton from './SettingButton';
 
 const AdminSSRInfoDetailItems = ({
   data,
@@ -35,7 +36,7 @@ const AdminSSRInfoDetailItems = ({
   return (
     <Wrapper isSettingOpen={isSettingOpen}>
       <AdminItemCurrent
-        data={`${current} a`}
+        data={`${current ? current : '---'} a`}
         unit='A'
         options={options.current}
         isEnable={isEnable}
@@ -45,7 +46,7 @@ const AdminSSRInfoDetailItems = ({
       />
 
       <AdminItem
-        data={`${wattage} w`}
+        data={`${wattage ? wattage : '---'} w`}
         title='wattage'
         unit='W'
         options={options.wattage}
@@ -55,7 +56,7 @@ const AdminSSRInfoDetailItems = ({
         column={column}
       />
       <AdminItem
-        data={`${voltage} v`}
+        data={`${voltage ? voltage : '---'} v`}
         title='voltage'
         unit='V'
         options={options.voltage}
@@ -65,7 +66,7 @@ const AdminSSRInfoDetailItems = ({
         column={column}
       />
       <AdminItem
-        data={`${length} m`}
+        data={`${length ? length : '---'} m`}
         title='length'
         unit='M'
         options={options.length}
@@ -88,6 +89,17 @@ const AdminSSRInfoDetailItems = ({
         isEnable={isEnable}
         column={column}
       />
+
+      <SettingButton
+        isSettingOpen={isSettingOpen}
+        setIsSettingOpen={setIsSettingOpen}
+        displayHiddenMessage={displayHiddenMessage}
+        setDisplayHiddenMessage={setDisplayHiddenMessage}
+        // when ssr status is fault button will be disable
+        isFault={isFault}
+        isEnable={isEnable}
+        column={column}
+      />
     </Wrapper>
   );
 };
@@ -105,7 +117,7 @@ const Wrapper = styled.ul`
 
   padding-bottom: ${(p) => (p.isSettingOpen ? '0.1rem' : '0')};
   padding-top: ${(p) => (p.isSettingOpen ? '0.1rem' : '0')};
-  margin-right: ${(p) => (p.isSettingOpen ? '0.1rem' : '0')};
+  margin-right: ${(p) => (p.isSettingOpen ? '0.1rem' : '0.1rem')};
   height: ${(p) => (p.isSettingOpen ? 'none' : '24px')};
 
   position: relative;

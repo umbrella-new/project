@@ -6,6 +6,7 @@ import ChartContainer from './chart/ChartContainer';
 import { flexboxCenter } from '../../styles/commonStyles';
 import HeaterStatus from './HeaterStatus/HeaterStatus';
 import DisplayEnergyConsumption from './DisplayEnergyConsumption';
+
 import ScheduleCalendar from './controls/HeatingSchedule/ScheduleCalendar';
 
 const Switch = () => {
@@ -33,6 +34,7 @@ const Switch = () => {
       </ContentWrapper>
       {state.heatingSchedule.isActivated && (
         <SchedulerWrapper>
+          {/* <Datepicker /> */}
           <ScheduleCalendar />
         </SchedulerWrapper>
       )}

@@ -1,21 +1,18 @@
-import { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
-import { Context } from '../../../context/Context';
 import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
 import { toggle } from '../../../store/slices/heaterStatusSlice';
-import { dummy } from '../../../store/slices/testSlice';
-
-import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ToggleSWitch = ({ data, id }) => {
-  const { ssrDispatch } = useContext(HeaterStatusContext);
+  // reducer test
+  // const testData = useSelector(selectSSRState);
+  // console.log(testData.buttonStatus);
+
   const machineName = 'we-cove-02';
 
   // true || false || 'flt
   const status = data === 'flt' ? 'flt' : data ? 'on' : 'off';
-
   const switchIconSrc =
     status === 'on'
       ? '/images/ssr-switch-on.svg'
@@ -24,10 +21,7 @@ const ToggleSWitch = ({ data, id }) => {
       : '/images/ssr-switch-flt.svg';
 
   const dispatch = useDispatch();
-  const handleToggler = () => {
-    dispatch(toggle(`ssr${id}`));
-    // dispatch(dummy(7));
-  };
+  const handleToggler = () => {};
 
   return (
     <Wrapper>
@@ -36,8 +30,7 @@ const ToggleSWitch = ({ data, id }) => {
       </Title>
       <SwitchButton
         disabled={status === 'flt' ? true : false}
-        onClick={() => ssrDispatch({ type: `toggle`, id: `ssr${id}` })}
-        // onClick={handleToggler}
+        onClick={() => dispatch(toggle(`ssr${id}`))}
       >
         <SwitchImg src={switchIconSrc} />
       </SwitchButton>

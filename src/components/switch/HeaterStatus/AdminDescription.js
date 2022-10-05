@@ -24,6 +24,7 @@ const AdminDescription = ({
   isEnable,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const { current, wattage, voltage, length, description } = data;
 
   const onSelectHandler = () => {
     onSelect(descriptionNumber);
@@ -46,7 +47,12 @@ const AdminDescription = ({
               isFault={isFault}
               isEnable={isEnable}
             >
-              {`${data.description} / ${data.current} a / ${data.wattage} w / ${data.voltage} v `}
+              {description} <br></br>{' '}
+              {`${current !== null ? current : '---'} a / ${
+                wattage !== null ? wattage : '---'
+              } w / ${voltage !== null ? voltage : '---'} v / ${
+                length !== null ? length : '---'
+              } m`}
             </ItemData>
           </ItemDataWrapper>
           {isSettingOpen && (
@@ -62,17 +68,9 @@ const AdminDescription = ({
             isFault={isFault}
             isEnable={isEnable}
           >
-            {`${data.description} / ${data.current} a / ${data.wattage} w / ${data.voltage} v `}
+            {data.description} <br></br>{' '}
+            {`${data.current} a / ${data.wattage} w / ${data.voltage} v `}
           </ItemData>
-          <SettingButton
-            isSettingOpen={isSettingOpen}
-            setIsSettingOpen={setIsSettingOpen}
-            displayHiddenMessage={displayHiddenMessage}
-            setDisplayHiddenMessage={setDisplayHiddenMessage}
-            // when ssr status is fault button will be disable
-            isFault={isFault}
-            isEnable={isEnable}
-          />
         </DescriptionWrapper>
       )}
     </Wrapper>
@@ -86,7 +84,7 @@ const Wrapper = styled.div`
 `;
 const DescriptionWrapper = styled.li`
   ${flexboxCenter}
-  justify-content: space-between;
+
   width: ${(p) => (p.isSettingOpen ? '264px' : '286px')};
   height: 20px;
 
@@ -111,7 +109,7 @@ const ItemDataWrapper = styled.div`
 
 const ItemData = styled.span`
   font-size: ${(p) => (p.isSettingOpen ? '6px' : '8px')};
-  width: ${(p) => (p.isSettingOpen ? '180px' : 'none')};
+  width: ${(p) => (p.isSettingOpen ? '180px' : '100%')};
   text-align: center;
   text-transform: uppercase;
   max-width: 93%;

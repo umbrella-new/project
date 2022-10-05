@@ -5,10 +5,14 @@ import SelectButton from './SelectButton';
 import RadioBox from './RadioBox';
 import { useContext } from 'react';
 import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
+import { useDispatch } from 'react-redux';
+import { selector } from '../../../store/slices/heaterStatusSlice';
 
 const Select = ({ data, id }) => {
-  const { options, ssrDispatch } = useContext(HeaterStatusContext);
+  const dispatch = useDispatch();
+  const { options } = useContext(HeaterStatusContext);
   const { select } = options && options;
+
   const [isClicked, setIsClicked] = useState(false);
   const [checked, setChecked] = useState(select[0]);
 
@@ -20,11 +24,8 @@ const Select = ({ data, id }) => {
   };
 
   const onSelectHandler = () => {
-    ssrDispatch({
-      type: 'select',
-      id: `ssr${id}`,
-      data: checked,
-    });
+    dispatch(selector({ id: `ssr${id}`, data: checked }));
+
     displayOptions();
   };
 

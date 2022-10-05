@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
+
 import AdminSSRInfoDetailItems from './AdminSSRInfoDetailItems';
 import DescriptionButtonContainer from './DescriptionButtonContainer';
-import HoverMessageBox from './HoverMessageBox';
-import SettingButton from './SettingButton';
 
 const AdminSSRInfoContainer = ({ data, id }) => {
   // id is ssr number
   const titles = Object.keys(data).slice(2);
 
-  // this two variables will be merged as one with 3 conditions
   // isEnable is for styling  [false:color gray-deActivated color]
   const isEnable =
     data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
   // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
 
+  // Local states
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
 
@@ -52,10 +51,10 @@ const AdminSSRInfoContainer = ({ data, id }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{titles[0]}</Title>
-        <Title>{titles[1]}</Title>
-        <Title>{titles[2]}</Title>
-        <Title>{titles[3]}</Title>
+        <Title>{titles[0]} (a)</Title>
+        <Title>{titles[1]} (w)</Title>
+        <Title>{titles[2]} (v)</Title>
+        <Title>{titles[3]} (m)</Title>
         <Title>{titles[4]}</Title>
       </TitleWrapper>
 
@@ -80,14 +79,6 @@ const AdminSSRInfoContainer = ({ data, id }) => {
                 isFault={isFault}
                 column={index}
               />
-
-              <SettingButton
-                isSettingOpen={isSettingOpen}
-                setIsSettingOpen={setIsSettingOpen}
-                displayHiddenMessage={displayHiddenMessage}
-                setDisplayHiddenMessage={setDisplayHiddenMessage}
-                isFault={isFault}
-              />
             </DescriptionAndButtonWrapper>
           ))
         ) : (
@@ -102,63 +93,6 @@ const AdminSSRInfoContainer = ({ data, id }) => {
             isFault={isFault}
           />
         )}
-        {/* {isSettingOpen ? (
-          <>
-            <DescriptionAndButtonWrapper>
-              <AdminSSRInfoDetailItems
-                data={data}
-                isSettingOpen={isSettingOpen}
-                setIsSettingOpen={setIsSettingOpen}
-                onSelect={handleSelectDescript}
-                displayHiddenMessage={displayHiddenMessage}
-                setDisplayHiddenMessage={setDisplayHiddenMessage}
-                descriptionNumber={`1st`}
-                id={id}
-              />
-
-              <SettingButton
-                isSettingOpen={isSettingOpen}
-                setIsSettingOpen={setIsSettingOpen}
-                displayHiddenMessage={displayHiddenMessage}
-                setDisplayHiddenMessage={setDisplayHiddenMessage}
-                isFault={isFault}
-              />
-            </DescriptionAndButtonWrapper>
-
-            <DescriptionAndButtonWrapper>
-              <AdminSSRInfoDetailItems
-                data={data}
-                isSettingOpen={isSettingOpen}
-                setIsSettingOpen={setIsSettingOpen}
-                onSelect={handleSelectDescript}
-                descriptionNumber={`2nd`}
-                id={id}
-              />
-              <SettingHoleInvisible></SettingHoleInvisible>
-            </DescriptionAndButtonWrapper>
-
-            <DescriptionAndButtonWrapper>
-              <AdminSSRInfoDetailItems
-                data={data}
-                isSettingOpen={isSettingOpen}
-                setIsSettingOpen={setIsSettingOpen}
-                onSelect={handleSelectDescript}
-                descriptionNumber={`3rd`}
-                id={id}
-              />
-              <SettingHoleInvisible></SettingHoleInvisible>
-            </DescriptionAndButtonWrapper>
-          </>
-        ) : (
-          <AdminSSRInfoDetailItems
-            data={data}
-            isSettingOpen={isSettingOpen}
-            setIsSettingOpen={setIsSettingOpen}
-            displayHiddenMessage={displayHiddenMessage}
-            setDisplayHiddenMessage={setDisplayHiddenMessage}
-            id={id}
-          />
-        )} */}
       </ItemWrapper>
 
       {isSettingOpen && <DescriptionButtonContainer />}
@@ -186,16 +120,16 @@ const Title = styled.span`
   text-transform: uppercase;
   font-size: 8px;
   &:first-child {
-    margin-right: 2.2rem;
+    margin-right: 1.8rem;
   }
   &:nth-child(2) {
-    margin-right: 2.2rem;
+    margin-right: 2rem;
   }
   &:nth-child(3) {
-    margin-right: 3rem;
+    margin-right: 2.5rem;
   }
   &:nth-child(4) {
-    margin-right: 9rem;
+    margin-right: 8rem;
   }
 `;
 
