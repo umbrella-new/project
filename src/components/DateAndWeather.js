@@ -1,11 +1,13 @@
 import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Context } from '../context/Context';
+import { selectUserState } from '../store/slices/userSlice';
 import { flexboxCenter } from '../styles/commonStyles';
 
 const DateAndWeather = () => {
-  const { state } = useContext(Context);
-  const { date, weather, iconSrc } = state.dateAndWeather;
+  const userState = useSelector(selectUserState);
+  const { date, weather, iconSrc } = userState.dateAndWeather;
 
   return (
     <Wrapper>

@@ -1,17 +1,40 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import styled, { css } from 'styled-components';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
+import {
+  flexboxCenter,
+  DisableApplyButtonBG,
+  DisableApplyButtonHole,
+  activeLayer1,
+  ButtonReady,
+  activeInput,
+} from '../../../../styles/commonStyles';
 import ControllerName from '../ControllerName';
+import { windFactor } from '../../../../store/slices/essSwitchSlice';
 
 const WindFactor = () => {
+  // off || ready || activated
+
+  const state = useSelector(selectEssSwitch);
+  const dispatch = useDispatch();
+
+  console.log(state);
+  const isActivated = state.windFactor.Activated;
+  const isReady = state.windFactor.isReady;
+
   const CONTROLLER_NAME = 'wind factor';
   const IMG_SRC = '/images/wind-Factor-Program-Logo.svg';
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
       <ButtonBackground>
-        <ApplyButtonWrapper>
-          <ButtonHole>
-            <ButtonTop>
+        <ApplyButtonWrapper
+          isActivated={isActivated}
+          isReady={isReady}
+          onClick={() => dispatch(windFactor())}
+        >
+          <ButtonHole isActivated={isActivated}>
+            <ButtonTop isActivated={isActivated} isReady={isReady}>
               <ButtonName>apply</ButtonName>
             </ButtonTop>
           </ButtonHole>
@@ -83,6 +106,18 @@ const ApplyButtonWrapper = styled.button`
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+
+  ${(p) =>
+    p.isActivated &&
+    css`
+      ${activeLayer1};
+    `}
+
+  ${(p) =>
+    p.isReady &&
+    css`
+      ${ButtonReady}
+    `}
 `;
 
 const ButtonHole = styled.div`
@@ -99,6 +134,12 @@ const ButtonHole = styled.div`
   box-shadow: inset 0 0 6px #000000;
   opacity: 1;
   padding: 0;
+
+  ${(p) =>
+    p.isActivated &&
+    css`
+      ${activeInput};
+    `}
 `;
 
 const ButtonTop = styled.div`
@@ -122,6 +163,18 @@ const ButtonTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${(p) =>
+    p.isActivated &&
+    css`
+      ${activeLayer1};
+    `}
+
+  ${(p) =>
+    p.isReady &&
+    css`
+      ${ButtonReady}
+    `}
 `;
 
 const ButtonName = styled.span`

@@ -1,18 +1,23 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useDatepicker, START_DATE, useMonth } from '@datepicker-react/hooks';
 
-import { Context } from '../../../../context/Context';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 import Month from './Month';
-import NavButton from './NavButton';
+
 import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';
+import { useDispatch } from 'react-redux';
+import {
+  heatingScheduleCancel,
+  heatingScheduleDate,
+  heatingScheduleClear,
+} from '../../../../store/slices/essSwitchSlice';
 
 const ScheduleCalendar = () => {
-  const { dispatch, state } = useContext(Context);
+  const dispatch = useDispatch();
 
   const [dateState, setDateState] = useState({
     startDate: null,
@@ -20,7 +25,22 @@ const ScheduleCalendar = () => {
     focusedInput: START_DATE,
   });
 
-  console.log(dateState.startDate && typeof dateState.startDate);
+  const start =
+    dateState.startDate &&
+    dateState.startDate.toLocaleString('en-ca', {
+      year: 'numeric',
+      month: 'short',
+      weekday: 'short',
+      day: 'numeric',
+    });
+  const end =
+    dateState.endDate &&
+    dateState.endDate.toLocaleString('en-ca', {
+      year: 'numeric',
+      month: 'short',
+      weekday: 'short',
+      day: 'numeric',
+    });
 
   const handleDateChange = (data) => {
     if (!data.focusedInput) {
@@ -47,6 +67,7 @@ const ScheduleCalendar = () => {
     goToPreviousYear,
     goToNextYear,
     onResetDates,
+    isStartDate,
   } = useDatepicker({
     startDate: dateState.startDate,
     endDate: dateState.endDate,
@@ -54,19 +75,25 @@ const ScheduleCalendar = () => {
     onDatesChange: handleDateChange,
   });
 
-  console.log(activeMonths);
-
   const handleOnClick = (id) => {
     switch (id) {
       case '1': {
         onResetDates();
+        dispatch(heatingScheduleClear());
+        return;
       }
       case '2': {
-        dispatch({ type: 'heatingSchedule-scheduler' });
+        dispatch(heatingScheduleCancel());
         return;
       }
       case '3': {
-        dispatch({ type: 'heatingSchedule-scheduler' });
+        dispatch(
+          heatingScheduleDate({
+            start,
+            end,
+          })
+        );
+        dispatch(heatingScheduleCancel());
         return;
       }
       default:
@@ -90,9 +117,6 @@ const ScheduleCalendar = () => {
   const currMonth = months[activeMonths[0].month];
   const nextMonth = months[activeMonths[1].month];
 
-  const startDate = dateState.startDate;
-
-  console.log(START_DATE);
   return (
     <DatepickerContext.Provider
       value={{
@@ -109,6 +133,7 @@ const ScheduleCalendar = () => {
     >
       <Wrapper>
         <BackgroundSvg src={'/images/calender-background.svg'} />
+
         <PositionAbsolute>
           <TitleWrapper>
             <IconAndTitleWrapper>
@@ -161,26 +186,7 @@ const ScheduleCalendar = () => {
             </Calendar>
 
             <WatchWrapper>
-              <TimeWrapper>
-                <TimeOuter>
-                  <TimeInner>
-                    <TimeAndDivision>3:50</TimeAndDivision>
-                  </TimeInner>
-                </TimeOuter>
-                <DivisionWrapper>
-                  <DivisionOuter>
-                    <DivisionInner>
-                      <TimeAndDivision>a.m</TimeAndDivision>
-                    </DivisionInner>
-                  </DivisionOuter>
-                  <DivisionOuter>
-                    <DivisionInner>
-                      <TimeAndDivision>p.m</TimeAndDivision>
-                    </DivisionInner>
-                  </DivisionOuter>
-                </DivisionWrapper>
-              </TimeWrapper>
-              <Watch></Watch>
+              <TimePicker />
             </WatchWrapper>
 
             <Calendar>
@@ -211,36 +217,11 @@ const ScheduleCalendar = () => {
                 year={activeMonths[1].year}
                 month={activeMonths[1].month}
                 firstDayOfWeek={firstDayOfWeek}
-                // startDay={
-                //   dateState.startDate && dateState.startDate
-                // }
-                // endDay={dateState.endDate && dateState.endDate}
               />
             </Calendar>
 
             <WatchWrapper>
               <TimePicker />
-              {/* <TimeWrapper>
-                <TimeOuter>
-                  <TimeInner>
-                    <TimeAndDivision>4:50</TimeAndDivision>
-                  </TimeInner>
-                </TimeOuter>
-                
-                <DivisionWrapper>
-                  <DivisionOuter>
-                    <DivisionInner>
-                      <TimeAndDivision>a.m</TimeAndDivision>
-                    </DivisionInner>
-                  </DivisionOuter>
-                  <DivisionOuter>
-                    <DivisionInner>
-                      <TimeAndDivision>p.m</TimeAndDivision>
-                    </DivisionInner>
-                  </DivisionOuter>
-                </DivisionWrapper>
-              </TimeWrapper>
-              <Watch></Watch> */}
             </WatchWrapper>
           </CalendarWrapper>
 
@@ -254,9 +235,7 @@ const ScheduleCalendar = () => {
 
                   <DisplayTop>
                     <Date>
-                      {dateState.startDate !== null
-                        ? dateState.startDate.toLocaleString()
-                        : 'Choose the start date'}
+                      {dateState.startDate ? start : 'Choose the start date'}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>
@@ -270,9 +249,7 @@ const ScheduleCalendar = () => {
 
                   <DisplayTop>
                     <Date>
-                      {dateState.endDate
-                        ? dateState.endDate.toLocaleString()
-                        : 'Choose the end date'}
+                      {dateState.endDate ? end : 'Choose the end date'}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>

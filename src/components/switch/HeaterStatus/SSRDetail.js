@@ -5,8 +5,9 @@ import { Context } from '../../../context/Context';
 import ToggleSWitch from './ToggleSwitch';
 import Select from './Select';
 import SSRInfoContainer from './SSRInfoContainer';
-
 import AdminSSRInfoContainer from './AdminSSRInfoContainer';
+
+
 const SSRDetail = ({ data, id }) => {
   const { state } = useContext(Context);
   const { isAdministrator } = state;

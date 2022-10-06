@@ -1,4 +1,10 @@
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import essSwitchSlice, {
+  heatingScheduleBeReady,
+  selectEssSwitch,
+} from '../../../../store/slices/essSwitchSlice';
+import heaterStatusSlice from '../../../../store/slices/heaterStatusSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import AddScheduleButton from '../AddScheduleButton';
 import ControllerName from '../ControllerName';
@@ -8,6 +14,17 @@ import TempAndButton from '../TempAndButton';
 const HeatingSchedule = () => {
   const CONTROLLER_NAME = 'heating schedule program';
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
+
+  const state = useSelector(selectEssSwitch);
+  const { isReady } = state.heatingSchedule;
+  const { activated } = state.heatingSchedule;
+
+  const dispatch = useDispatch();
+
+  const handleDispatch = (temp) => {
+    dispatch(heatingScheduleBeReady({ temp }));
+  };
+
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
@@ -22,7 +39,12 @@ const HeatingSchedule = () => {
         </SchedulerCenter>
       </SchedulerWrapper>
 
-      <TempAndButton isEnable={true} />
+      <TempAndButton
+        isEnable={true}
+        buttonHandler={handleDispatch}
+        isActivated={activated}
+        isReady={isReady}
+      />
     </Wrapper>
   );
 };

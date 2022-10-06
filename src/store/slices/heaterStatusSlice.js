@@ -38,12 +38,35 @@ const heaterStatusSlice = createSlice({
       state[action.payload.id].select = action.payload.data;
     },
     current: (state, action) => {
-      state[action.id].current[action.index] = action.data;
+      state[action.payload.id].current[action.payload.index] =
+        action.payload.data;
+    },
+    wattage: (state, action) => {
+      console.log(action.payload);
+      state[action.payload.id].wattage[action.payload.index] =
+        action.payload.data;
+    },
+    voltage: (state, action) => {
+      console.log(action.payload);
+      state[action.payload.id].voltage[action.payload.index] =
+        action.payload.data;
+    },
+    length: (state, action) => {
+      console.log(action.payload);
+      state[action.payload.id].length[action.payload.index] =
+        action.payload.data;
     },
   },
 });
 
 export default heaterStatusSlice;
 export const selectSSRState = (state) => state.ssrState;
-export const { toggle, changeSwitch, selector, current } =
-  heaterStatusSlice.actions;
+export const {
+  toggle,
+  changeSwitch,
+  selector,
+  current,
+  wattage,
+  voltage,
+  length,
+} = heaterStatusSlice.actions;

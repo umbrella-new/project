@@ -1,8 +1,13 @@
 import { isEditable } from '@testing-library/user-event/dist/utils';
 import { useContext } from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
+import {
+  voltage,
+  wattage,
+  length,
+} from '../../../store/slices/heaterStatusSlice';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -11,17 +16,59 @@ import {
 import RadioBox from './RadioBox';
 import SelectButton from './SelectButton';
 
-const AdminItem = ({ data, options, unit, title, isFault, isEnable }) => {
-  const { ssrDispatch } = useContext(HeaterStatusContext);
+const AdminItem = ({
+  data,
+  options,
+  unit,
+  title,
+  isFault,
+  isEnable,
+  handleDispatch,
+  id,
+  column,
+}) => {
   const [checked, setChecked] = useState(options[0]);
   const [isClicked, setIsClicked] = useState(false);
-
+  const dispatch = useDispatch();
   const src = isEnable ? '/images/selector.svg' : '/images/selector-flt.svg';
 
+  console.log(title);
   const handleChecked = (id) => {
     setChecked(id);
   };
   const displayOptions = () => {
+    setIsClicked(!isClicked);
+  };
+
+  const selectHandler = () => {
+    console.log(checked, 'selected', `ssr${id}`, column);
+    switch (title) {
+      case 'wattage':
+        dispatch(
+          wattage({ id: `ssr${id}`, index: column ? column : 0, data: checked })
+        );
+        setIsClicked(false);
+        return;
+      case 'voltage':
+        dispatch(
+          voltage({ id: `ssr${id}`, index: column ? column : 0, data: checked })
+        );
+        setIsClicked(false);
+        return;
+      case 'length':
+        dispatch(
+          length({ id: `ssr${id}`, index: column ? column : 0, data: checked })
+        );
+        setIsClicked(false);
+        return;
+      default:
+        return;
+    }
+
+    dispatch(
+      title({ id: `ssr${id}`, index: column ? column : 0, data: checked })
+    );
+
     setIsClicked(!isClicked);
   };
 
@@ -51,14 +98,7 @@ const AdminItem = ({ data, options, unit, title, isFault, isEnable }) => {
                 />
               ))}
             </SelectWrapper>
-            <SelectButton
-              onSelect={() =>
-                ssrDispatch({
-                  type: title,
-                  id: checked,
-                })
-              }
-            />
+            <SelectButton onSelect={selectHandler} />
           </>
         )}
       </ItemInnerWrapper>

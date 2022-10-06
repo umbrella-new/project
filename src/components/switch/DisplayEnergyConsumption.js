@@ -1,8 +1,17 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
+import { selectUserState } from '../../store/slices/userSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 const DisplayEnergyConsumption = () => {
-  const energyConsumption = 350;
+  const state = useSelector(selectEssSwitch);
+  const userState = useSelector(selectUserState);
+
+  const energyConsumption = state.energyConsumption
+    ? state.energyConsumption
+    : 350;
+
   return (
     <Wrapper>
       <LogoAndTitle>
@@ -11,7 +20,9 @@ const DisplayEnergyConsumption = () => {
           energy <br></br>consumption
         </EnergyTitle>
       </LogoAndTitle>
-      <EnergyConsumption>{energyConsumption} Kw</EnergyConsumption>
+      <EnergyConsumption>
+        {energyConsumption} {userState.isEssSwitch ? `Kw` : `m<sup>3</sup?`}
+      </EnergyConsumption>
     </Wrapper>
   );
 };

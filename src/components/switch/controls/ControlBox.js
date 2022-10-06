@@ -10,10 +10,19 @@ import { useContext } from 'react';
 import { Context } from '../../../context/Context';
 import TgsInstantHeat from './instantHeat/TgsInstantHeat';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectEssSwitch } from '../../../store/slices/essSwitchSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
+import { selectTgsSwitch } from '../../../store/slices/tgsSwitchSlice';
 
 const ControlBox = () => {
-  const { state } = useContext(Context);
-  const { isEssSwitch } = state;
+  // const { state } = useContext(Context);
+
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  // conditionally change state ess || tgs || tes
+  const essState = useSelector(selectEssSwitch);
+  const tgsState = useSelector(selectTgsSwitch);
 
   // Read current URL
   const location = useLocation();
@@ -23,25 +32,51 @@ const ControlBox = () => {
       <BackgroundImg src={'/images/controller-background.svg'} />
 
       <PositionAbsolute>
-        <Title>{isEssSwitch ? 'ess' : 'tgs'}-controls</Title>
+        <Title>
+          {isEssSwitch ? 'ess' : location.pathname === '/' ? 'tgs' : 'tes'}
+          -controls
+        </Title>
         {/* conditionally change the instant heat controller */}
-
         <ControlsList>
           {isEssSwitch ? (
-            <InstantHeat />
+            <InstantHeat state={essState} />
           ) : location.pathname === '/' ? (
-            <TgsInstantHeat />
+            <TgsInstantHeat state={tgsState} />
           ) : (
-            <InstantHeat />
+            <InstantHeat state={essState} />
           )}
 
           <SnowSensor />
-          <ConstantHeat />
+          <ConstantHeat state={essState} />
 
-          <HeatingSchedule />
+          <HeatingSchedule
+            state={
+              isEssSwitch
+                ? essState
+                : location.pathname === '/'
+                ? tgsState
+                : essState
+            }
+          />
 
-          <WindFactor />
-          <DisplayTemperatureStates />
+          <WindFactor
+            state={
+              isEssSwitch
+                ? essState
+                : location.pathname === '/'
+                ? tgsState
+                : essState
+            }
+          />
+          <DisplayTemperatureStates
+            state={
+              isEssSwitch
+                ? essState
+                : location.pathname === '/'
+                ? tgsState
+                : essState
+            }
+          />
         </ControlsList>
       </PositionAbsolute>
     </Wrapper>

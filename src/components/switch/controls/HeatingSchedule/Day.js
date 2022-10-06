@@ -53,7 +53,7 @@ const Day = ({ dayLabel, date, startDay, endDay }) => {
   );
 
   const btnStyle = {
-    padding: '0.5rem 0.38rem',
+    padding: '0.4rem 0.38rem',
     // border: '1px solid red',
 
     color: getColorFn({

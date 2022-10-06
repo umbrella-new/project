@@ -116,8 +116,6 @@ export const ControllerEnabledBackground = css`
 `;
 
 export const DisableApplyButtonBG = css`
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
@@ -145,4 +143,12 @@ export const ItemBackgroundDisable = css`
   box-shadow: inset 0px 0px 2px #000000;
   opacity: 1;
   border-radius: 12px;
+`;
+
+export const ButtonReady = css`
+  background: transparent linear-gradient(180deg, #1e7fc1 0%, #001640 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+  opacity: 1;
 `;

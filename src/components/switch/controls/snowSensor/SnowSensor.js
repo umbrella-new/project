@@ -1,6 +1,10 @@
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Context } from '../../../../context/Context';
+
+import {
+  selectEssSwitch,
+  snowSensor,
+} from '../../../../store/slices/essSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ApplyButton from '../ApplyButton';
 
@@ -8,27 +12,26 @@ import ControllerName from '../ControllerName';
 import DefaultTemp from '../DefaultTemp';
 
 const SnowSensor = () => {
-  const { state, dispatch } = useContext(Context);
+  const state = useSelector(selectEssSwitch);
+  const isReady = state.snowSensor.isReady;
+  const isActivated = state.snowSensor.isActivated;
 
-  const { apply } = state.snowSensor;
-  // console.log(apply);
+  console.log(isReady);
+  const dispatch = useDispatch();
 
   const CONTROLLER_NAME = 'snow sensor program';
   const IMG_SRC = '/images/snow-Sensor-Program-Logo.svg';
 
-  const handleSnowSensorToggler = () => {
-    // console.log('Snow Sensor Toggler clicked');
-    dispatch({ type: 'snowSensor' });
-  };
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
       <TempAndButton>
         <ApplyButton
-          status={apply}
           name='apply'
-          buttonHandler={handleSnowSensorToggler}
+          buttonHandler={() => dispatch(snowSensor())}
           isEnable={true}
+          isActivated={isActivated}
+          isReady={isReady}
         />
         <DefaultTemp />
       </TempAndButton>

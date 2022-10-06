@@ -6,11 +6,8 @@ import Header from './components/Header';
 import Sidebar from './components/sidebar/Sidebar';
 
 import Switch from './components/switch/Switch';
-import { Context } from './context/Context';
 
 const MainPage = () => {
-  const { state } = useContext(Context);
-  const { isEssSwitch } = state;
   return (
     <Wrapper>
       <Header />
@@ -22,11 +19,9 @@ const MainPage = () => {
 
           <Routes>
             <Route path='/' element={<Switch />} />
-
-            {!isEssSwitch && <Route path='/tes' element={<Switch />} />}
+            <Route path='/tes' element={<Switch />} />
 
             <Route path='/alarm' element={<Switch />} />
-
             <Route path='/setting' element={<Switch />} />
           </Routes>
         </MainContentsWrapper>

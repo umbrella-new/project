@@ -1,10 +1,16 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectUserState } from '../store/slices/userSlice';
 import { flexboxCenter } from '../styles/commonStyles';
 import DateAndWeather from './DateAndWeather';
 
 const Header = () => {
-  const switchName = `WE-COVE-02 #10 S.T.-ESS`;
-  const machineId = `10000000000023442`;
+  const userState = useSelector(selectUserState);
+
+  const switchName = userState.switchName
+    ? userState.switchName
+    : `WE-COVE-02 #10 S.T.-ESS`;
+  const machineId = userState.userId ? userState.userId : `10000000000023442`;
 
   return (
     <OutsideWrapper>

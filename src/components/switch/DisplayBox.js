@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
-const DisplayBox = ({ currData, label }) => {
-  const receivedArr = currData && currData.split(' ');
-
-  const displayData =
-    receivedArr && receivedArr.length > 1 ? receivedArr : null;
-
+const DisplayBox = ({ currData, label, unit }) => {
   const labelArry = label.split(' ');
   const displayLabel1 = labelArry[0];
   const displayLabel2 =
@@ -15,10 +10,10 @@ const DisplayBox = ({ currData, label }) => {
   return (
     <Wrapper>
       <InnerLayer>
-        {displayData !== null ? (
+        {unit !== null ? (
           <DisplayDataWrapper>
-            <DisplayData>{displayData[0]}</DisplayData>
-            <DisplayUnit>{displayData[1]}</DisplayUnit>
+            <DisplayData>{currData}</DisplayData>
+            <DisplayUnit>{unit}</DisplayUnit>
           </DisplayDataWrapper>
         ) : (
           <DisplayDataWrapper>
@@ -73,7 +68,7 @@ const DisplayData = styled.span`
   height: 22px;
   color: var(--unnamed-color-1b2b44);
   text-align: left;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 1px;
   color: #1b2b44;
 `;

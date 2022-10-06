@@ -1,13 +1,16 @@
 import { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Context } from '../../context/Context';
+import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
+import { selectUserState } from '../../store/slices/userSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 import SidebarButton from './SidebarButton';
 
 const Sidebar = () => {
-  const { state } = useContext(Context);
-
-  const initialState = state.isEssSwitch
+  // const { state } = useContext(Context);
+  const userState = useSelector(selectUserState);
+  const initialState = userState.isEssSwitch
     ? {
         ess: true,
         alarm: false,
@@ -40,7 +43,7 @@ const Sidebar = () => {
     ? '/images/tes-button-active.svg'
     : '/images/tes-button.svg';
 
-  const buttonProps = state.isEssSwitch
+  const buttonProps = userState.isEssSwitch
     ? [
         [essSrc, 'ess', '/'],
         [alarmSrc, 'alarm', '/alarm'],
@@ -54,7 +57,6 @@ const Sidebar = () => {
       ];
 
   const handleToggler = (id) => {
-    console.log(id);
     switch (id) {
       case 'ess': {
         setIsActivated({

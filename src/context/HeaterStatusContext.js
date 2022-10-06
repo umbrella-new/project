@@ -51,7 +51,7 @@ const HeaterStatusProvider = ({ children }) => {
 
   // const initialState = {a:{ name: 'enoch', age: 20 }, b:{ name: 'Norman' }};
   const ssrReducer = (state, action) => {
-    console.log(action.type, action.id, action.data);
+    // console.log(action.type, action.id, action.data);
     switch (action.type) {
       case 'toggle': {
         return {
@@ -63,7 +63,7 @@ const HeaterStatusProvider = ({ children }) => {
         };
       }
       case 'change-switch': {
-        console.log(action.id);
+        // console.log(action.id);
         break;
       }
       case 'select': {

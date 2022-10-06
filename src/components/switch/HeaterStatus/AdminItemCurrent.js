@@ -1,7 +1,8 @@
 import { useContext } from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
+import { current } from '../../../store/slices/heaterStatusSlice';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -19,17 +20,13 @@ const AdminItemCurrent = ({
   id,
   column,
 }) => {
-  const { ssrDispatch } = useContext(HeaterStatusContext);
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(options[0]);
   const [isClicked, setIsClicked] = useState(false);
 
   const src = isEnable ? '/images/selector.svg' : '/images/selector-flt.svg';
 
   const handleChecked = (id) => {
-    // // Split and type change to calculate
-    // const numId = Number(id.split(' ')[0]);
-    // console.log(numId);
-    console.log(id);
     setChecked(id);
   };
   const displayOptions = () => {
@@ -37,15 +34,11 @@ const AdminItemCurrent = ({
   };
 
   const selectHandler = () => {
-    // this needs to connect with reducer in HeaterStatusContext
     console.log(checked, 'selected', `ssr${id}`, column);
-    // ssrDispatch with ssrnumber, column number(index), data
-    ssrDispatch({
-      type: 'current',
-      id: `ssr${id}`,
-      index: column,
-      data: checked,
-    });
+    dispatch(
+      current({ id: `ssr${id}`, index: column ? column : 0, data: checked })
+    );
+
     setIsClicked(!isClicked);
   };
   return (

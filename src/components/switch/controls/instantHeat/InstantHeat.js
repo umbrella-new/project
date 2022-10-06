@@ -9,9 +9,17 @@ import {
 
 import styled, { css } from 'styled-components';
 import { Context } from '../../../../context/Context';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  instantHeat,
+  selectEssSwitch,
+} from '../../../../store/slices/essSwitchSlice';
 
 const InstantHeat = () => {
-  const { state, dispatch } = useContext(Context);
+  // const { state, dispatch } = useContext(Context);
+  const state = useSelector(selectEssSwitch);
+  const dispatch = useDispatch();
+
   const { instantButtonToggler } = state.instantHeat;
 
   const inputRef = useRef();
@@ -22,11 +30,11 @@ const InstantHeat = () => {
 
     if (temp !== 0) {
       if (!instantButtonToggler) {
-        dispatch({ type: 'instantHeat', payload: temp });
+        dispatch(instantHeat(temp));
         inputRef.current.value = `${temp}\u00b0C`;
       } else {
-        dispatch({ type: 'instantHeat', payload: 0 });
-        inputRef.current.value = `0\u00b0C`;
+        dispatch(instantHeat(0));
+        inputRef.current.value = ``;
       }
     } else {
       return;
@@ -38,13 +46,16 @@ const InstantHeat = () => {
   };
 
   return (
-    <Wrapper toggler={instantButtonToggler}>
-      <InnerWrapper toggler={instantButtonToggler} onSubmit={handleOnSubmit}>
+    <Wrapper isActivated={instantButtonToggler}>
+      <InnerWrapper
+        isActivated={instantButtonToggler}
+        onSubmit={handleOnSubmit}
+      >
         <LabelAndInputOuterWrapper
-          toggler={instantButtonToggler}
+          isActivated={instantButtonToggler}
           onClick={onInputHandelr}
         >
-          <LabelAndInputInnerWrapper toggler={instantButtonToggler}>
+          <LabelAndInputInnerWrapper isActivated={instantButtonToggler}>
             <Label>instant heat</Label>
             <InputDegree
               toggler={instantButtonToggler}
@@ -55,9 +66,9 @@ const InstantHeat = () => {
           </LabelAndInputInnerWrapper>
         </LabelAndInputOuterWrapper>
 
-        <ActiveButton toggler={instantButtonToggler}>
-          <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
-            <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
+        <ActiveButton isActivated={instantButtonToggler}>
+          <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
+            <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
               <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
@@ -97,7 +108,7 @@ const InnerWrapper = styled.form`
   align-items: center;
 
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeLayer1}
         `
@@ -128,7 +139,7 @@ const LabelAndInputOuterWrapper = styled.div`
   cursor: pointer;
 
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeInput}
         `
@@ -146,7 +157,7 @@ const LabelAndInputInnerWrapper = styled.div`
   ${flexboxCenter}
 
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeLayer1}
         `
@@ -185,7 +196,7 @@ const InputDegree = styled.input`
   }
 
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeInput}
         `
@@ -206,7 +217,7 @@ const ActiveButton = styled.button`
 
   ${flexboxCenter}
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeInput}
         `
@@ -225,7 +236,7 @@ const ActiveButtonOuterWrapper = styled.div`
   align-items: center;
 
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeLayer1}
         `
@@ -243,7 +254,7 @@ const ActiveButtonInnerWrapper = styled.div`
   ${flexboxCenter}
 
   ${(props) =>
-    props.toggler
+    props.isActivated
       ? css`
           ${activeInput}
         `

@@ -5,16 +5,24 @@ import { flexboxCenter } from '../../../../styles/commonStyles';
 
 import DisplayBox from '../../DisplayBox';
 
-const DisplayTemperatureStates = () => {
-  const { instantHeatTemp } = useContext(Context);
+const DisplayTemperatureStates = ({ state }) => {
+  // console.log(state.instantHeat.instantHeatTemp);
+
   const g = '___';
-  const setTemp = instantHeatTemp === 0 ? '___' : instantHeatTemp;
+  const setTemp =
+    state.instantHeat.instantHeatTemp === 0
+      ? '___'
+      : state.instantHeat.instantHeatTemp;
   const currTemp = g;
   return (
     <Wrapper>
       <InnerHole>
-        <DisplayBox currData={setTemp} label='set temperature' />
-        <DisplayBox currData={currTemp} label='current temperature' />
+        <DisplayBox currData={setTemp} unit={null} label='set temperature' />
+        <DisplayBox
+          currData={currTemp}
+          unit={null}
+          label='current temperature'
+        />
       </InnerHole>
     </Wrapper>
   );

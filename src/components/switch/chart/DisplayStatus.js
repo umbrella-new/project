@@ -6,7 +6,7 @@ const DisplayStatus = () => {
   // Add conditional statement to assignment values
   const a = 350;
   const b = '___';
-  const energyConsumption = `${a} Kw/H`;
+  const energyConsumption = `${a} `;
   const enclosureTemp = b;
   const outsideTemp = b;
   const usage = b;
@@ -17,11 +17,20 @@ const DisplayStatus = () => {
         <ContentsInnerWrapper>
           <DisplayBox
             currData={energyConsumption}
-            label='energy constumption'
+            unit='Kw/H'
+            label='energy consumption'
           />
-          <DisplayBox currData={enclosureTemp} label='enclosure temperature' />
-          <DisplayBox currData={outsideTemp} label='outside temperature' />
-          <DisplayBox currData={usage} label='hours of usage' />
+          <DisplayBox
+            currData={enclosureTemp}
+            unit={null}
+            label='enclosure temperature'
+          />
+          <DisplayBox
+            currData={outsideTemp}
+            unit={null}
+            label='outside temperature'
+          />
+          <DisplayBox currData={usage} unit={null} label='hours of usage' />
         </ContentsInnerWrapper>
       </ContentsWrapper>
     </Wrapper>

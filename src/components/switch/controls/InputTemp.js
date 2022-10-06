@@ -5,20 +5,31 @@ import {
   DisableApplyButtonHole,
 } from '../../../styles/commonStyles';
 
-const InputTemp = ({ isEnable }) => {
+const InputTemp = ({ isEnable, setTemp }) => {
+  const handleOnChange = (event) => {
+    const value = event.target.value;
+    setTemp(value);
+    event.target.value = `${value}\u00b0C`;
+  };
+
   return (
-    <Wrapper isEnable={isEnable}>
+    <InputWrapper isEnable={isEnable}>
       <Label isEnable={isEnable}> input temp.</Label>
       <InputWrapper isEnable={isEnable}>
-        <InputDegree isEnable={isEnable} type='text' placeholder='0&deg;C' />
+        <InputDegree
+          isEnable={isEnable}
+          type='text'
+          placeholder='0&deg;C'
+          onChange={handleOnChange}
+        />
       </InputWrapper>
-    </Wrapper>
+    </InputWrapper>
   );
 };
 
 export default InputTemp;
 
-const Wrapper = styled.div`
+const InputAndLabelWrapper = styled.div`
   height: 30px;
   display: flex;
   flex-direction: column;

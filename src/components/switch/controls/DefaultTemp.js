@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 const DefaultTemp = () => {
   return (
@@ -67,6 +68,7 @@ const Title = styled.span`
   color: #ffffff;
   opacity: 1;
   text-transform: uppercase;
+  line-height: 110%;
 `;
 
 const Divider = styled.div`

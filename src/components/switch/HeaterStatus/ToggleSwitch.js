@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
-import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
 import { toggle } from '../../../store/slices/heaterStatusSlice';
 
 const ToggleSWitch = ({ data, id }) => {

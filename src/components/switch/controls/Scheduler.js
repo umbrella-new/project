@@ -1,19 +1,32 @@
 import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Context } from '../../../context/Context';
+import {
+  heatingScheduleOpen,
+  selectEssSwitch,
+} from '../../../store/slices/essSwitchSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 const Scheduler = () => {
-  const { dispatch, state } = useContext(Context);
-  // console.log(state.heatingSchedule.isActivated);
+  const dispatch = useDispatch();
+  const state = useSelector(selectEssSwitch);
+
+  const start = state.heatingSchedule.start
+    ? state.heatingSchedule.start
+    : ' -----------------';
+  const end = state.heatingSchedule.end
+    ? state.heatingSchedule.end
+    : ' -----------------';
+
+  console.log(start, end);
   return (
     <Wrapper>
       <DateWrapper>
-        <StartDate></StartDate>
-        <EndDate></EndDate>
+        <Date>{start} </Date>
+        <Date>{end}</Date>
       </DateWrapper>
-      <CalendarButton
-        onClick={() => dispatch({ type: 'heatingSchedule-scheduler' })}
-      >
+      <CalendarButton onClick={() => dispatch(heatingScheduleOpen())}>
         <Img src={'/images/calendar-button.svg'} />
       </CalendarButton>
     </Wrapper>
@@ -50,7 +63,7 @@ const DateWrapper = styled.div`
   margin-right: 20px;
 `;
 
-const StartDate = styled.div`
+const Date = styled.div`
   margin-bottom: 3px;
   width: 192px;
   height: 18px;
@@ -61,6 +74,8 @@ const StartDate = styled.div`
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 14px;
   opacity: 1;
+  font-size: 8px;
+  ${flexboxCenter}
 `;
 const EndDate = styled.div`
   /* Layout Properties */

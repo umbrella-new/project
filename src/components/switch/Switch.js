@@ -8,11 +8,20 @@ import HeaterStatus from './HeaterStatus/HeaterStatus';
 import DisplayEnergyConsumption from './DisplayEnergyConsumption';
 
 import ScheduleCalendar from './controls/HeatingSchedule/ScheduleCalendar';
+import { useSelector } from 'react-redux';
+import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
+import { selectUserState } from '../../store/slices/userSlice';
+import { selectTgsSwitch } from '../../store/slices/tgsSwitchSlice';
 
 const Switch = () => {
-  const { state } = useContext(Context);
+  const userState = useSelector(selectUserState);
+  const State = useSelector(selectEssSwitch);
+  // ******************************************************************************
+  // conditionally reference different slices ess || tgs || tes
+  // ******************************************************************************
+
   // only display Heater status ' in ESS Switch '
-  const isActivated = state.isEssSwitch ? true : false;
+  const isActivated = userState.isEssSwitch ? true : false;
   const backgroundSvg = '/images/background-hat.svg';
 
   return (
@@ -32,9 +41,8 @@ const Switch = () => {
           </SubSection>
         )}
       </ContentWrapper>
-      {state.heatingSchedule.isActivated && (
+      {State.heatingSchedule.displayed && (
         <SchedulerWrapper>
-          {/* <Datepicker /> */}
           <ScheduleCalendar />
         </SchedulerWrapper>
       )}
