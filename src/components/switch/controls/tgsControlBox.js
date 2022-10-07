@@ -17,15 +17,15 @@ import { selectTgsSwitch } from '../../../store/slices/tgsSwitchSlice';
 
 const ControlBox = () => {
   // const { state } = useContext(Context);
+
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
-
-  // Read current URL
-  const location = useLocation();
-
   // conditionally change state ess || tgs || tes
   const essState = useSelector(selectEssSwitch);
   const tgsState = useSelector(selectTgsSwitch);
+
+  // Read current URL
+  const location = useLocation();
 
   return (
     <Wrapper>
@@ -139,9 +139,4 @@ const ControlsList = styled.ul`
   padding-bottom: 0.1rem;
 
   box-sizing: border-box;
-`;
-
-const SchedulerWrapper = styled.div`
-  position: absolute;
-  top: 1rem;
 `;

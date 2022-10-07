@@ -15,8 +15,6 @@ const ApplyButton = ({
   isActivated,
   isReady,
 }) => {
-  console.log(isReady);
-
   return (
     <ButtonWrapper
       isEnable={isEnable}

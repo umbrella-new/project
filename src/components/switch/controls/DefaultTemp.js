@@ -34,9 +34,7 @@ const Wrapper = styled.div`
   border-radius: 25px;
   opacity: 1;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexboxCenter};
 `;
 const InnerLayer = styled.div`
   width: 122px;

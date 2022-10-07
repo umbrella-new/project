@@ -18,15 +18,6 @@ import {
 
 const ScheduleCalendar = () => {
   const dispatch = useDispatch();
-  // Time Picker states
-  const initialTimeState = {
-    hour: '00',
-    minute: '00',
-    division: 'am',
-  };
-
-  const [startTime, setStartTime] = useState(initialTimeState);
-  const [endTime, setEndTime] = useState(initialTimeState);
 
   const [dateState, setDateState] = useState({
     startDate: null,
@@ -59,18 +50,6 @@ const ScheduleCalendar = () => {
     }
   };
 
-  const handleSetTime = (time, id) => {
-    console.log(time, id);
-    if (id === 'start') {
-      setStartTime(time);
-    } else {
-      setEndTime(time);
-    }
-  };
-
-  const startTimeSet = `${startTime.hour}:${startTime.minute} ${startTime.division}`;
-  const endTimeSet = `${endTime.hour}:${endTime.minute} ${endTime.division}`;
-
   const {
     firstDayOfWeek,
     activeMonths,
@@ -96,6 +75,31 @@ const ScheduleCalendar = () => {
     onDatesChange: handleDateChange,
   });
 
+  const handleOnClick = (id) => {
+    switch (id) {
+      case '1': {
+        onResetDates();
+        dispatch(heatingScheduleClear());
+        return;
+      }
+      case '2': {
+        dispatch(heatingScheduleCancel());
+        return;
+      }
+      case '3': {
+        dispatch(
+          heatingScheduleDate({
+            start,
+            end,
+          })
+        );
+        dispatch(heatingScheduleCancel());
+        return;
+      }
+      default:
+        return;
+    }
+  };
   const months = [
     'January',
     'Feburary',
@@ -112,35 +116,6 @@ const ScheduleCalendar = () => {
   ];
   const currMonth = months[activeMonths[0].month];
   const nextMonth = months[activeMonths[1].month];
-
-  const handleOnClick = (id) => {
-    switch (id) {
-      case '1': {
-        onResetDates();
-        dispatch(heatingScheduleClear());
-        setStartTime(initialTimeState);
-        setEndTime(initialTimeState);
-
-        return;
-      }
-      case '2': {
-        dispatch(heatingScheduleCancel());
-        return;
-      }
-      case '3': {
-        dispatch(
-          heatingScheduleDate({
-            start: `${start} / ${startTimeSet}`,
-            end: `${end} / ${endTimeSet}`,
-          })
-        );
-        dispatch(heatingScheduleCancel());
-        return;
-      }
-      default:
-        return;
-    }
-  };
 
   return (
     <DatepickerContext.Provider
@@ -211,7 +186,7 @@ const ScheduleCalendar = () => {
             </Calendar>
 
             <WatchWrapper>
-              <TimePicker id='start' time={startTime} setTime={handleSetTime} />
+              <TimePicker />
             </WatchWrapper>
 
             <Calendar>
@@ -246,7 +221,7 @@ const ScheduleCalendar = () => {
             </Calendar>
 
             <WatchWrapper>
-              <TimePicker id='end' time={endTime} setTime={handleSetTime} />
+              <TimePicker />
             </WatchWrapper>
           </CalendarWrapper>
 
@@ -261,8 +236,6 @@ const ScheduleCalendar = () => {
                   <DisplayTop>
                     <Date>
                       {dateState.startDate ? start : 'Choose the start date'}
-
-                      {dateState.startDate && ` / ${startTimeSet}`}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>
@@ -277,8 +250,6 @@ const ScheduleCalendar = () => {
                   <DisplayTop>
                     <Date>
                       {dateState.endDate ? end : 'Choose the end date'}
-
-                      {dateState.endDate && ` /  ${endTimeSet}`}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>

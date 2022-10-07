@@ -5,25 +5,43 @@ import {
   DisableApplyButtonBG,
   DisableApplyButtonHole,
   activeLayer1,
-  activeLayer2,
   activeInput,
   ButtonReady,
 } from '../../../styles/commonStyles';
 
-import ApplyButton from './ApplyButton';
-
-const TempAndButton = ({ isEnable, buttonHandler, isActivated, isReady }) => {
+const TempAndButton = ({
+  isEnable,
+  buttonHandler,
+  isActivated,
+  isReady,
+  title,
+}) => {
   const inputRef = useRef();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const temp = Number(inputRef.current.value);
-    if (temp !== 0) {
-      if (!isActivated) {
-        buttonHandler(temp);
-        inputRef.current.value = `${temp}\u00b0C`;
-      } else {
-        buttonHandler(0);
-        inputRef.current.value = '';
+
+    const temp = inputRef.current.value;
+
+    if (title === 'scheduler') {
+      if (temp !== 0) {
+        if (!isReady) {
+          buttonHandler(temp);
+          inputRef.current.value = `${temp}\u00b0C`;
+        } else {
+          buttonHandler(0);
+          inputRef.current.value = '';
+        }
+      }
+    } else {
+      if (temp !== 0) {
+        if (!isActivated) {
+          buttonHandler(temp);
+          inputRef.current.value = `${temp}\u00b0C`;
+        } else {
+          buttonHandler(0);
+          inputRef.current.value = '';
+        }
       }
     }
   };

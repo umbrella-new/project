@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import {
+import essSwitchSlice, {
   heatingScheduleBeReady,
   selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
-
+import heaterStatusSlice from '../../../../store/slices/heaterStatusSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import AddScheduleButton from '../AddScheduleButton';
 import ControllerName from '../ControllerName';
@@ -22,12 +22,7 @@ const HeatingSchedule = () => {
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
-    if (state.heatingSchedule.start) {
-      dispatch(heatingScheduleBeReady(temp));
-    } else {
-      // Change it to modal!! make it beautiful
-      window.alert('input schedule');
-    }
+    dispatch(heatingScheduleBeReady({ temp }));
   };
 
   return (
@@ -49,7 +44,6 @@ const HeatingSchedule = () => {
         buttonHandler={handleDispatch}
         isActivated={activated}
         isReady={isReady}
-        title='scheduler'
       />
     </Wrapper>
   );

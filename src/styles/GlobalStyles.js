@@ -63,6 +63,8 @@ button {
 	background-color: transparent;
 	margin: 0;
   padding: 0;
+	font-family: 'Orbitron', sans-serif;		
+	color: #fff;
 }
 input {
 	border: none;

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import {
   constantTemp,
   selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
-import { selectUserState } from '../../../../store/slices/userSlice';
 
-import styled, { css } from 'styled-components';
+import { selectUserState } from '../../../../store/slices/userSlice';
 import {
   flexboxCenter,
   ControllerEnabledBackground,
@@ -23,7 +23,7 @@ const ConstantHeat = () => {
   const { isEssSwitch } = userState;
   const dispatch = useDispatch();
   // const isActivated =
-  // console.log(state.optionalConstantTemp.temp);
+  console.log(state.optionalConstantTemp.temp);
   const { apply } = state.optionalConstantTemp;
   const location = useLocation();
 
@@ -55,7 +55,6 @@ const ConstantHeat = () => {
         isEnable={isEnable}
         buttonHandler={handleDispatch}
         isActivated={apply}
-        isReady={false}
       />
     </Wrapper>
   );

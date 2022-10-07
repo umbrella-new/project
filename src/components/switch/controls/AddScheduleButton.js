@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { GrAdd } from 'react-icons/gr';
 const AddScheduleButton = () => {
   return (
     <Wrapper>

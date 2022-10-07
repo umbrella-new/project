@@ -19,7 +19,6 @@ const Scheduler = () => {
     ? state.heatingSchedule.end
     : ' -----------------';
 
-  console.log(start, end);
   return (
     <Wrapper>
       <DateWrapper>

@@ -1,32 +1,113 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+import TimeOption from './TimeOption';
 
-const TimePicker = () => {
-  const [isClicked, setIsClicked] = useState(false);
-  const [time, setTime] = useState(null);
-  const [minute, setMinute] = useState(null);
+const TimePicker = ({ time, setTime, id }) => {
+  const [openHourSelector, setOpenHourSelector] = useState(false);
+  const [openMinuteSelector, setOpenMinuteSelector] = useState(false);
+
+  // const [division, setDivision] = useState('am');
+  // const [hour, setHour] = useState('00');
+  // const [minute, setMinute] = useState('00');
 
   const timeOption = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minuteOptions = [10, 20, 30, 40, 50, 60];
+
+  const handleSetTime = (title, data) => {
+    console.log(title, data);
+    switch (title) {
+      case 'division': {
+        setTime({ ...time, division: data }, id);
+        return;
+      }
+      case 'hour': {
+        setTime({ ...time, hour: data }, id);
+        return;
+      }
+      case 'minute': {
+        setTime({ ...time, minute: data }, id);
+        return;
+      }
+      default:
+        return;
+    }
+  };
+
+  // const handleDivision = (division) => {
+  //   setDivision(division);
+  //   handleSetTime();
+  // };
+
+  const onClose = (title) => {
+    if (title === 'hour') {
+      setOpenHourSelector(false);
+    } else {
+      setOpenMinuteSelector(false);
+    }
+  };
+
+  // const handleSetTime = (id) => {
+  //   const time = `${hour}:${minute} ${division}`;
+  //   console.log(time);
+  // };
+
   return (
     <>
       <TimeWrapper>
         <TimeOuter>
           <TimeInner>
-            <TimeAndDivision></TimeAndDivision>
+            <Hour onClick={() => setOpenHourSelector(true)}>{time.hour}</Hour>
+            <HourOptionWrapper>
+              {openHourSelector &&
+                timeOption.map((time) => (
+                  <TimeOption
+                    key={time}
+                    data={time}
+                    setSelect={handleSetTime}
+                    onClose={onClose}
+                    title='hour'
+                  />
+                ))}
+            </HourOptionWrapper>
+            <Divider>:</Divider>
+            <Minute onClick={() => setOpenMinuteSelector(true)}>
+              {time.minute}
+            </Minute>
+            <MinuteOptionWrapper>
+              {openMinuteSelector &&
+                minuteOptions.map((minute) => (
+                  <TimeOption
+                    key={minute}
+                    data={minute}
+                    setSelect={handleSetTime}
+                    onClose={onClose}
+                    title='minute'
+                  />
+                ))}
+            </MinuteOptionWrapper>
           </TimeInner>
         </TimeOuter>
 
         <DivisionWrapper>
           <DivisionOuter>
             <DivisionInner>
-              <TimeAndDivision>a.m</TimeAndDivision>
+              <Division
+                isSelected={time.division === 'am' ? true : false}
+                onClick={() => handleSetTime('division', 'am')}
+              >
+                a.m
+              </Division>
             </DivisionInner>
           </DivisionOuter>
           <DivisionOuter>
             <DivisionInner>
-              <TimeAndDivision>p.m</TimeAndDivision>
+              <Division
+                isSelected={time.division === 'pm' ? true : false}
+                onClick={() => handleSetTime('division', 'pm')}
+              >
+                p.m
+              </Division>
             </DivisionInner>
           </DivisionOuter>
         </DivisionWrapper>
@@ -68,15 +149,39 @@ const TimeInner = styled.div`
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 8px;
   opacity: 0.8;
-
-  ${flexboxCenter}
+  /* border: 1px solid red; */
+  /* ${flexboxCenter} */
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
 `;
-const TimeAndDivision = styled.span`
+const Hour = styled.button`
   font-size: 14px;
-  letter-spacing: 1.4px;
+`;
+const Divider = styled.span`
+  font-size: 12px;
+`;
+const Minute = styled.button`
+  font-size: 14px;
+  /* letter-spacing: 1.4px; */
 `;
 
-const InputTime = styled.input``;
+const HourOptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 3rem;
+  left: 0rem;
+`;
+
+const MinuteOptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 3rem;
+  right: 0.3rem;
+`;
 
 const DivisionWrapper = styled.div`
   display: flex;
@@ -108,6 +213,13 @@ const DivisionInner = styled.div`
   opacity: 0.8;
 
   ${flexboxCenter}
+`;
+
+const Division = styled.button`
+  font-size: 14px;
+  letter-spacing: 1.4px;
+  color: ${(p) => (p.isSelected ? '#ffff' : '#808080')};
+  text-transform: uppercase;
 `;
 
 const Watch = styled.div`

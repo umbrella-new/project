@@ -15,10 +15,6 @@ import { selectTgsSwitch } from '../../store/slices/tgsSwitchSlice';
 
 const Switch = () => {
   const userState = useSelector(selectUserState);
-  const State = useSelector(selectEssSwitch);
-  // ******************************************************************************
-  // conditionally reference different slices ess || tgs || tes
-  // ******************************************************************************
 
   // only display Heater status ' in ESS Switch '
   const isActivated = userState.isEssSwitch ? true : false;
@@ -41,11 +37,6 @@ const Switch = () => {
           </SubSection>
         )}
       </ContentWrapper>
-      {State.heatingSchedule.displayed && (
-        <SchedulerWrapper>
-          <ScheduleCalendar />
-        </SchedulerWrapper>
-      )}
     </Wrapper>
   );
 };
@@ -88,9 +79,4 @@ const MainSection = styled.section`
 `;
 const SubSection = styled.section`
   ${flexboxCenter}
-`;
-
-const SchedulerWrapper = styled.div`
-  position: absolute;
-  top: 1rem;
 `;

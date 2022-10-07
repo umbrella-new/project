@@ -16,6 +16,7 @@ const SnowSensor = () => {
   const isReady = state.snowSensor.isReady;
   const isActivated = state.snowSensor.isActivated;
 
+  console.log(isReady);
   const dispatch = useDispatch();
 
   const CONTROLLER_NAME = 'snow sensor program';

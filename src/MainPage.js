@@ -1,10 +1,9 @@
-import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Sidebar from './components/sidebar/Sidebar';
-
 import Switch from './components/switch/Switch';
 
 const MainPage = () => {
