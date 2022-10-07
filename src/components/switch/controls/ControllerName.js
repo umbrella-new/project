@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 const ControllerName = ({ name, imgSrc, isEnable }) => {
   return (
     <Wrapper isEnable={isEnable}>
-      <Title>{name}</Title>
+      <Title isEnable={isEnable}>{name}</Title>
       <ImageWrapper>
         <Img src={imgSrc} />
       </ImageWrapper>
@@ -50,7 +50,7 @@ const Title = styled.span`
   width: fit-content;
   font-size: 10px;
   text-transform: uppercase;
-  color: #fff;
+  color: ${(p) => (p.isEnable ? '#fff' : '#808080')};
   display: inline-block;
 `;
 const ImageWrapper = styled.div`

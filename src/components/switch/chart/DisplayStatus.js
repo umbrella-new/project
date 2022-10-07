@@ -1,5 +1,10 @@
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { selectUserState } from '../../../store/slices/userSlice';
+
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
+
 import DisplayBox from './../DisplayBox';
 
 const DisplayStatus = () => {
@@ -11,13 +16,19 @@ const DisplayStatus = () => {
   const outsideTemp = b;
   const usage = b;
 
+  const state = useSelector(selectUserState);
+  const { isEssSwitch } = state;
+  const location = useLocation();
+
   return (
     <Wrapper>
       <ContentsWrapper>
         <ContentsInnerWrapper>
           <DisplayBox
             currData={energyConsumption}
-            unit='Kw/H'
+            unit={
+              isEssSwitch ? 'Kw/H' : location.pathname === '/' ? 'Kw/H' : 'Kw/H'
+            }
             label='energy consumption'
           />
           <DisplayBox
@@ -30,7 +41,7 @@ const DisplayStatus = () => {
             unit={null}
             label='outside temperature'
           />
-          <DisplayBox currData={usage} unit={null} label='hours of usage' />
+          <DisplayBox currData={usage} unit='Hrs' label='hours of usage' />
         </ContentsInnerWrapper>
       </ContentsWrapper>
     </Wrapper>

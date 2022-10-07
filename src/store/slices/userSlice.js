@@ -5,7 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: true,
+  isEssSwitch: false,
   isAdministrator: true,
   dateAndWeather: {
     date: null,
@@ -14,6 +14,10 @@ const initialState = {
   },
   userId: null,
   switchName: null,
+  currentTemp: null,
+  outSideTemp: null,
+  enclosureTemp: null,
+  hoursOfUsage: null,
 };
 
 const userSlice = createSlice({

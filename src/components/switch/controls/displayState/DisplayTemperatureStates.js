@@ -10,7 +10,9 @@ const DisplayTemperatureStates = ({ state }) => {
 
   const g = '___';
   const setTemp =
-    state.instantHeat.instantHeatTemp === 0
+    state.instantHeat.instantHeatTemp === null
+      ? '___'
+      : state.instantHeat.instantHeatTemp === 0
       ? '___'
       : state.instantHeat.instantHeatTemp;
   const currTemp = g;

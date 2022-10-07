@@ -1,31 +1,23 @@
+import { useSelector } from 'react-redux';
+import { selectEssSwitch } from '../../../store/slices/essSwitchSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
+
 import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
+
 import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
 import ConstantHeat from './../controls/optionalConstantTemp/ConstantTemp';
 import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
 import InstantHeat from './../controls/instantHeat/InstantHeat';
 import SnowSensor from './../controls/snowSensor/SnowSensor';
 import WindFactor from './../controls/windFactor/WindFactor';
-import { flexboxCenter } from '../../../styles/commonStyles';
-import { useContext } from 'react';
-import { Context } from '../../../context/Context';
-import TgsInstantHeat from './instantHeat/TgsInstantHeat';
-import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectEssSwitch } from '../../../store/slices/essSwitchSlice';
-import { selectUserState } from '../../../store/slices/userSlice';
-import { selectTgsSwitch } from '../../../store/slices/tgsSwitchSlice';
+import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
 
 const ControlBox = () => {
-  // const { state } = useContext(Context);
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
-
-  // Read current URL
-  const location = useLocation();
-
-  // conditionally change state ess || tgs || tes
-  const essState = useSelector(selectEssSwitch);
-  const tgsState = useSelector(selectTgsSwitch);
+  const state = useSelector(selectEssSwitch);
+  console.log(state.instantHeat);
 
   return (
     <Wrapper>
@@ -33,52 +25,22 @@ const ControlBox = () => {
 
       <PositionAbsolute>
         <Title>
-          {isEssSwitch ? 'ess' : location.pathname === '/' ? 'tgs' : 'tes'}
+          {isEssSwitch ? 'ess' : 'tes'}
           -controls
         </Title>
-        {/* conditionally change the instant heat controller */}
+
         <ControlsList>
-          {isEssSwitch ? (
-            <InstantHeat state={essState} />
-          ) : location.pathname === '/' ? (
-            <TgsInstantHeat state={tgsState} />
-          ) : (
-            <InstantHeat state={essState} />
-          )}
-
+          <InstantHeat />
           <SnowSensor />
-          <ConstantHeat state={essState} />
-
-          <HeatingSchedule
-            state={
-              isEssSwitch
-                ? essState
-                : location.pathname === '/'
-                ? tgsState
-                : essState
-            }
-          />
-
-          <WindFactor
-            state={
-              isEssSwitch
-                ? essState
-                : location.pathname === '/'
-                ? tgsState
-                : essState
-            }
-          />
-          <DisplayTemperatureStates
-            state={
-              isEssSwitch
-                ? essState
-                : location.pathname === '/'
-                ? tgsState
-                : essState
-            }
-          />
+          <ConstantHeat />
+          <HeatingSchedule />
+          <WindFactor />
+          <DisplayTemperatureStates state={state} />
         </ControlsList>
       </PositionAbsolute>
+      <SchedulerWrapper>
+        {state.heatingSchedule.displayed && <ScheduleCalendar />}
+      </SchedulerWrapper>
     </Wrapper>
   );
 };
@@ -144,4 +106,5 @@ const ControlsList = styled.ul`
 const SchedulerWrapper = styled.div`
   position: absolute;
   top: 1rem;
+  z-index: 100;
 `;

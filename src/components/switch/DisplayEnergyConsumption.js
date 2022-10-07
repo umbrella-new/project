@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
 import { selectUserState } from '../../store/slices/userSlice';
@@ -7,6 +8,7 @@ import { flexboxCenter } from '../../styles/commonStyles';
 const DisplayEnergyConsumption = () => {
   const state = useSelector(selectEssSwitch);
   const userState = useSelector(selectUserState);
+  const location = useLocation();
 
   const energyConsumption = state.energyConsumption
     ? state.energyConsumption
@@ -21,7 +23,14 @@ const DisplayEnergyConsumption = () => {
         </EnergyTitle>
       </LogoAndTitle>
       <EnergyConsumption>
-        {energyConsumption} {userState.isEssSwitch ? `Kw` : `m<sup>3</sup?`}
+        {energyConsumption}{' '}
+        {location.pathname !== '/' ? (
+          <EnergyConsumption>Kw</EnergyConsumption>
+        ) : (
+          <EnergyConsumption>
+            M<Sup>3</Sup>
+          </EnergyConsumption>
+        )}
       </EnergyConsumption>
     </Wrapper>
   );
@@ -56,4 +65,10 @@ const EnergyTitle = styled.span`
 const EnergyConsumption = styled.span`
   font-size: 12px;
   color: #fcff01;
+`;
+
+const Sup = styled.span`
+  font-size: 0.35rem;
+  color: #fcff01;
+  vertical-align: top;
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {
   heatingScheduleBeReady,
   selectEssSwitch,
+  heatingScheduleOpen,
 } from '../../../../store/slices/essSwitchSlice';
 
 import { flexboxCenter } from '../../../../styles/commonStyles';
@@ -30,6 +31,10 @@ const HeatingSchedule = () => {
     }
   };
 
+  const handleOpenScheduler = () => {
+    dispatch(heatingScheduleOpen());
+  };
+
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
@@ -40,7 +45,11 @@ const HeatingSchedule = () => {
           <AddScheduleButton />
         </ScheduleSetTitleAndButton>
         <SchedulerCenter>
-          <Scheduler />
+          <Scheduler
+            handleOpenScheduler={handleOpenScheduler}
+            start={state.heatingSchedule.start}
+            end={state.heatingSchedule.end}
+          />
         </SchedulerCenter>
       </SchedulerWrapper>
 

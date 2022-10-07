@@ -10,14 +10,25 @@ import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';
 import { useDispatch } from 'react-redux';
-import {
-  heatingScheduleCancel,
-  heatingScheduleDate,
-  heatingScheduleClear,
-} from '../../../../store/slices/essSwitchSlice';
 
-const ScheduleCalendar = () => {
+import {
+  tgsHeatingScheduleDate,
+  tgsHeatingScheduleCancel,
+  tgsHeatingScheduleBeReady,
+  tgsHeatingScheduleClear,
+} from '../../../../store/slices/tgsSwitchSlice';
+
+const TgsScheduleCalendar = () => {
   const dispatch = useDispatch();
+  // Time Picker states
+  const initialTimeState = {
+    hour: '00',
+    minute: '00',
+    division: 'am',
+  };
+
+  const [startTime, setStartTime] = useState(initialTimeState);
+  const [endTime, setEndTime] = useState(initialTimeState);
 
   const [dateState, setDateState] = useState({
     startDate: null,
@@ -50,6 +61,18 @@ const ScheduleCalendar = () => {
     }
   };
 
+  const handleSetTime = (time, id) => {
+    console.log(time, id);
+    if (id === 'start') {
+      setStartTime(time);
+    } else {
+      setEndTime(time);
+    }
+  };
+
+  const startTimeSet = `${startTime.hour}:${startTime.minute} ${startTime.division}`;
+  const endTimeSet = `${endTime.hour}:${endTime.minute} ${endTime.division}`;
+
   const {
     firstDayOfWeek,
     activeMonths,
@@ -79,21 +102,24 @@ const ScheduleCalendar = () => {
     switch (id) {
       case '1': {
         onResetDates();
-        dispatch(heatingScheduleClear());
+        dispatch(tgsHeatingScheduleClear());
+        setStartTime(initialTimeState);
+        setEndTime(initialTimeState);
         return;
       }
       case '2': {
-        dispatch(heatingScheduleCancel());
+        dispatch(tgsHeatingScheduleCancel());
         return;
       }
       case '3': {
         dispatch(
-          heatingScheduleDate({
-            start,
-            end,
+          tgsHeatingScheduleDate({
+            start: `${start} / ${startTimeSet}`,
+            end: `${end} / ${endTimeSet}`,
           })
         );
-        dispatch(heatingScheduleCancel());
+        p;
+        dispatch(tgsHeatingScheduleCancel());
         return;
       }
       default:
@@ -186,7 +212,7 @@ const ScheduleCalendar = () => {
             </Calendar>
 
             <WatchWrapper>
-              <TimePicker />
+              <TimePicker id='start' time={startTime} setTime={handleSetTime} />
             </WatchWrapper>
 
             <Calendar>
@@ -221,7 +247,7 @@ const ScheduleCalendar = () => {
             </Calendar>
 
             <WatchWrapper>
-              <TimePicker />
+              <TimePicker id='end' time={endTime} setTime={handleSetTime} />
             </WatchWrapper>
           </CalendarWrapper>
 
@@ -236,6 +262,8 @@ const ScheduleCalendar = () => {
                   <DisplayTop>
                     <Date>
                       {dateState.startDate ? start : 'Choose the start date'}
+
+                      {dateState.startDate && ` / ${startTimeSet}`}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>
@@ -250,6 +278,8 @@ const ScheduleCalendar = () => {
                   <DisplayTop>
                     <Date>
                       {dateState.endDate ? end : 'Choose the end date'}
+
+                      {dateState.endDate && ` /  ${endTimeSet}`}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>
@@ -283,7 +313,7 @@ const ScheduleCalendar = () => {
   );
 };
 
-export default ScheduleCalendar;
+export default TgsScheduleCalendar;
 
 const Wrapper = styled.div`
   width: 825px;
@@ -463,82 +493,6 @@ const WatchWrapper = styled.div`
   opacity: 1;
 
   padding: 0.1rem;
-`;
-
-const TimeWrapper = styled.div`
-  width: 100%;
-  height: 82px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  /* add padding */
-`;
-const TimeOuter = styled.div`
-  width: 61px;
-  height: 83px;
-
-  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
-    0% no-repeat padding-box;
-  box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
-  border: 0.5px solid #000000;
-  opacity: 1;
-
-  border-radius: 10px;
-  ${flexboxCenter}
-`;
-const TimeInner = styled.div`
-  width: 53px;
-  height: 77px;
-
-  background: #142033 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 8px;
-  opacity: 0.8;
-
-  ${flexboxCenter}
-`;
-const TimeAndDivision = styled.span`
-  font-size: 14px;
-  letter-spacing: 1.4px;
-`;
-
-const DivisionWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-`;
-const DivisionOuter = styled.div`
-  width: 61px;
-  height: 39px;
-
-  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
-    0% no-repeat padding-box;
-  box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
-  border: 0.5px solid #000000;
-  border-radius: 12px;
-  opacity: 1;
-
-  ${flexboxCenter}
-`;
-const DivisionInner = styled.div`
-  width: 53px;
-  height: 31px;
-  background: var(--unnamed-color-142033) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px var(--unnamed-color-000000);
-  background: #142033 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 8px;
-  opacity: 0.8;
-
-  ${flexboxCenter}
-`;
-
-const Watch = styled.div`
-  width: 100%;
-  height: 190px;
 `;
 
 const DisplayAndButtonWrapper = styled.div`

@@ -1,89 +1,50 @@
-import styled from 'styled-components';
-import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
-import ConstantHeat from './../controls/optionalConstantTemp/ConstantTemp';
-import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
-import InstantHeat from './../controls/instantHeat/InstantHeat';
-import SnowSensor from './../controls/snowSensor/SnowSensor';
-import WindFactor from './../controls/windFactor/WindFactor';
-import { flexboxCenter } from '../../../styles/commonStyles';
-import { useContext } from 'react';
-import { Context } from '../../../context/Context';
-import TgsInstantHeat from './instantHeat/TgsInstantHeat';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEssSwitch } from '../../../store/slices/essSwitchSlice';
 import { selectUserState } from '../../../store/slices/userSlice';
 import { selectTgsSwitch } from '../../../store/slices/tgsSwitchSlice';
 
-const ControlBox = () => {
-  // const { state } = useContext(Context);
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
+import TgsInstantHeat from './instantHeat/TgsInstantHeat';
+import TgsSnowSensor from './snowSensor/TgsSnowSensor';
+import ConstantHeat from './optionalConstantTemp/ConstantTemp';
+import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
+import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
+import TgsWindFactor from './windFactor/TgsWindFactor';
+import TgsScheduleCalendar from './HeatingSchedule/TgsScheduleCalendar';
+
+const TgsControlBox = () => {
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   // conditionally change state ess || tgs || tes
-  const essState = useSelector(selectEssSwitch);
-  const tgsState = useSelector(selectTgsSwitch);
 
+  const state = useSelector(selectTgsSwitch);
   // Read current URL
   const location = useLocation();
 
   return (
     <Wrapper>
       <BackgroundImg src={'/images/controller-background.svg'} />
-
       <PositionAbsolute>
-        <Title>
-          {isEssSwitch ? 'ess' : location.pathname === '/' ? 'tgs' : 'tes'}
-          -controls
-        </Title>
-        {/* conditionally change the instant heat controller */}
+        <Title>tes-controls</Title>
         <ControlsList>
-          {isEssSwitch ? (
-            <InstantHeat state={essState} />
-          ) : location.pathname === '/' ? (
-            <TgsInstantHeat state={tgsState} />
-          ) : (
-            <InstantHeat state={essState} />
-          )}
-
-          <SnowSensor />
-          <ConstantHeat state={essState} />
-
-          <HeatingSchedule
-            state={
-              isEssSwitch
-                ? essState
-                : location.pathname === '/'
-                ? tgsState
-                : essState
-            }
-          />
-
-          <WindFactor
-            state={
-              isEssSwitch
-                ? essState
-                : location.pathname === '/'
-                ? tgsState
-                : essState
-            }
-          />
-          <DisplayTemperatureStates
-            state={
-              isEssSwitch
-                ? essState
-                : location.pathname === '/'
-                ? tgsState
-                : essState
-            }
-          />
+          <TgsInstantHeat />
+          <TgsSnowSensor />
+          <ConstantHeat />
+          <TgsHeatingSchedule />
+          <TgsWindFactor />
+          <DisplayTemperatureStates state={state} />
         </ControlsList>
       </PositionAbsolute>
+      <SchedulerWrapper>
+        {state.heatingSchedule.displayed && <TgsScheduleCalendar />}
+      </SchedulerWrapper>
     </Wrapper>
   );
 };
 
-export default ControlBox;
+export default TgsControlBox;
 
 const Wrapper = styled.div`
   width: 293px;
@@ -139,4 +100,10 @@ const ControlsList = styled.ul`
   padding-bottom: 0.1rem;
 
   box-sizing: border-box;
+`;
+
+const SchedulerWrapper = styled.div`
+  position: absolute;
+  top: 1rem;
+  z-index: 100;
 `;

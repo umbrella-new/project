@@ -12,9 +12,13 @@ import { useSelector } from 'react-redux';
 import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
 import { selectUserState } from '../../store/slices/userSlice';
 import { selectTgsSwitch } from '../../store/slices/tgsSwitchSlice';
+import { useLocation } from 'react-router-dom';
+import TgsControlBox from './controls/tgsControlBox';
 
 const Switch = () => {
   const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  const location = useLocation();
 
   // only display Heater status ' in ESS Switch '
   const isActivated = userState.isEssSwitch ? true : false;
@@ -27,7 +31,14 @@ const Switch = () => {
 
       <ContentWrapper>
         <MainSection>
-          <ControlBox />
+          {isEssSwitch ? (
+            <ControlBox />
+          ) : location.pathname === '/' ? (
+            <TgsControlBox />
+          ) : (
+            <ControlBox />
+          )}
+
           <ChartContainer />
         </MainSection>
 

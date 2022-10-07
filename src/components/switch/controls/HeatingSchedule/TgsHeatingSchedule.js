@@ -1,28 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import essSwitchSlice, {
-  heatingScheduleBeReady,
-  selectEssSwitch,
-} from '../../../../store/slices/essSwitchSlice';
-import heaterStatusSlice from '../../../../store/slices/heaterStatusSlice';
+
+import {
+  selectTgsSwitch,
+  tgsHeatingScheduleBeReady,
+  tgsHeatingScheduleOpen,
+} from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import AddScheduleButton from '../AddScheduleButton';
 import ControllerName from '../ControllerName';
 import Scheduler from '../Scheduler';
 import TempAndButton from '../TempAndButton';
 
-const HeatingSchedule = () => {
+const TgsHeatingSchedule = () => {
   const CONTROLLER_NAME = 'heating schedule program';
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
-  const state = useSelector(selectEssSwitch);
+  const state = useSelector(selectTgsSwitch);
   const { isReady } = state.heatingSchedule;
   const { activated } = state.heatingSchedule;
 
   const dispatch = useDispatch();
+  console.log(state);
 
   const handleDispatch = (temp) => {
-    dispatch(heatingScheduleBeReady({ temp }));
+    dispatch(tgsHeatingScheduleBeReady({ temp }));
+  };
+
+  const handleOpenScheduler = () => {
+    console.log('here');
+    dispatch(tgsHeatingScheduleOpen());
   };
 
   return (
@@ -35,7 +42,11 @@ const HeatingSchedule = () => {
           <AddScheduleButton />
         </ScheduleSetTitleAndButton>
         <SchedulerCenter>
-          <Scheduler />
+          <Scheduler
+            handleOpenScheduler={handleOpenScheduler}
+            start={state.heatingSchedule.start}
+            end={state.heatingSchedule.end}
+          />
         </SchedulerCenter>
       </SchedulerWrapper>
 
@@ -49,7 +60,7 @@ const HeatingSchedule = () => {
   );
 };
 
-export default HeatingSchedule;
+export default TgsHeatingSchedule;
 
 const Wrapper = styled.li`
   width: var(--controller-width);

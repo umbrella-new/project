@@ -8,24 +8,22 @@ import {
 } from '../../../store/slices/essSwitchSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
-const Scheduler = () => {
+const Scheduler = ({ handleOpenScheduler, start, end }) => {
   const dispatch = useDispatch();
   const state = useSelector(selectEssSwitch);
 
-  const start = state.heatingSchedule.start
-    ? state.heatingSchedule.start
-    : ' -----------------';
-  const end = state.heatingSchedule.end
-    ? state.heatingSchedule.end
-    : ' -----------------';
+  console.log(start);
+
+  const displayStart = start !== null ? start : ' -----------------';
+  const displayEnd = end !== null ? end : ' -----------------';
 
   return (
     <Wrapper>
       <DateWrapper>
-        <Date>{start} </Date>
-        <Date>{end}</Date>
+        <Date>{displayStart} </Date>
+        <Date>{displayEnd}</Date>
       </DateWrapper>
-      <CalendarButton onClick={() => dispatch(heatingScheduleOpen())}>
+      <CalendarButton onClick={handleOpenScheduler}>
         <Img src={'/images/calendar-button.svg'} />
       </CalendarButton>
     </Wrapper>

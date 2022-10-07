@@ -56,6 +56,7 @@ const TempAndButton = ({
             isEnable={isEnable}
             type='text'
             placeholder='0&deg;C'
+            disabled={!isEnable}
           />
         </InputWrapper>
       </InputAndLabelWrapper>
@@ -64,6 +65,7 @@ const TempAndButton = ({
         isEnable={isEnable}
         isActivated={isActivated}
         isReady={isReady}
+        disabled={!isEnable}
       >
         <ButtonHole isEnable={isEnable} isActivated={isActivated}>
           <ButtonTop
@@ -174,7 +176,7 @@ const InputDegree = styled.input`
 `;
 
 const ButtonWrapper = styled.button`
-  cursor: pointer;
+  cursor: ${(p) => (p.isEnable ? `pointer` : 'default')};
   height: 30px;
   width: 126px;
   border-radius: 25px;

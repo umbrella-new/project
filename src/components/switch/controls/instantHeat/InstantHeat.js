@@ -1,4 +1,10 @@
-import { useContext, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  instantHeat,
+  selectEssSwitch,
+} from '../../../../store/slices/essSwitchSlice';
+
+import { useRef } from 'react';
 import {
   activeInput,
   activeLayer1,
@@ -6,21 +12,13 @@ import {
   layer1,
   layer90Deg,
 } from '../../../../styles/commonStyles';
-
 import styled, { css } from 'styled-components';
-import { Context } from '../../../../context/Context';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  instantHeat,
-  selectEssSwitch,
-} from '../../../../store/slices/essSwitchSlice';
+import { useEffect } from 'react';
 
 const InstantHeat = () => {
-  // const { state, dispatch } = useContext(Context);
   const state = useSelector(selectEssSwitch);
   const dispatch = useDispatch();
-
-  const { instantButtonToggler } = state.instantHeat;
+  const { instantButtonToggler, instantTemp } = state.instantHeat;
 
   const inputRef = useRef();
 
@@ -41,7 +39,7 @@ const InstantHeat = () => {
     }
   };
 
-  const onInputHandelr = () => {
+  const onInputHandler = () => {
     inputRef.current.focus();
   };
 
@@ -53,7 +51,7 @@ const InstantHeat = () => {
       >
         <LabelAndInputOuterWrapper
           isActivated={instantButtonToggler}
-          onClick={onInputHandelr}
+          onClick={onInputHandler}
         >
           <LabelAndInputInnerWrapper isActivated={instantButtonToggler}>
             <Label>instant heat</Label>

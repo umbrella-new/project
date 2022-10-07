@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { windFactor } from '../../../../store/slices/essSwitchSlice';
-import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 import {
   flexboxCenter,
   activeLayer1,
@@ -10,11 +8,15 @@ import {
 
 import styled, { css } from 'styled-components';
 import ControllerName from '../ControllerName';
+import {
+  selectTgsSwitch,
+  tgsWindFactor,
+} from '../../../../store/slices/tgsSwitchSlice';
 
-const WindFactor = () => {
+const TgsWindFactor = () => {
   // off || ready || activated
 
-  const state = useSelector(selectEssSwitch);
+  const state = useSelector(selectTgsSwitch);
   const dispatch = useDispatch();
 
   const isActivated = state.windFactor.Activated;
@@ -29,7 +31,7 @@ const WindFactor = () => {
         <ApplyButtonWrapper
           isActivated={isActivated}
           isReady={isReady}
-          onClick={() => dispatch(windFactor())}
+          onClick={() => dispatch(tgsWindFactor())}
         >
           <ButtonHole isActivated={isActivated}>
             <ButtonTop isActivated={isActivated} isReady={isReady}>
@@ -42,7 +44,7 @@ const WindFactor = () => {
   );
 };
 
-export default WindFactor;
+export default TgsWindFactor;
 
 const Wrapper = styled.li`
   width: var(--controller-width);

@@ -2,17 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import {
-  selectEssSwitch,
-  snowSensor,
-} from '../../../../store/slices/essSwitchSlice';
+  selectTgsSwitch,
+  tgsSnowSensor,
+} from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ApplyButton from '../ApplyButton';
 
 import ControllerName from '../ControllerName';
 import DefaultTemp from '../DefaultTemp';
 
-const SnowSensor = () => {
-  const state = useSelector(selectEssSwitch);
+const TgsSnowSensor = () => {
+  const state = useSelector(selectTgsSwitch);
   const isReady = state.snowSensor.isReady;
   const isActivated = state.snowSensor.isActivated;
 
@@ -28,7 +28,7 @@ const SnowSensor = () => {
       <TempAndButton>
         <ApplyButton
           name='apply'
-          buttonHandler={() => dispatch(snowSensor())}
+          buttonHandler={() => dispatch(tgsSnowSensor())}
           isEnable={true}
           isActivated={isActivated}
           isReady={isReady}
@@ -39,7 +39,7 @@ const SnowSensor = () => {
   );
 };
 
-export default SnowSensor;
+export default TgsSnowSensor;
 
 const Wrapper = styled.li`
   /* Layout Properties */

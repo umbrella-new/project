@@ -7,10 +7,11 @@ const initialState = {
   heatingSchedule: {
     start: null,
     end: null,
-    inputTemp: 0,
+    inputTemp: null,
     isReady: false,
     activated: false,
     displayed: false,
+    disable: false,
   },
   windFactor: { isReady: false, activated: false },
   isExpanded: false,

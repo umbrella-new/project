@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+import Clock from './Clock';
 import TimeOption from './TimeOption';
 
 const TimePicker = ({ time, setTime, id }) => {
   const [openHourSelector, setOpenHourSelector] = useState(false);
   const [openMinuteSelector, setOpenMinuteSelector] = useState(false);
-
-  // const [division, setDivision] = useState('am');
-  // const [hour, setHour] = useState('00');
-  // const [minute, setMinute] = useState('00');
 
   const timeOption = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minuteOptions = [10, 20, 30, 40, 50, 60];
@@ -34,11 +31,6 @@ const TimePicker = ({ time, setTime, id }) => {
     }
   };
 
-  // const handleDivision = (division) => {
-  //   setDivision(division);
-  //   handleSetTime();
-  // };
-
   const onClose = (title) => {
     if (title === 'hour') {
       setOpenHourSelector(false);
@@ -54,79 +46,89 @@ const TimePicker = ({ time, setTime, id }) => {
 
   return (
     <>
-      <TimeWrapper>
-        <TimeOuter>
-          <TimeInner>
-            <Hour onClick={() => setOpenHourSelector(true)}>{time.hour}</Hour>
-            <HourOptionWrapper>
-              {openHourSelector &&
-                timeOption.map((time) => (
-                  <TimeOption
-                    key={time}
-                    data={time}
-                    setSelect={handleSetTime}
-                    onClose={onClose}
-                    title='hour'
-                  />
-                ))}
-            </HourOptionWrapper>
-            <Divider>:</Divider>
-            <Minute onClick={() => setOpenMinuteSelector(true)}>
-              {time.minute}
-            </Minute>
-            <MinuteOptionWrapper>
-              {openMinuteSelector &&
-                minuteOptions.map((minute) => (
-                  <TimeOption
-                    key={minute}
-                    data={minute}
-                    setSelect={handleSetTime}
-                    onClose={onClose}
-                    title='minute'
-                  />
-                ))}
-            </MinuteOptionWrapper>
-          </TimeInner>
-        </TimeOuter>
+      <Wrapper>
+        <TimeAndDivisionWrapper>
+          <TimeOuter>
+            <TimeInner>
+              <Hour onClick={() => setOpenHourSelector(true)}>{time.hour}</Hour>
+              <HourOptionWrapper>
+                {openHourSelector &&
+                  timeOption.map((time) => (
+                    <TimeOption
+                      key={time}
+                      data={time}
+                      setSelect={handleSetTime}
+                      onClose={onClose}
+                      title='hour'
+                    />
+                  ))}
+              </HourOptionWrapper>
+              <Divider>:</Divider>
+              <Minute onClick={() => setOpenMinuteSelector(true)}>
+                {time.minute}
+              </Minute>
+              <MinuteOptionWrapper>
+                {openMinuteSelector &&
+                  minuteOptions.map((minute) => (
+                    <TimeOption
+                      key={minute}
+                      data={minute}
+                      setSelect={handleSetTime}
+                      onClose={onClose}
+                      title='minute'
+                    />
+                  ))}
+              </MinuteOptionWrapper>
+            </TimeInner>
+          </TimeOuter>
 
-        <DivisionWrapper>
-          <DivisionOuter>
-            <DivisionInner>
-              <Division
-                isSelected={time.division === 'am' ? true : false}
-                onClick={() => handleSetTime('division', 'am')}
-              >
-                a.m
-              </Division>
-            </DivisionInner>
-          </DivisionOuter>
-          <DivisionOuter>
-            <DivisionInner>
-              <Division
-                isSelected={time.division === 'pm' ? true : false}
-                onClick={() => handleSetTime('division', 'pm')}
-              >
-                p.m
-              </Division>
-            </DivisionInner>
-          </DivisionOuter>
-        </DivisionWrapper>
-      </TimeWrapper>
+          <DivisionWrapper>
+            <DivisionOuter>
+              <DivisionInner>
+                <Division
+                  isSelected={time.division === 'am' ? true : false}
+                  onClick={() => handleSetTime('division', 'am')}
+                >
+                  a.m
+                </Division>
+              </DivisionInner>
+            </DivisionOuter>
+            <DivisionOuter>
+              <DivisionInner>
+                <Division
+                  isSelected={time.division === 'pm' ? true : false}
+                  onClick={() => handleSetTime('division', 'pm')}
+                >
+                  p.m
+                </Division>
+              </DivisionInner>
+            </DivisionOuter>
+          </DivisionWrapper>
+        </TimeAndDivisionWrapper>
+        <WatchWrapper>
+          <Clock time={time} />
+        </WatchWrapper>
+      </Wrapper>
     </>
   );
 };
 
 export default TimePicker;
 
-const TimeWrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
-  height: 82px;
+  height: 100%;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* add padding */
+`;
+
+const TimeAndDivisionWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  /* add padding */
 `;
 const TimeOuter = styled.div`
   width: 61px;
@@ -173,6 +175,7 @@ const HourOptionWrapper = styled.div`
   position: absolute;
   top: 3rem;
   left: 0rem;
+  z-index: 1000;
 `;
 
 const MinuteOptionWrapper = styled.div`
@@ -186,8 +189,9 @@ const MinuteOptionWrapper = styled.div`
 const DivisionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: space-between;
+
+  height: 100%;
 `;
 const DivisionOuter = styled.div`
   width: 61px;
@@ -222,7 +226,7 @@ const Division = styled.button`
   text-transform: uppercase;
 `;
 
-const Watch = styled.div`
+const WatchWrapper = styled.div`
   width: 100%;
-  height: 190px;
+  height: 180px;
 `;

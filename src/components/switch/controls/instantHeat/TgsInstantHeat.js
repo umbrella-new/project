@@ -1,4 +1,11 @@
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectTgsSwitch,
+  tgsInstantHeat,
+  fanOnlyToggler,
+} from '../../../../store/slices/tgsSwitchSlice';
+
 import {
   activeInput,
   activeLayer1,
@@ -6,15 +13,18 @@ import {
   layer1,
   layer90Deg,
 } from '../../../../styles/commonStyles';
-
 import styled, { css } from 'styled-components';
-import { Context } from '../../../../context/Context';
+import { useEffect } from 'react';
 
 const TgsInstantHeat = () => {
-  const { state, dispatch } = useContext(Context);
-  const { instantButtonToggler } = state.instantHeat;
-
+  const state = useSelector(selectTgsSwitch);
+  const dispatch = useDispatch();
+  const { instantButtonToggler, fanOnly, instantHeatTemp } = state.instantHeat;
   const inputRef = useRef();
+
+  if (instantHeatTemp === 0) {
+    inputRef.current.value = '';
+  }
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
@@ -22,18 +32,18 @@ const TgsInstantHeat = () => {
 
     if (temp !== 0) {
       if (!instantButtonToggler) {
-        dispatch({ type: 'instantHeat', payload: temp });
+        dispatch(tgsInstantHeat(temp));
         inputRef.current.value = `${temp}\u00b0C`;
       } else {
-        dispatch({ type: 'instantHeat', payload: 0 });
-        inputRef.current.value = `0\u00b0C`;
+        dispatch(tgsInstantHeat(0));
+        inputRef.current.value = ``;
       }
     } else {
       return;
     }
   };
 
-  const onInputHandelr = () => {
+  const onInputHandler = () => {
     inputRef.current.focus();
   };
 
@@ -52,7 +62,7 @@ const TgsInstantHeat = () => {
 
         <LabelAndInputOuterWrapper
           toggler={instantButtonToggler}
-          onClick={onInputHandelr}
+          onClick={onInputHandler}
         >
           <LabelOuterHole>
             <LabelInnerWrapper toggler={instantButtonToggler}>
@@ -71,12 +81,15 @@ const TgsInstantHeat = () => {
         </LabelAndInputOuterWrapper>
       </ContentWrapper>
 
-      <ContentWrapper toggler={instantButtonToggler} onSubmit={handleOnSubmit}>
+      <ContentWrapperNotForm toggler={fanOnly}>
         <ActiveButtonWrapper>
-          <ActiveButton toggler={instantButtonToggler}>
-            <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
-              <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+          <ActiveButton
+            toggler={fanOnly}
+            onClick={() => dispatch(fanOnlyToggler())}
+          >
+            <ActiveButtonOuterWrapper toggler={fanOnly}>
+              <ActiveButtonInnerWrapper toggler={fanOnly}>
+                <ButtonImage src={'/images/fan-only-icon.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -85,7 +98,7 @@ const TgsInstantHeat = () => {
         <LabelWrapper>
           <FanLabel>fan Only</FanLabel>
         </LabelWrapper>
-      </ContentWrapper>
+      </ContentWrapperNotForm>
     </Wrapper>
   );
 };
@@ -105,6 +118,27 @@ const Wrapper = styled.li`
 `;
 
 const ContentWrapper = styled.form`
+  ${flexboxCenter}
+  justify-content: space-between;
+
+  padding: 0.1rem;
+  padding-right: 0.8rem;
+
+  width: 136px;
+  height: 36px;
+  border-radius: 27px;
+
+  ${(props) =>
+    props.toggler
+      ? css`
+          ${activeLayer1}
+        `
+      : css`
+          ${layer90Deg};
+        `}
+`;
+
+const ContentWrapperNotForm = styled.div`
   ${flexboxCenter}
   justify-content: space-between;
 
