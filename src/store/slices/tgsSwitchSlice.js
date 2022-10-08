@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   instantHeat: {
-    instantHeatTemp: null,
+    instantHeatTemp: 0,
     instantButtonToggler: false,
     fanOnly: false,
   },
@@ -20,10 +20,12 @@ const initialState = {
   windFactor: { isReady: false, activated: false },
   currentTemp: null,
   energyConsumption: null,
+  outSideTemp: null,
+  hoursOfUsage: null,
 };
 
 const tgsSwitchSlice = createSlice({
-  name: 'tgsSwitch',
+  name: "tgsSwitch",
   initialState,
   reducers: {
     tgsInstantHeat: (state, action) => {

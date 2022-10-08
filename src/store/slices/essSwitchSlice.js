@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
@@ -7,7 +7,7 @@ const initialState = {
   heatingSchedule: {
     start: null,
     end: null,
-    inputTemp: null,
+    inputTemp: 0,
     isReady: false,
     activated: false,
     displayed: false,
@@ -17,10 +17,12 @@ const initialState = {
   isExpanded: false,
   currentTemp: null,
   energyConsumption: null,
+  outSideTemp: null,
+  hoursOfUsage: null,
 };
 
 const essSwitchSlice = createSlice({
-  name: 'essSwitch',
+  name: "essSwitch",
   initialState,
   reducers: {
     expand: (state) => {
@@ -56,8 +58,9 @@ const essSwitchSlice = createSlice({
       state.windFactor.isReady = !state.windFactor.isReady;
     },
     constantTemp: (state, action) => {
+      console.log(action.payload);
       state.optionalConstantTemp.apply = !state.optionalConstantTemp.apply;
-      state.optionalConstantTemp.temp = action.payload;
+      state.optionalConstantTemp.inputTemp = action.payload;
     },
   },
 });

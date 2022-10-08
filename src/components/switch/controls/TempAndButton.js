@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import styled, { css } from 'styled-components';
+import { useEffect, useRef } from "react";
+import styled, { css } from "styled-components";
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -7,7 +7,7 @@ import {
   activeLayer1,
   activeInput,
   ButtonReady,
-} from '../../../styles/commonStyles';
+} from "../../../styles/commonStyles";
 
 const TempAndButton = ({
   isEnable,
@@ -15,34 +15,52 @@ const TempAndButton = ({
   isActivated,
   isReady,
   title,
+  currTemp,
+  isAble,
 }) => {
   const inputRef = useRef();
+
+  useEffect(() => {
+    if (currTemp > 0) {
+      inputRef.current.value = `${currTemp}\u00b0C`;
+      if (!isEnable) {
+        inputRef.current.value = ``;
+      }
+    }
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const temp = inputRef.current.value;
 
-    if (title === 'scheduler') {
-      if (temp !== 0) {
+    if (title === "scheduler") {
+      if (temp > 0) {
         if (!isReady) {
           buttonHandler(temp);
           inputRef.current.value = `${temp}\u00b0C`;
         } else {
           buttonHandler(0);
-          inputRef.current.value = '';
+          inputRef.current.value = "";
         }
       }
     } else {
-      if (temp !== 0) {
+      if (temp > 0) {
         if (!isActivated) {
           buttonHandler(temp);
           inputRef.current.value = `${temp}\u00b0C`;
         } else {
           buttonHandler(0);
-          inputRef.current.value = '';
+          inputRef.current.value = "";
         }
       }
+    }
+  };
+
+  const handleCheck = () => {
+    if (!isAble) {
+      alert("Please Set Schedule First");
+      inputRef.current.value = "";
     }
   };
 
@@ -57,6 +75,7 @@ const TempAndButton = ({
             type='text'
             placeholder='0&deg;C'
             disabled={!isEnable}
+            onChange={handleCheck}
           />
         </InputWrapper>
       </InputAndLabelWrapper>
@@ -124,7 +143,7 @@ const Label = styled.label`
   font-size: 8px;
   text-transform: uppercase;
   text-align: center;
-  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 `;
 
 const InputWrapper = styled.div`
@@ -169,14 +188,14 @@ const InputDegree = styled.input`
         `}
 
   ::placeholder {
-    color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+    color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
     text-align: center;
     font-size: 10px;
   }
 `;
 
 const ButtonWrapper = styled.button`
-  cursor: ${(p) => (p.isEnable ? `pointer` : 'default')};
+  cursor: ${(p) => (p.isEnable ? `pointer` : "default")};
   height: 30px;
   width: 126px;
   border-radius: 25px;
@@ -185,36 +204,35 @@ const ButtonWrapper = styled.button`
   align-items: center;
   justify-content: center;
 
-  ${(p) =>
-    p.isEnable
-      ? css`
-          border-style: solid;
-          border-width: 0.5px;
-          border-color: rgb(0, 0, 0);
-          border-radius: 37px;
-          background-image: -webkit-linear-gradient(
-            90deg,
-            rgb(0, 0, 0) 0%,
-            rgb(35, 58, 84) 100%
-          );
-          opacity: 1;
-          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-          box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
-        `
-      : css`
-          ${DisableApplyButtonBG}
-        `}
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(0, 0, 0);
+  border-radius: 37px;
+  background-image: -webkit-linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  );
+  opacity: 1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 
+  ${(p) =>
+    p.isReady &&
+    css`
+      ${ButtonReady}
+    `}
   ${(p) =>
     p.isActivated &&
     css`
       ${activeLayer1};
     `}
 
+
     ${(p) =>
-    p.isReady &&
+    p.isEnable ||
     css`
-      ${ButtonReady}
+      ${DisableApplyButtonBG}
     `}
 `;
 const ButtonHole = styled.div`
@@ -226,22 +244,21 @@ const ButtonHole = styled.div`
   align-items: center;
   justify-content: center;
 
-  ${(p) =>
-    p.isEnable
-      ? css`
-          background: #233a54;
-          border-color: #707070;
-          box-shadow: inset 0 0 6px #000000;
-          opacity: 1;
-        `
-      : css`
-          ${DisableApplyButtonHole}
-        `}
+  background: #233a54;
+  border-color: #707070;
+  box-shadow: inset 0 0 6px #000000;
+  opacity: 1;
 
   ${(p) =>
     p.isActivated &&
     css`
       ${activeInput};
+    `}
+
+  ${(p) =>
+    p.isEnable ||
+    css`
+      ${DisableApplyButtonHole}
     `}
 `;
 
@@ -263,9 +280,9 @@ const ButtonTop = styled.div`
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 
   ${(p) =>
-    p.isEnable ||
+    p.isReady &&
     css`
-      ${DisableApplyButtonBG}
+      ${ButtonReady}
     `}
 
   ${(p) =>
@@ -277,9 +294,9 @@ const ButtonTop = styled.div`
   ${flexboxCenter};
 
   ${(p) =>
-    p.isReady &&
+    p.isEnable ||
     css`
-      ${ButtonReady}
+      ${DisableApplyButtonBG}
     `}
 `;
 
@@ -287,7 +304,7 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
   text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   text-align: center;
-  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 `;

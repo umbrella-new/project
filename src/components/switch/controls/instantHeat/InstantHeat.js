@@ -1,26 +1,31 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState, useEffect } from "react";
+
 import {
   instantHeat,
   selectEssSwitch,
-} from '../../../../store/slices/essSwitchSlice';
+} from "../../../../store/slices/essSwitchSlice";
 
-import { useRef } from 'react';
 import {
   activeInput,
   activeLayer1,
   flexboxCenter,
   layer1,
   layer90Deg,
-} from '../../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
-import { useEffect } from 'react';
+} from "../../../../styles/commonStyles";
+import styled, { css } from "styled-components";
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
   const dispatch = useDispatch();
-  const { instantButtonToggler, instantTemp } = state.instantHeat;
+  const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
 
   const inputRef = useRef();
+  useEffect(() => {
+    if (instantHeatTemp > 0) {
+      inputRef.current.value = `${instantHeatTemp}\u00b0C`;
+    }
+  }, []);
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
@@ -67,7 +72,7 @@ const InstantHeat = () => {
         <ActiveButton isActivated={instantButtonToggler}>
           <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
             <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
-              <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+              <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
         </ActiveButton>
@@ -182,7 +187,7 @@ const InputDegree = styled.input`
   height: 20px;
   width: 58px;
   border-radius: 20px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   box-shadow: 0 0 3px black;
   margin-right: 5.06px;
   font-size: 10px;
