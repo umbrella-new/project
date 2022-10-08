@@ -1,16 +1,16 @@
-import styled from 'styled-components';
-import { useContext } from 'react';
-import { Context } from '../../../context/Context';
+import { useSelector } from "react-redux";
+import { selectUserState } from "../../../store/slices/userSlice";
 
-import ToggleSWitch from './ToggleSwitch';
-import Select from './Select';
-import SSRInfoContainer from './SSRInfoContainer';
-import AdminSSRInfoContainer from './AdminSSRInfoContainer';
+import styled from "styled-components";
 
+import ToggleSWitch from "./ToggleSwitch";
+import Select from "./Select";
+import SSRInfoContainer from "./SSRInfoContainer";
+import AdminSSRInfoContainer from "./AdminSSRInfoContainer";
 
 const SSRDetail = ({ data, id }) => {
-  const { state } = useContext(Context);
-  const { isAdministrator } = state;
+  const userState = useSelector(selectUserState);
+  const { isAdministrator } = userState;
 
   return (
     <Wrapper>

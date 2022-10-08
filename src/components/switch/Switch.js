@@ -1,19 +1,16 @@
-import styled from 'styled-components';
-import { useContext } from 'react';
-import { Context } from '../../context/Context';
-import ControlBox from './controls/ControlBox';
-import ChartContainer from './chart/ChartContainer';
-import { flexboxCenter } from '../../styles/commonStyles';
-import HeaterStatus from './HeaterStatus/HeaterStatus';
-import DisplayEnergyConsumption from './DisplayEnergyConsumption';
+import { useSelector } from "react-redux";
+import { selectUserState } from "../../store/slices/userSlice";
+import { useLocation } from "react-router-dom";
 
-import ScheduleCalendar from './controls/HeatingSchedule/ScheduleCalendar';
-import { useSelector } from 'react-redux';
-import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
-import { selectUserState } from '../../store/slices/userSlice';
-import { selectTgsSwitch } from '../../store/slices/tgsSwitchSlice';
-import { useLocation } from 'react-router-dom';
-import TgsControlBox from './controls/tgsControlBox';
+import styled from "styled-components";
+import { flexboxCenter } from "../../styles/commonStyles";
+
+import ControlBox from "./controls/ControlBox";
+import ChartContainer from "./chart/ChartContainer";
+import HeaterStatus from "./HeaterStatus/HeaterStatus";
+import DisplayEnergyConsumption from "./DisplayEnergyConsumption";
+
+import TgsControlBox from "./controls/tgsControlBox";
 
 const Switch = () => {
   const userState = useSelector(selectUserState);
@@ -22,7 +19,7 @@ const Switch = () => {
 
   // only display Heater status ' in ESS Switch '
   const isActivated = userState.isEssSwitch ? true : false;
-  const backgroundSvg = '/images/background-hat.svg';
+  const backgroundSvg = "/images/background-hat.svg";
 
   return (
     <Wrapper isActivated={isActivated}>
@@ -33,7 +30,7 @@ const Switch = () => {
         <MainSection>
           {isEssSwitch ? (
             <ControlBox />
-          ) : location.pathname === '/' ? (
+          ) : location.pathname === "/" ? (
             <TgsControlBox />
           ) : (
             <ControlBox />

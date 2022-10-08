@@ -1,11 +1,4 @@
-import { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Context } from "../../../context/Context";
-import {
-  heatingScheduleOpen,
-  selectEssSwitch,
-} from "../../../store/slices/essSwitchSlice";
 import { flexboxCenter } from "../../../styles/commonStyles";
 
 const Scheduler = ({ handleOpenScheduler, start, end }) => {
