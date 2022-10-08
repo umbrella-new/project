@@ -20,4 +20,3 @@ const Wrapper = styled.button`
     color: #1b2b44;
   }
 `;
-\
