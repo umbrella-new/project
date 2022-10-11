@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 :root {
@@ -9,6 +9,11 @@ const GlobalStyle = createGlobalStyle`
 	--controller-width:278px;
 	--chart-width:580px
 	
+	--font-size3: 14px;
+	--font-size4: 16px;
+	--font-size5: 18px;
+	--font-size6: 20px;
+	--font-size7: 12px;
 	
 }
 * {
