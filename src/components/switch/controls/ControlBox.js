@@ -12,12 +12,12 @@ import InstantHeat from './../controls/instantHeat/InstantHeat';
 import SnowSensor from './../controls/snowSensor/SnowSensor';
 import WindFactor from './../controls/windFactor/WindFactor';
 import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
+import InputKeyboard from '../../keyboard/InputKeyboard';
 
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
-  const { isEssSwitch } = userState;
+  const { isEssSwitch, isKeyboardActivated } = userState;
   const state = useSelector(selectEssSwitch);
-  console.log(state.instantHeat);
 
   return (
     <Wrapper>
@@ -41,6 +41,11 @@ const ControlBox = () => {
       <SchedulerWrapper>
         {state.heatingSchedule.displayed && <ScheduleCalendar />}
       </SchedulerWrapper>
+      {isKeyboardActivated && (
+        <KeyboardWrapper>
+          <InputKeyboard />
+        </KeyboardWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -107,4 +112,10 @@ const SchedulerWrapper = styled.div`
   position: absolute;
   top: 1rem;
   z-index: 100;
+`;
+
+const KeyboardWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
 `;

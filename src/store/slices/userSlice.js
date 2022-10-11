@@ -5,8 +5,9 @@ import { createSlice } from '@reduxjs/toolkit';
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: false,
+  isEssSwitch: true,
   isAdministrator: true,
+  isKeyboardActivated: false,
   dateAndWeather: {
     date: null,
     weather: null,
@@ -23,8 +24,14 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    activateKeyboard: (state) => {
+      console.log('here');
+      state.isKeyboardActivated = !state.isKeyboardActivated;
+    },
+  },
 });
 
 export default userSlice;
 export const selectUserState = (state) => state.user;
+export const { activateKeyboard } = userSlice.actions;

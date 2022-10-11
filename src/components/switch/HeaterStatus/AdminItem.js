@@ -2,27 +2,26 @@ import {
   voltage,
   wattage,
   length,
-} from "../../../store/slices/heaterStatusSlice";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+} from '../../../store/slices/heaterStatusSlice';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
   DisableApplyButtonHole,
-} from "../../../styles/commonStyles";
+} from '../../../styles/commonStyles';
 
-import RadioBox from "./RadioBox";
-import SelectButton from "./SelectButton";
+import RadioBox from './RadioBox';
+import SelectButton from './SelectButton';
 
 const AdminItem = ({ data, options, unit, title, isEnable, id, column }) => {
   const [checked, setChecked] = useState(options[0]);
   const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
-  const src = isEnable ? "/images/selector.svg" : "/images/selector-flt.svg";
+  const src = isEnable ? '/images/selector.svg' : '/images/selector-flt.svg';
 
-  console.log(title);
   const handleChecked = (id) => {
     setChecked(id);
   };
@@ -31,21 +30,21 @@ const AdminItem = ({ data, options, unit, title, isEnable, id, column }) => {
   };
 
   const selectHandler = () => {
-    console.log(checked, "selected", `ssr${id}`, column);
+    console.log(checked, 'selected', `ssr${id}`, column);
     switch (title) {
-      case "wattage":
+      case 'wattage':
         dispatch(
           wattage({ id: `ssr${id}`, index: column ? column : 0, data: checked })
         );
         setIsClicked(false);
         return;
-      case "voltage":
+      case 'voltage':
         dispatch(
           voltage({ id: `ssr${id}`, index: column ? column : 0, data: checked })
         );
         setIsClicked(false);
         return;
-      case "length":
+      case 'length':
         dispatch(
           length({ id: `ssr${id}`, index: column ? column : 0, data: checked })
         );
@@ -103,8 +102,8 @@ const Wrapper = styled.li`
   width: 93px;
   height: 20px;
   background: ${(p) =>
-    p.isClicked ? "transparent" : "#233a54 0% 0% no-repeat padding-box"};
-  box-shadow: ${(p) => (p.isClicked ? "none" : "inset 0px 0px 2px #000000")};
+    p.isClicked ? 'transparent' : '#233a54 0% 0% no-repeat padding-box'};
+  box-shadow: ${(p) => (p.isClicked ? 'none' : 'inset 0px 0px 2px #000000')};
   border-radius: 12px;
   opacity: 1;
 
@@ -120,11 +119,11 @@ const Wrapper = styled.li`
 
 const ItemInnerWrapper = styled.div`
   width: 91px;
-  height: ${(p) => (p.isClicked ? "none" : "19px")};
+  height: ${(p) => (p.isClicked ? 'none' : '19px')};
 
   background: transparent
     linear-gradient(
-      ${(p) => (p.isClicked ? "90deg" : "180deg")},
+      ${(p) => (p.isClicked ? '90deg' : '180deg')},
       #233a54 0%,
       #060d19 100%
     )
@@ -138,10 +137,10 @@ const ItemInnerWrapper = styled.div`
   ${flexboxCenter}
   flex-direction: column;
 
-  position: ${(p) => (p.isClicked ? "absolute" : "none")};
-  padding-bottom: ${(p) => (p.isClicked ? "0.1rem" : "0")};
-  z-index: ${(p) => (p.isClicked ? "100" : "0")};
-  top: ${(p) => (p.isClicked ? "0.02rem" : "none")};
+  position: ${(p) => (p.isClicked ? 'absolute' : 'none')};
+  padding-bottom: ${(p) => (p.isClicked ? '0.1rem' : '0')};
+  z-index: ${(p) => (p.isClicked ? '100' : '0')};
+  top: ${(p) => (p.isClicked ? '0.02rem' : 'none')};
 
   ${(p) =>
     p.isEnable ||
@@ -155,8 +154,8 @@ const SelectedOneAndArrowWrapper = styled.div`
   ${flexboxCenter}
   justify-content: space-between;
   padding: 0 0.1rem;
-  margin: ${(p) => (p.isClicked ? "0.1rem " : "0")};
-  margin-left: ${(p) => (p.isClicked ? "0.2rem " : "0")};
+  margin: ${(p) => (p.isClicked ? '0.1rem ' : '0')};
+  margin-left: ${(p) => (p.isClicked ? '0.2rem ' : '0')};
 `;
 
 const ArrowWrapper = styled.button`
@@ -183,12 +182,12 @@ const SelectedOne = styled.div`
     `}
 `;
 const ItemData = styled.span`
-  font-size: ${(p) => (p.isSettingOpen ? "6px" : "8px")};
+  font-size: ${(p) => (p.isSettingOpen ? '6px' : '8px')};
   text-align: center;
   text-transform: uppercase;
   max-width: 93%;
   line-height: 0.98;
-  color: ${(p) => p.isEnable || "#808080"};
+  color: ${(p) => p.isEnable || '#808080'};
 `;
 
 const SelectWrapper = styled.div`
