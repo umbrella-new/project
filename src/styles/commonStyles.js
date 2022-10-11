@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import { css } from "styled-components";
 
 export const flexboxCenter = css`
   display: flex;
@@ -150,5 +150,52 @@ export const ButtonReady = css`
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
+  opacity: 1;
+`;
+
+/*background of layer 2 when colors transition from left to right*/
+export const layer2HorizontalGradient = css`
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(0, 0, 0);
+
+  background-image: -webkit-linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  );
+  opacity: 1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+`;
+
+/*background of layer 2 when colors transition from top to bottom*/
+export const layer2VerticalGradient = css`
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(0, 0, 0);
+
+  background-image: -webkit-linear-gradient(
+    180deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  );
+  opacity: 1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+`;
+
+/* background of whole box included layer 1 and 2 to be green  when activated*/
+export const activeLayer = css`
+  background: transparent
+    linear-gradient(180deg, #4baf00 0%, var(--unnamed-color-124000) 100%) 0% 0%
+    no-repeat padding-box;
+  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
+  border: 0.5px solid var(--unnamed-color-000000);
+  background: transparent linear-gradient(180deg, #4baf00 0%, #124000 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+
   opacity: 1;
 `;

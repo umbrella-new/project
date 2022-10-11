@@ -1,8 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import heaterStatusSlice from './slices/heaterStatusSlice';
-import essSwitchSlice from './slices/essSwitchSlice';
-import userSlice from './slices/userSlice';
-import tgsSwitchSlice from './slices/tgsSwitchSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import heaterStatusSlice from "./slices/heaterStatusSlice";
+import essSwitchSlice from "./slices/essSwitchSlice";
+import userSlice from "./slices/userSlice";
+import tgsSwitchSlice from "./slices/tgsSwitchSlice";
+import settingsOfEssSlice from "./slices/settingsOfEssSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     essSwitch: essSwitchSlice.reducer,
     user: userSlice.reducer,
     tgsSwitch: tgsSwitchSlice.reducer,
+    settingsOfEss: settingsOfEssSlice.reducer,
   },
 });
 

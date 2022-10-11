@@ -67,6 +67,7 @@ const tgsSwitchSlice = createSlice({
 
 export default tgsSwitchSlice;
 export const selectTgsSwitch = (state) => state.tgsSwitch;
+console.log(selectTgsSwitch);
 export const {
   fanOnlyToggler,
   expand,
