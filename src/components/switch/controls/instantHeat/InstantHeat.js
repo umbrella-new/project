@@ -1,10 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useState, useEffect } from 'react';
 
 import {
   instantHeat,
   selectEssSwitch,
-} from "../../../../store/slices/essSwitchSlice";
+} from '../../../../store/slices/essSwitchSlice';
+
+import { activateKeyboard } from '../../../../store/slices/userSlice';
 
 import {
   activeInput,
@@ -12,13 +14,19 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+import { selectUserState } from '../../../../store/slices/userSlice';
+import InputKeyPad from '../../../keyboard/KeyPad';
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
+  const userState = useSelector(selectUserState);
   const dispatch = useDispatch();
   const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
+
+  // const { isKeyboardActivated } = userState;
+  const [openKeyPad, setOpenKeyPad] = useState(false);
 
   const inputRef = useRef();
   useEffect(() => {
@@ -44,8 +52,32 @@ const InstantHeat = () => {
     }
   };
 
+  // Virtual keyboard input handler
+  const handleVirtualKeyboardInput = (input) => {
+    const temp = Number(input);
+
+    if (temp !== 0) {
+      if (!instantButtonToggler) {
+        dispatch(instantHeat(temp));
+        inputRef.current.value = `${temp}\u00b0C`;
+        handleClosekeypad();
+      } else {
+        dispatch(instantHeat(0));
+        inputRef.current.value = ``;
+      }
+    } else {
+      return;
+    }
+  };
+
   const onInputHandler = () => {
     inputRef.current.focus();
+    setOpenKeyPad(true);
+    // dispatch(activateKeyboard());
+  };
+
+  const handleClosekeypad = () => {
+    setOpenKeyPad(false);
   };
 
   return (
@@ -72,11 +104,19 @@ const InstantHeat = () => {
         <ActiveButton isActivated={instantButtonToggler}>
           <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
             <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
-              <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+              <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
         </ActiveButton>
       </InnerWrapper>
+      {openKeyPad && (
+        <KeyPadWrapper>
+          <InputKeyPad
+            closeKeyPad={handleClosekeypad}
+            handleOnSubmit={handleVirtualKeyboardInput}
+          />
+        </KeyPadWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -98,6 +138,8 @@ const Wrapper = styled.li`
       : css`
           ${layer1}
         `} */
+
+  position: relative;
 `;
 
 const InnerWrapper = styled.form`
@@ -187,7 +229,7 @@ const InputDegree = styled.input`
   height: 20px;
   width: 58px;
   border-radius: 20px;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   margin-right: 5.06px;
   font-size: 10px;
@@ -270,4 +312,11 @@ const ButtonImage = styled.img`
   width: 70%;
   height: auto;
   display: block;
+`;
+
+const KeyPadWrapper = styled.div`
+  position: absolute;
+  top: 2rem;
+
+  z-index: 1000;
 `;

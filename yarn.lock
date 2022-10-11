@@ -7668,6 +7668,11 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-simple-keyboard@^3.4.224:
+  version "3.4.224"
+  resolved "https://registry.yarnpkg.com/react-simple-keyboard/-/react-simple-keyboard-3.4.224.tgz#77a9297f831edaaff7567fba0870a88c288a85be"
+  integrity sha512-L/5kAMtb1oxfAd4vnVdJ0lUOPr8Te+ZiKZPO0D8daitaPyK1CFPzCX5jlk5wSpN3CKnQEOZdvcno1ax6vl2x9A==
+
 react-smooth@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-smooth/-/react-smooth-2.0.1.tgz#74c7309916d6ccca182c4b30c8992f179e6c5a05"

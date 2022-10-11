@@ -62,11 +62,6 @@ export const ssrHole = css`
 `;
 
 export const ssrOn = css`
-  /* background: transparent
-    linear-gradient(180deg, #4baf00 0%, var(--unnamed-color-124000) 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000); */
   background: transparent linear-gradient(180deg, #4baf00 0%, #124000 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
