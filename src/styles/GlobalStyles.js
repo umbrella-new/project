@@ -1,7 +1,8 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 :root {
+	--space0 :12px;
 	--space1 : 10px;
 	--space2 : 8px;
 	--space3 : 5px;

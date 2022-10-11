@@ -1,29 +1,30 @@
-import { useSelector } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import styled from "styled-components";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Sidebar from "./components/sidebar/Sidebar";
-import Switch from "./components/switch/Switch";
-import Settings from "./components/settings/Settings";
+import { useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Sidebar from './components/sidebar/Sidebar';
+import Switch from './components/switch/Switch';
+import Settings from './components/settings/Settings';
+import Faults from './components/faults/Faults';
 // import TestSettings from "./components/settings/TestSettings";
 
 const MainPage = () => {
   return (
     <Wrapper>
       <Header />
-      <Title src={"/images/embrellaTitle-sm.svg"} />
+      <Title src={'/images/embrellaTitle-sm.svg'} />
 
       <BrowserRouter>
         <MainContentsWrapper>
           <Sidebar />
 
           <Routes>
-            <Route path="/" element={<Switch />} />
-            <Route path="/tes" element={<Switch />} />
+            <Route path='/' element={<Switch />} />
+            <Route path='/tes' element={<Switch />} />
 
-            <Route path="/alarm" element={<Switch />} />
-            <Route path="/setting" element={<Settings />} />
+            <Route path='/alarm' element={<Faults />} />
+            <Route path='/setting' element={<Settings />} />
           </Routes>
         </MainContentsWrapper>
       </BrowserRouter>
@@ -55,9 +56,11 @@ const Wrapper = styled.section`
   border: 0.5px solid #000000b0;
   opacity: 1;
 
-  padding: var(--space2) var(--space1);
+  padding: var(--space2) var(--space0);
 
   position: relative;
+
+  border: 1px solid red;
 `;
 
 const Title = styled.img`

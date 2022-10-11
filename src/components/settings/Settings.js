@@ -1,21 +1,21 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // import DateAndWeather from "../DateAndWeather";
 // import Footer from "../Footer";
 // import Header from "../Header";
 // import Sidebar from "../Sidebar";
-import { flexboxCenter } from "../../styles/commonStyles";
-import TitleSettings from "./headings/TitleSettings";
+import { flexboxCenter } from '../../styles/commonStyles';
+import Titles from './headings/Titles';
 // import TitleOfUnitsSettings from "./settingsOptions/units/TitleOfUnitsSettings";
-import SettingsOptionsAndInterfaceMode from "./settingsOptions/SettingsOptionsAndInterfaceMode";
-import { useSelector } from "react-redux";
-import { selectSettingsOfEss } from "../../store/slices/settingsOfEssSlice";
-import TitleOfAllSettings from "./headings/TitleOfAllSettings";
-import ContainerOfMetricImperialAndMeasurementTitle from "./settingsOptions/units/ContainerOfMetricImperialAndMeasurementTitle";
-import ContainerOfWindFactor from "./settingsOptions/windFactorTrigger/ContainerOfWindFactor";
-import ContainerOfSnowSensor from "./settingsOptions/snowSensorTrigger/ContainerOfSnowSensor";
-import ContainerOfForceAndCommand from "./settingsOptions/ForceAndCommand/ContainerOfForceAndCommand";
-import ContainerOfAdmin from "./settingsOptions/admin/ContainerOfAdmin";
+import SettingsOptionsAndInterfaceMode from './settingsOptions/SettingsOptionsAndInterfaceMode';
+import { useSelector } from 'react-redux';
+import { selectSettingsOfEss } from '../../store/slices/settingsOfEssSlice';
+import TitleOfAllSettings from './headings/TitleOfAllSettings';
+import ContainerOfMetricImperialAndMeasurementTitle from './settingsOptions/units/ContainerOfMetricImperialAndMeasurementTitle';
+import ContainerOfWindFactor from './settingsOptions/windFactorTrigger/ContainerOfWindFactor';
+import ContainerOfSnowSensor from './settingsOptions/snowSensorTrigger/ContainerOfSnowSensor';
+import ContainerOfForceAndCommand from './settingsOptions/ForceAndCommand/ContainerOfForceAndCommand';
+import ContainerOfAdmin from './settingsOptions/admin/ContainerOfAdmin';
 
 const Settings = () => {
   const theme = useSelector(selectSettingsOfEss);
@@ -33,18 +33,18 @@ const Settings = () => {
         </SidebarContainer> */}
       <TitleMainSectionContainer>
         <TitleContainer>
-          <TitleSettings />
+          <Titles name='settings' />
         </TitleContainer>
 
         <MainSectionContainer>
           <MainSection mode={mode}>
             <ContainerUnitsSettings>
               <TitleOfAllSettings
-                windFactorTrigger={"wind factor trigger"}
-                Units={"units"}
-                SnowSensorTrigger={"snow sensor trigger"}
-                ForceAndCommand={"force & command"}
-                Admin={"admin."}
+                windFactorTrigger={'wind factor trigger'}
+                Units={'units'}
+                SnowSensorTrigger={'snow sensor trigger'}
+                ForceAndCommand={'force & command'}
+                Admin={'admin.'}
               />
             </ContainerUnitsSettings>
             <ContainerSettingsAndInterface>
@@ -89,8 +89,8 @@ const Wrapper = styled.div`
   background: transparent
     linear-gradient(
       90deg,
-      ${(props) => (props.mode ? "#EBEBEB" : "#233a54")} 0%,
-      ${(props) => (props.mode ? "#BBBBBB" : "#060d19")} 100%
+      ${(props) => (props.mode ? '#EBEBEB' : '#233a54')} 0%,
+      ${(props) => (props.mode ? '#BBBBBB' : '#060d19')} 100%
     )
     0% 0% no-repeat padding-box;
   box-shadow: inset 0px 1px 1px #ffffff29, 0px 0px 2px #00000080;
@@ -134,6 +134,8 @@ const MainSectionContainer = styled.div`
   ${flexboxCenter};
   margin-top: 8px;
 
+  border: 1px solid red;
+
   /* background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 4px var(--unnamed-color-000000);
   border: 1px solid var(--unnamed-color-1b2b44); */
@@ -150,8 +152,8 @@ const MainSection = styled.div`
   background: transparent
     linear-gradient(
       89deg,
-      ${(props) => (props.mode ? "#EBEBEB" : "#233a54")} 0%,
-      ${(props) => (props.mode ? "#BBBBBB" : "#060d19")} 100%
+      ${(props) => (props.mode ? '#EBEBEB' : '#233a54')} 0%,
+      ${(props) => (props.mode ? '#BBBBBB' : '#060d19')} 100%
     )
     0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 2px #000000;
