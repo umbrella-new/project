@@ -38,7 +38,7 @@ const TgsControlBox = () => {
         </ControlsList>
       </PositionAbsolute>
       <SchedulerWrapper>
-        {state.heatingSchedule.displayed && <TgsScheduleCalendar />}
+        {state.heatingScheduleDisplayed && <TgsScheduleCalendar />}
       </SchedulerWrapper>
     </Wrapper>
   );
