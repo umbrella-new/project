@@ -1,9 +1,8 @@
-import { useContext } from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { Context } from '../context/Context';
-import { selectUserState } from '../store/slices/userSlice';
-import { flexboxCenter } from '../styles/commonStyles';
+import { useSelector } from "react-redux";
+import { selectUserState } from "../store/slices/userSlice";
+
+import styled from "styled-components";
+import { flexboxCenter } from "../styles/commonStyles";
 
 const DateAndWeather = () => {
   const userState = useSelector(selectUserState);
@@ -12,15 +11,15 @@ const DateAndWeather = () => {
   return (
     <Wrapper>
       <LongDash>
-        <img alt='Long dash' src={'/images/long-dash.svg'} />
+        <img alt='Long dash' src={"/images/long-dash.svg"} />
       </LongDash>
       <DateAndWeatherWrapper>
-        <Date>{date ? date : 'september wednesday 21, 2022'}</Date>
+        <Date>{date ? date : "september wednesday 21, 2022"}</Date>
         <WeatherIcon alt='weather icon' src={iconSrc} />
         <Weather>{weather ? weather : `15 Montreal`}</Weather>
       </DateAndWeatherWrapper>
       <LongDash>
-        <img alt='Long dash' src={'/images/long-dash.svg'} />
+        <img alt='Long dash' src={"/images/long-dash.svg"} />
       </LongDash>
     </Wrapper>
   );

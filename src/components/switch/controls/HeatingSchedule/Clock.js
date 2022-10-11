@@ -1,15 +1,18 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../../styles/commonStyles";
 const Clock = ({ time }) => {
   return (
     <Wrapper>
-      <WatchBackground src={'/images/watch.svg'} />
+      <WatchBackground src={"/images/watch.svg"} />
       <Hour>
-        <ClockHr time={time.hour * 6}></ClockHr>
+        <ClockHr
+          time={time.hour * 30 + (Number(time.minute) / 12) * 6}
+        ></ClockHr>
       </Hour>
       <Minute>
         <ClockMm time={time.minute * 6}></ClockMm>
       </Minute>
+      <Center></Center>
     </Wrapper>
   );
 };
@@ -35,13 +38,14 @@ const ClockHr = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 1rem;
   border-radius: 50%;
+  z-index: 10;
+
   ::before {
-    content: '';
+    content: "";
     position: absolute;
-    width: 6px;
-    height: 30px;
+    width: 4px;
+    height: 45px;
     z-index: 10;
     border-radius: 6px 6px 0 0;
     background-color: #fff;
@@ -63,12 +67,21 @@ const ClockMm = styled.div`
   border-radius: 50%;
   transform: rotateZ(${(p) => p.time}deg);
   ::before {
-    content: '';
+    content: "";
     position: absolute;
-    width: 4px;
-    height: 50px;
+    width: 2px;
+    height: 45px;
     z-index: 10;
     border-radius: 6px 6px 0 0;
     background-color: red;
   }
+`;
+
+const Center = styled.div`
+  height: 0.7rem;
+  width: 0.7rem;
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 12;
 `;

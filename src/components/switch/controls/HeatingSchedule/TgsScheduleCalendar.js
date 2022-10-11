@@ -1,30 +1,30 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import { useDatepicker, START_DATE, useMonth } from '@datepicker-react/hooks';
+import { useState } from "react";
+import styled from "styled-components";
+import { useDatepicker, START_DATE, useMonth } from "@datepicker-react/hooks";
 
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import { flexboxCenter } from "../../../../styles/commonStyles";
 
-import Month from './Month';
+import Month from "./Month";
 
-import DatepickerContext from './datepickerContext';
-import SchedulerButton from './SchedulerButton';
-import TimePicker from './TimePicker';
-import { useDispatch } from 'react-redux';
+import DatepickerContext from "./datepickerContext";
+import SchedulerButton from "./SchedulerButton";
+import TimePicker from "./TimePicker";
+import { useDispatch } from "react-redux";
 
 import {
   tgsHeatingScheduleDate,
   tgsHeatingScheduleCancel,
   tgsHeatingScheduleBeReady,
   tgsHeatingScheduleClear,
-} from '../../../../store/slices/tgsSwitchSlice';
+} from "../../../../store/slices/tgsSwitchSlice";
 
 const TgsScheduleCalendar = () => {
   const dispatch = useDispatch();
   // Time Picker states
   const initialTimeState = {
-    hour: '00',
-    minute: '00',
-    division: 'am',
+    hour: "00",
+    minute: "00",
+    division: "am",
   };
 
   const [startTime, setStartTime] = useState(initialTimeState);
@@ -38,19 +38,19 @@ const TgsScheduleCalendar = () => {
 
   const start =
     dateState.startDate &&
-    dateState.startDate.toLocaleString('en-ca', {
-      year: 'numeric',
-      month: 'short',
-      weekday: 'short',
-      day: 'numeric',
+    dateState.startDate.toLocaleString("en-ca", {
+      year: "numeric",
+      month: "short",
+      weekday: "short",
+      day: "numeric",
     });
   const end =
     dateState.endDate &&
-    dateState.endDate.toLocaleString('en-ca', {
-      year: 'numeric',
-      month: 'short',
-      weekday: 'short',
-      day: 'numeric',
+    dateState.endDate.toLocaleString("en-ca", {
+      year: "numeric",
+      month: "short",
+      weekday: "short",
+      day: "numeric",
     });
 
   const handleDateChange = (data) => {
@@ -63,7 +63,7 @@ const TgsScheduleCalendar = () => {
 
   const handleSetTime = (time, id) => {
     console.log(time, id);
-    if (id === 'start') {
+    if (id === "start") {
       setStartTime(time);
     } else {
       setEndTime(time);
@@ -100,18 +100,18 @@ const TgsScheduleCalendar = () => {
 
   const handleOnClick = (id) => {
     switch (id) {
-      case '1': {
+      case "1": {
         onResetDates();
         dispatch(tgsHeatingScheduleClear());
         setStartTime(initialTimeState);
         setEndTime(initialTimeState);
         return;
       }
-      case '2': {
+      case "2": {
         dispatch(tgsHeatingScheduleCancel());
         return;
       }
-      case '3': {
+      case "3": {
         dispatch(
           tgsHeatingScheduleDate({
             start: `${start} / ${startTimeSet}`,
@@ -127,18 +127,18 @@ const TgsScheduleCalendar = () => {
     }
   };
   const months = [
-    'January',
-    'Feburary',
-    'March',
-    'April',
-    'may',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    "January",
+    "Feburary",
+    "March",
+    "April",
+    "may",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   const currMonth = months[activeMonths[0].month];
   const nextMonth = months[activeMonths[1].month];
@@ -158,12 +158,12 @@ const TgsScheduleCalendar = () => {
       }}
     >
       <Wrapper>
-        <BackgroundSvg src={'/images/calender-background.svg'} />
+        <BackgroundSvg src={"/images/calender-background.svg"} />
 
         <PositionAbsolute>
           <TitleWrapper>
             <IconAndTitleWrapper>
-              <TitleIcon src={'/images/scheduler-icon.svg'} />
+              <TitleIcon src={"/images/scheduler-icon.svg"} />
               <Title>start date - end date</Title>
             </IconAndTitleWrapper>
           </TitleWrapper>
@@ -181,7 +181,7 @@ const TgsScheduleCalendar = () => {
                       <YearTitle>{activeMonths[0].year}</YearTitle>
                       <GoButton
                         src='/images/go-next.svg'
-                        onClick={() => goToNextYear('1')}
+                        onClick={() => goToNextYear("1")}
                       />
                     </YearTop>
                   </YearInner>
@@ -261,7 +261,7 @@ const TgsScheduleCalendar = () => {
 
                   <DisplayTop>
                     <Date>
-                      {dateState.startDate ? start : 'Choose the start date'}
+                      {dateState.startDate ? start : "Choose the start date"}
 
                       {dateState.startDate && ` / ${startTimeSet}`}
                     </Date>
@@ -277,7 +277,7 @@ const TgsScheduleCalendar = () => {
 
                   <DisplayTop>
                     <Date>
-                      {dateState.endDate ? end : 'Choose the end date'}
+                      {dateState.endDate ? end : "Choose the end date"}
 
                       {dateState.endDate && ` /  ${endTimeSet}`}
                     </Date>

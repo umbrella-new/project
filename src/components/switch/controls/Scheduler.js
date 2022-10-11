@@ -1,21 +1,9 @@
-import { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { Context } from '../../../context/Context';
-import {
-  heatingScheduleOpen,
-  selectEssSwitch,
-} from '../../../store/slices/essSwitchSlice';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
 const Scheduler = ({ handleOpenScheduler, start, end }) => {
-  const dispatch = useDispatch();
-  const state = useSelector(selectEssSwitch);
-
-  console.log(start);
-
-  const displayStart = start !== null ? start : ' -----------------';
-  const displayEnd = end !== null ? end : ' -----------------';
+  const displayStart = start !== null ? start : " -----------------";
+  const displayEnd = end !== null ? end : " -----------------";
 
   return (
     <Wrapper>
@@ -24,7 +12,7 @@ const Scheduler = ({ handleOpenScheduler, start, end }) => {
         <Date>{displayEnd}</Date>
       </DateWrapper>
       <CalendarButton onClick={handleOpenScheduler}>
-        <Img src={'/images/calendar-button.svg'} />
+        <Img src={"/images/calendar-button.svg"} />
       </CalendarButton>
     </Wrapper>
   );

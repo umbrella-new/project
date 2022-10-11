@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../../styles/commonStyles";
 
 const TimeOption = ({ data, setSelect, onClose, title }) => {
   const handleSelect = () => {

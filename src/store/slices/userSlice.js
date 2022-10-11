@@ -1,16 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 // this slice is for the user information
 
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: false,
+  isEssSwitch: true,
   isAdministrator: true,
   dateAndWeather: {
     date: null,
     weather: null,
-    iconSrc: '/images/weather-sunny.svg',
+    iconSrc: "/images/weather-sunny.svg",
   },
   userId: null,
   switchName: null,
@@ -21,7 +21,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
 });
