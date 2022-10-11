@@ -27,7 +27,7 @@ const TgsControlBox = () => {
     <Wrapper>
       <BackgroundImg src={'/images/controller-background.svg'} />
       <PositionAbsolute>
-        <Title>tes-controls</Title>
+        <Title>tgs-controls</Title>
         <ControlsList>
           <TgsInstantHeat />
           <TgsSnowSensor />

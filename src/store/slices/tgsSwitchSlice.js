@@ -1,12 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  isHeaterActivated: false,
+  heatingScheduleDisplayed: false,
   instantHeat: {
     instantHeatTemp: 0,
     instantButtonToggler: false,
-    fanOnly: false,
   },
-
+  fanOnly: false,
   snowSensor: { isReady: false, activated: false },
   optionalConstantTempL: { inputTemp: 0, apply: false },
   heatingSchedule: {
@@ -15,7 +16,6 @@ const initialState = {
     inputTemp: 0,
     isReady: false,
     activated: false,
-    displayed: false,
   },
   windFactor: { isReady: false, activated: false },
   currentTemp: null,
@@ -25,18 +25,17 @@ const initialState = {
 };
 
 const tgsSwitchSlice = createSlice({
-  name: "tgsSwitch",
+  name: 'tgsSwitch',
   initialState,
   reducers: {
     tgsInstantHeat: (state, action) => {
       state.instantHeat.instantHeatTemp = action.payload;
       state.instantHeat.instantButtonToggler =
         !state.instantHeat.instantButtonToggler;
+      state.fanOnly = !state.fanOnly;
     },
     fanOnlyToggler: (state) => {
-      state.instantHeat.fanOnly = !state.instantHeat.fanOnly;
-      state.instantHeat.instantButtonToggler = false;
-      state.instantHeat.instantHeatTemp = 0;
+      state.fanOnly = !state.fanOnly;
     },
     tgsSnowSensor: (state) => {
       state.snowSensor.isReady = !state.snowSensor.isReady;
@@ -46,10 +45,10 @@ const tgsSwitchSlice = createSlice({
       state.heatingSchedule.end = action.payload.end;
     },
     tgsHeatingScheduleOpen: (state) => {
-      state.heatingSchedule.displayed = true;
+      state.heatingScheduleDisplayed = true;
     },
     tgsHeatingScheduleCancel: (state) => {
-      state.heatingSchedule.displayed = false;
+      state.heatingScheduleDisplayed = false;
     },
     tgsHeatingScheduleBeReady: (state, action) => {
       state.heatingSchedule.temp = action.payload.temp;

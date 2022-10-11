@@ -1,10 +1,10 @@
-import { useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
-} from "../../../../store/slices/tgsSwitchSlice";
+} from '../../../../store/slices/tgsSwitchSlice';
 
 import {
   activeInput,
@@ -12,14 +12,16 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
   const dispatch = useDispatch();
-  const { instantButtonToggler, fanOnly, instantHeatTemp } = state.instantHeat;
+  const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
+  const { fanOnly } = state;
   const inputRef = useRef();
+
   useEffect(() => {
     if (instantHeatTemp > 0) {
       inputRef.current.value = `${instantHeatTemp}\u00b0C`;
@@ -54,7 +56,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -89,7 +91,7 @@ const TgsInstantHeat = () => {
           >
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={"/images/fan-only-icon.svg"} />
+                <ButtonImage src={'/images/fan-only-icon.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -217,7 +219,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 
