@@ -118,7 +118,7 @@ const TgsScheduleCalendar = () => {
             end: `${end} / ${endTimeSet}`,
           })
         );
-        p;
+
         dispatch(tgsHeatingScheduleCancel());
         return;
       }
