@@ -16,6 +16,7 @@ import {
 
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
+import InputKeyPad from '../../../keyboard/KeyPad';
 
 const ConstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -28,8 +29,6 @@ const ConstantHeat = () => {
   // console.log(state.optionalConstantTemp.temp);
   const { apply } = state.optionalConstantTemp;
   const location = useLocation();
-
-  // local state having input temp
 
   const CONTROLLER_NAME = 'optional constant temp.';
   const IMG_SRC = isEssSwitch
@@ -46,6 +45,24 @@ const ConstantHeat = () => {
       dispatch(constantTemp(temp));
     }
   };
+
+  // // Virtual keyboard input handler
+  // const handleVirtualKeyboardInput = (input) => {
+  //   const temp = Number(input);
+
+  //   if (temp !== 0) {
+  //     if (!instantButtonToggler) {
+  //       dispatch(instantHeat(temp));
+  //       inputRef.current.value = `${temp}\u00b0C`;
+  //       handleClosekeypad();
+  //     } else {
+  //       dispatch(instantHeat(0));
+  //       inputRef.current.value = ``;
+  //     }
+  //   } else {
+  //     return;
+  //   }
+  // };
 
   return (
     <Wrapper isEssSwitch={isEnable}>
