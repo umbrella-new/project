@@ -39,10 +39,10 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
 }
 
 const Wrapper = styled.div`
-  width: 596px;
+  width: 594px;
   height: 267px;
-  margin-top: 37px;
-  margin-left: 4px;
+  /* margin-top: 37px;
+  margin-left: 4px; */
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 12px 12px 18px 18px;
@@ -51,7 +51,7 @@ const Wrapper = styled.div`
 `;
 
 const Wrapper2 = styled.div`
-  width: 594px;
+  width: 592px;
   height: 265px;
 
   border: 0.5px solid black;
@@ -73,7 +73,7 @@ const Wrapper2 = styled.div`
 
 const ContainerMetricImperial = styled.div`
   display: flex;
-  width: 594px;
+  width: 592px;
   /* ${flexboxCenter} */
   justify-content: space-around;
   align-items: center;

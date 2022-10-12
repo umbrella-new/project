@@ -25,9 +25,9 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       <TitleOfSettingsOptions />
       <AllTheSelectionsOfSettingsOptions />
       <ContainerButtons mode={mode}>
-        <Button name={"Edit"} onClick={() => {}} />
-        <Button name={"Cancel"} onClick={() => {}} />
-        <Button name={"Apply"} onClick={() => {}} />
+        <Button name={"Edit"} onClick={() => handleEdit()} />
+        <Button name={"Cancel"} onClick={() => handleCancel()} />
+        <Button name={"Apply"} onClick={() => handleApply()} />
       </ContainerButtons>
     </Wrapper>
   );

@@ -33,8 +33,8 @@ export default ContainerOfAdmin;
 const Wrapper = styled.div`
   width: 594px;
   height: 469px;
-  margin-top: 37px;
-  margin-left: 6px;
+  /* margin-top: 37px;
+  margin-left: 6px; */
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 4px;
