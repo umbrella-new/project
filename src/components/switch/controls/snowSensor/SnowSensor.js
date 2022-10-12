@@ -26,7 +26,7 @@ const SnowSensor = () => {
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
       <TempAndButton>
         <ApplyButton
-          name='apply'
+          name={isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
           buttonHandler={() => dispatch(snowSensor())}
           isEnable={true}
           isActivated={isActivated}

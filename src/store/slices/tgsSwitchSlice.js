@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isHeaterActivated: false,
+  // isHeaterActivated: false,
   heatingScheduleDisplayed: false,
   instantHeat: {
     instantHeatTemp: 0,

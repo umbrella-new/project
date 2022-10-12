@@ -36,10 +36,10 @@ const TempAndButton = ({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const temp = inputRef.current.value;
+    const temp = Number(inputRef.current.value);
 
     if (title === 'scheduler') {
-      if (temp > 0) {
+      if (temp !== 0) {
         if (!isReady) {
           buttonHandler(temp);
           inputRef.current.value = `${temp}\u00b0C`;
@@ -49,13 +49,20 @@ const TempAndButton = ({
         }
       }
     } else {
-      if (temp > 0) {
-        if (!isActivated) {
-          buttonHandler(temp);
-          inputRef.current.value = `${temp}\u00b0C`;
-        } else {
-          buttonHandler(0);
+      if (temp !== 0) {
+        if (temp > 248) {
+          window.alert(
+            'Maximum temperature is 120\u00b0F(248\u00b0C). Please input desired temperature below the maximum temperature'
+          );
           inputRef.current.value = '';
+        } else {
+          if (!isActivated) {
+            buttonHandler(temp);
+            inputRef.current.value = `${temp}\u00b0C`;
+          } else {
+            buttonHandler(0);
+            inputRef.current.value = '';
+          }
         }
       }
     }
@@ -124,7 +131,9 @@ const TempAndButton = ({
             isActivated={isActivated}
             isReady={isReady}
           >
-            <ButtonName isEnable={isEnable}>apply</ButtonName>
+            <ButtonName isEnable={isEnable}>
+              {isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
+            </ButtonName>
           </ButtonTop>
         </ButtonHole>
       </ButtonWrapper>

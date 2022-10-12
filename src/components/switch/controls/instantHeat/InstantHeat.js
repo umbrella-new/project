@@ -60,7 +60,7 @@ const InstantHeat = () => {
       if (!instantButtonToggler) {
         dispatch(instantHeat(temp));
         inputRef.current.value = `${temp}\u00b0C`;
-        handleClosekeypad();
+        handleKeypadClosed();
       } else {
         dispatch(instantHeat(0));
         inputRef.current.value = ``;
@@ -76,7 +76,7 @@ const InstantHeat = () => {
     // dispatch(activateKeyboard());
   };
 
-  const handleClosekeypad = () => {
+  const handleKeypadClosed = () => {
     setOpenKeyPad(false);
   };
 
@@ -112,7 +112,7 @@ const InstantHeat = () => {
       {openKeyPad && (
         <KeyPadWrapper>
           <InputKeyPad
-            closeKeyPad={handleClosekeypad}
+            closeKeyPad={handleKeypadClosed}
             handleOnSubmit={handleVirtualKeyboardInput}
           />
         </KeyPadWrapper>

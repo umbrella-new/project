@@ -41,28 +41,8 @@ const ConstantHeat = () => {
     : false;
 
   const handleDispatch = (temp) => {
-    if (temp > 0) {
-      dispatch(constantTemp(temp));
-    }
+    dispatch(constantTemp(temp));
   };
-
-  // // Virtual keyboard input handler
-  // const handleVirtualKeyboardInput = (input) => {
-  //   const temp = Number(input);
-
-  //   if (temp !== 0) {
-  //     if (!instantButtonToggler) {
-  //       dispatch(instantHeat(temp));
-  //       inputRef.current.value = `${temp}\u00b0C`;
-  //       handleClosekeypad();
-  //     } else {
-  //       dispatch(instantHeat(0));
-  //       inputRef.current.value = ``;
-  //     }
-  //   } else {
-  //     return;
-  //   }
-  // };
 
   return (
     <Wrapper isEssSwitch={isEnable}>
