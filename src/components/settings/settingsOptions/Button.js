@@ -1,13 +1,8 @@
 import styled from "styled-components";
 
-const Button = ({ name }) => {
-  // Apply button handler
-  // When click the apply button it calls button handler in it's parents component
-  // const handleOnClick = () => {
-  //   buttonHandler();
-  // };
+const Button = ({ name, handleClick, id }) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={() => handleClick(id)}>
       <ButtonHole>
         <ButtonTop>
           <ButtonName>{name}</ButtonName>

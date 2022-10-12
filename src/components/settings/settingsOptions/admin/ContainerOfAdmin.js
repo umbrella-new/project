@@ -1,10 +1,19 @@
 import styled from "styled-components";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { flexboxCenter } from "../../../../styles/commonStyles";
 import EssHeader from "../ForceAndCommand/EssHeader";
 import SysFooter from "../ForceAndCommand/SysFooter";
 import Control from "./Control";
+import { setResetAllSettingsButtons } from "../../../../store/slices/settingsOfEssSlice";
 
 function ContainerOfAdmin() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setResetAllSettingsButtons());
+  }, []);
+
   return (
     <Wrapper>
       <Wrapper2>

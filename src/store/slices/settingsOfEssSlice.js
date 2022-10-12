@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: false,
+  // metricAndImperialToggle: false,
   interfaceMode: false,
   allSettingsOptions: {
     settingsOptionsUnits: true,
@@ -21,9 +21,9 @@ export const settingsOfEssSlice = createSlice({
   name: "settingsOfEss",
   initialState,
   reducers: {
-    selectUnit: (state) => {
-      state.value = !state.value;
-    },
+    // selectUnit: (state) => {
+    //   state.metricAndImperialToggle = !state.metricAndImperialToggle;
+    // },
     setInterfaceMode: (state, action) => {
       state.interfaceMode = action.payload;
     },
@@ -63,16 +63,24 @@ export const settingsOfEssSlice = createSlice({
       state.allSettingsOptions.settingsOptionsUnits = false;
     },
     setSettingsEditButton: (state) => {
-      state.buttonsOfSettings.settingsEditButton =
-        !state.buttonsOfSettings.settingsEditButton;
+      state.buttonsOfSettings.settingsEditButton = true;
+      state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = false;
     },
     setSettingsCancelButton: (state) => {
-      state.buttonsOfSettings.settingsCancelButton =
-        !state.buttonsOfSettings.settingsCancelButton;
+      state.buttonsOfSettings.settingsCancelButton = true;
+      state.buttonsOfSettings.settingsApplyButton = false;
+      state.buttonsOfSettings.settingsEditButton = false;
     },
     setSettingsApplyButton: (state) => {
-      state.buttonsOfSettings.settingsApplyButton =
-        !state.buttonsOfSettings.settingsApplyButton;
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setResetAllSettingsButtons: (state) => {
+      state.buttonsOfSettings.settingsApplyButton = false;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
     },
   },
 });
@@ -88,6 +96,7 @@ export const {
   setSettingsEditButton,
   setSettingsCancelButton,
   setSettingsApplyButton,
+  setResetAllSettingsButtons,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

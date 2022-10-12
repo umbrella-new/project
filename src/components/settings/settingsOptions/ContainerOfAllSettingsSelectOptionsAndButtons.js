@@ -1,23 +1,37 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { flexboxCenter } from "../../../styles/commonStyles";
 import TitleOfSettingsOptions from "./TitleOfSettingsOptions";
 import AllTheSelectionsOfSettingsOptions from "./AllTheSelectionsOfSettingsOptions";
 import Button from "./Button";
-import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import {
+  selectSettingsOfEss,
+  setSettingsEditButton,
+  setSettingsCancelButton,
+  setSettingsApplyButton,
+} from "../../../store/slices/settingsOfEssSlice";
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
-  const theme = useSelector(selectSettingsOfEss);
-  const mode = theme.interfaceMode;
+  const buttonNames = ["edit", "cancel", "apply"];
 
-  const handleEdit = () => {
-    return;
-  };
-  const handleCancel = () => {
-    return;
-  };
-  const handleApply = () => {
-    return;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const dispatch = useDispatch();
+
+  const handleClick = (id) => {
+    switch (id) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setSettingsApplyButton());
+        break;
+      default:
+        return;
+    }
   };
 
   return (
@@ -25,9 +39,13 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       <TitleOfSettingsOptions />
       <AllTheSelectionsOfSettingsOptions />
       <ContainerButtons mode={mode}>
-        <Button name={"Edit"} onClick={() => handleEdit()} />
-        <Button name={"Cancel"} onClick={() => handleCancel()} />
-        <Button name={"Apply"} onClick={() => handleApply()} />
+        {buttonNames.map((name, index) => {
+          return (
+            <div key={index}>
+              <Button id={index} handleClick={handleClick} name={name} />
+            </div>
+          );
+        })}
       </ContainerButtons>
     </Wrapper>
   );

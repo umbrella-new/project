@@ -6,29 +6,36 @@ import { selectUnit } from "../../../../store/slices/settingsOfEssSlice";
 import { selectSettingsOfEss } from "../../../../store/slices/settingsOfEssSlice";
 
 function ImperialMetricMeasurementReader({
-  title,
-  temp,
-  energy,
-  measure,
-  gas,
-  backgroundColor,
-  count,
+  // title,
+  // temp,
+  // energy,
+  // measure,
+  // gas,
+  // backgroundColor,
+  // greenCircleToggle,
+  value,
+  index,
+  metricImperialToggle,
+  handleClick,
 }) {
+  const { title, temp, energy, measure, gas, backgroundColor } = value;
+
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+  const { settingsEditButton } = state.buttonsOfSettings;
   const dispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(selectUnit());
-  };
 
   return (
     <div>
       <Wrapper>
         <Wrapper2 backgroundColor={backgroundColor} mode={mode}>
           <ContainerOfTitle mode={mode}>
-            <OutsideRingGreenCircle onClick={() => handleClick()}>
-              <InsideFilledGreenCircle color={count}></InsideFilledGreenCircle>
+            <OutsideRingGreenCircle
+              onClick={() => settingsEditButton && handleClick(index)}
+            >
+              <InsideFilledGreenCircle
+                color={index === metricImperialToggle ? true : false}
+              ></InsideFilledGreenCircle>
             </OutsideRingGreenCircle>
 
             <Span mode={mode}>{title}</Span>
