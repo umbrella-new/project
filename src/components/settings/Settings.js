@@ -32,29 +32,27 @@ const Settings = () => {
         <TitleContainer>
           <TitleSettings />
         </TitleContainer>
-        <>
-          <MainSectionContainer>
-            <MainSection mode={mode}>
-              <ContainerUnitsSettings>
-                <TitleOfAllSettings />
-              </ContainerUnitsSettings>
-              <WrapperSettingsModeAndSelect>
-                <SettingsOptionsAndInterfaceMode />
-                {settingsOptionsUnits ? (
-                  <ContainerOfMetricImperialAndMeasurementTitle />
-                ) : settingsOptionsWindFactor ? (
-                  <ContainerOfWindFactor />
-                ) : settingsOptionsSnowFactor ? (
-                  <ContainerOfSnowSensor />
-                ) : settingsOptionsForceAndCommand ? (
-                  <ContainerOfForceAndCommand />
-                ) : (
-                  <ContainerOfAdmin />
-                )}
-              </WrapperSettingsModeAndSelect>
-            </MainSection>
-          </MainSectionContainer>
-        </>
+        <MainSectionContainer>
+          <MainSection mode={mode}>
+            <ContainerUnitsSettings>
+              <TitleOfAllSettings />
+            </ContainerUnitsSettings>
+            <WrapperSettingsModeAndSelect>
+              <SettingsOptionsAndInterfaceMode />
+              {settingsOptionsUnits ? (
+                <ContainerOfMetricImperialAndMeasurementTitle />
+              ) : settingsOptionsWindFactor ? (
+                <ContainerOfWindFactor />
+              ) : settingsOptionsSnowFactor ? (
+                <ContainerOfSnowSensor />
+              ) : settingsOptionsForceAndCommand ? (
+                <ContainerOfForceAndCommand />
+              ) : (
+                <ContainerOfAdmin />
+              )}
+            </WrapperSettingsModeAndSelect>
+          </MainSection>
+        </MainSectionContainer>
       </TitleMainSectionContainer>
     </>
   );
