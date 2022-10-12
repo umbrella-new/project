@@ -3,7 +3,6 @@ import { useDay } from '@datepicker-react/hooks';
 import DatepickerContext from './datepickerContext';
 import getColor from './getColor';
 import styled from 'styled-components';
-import DisplayTemperatureStates from '../displayState/DisplayTemperatureStates';
 
 const Day = ({ dayLabel, date, startDay, endDay }) => {
   const dayRef = useRef(null);
@@ -18,6 +17,7 @@ const Day = ({ dayLabel, date, startDay, endDay }) => {
     onDateFocus,
     onDateHover,
   } = useContext(DatepickerContext);
+
   const {
     isSelected,
     isSelectedStartOrEnd,
@@ -72,9 +72,14 @@ const Day = ({ dayLabel, date, startDay, endDay }) => {
     }),
   };
 
+  const handleOnClick = () => {
+    onClick();
+    // console.log(date);
+  };
+
   return (
     <Date
-      onClick={onClick}
+      onClick={handleOnClick}
       onKeyDown={onKeyDown}
       onMouseEnter={onMouseEnter}
       tabIndex={tabIndex}

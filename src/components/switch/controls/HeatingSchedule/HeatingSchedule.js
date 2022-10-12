@@ -23,7 +23,7 @@ const HeatingSchedule = () => {
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
-    if (state.heatingSchedule.start) {
+    if (state.heatingSchedule.start.date) {
       dispatch(heatingScheduleBeReady(temp));
     } else {
       // Change it to modal!! make it beautiful

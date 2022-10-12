@@ -6,8 +6,8 @@ const initialState = {
   snowSensor: { isReady: false, activated: false },
   optionalConstantTemp: { inputTemp: 0, apply: false },
   heatingSchedule: {
-    start: null,
-    end: null,
+    start: { date: null, time: null },
+    end: { date: null, time: null },
     inputTemp: 0,
     isReady: false,
     activated: false,
@@ -42,8 +42,14 @@ const essSwitchSlice = createSlice({
         start: action.payload.start,
         end: action.payload.end,
       });
-      state.heatingSchedule.start = action.payload.start;
-      state.heatingSchedule.end = action.payload.end;
+      state.heatingSchedule.start = {
+        date: action.payload.start.date,
+        time: action.payload.start.time,
+      };
+      state.heatingSchedule.end = {
+        date: action.payload.end.date,
+        time: action.payload.time,
+      };
     },
     heatingScheduleBeReady: (state, action) => {
       state.heatingSchedule.temp = action.payload.temp;
