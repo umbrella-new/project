@@ -316,7 +316,8 @@ const ButtonImage = styled.img`
 
 const KeyPadWrapper = styled.div`
   position: absolute;
-  top: 2rem;
+  top: -0.5rem;
+  right: -17rem;
 
   z-index: 1000;
 `;

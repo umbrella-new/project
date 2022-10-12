@@ -1,20 +1,20 @@
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import {
   heatingScheduleBeReady,
   selectEssSwitch,
   heatingScheduleOpen,
-} from "../../../../store/slices/essSwitchSlice";
+} from '../../../../store/slices/essSwitchSlice';
 
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import AddScheduleButton from "../AddScheduleButton";
-import ControllerName from "../ControllerName";
-import Scheduler from "../Scheduler";
-import TempAndButton from "../TempAndButton";
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import AddScheduleButton from '../AddScheduleButton';
+import ControllerName from '../ControllerName';
+import Scheduler from '../Scheduler';
+import TempAndButton from '../TempAndButton';
 
 const HeatingSchedule = () => {
-  const CONTROLLER_NAME = "heating schedule program";
-  const IMG_SRC = "/images/heating-Schedule-Program-Logo.svg";
+  const CONTROLLER_NAME = 'heating schedule program';
+  const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectEssSwitch);
   const { isReady, inputTemp } = state.heatingSchedule;
@@ -27,7 +27,7 @@ const HeatingSchedule = () => {
       dispatch(heatingScheduleBeReady(temp));
     } else {
       // Change it to modal!! make it beautiful
-      window.alert("input schedule");
+      window.alert('input schedule');
     }
   };
 
@@ -42,7 +42,7 @@ const HeatingSchedule = () => {
       <SchedulerWrapper>
         <ScheduleSetTitleAndButton>
           <ScheduleSetTitle>start date - end date</ScheduleSetTitle>
-          <AddScheduleButton />
+          <AddScheduleButton handleAddSchedule={handleOpenScheduler} />
         </ScheduleSetTitleAndButton>
         <SchedulerCenter>
           <Scheduler

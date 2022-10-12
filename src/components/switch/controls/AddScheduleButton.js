@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-const AddScheduleButton = () => {
+const AddScheduleButton = ({ handleAddSchedule }) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={handleAddSchedule}>
       <InnerLayer>
         <AddSign>+</AddSign>
       </InnerLayer>
