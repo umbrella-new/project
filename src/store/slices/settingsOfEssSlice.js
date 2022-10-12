@@ -3,11 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   value: false,
   interfaceMode: false,
-  settingsOptionsUnits: true,
-  settingsOptionsWindFactor: false,
-  settingsOptionsSnowFactor: false,
-  settingsOptionsForceAndCommand: false,
-  settingsOptionsAdmin: false,
+  allSettingsOptions: {
+    settingsOptionsUnits: true,
+    settingsOptionsWindFactor: false,
+    settingsOptionsSnowFactor: false,
+    settingsOptionsForceAndCommand: false,
+    settingsOptionsAdmin: false,
+  },
+  buttonsOfSettings: {
+    settingsEditButton: false,
+    settingsCancelButton: false,
+    settingsApplyButton: false,
+  },
 };
 
 export const settingsOfEssSlice = createSlice({
@@ -20,20 +27,52 @@ export const settingsOfEssSlice = createSlice({
     setInterfaceMode: (state, action) => {
       state.interfaceMode = action.payload;
     },
-    setSettingsOptionsUnits: (state, action) => {
-      state.settingsOptionsUnits = action.payload;
+    setSettingsOptionsUnits: (state) => {
+      state.allSettingsOptions.settingsOptionsUnits = true;
+      state.allSettingsOptions.settingsOptionsWindFactor = false;
+      state.allSettingsOptions.settingsOptionsSnowFactor = false;
+      state.allSettingsOptions.settingsOptionsForceAndCommand = false;
+      state.allSettingsOptions.settingsOptionsAdmin = false;
     },
-    setSettingsOptionsWindFactor: (state, action) => {
-      state.settingsOptionsWindFactor = action.payload;
+    setSettingsOptionsWindFactor: (state) => {
+      state.allSettingsOptions.settingsOptionsWindFactor = true;
+      state.allSettingsOptions.settingsOptionsUnits = false;
+      state.allSettingsOptions.settingsOptionsSnowFactor = false;
+      state.allSettingsOptions.settingsOptionsForceAndCommand = false;
+      state.allSettingsOptions.settingsOptionsAdmin = false;
     },
-    setSettingsOptionsSnowFactor: (state, action) => {
-      state.settingsOptionsSnowFactor = action.payload;
+    setSettingsOptionsSnowFactor: (state) => {
+      state.allSettingsOptions.settingsOptionsSnowFactor = true;
+      state.allSettingsOptions.settingsOptionsWindFactor = false;
+      state.allSettingsOptions.settingsOptionsUnits = false;
+      state.allSettingsOptions.settingsOptionsForceAndCommand = false;
+      state.allSettingsOptions.settingsOptionsAdmin = false;
     },
-    setSettingsOptionsForceAndCommand: (state, action) => {
-      state.settingsOptionsForceAndCommand = action.payload;
+    setSettingsOptionsForceAndCommand: (state) => {
+      state.allSettingsOptions.settingsOptionsForceAndCommand = true;
+      state.allSettingsOptions.settingsOptionsSnowFactor = false;
+      state.allSettingsOptions.settingsOptionsWindFactor = false;
+      state.allSettingsOptions.settingsOptionsUnits = false;
+      state.allSettingsOptions.settingsOptionsAdmin = false;
     },
-    setSettingsOptionsAdmin: (state, action) => {
-      state.settingsOptionsAdmin = action.payload;
+    setSettingsOptionsAdmin: (state) => {
+      state.allSettingsOptions.settingsOptionsAdmin = true;
+      state.allSettingsOptions.settingsOptionsForceAndCommand = false;
+      state.allSettingsOptions.settingsOptionsSnowFactor = false;
+      state.allSettingsOptions.settingsOptionsWindFactor = false;
+      state.allSettingsOptions.settingsOptionsUnits = false;
+    },
+    setSettingsEditButton: (state) => {
+      state.buttonsOfSettings.settingsEditButton =
+        !state.buttonsOfSettings.settingsEditButton;
+    },
+    setSettingsCancelButton: (state) => {
+      state.buttonsOfSettings.settingsCancelButton =
+        !state.buttonsOfSettings.settingsCancelButton;
+    },
+    setSettingsApplyButton: (state) => {
+      state.buttonsOfSettings.settingsApplyButton =
+        !state.buttonsOfSettings.settingsApplyButton;
     },
   },
 });
@@ -46,6 +85,9 @@ export const {
   setSettingsOptionsSnowFactor,
   setSettingsOptionsForceAndCommand,
   setSettingsOptionsAdmin,
+  setSettingsEditButton,
+  setSettingsCancelButton,
+  setSettingsApplyButton,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

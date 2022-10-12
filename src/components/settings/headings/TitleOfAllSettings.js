@@ -1,21 +1,44 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
 
-function TitleOfAllSettings({
-  windFactorTrigger,
-  Units,
-  SnowSensorTrigger,
-  ForceAndCommand,
-  Admin,
-}) {
+function TitleOfAllSettings() {
+  const state = useSelector(selectSettingsOfEss);
+  const {
+    settingsOptionsUnits,
+    settingsOptionsWindFactor,
+    settingsOptionsSnowFactor,
+    settingsOptionsForceAndCommand,
+  } = state.allSettingsOptions;
+
   return (
     <>
       <Container>
         <SettingTitle>
-          SETTINGS//SETTINGS OPTIONS//<Span>{ForceAndCommand}</Span>
+          SETTINGS//SETTINGS OPTIONS//
+          <Span>
+            {settingsOptionsUnits
+              ? "units"
+              : settingsOptionsWindFactor
+              ? "wind factor trigger"
+              : settingsOptionsSnowFactor
+              ? "snow sensor trigger"
+              : settingsOptionsForceAndCommand
+              ? "admin."
+              : "admin."}
+          </Span>
         </SettingTitle>
         <ContainerOptions>
           <UnitSettings>
-            {windFactorTrigger}
+            {settingsOptionsUnits
+              ? "units"
+              : settingsOptionsWindFactor
+              ? "wind factor trigger"
+              : settingsOptionsSnowFactor
+              ? "snow sensor trigger"
+              : settingsOptionsForceAndCommand
+              ? "force & command"
+              : "admin."}
             <Dots>
               .................................................................................................
             </Dots>
@@ -28,14 +51,12 @@ function TitleOfAllSettings({
 }
 
 const Container = styled.div`
-  width: 878px;
+  width: 884px;
   height: 52px;
 
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-top: 9px;
-  margin-left: 5px;
   padding-left: 6px;
   padding-top: 6px;
   border-radius: 6px;

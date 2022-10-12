@@ -2,7 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import { flexboxCenter } from "../../../styles/commonStyles";
 import { useSelector, useDispatch } from "react-redux";
-import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import {
+  selectSettingsOfEss,
+  setSettingsOptionsUnits,
+  setSettingsOptionsWindFactor,
+  setSettingsOptionsSnowFactor,
+  setSettingsOptionsForceAndCommand,
+  setSettingsOptionsAdmin,
+} from "../../../store/slices/settingsOfEssSlice";
 
 function AllTheSelectionsOfSettingsOptions() {
   const settingsData = [
@@ -13,15 +20,37 @@ function AllTheSelectionsOfSettingsOptions() {
     "admin.",
   ];
   const dispatch = useDispatch();
-  const theme = useSelector(selectSettingsOfEss);
-  const mode = theme.interfaceMode;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
 
   const [options, setOptions] = useState(0);
 
-  const handleSelect = (value) => {
-    if (options !== value) return setOptions(value);
-  };
+  const handleSelect = (value) => options !== value && setOptions(value);
 
+  switch (options) {
+    case 0: {
+      dispatch(setSettingsOptionsUnits());
+      break;
+    }
+    case 1: {
+      dispatch(setSettingsOptionsWindFactor());
+      break;
+    }
+    case 2: {
+      dispatch(setSettingsOptionsSnowFactor());
+      break;
+    }
+    case 3: {
+      dispatch(setSettingsOptionsForceAndCommand());
+      break;
+    }
+    case 4: {
+      dispatch(setSettingsOptionsAdmin());
+      break;
+    }
+    default:
+      return;
+  }
   return (
     <Wrapper mode={mode}>
       <SubWrapper>

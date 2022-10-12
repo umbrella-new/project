@@ -5,9 +5,11 @@ import SnowFactor from "./SnowFactor";
 function ContainerOfSnowSensor() {
   return (
     <Wrapper>
-      <FlexWrapper>
-        <SnowFactor />
-      </FlexWrapper>
+      <Wrapper1>
+        <FlexWrapper>
+          <SnowFactor />
+        </FlexWrapper>
+      </Wrapper1>
     </Wrapper>
   );
 }
@@ -15,10 +17,14 @@ function ContainerOfSnowSensor() {
 export default ContainerOfSnowSensor;
 
 const Wrapper = styled.div`
+  width: 594px;
+  height: auto;
+`;
+const Wrapper1 = styled.div`
   width: 299px;
   height: 107px;
-  margin-top: 37px;
-  margin-left: 4px;
+  /* margin-top: 37px;
+  margin-left: 4px; */
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 18px;

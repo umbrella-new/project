@@ -18,19 +18,16 @@ import ContainerOfForceAndCommand from './settingsOptions/ForceAndCommand/Contai
 import ContainerOfAdmin from './settingsOptions/admin/ContainerOfAdmin';
 
 const Settings = () => {
-  const theme = useSelector(selectSettingsOfEss);
-  const mode = theme.interfaceMode;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const {
+    settingsOptionsUnits,
+    settingsOptionsWindFactor,
+    settingsOptionsSnowFactor,
+    settingsOptionsForceAndCommand,
+  } = state.allSettingsOptions;
   return (
     <>
-      {/* <Wrapper mode={interfaceMode}> */}
-      {/* <DateAndWeather /> */}
-      {/* <Header /> */}
-      {/* <Title src={"/images/embrellaTitle-sm.svg"} /> */}
-
-      {/* <GroupDiv> */}
-      {/* <SidebarContainer>
-          <Sidebar />
-        </SidebarContainer> */}
       <TitleMainSectionContainer>
         <TitleContainer>
           <Titles name='settings' />
@@ -39,84 +36,7 @@ const Settings = () => {
         <MainSectionContainer>
           <MainSection mode={mode}>
             <ContainerUnitsSettings>
-              <TitleOfAllSettings
-                windFactorTrigger={'wind factor trigger'}
-                Units={'units'}
-                SnowSensorTrigger={'snow sensor trigger'}
-                ForceAndCommand={'force & command'}
-                Admin={'admin.'}
-              />
-            </ContainerUnitsSettings>
-            <ContainerSettingsAndInterface>
-              <SettingsOptionsAndInterfaceMode />
-            </ContainerSettingsAndInterface>
-            <ContainerSelectUnits>
-              {/* <ContainerOfMetricImperialAndMeasurementTitle /> */}
-              {/* <ContainerOfWindFactor /> */}
-              {/* <ContainerOfSnowSensor /> */}
-              {/* <ContainerOfForceAndCommand /> */}
-              <ContainerOfAdmin />
-            </ContainerSelectUnits>
-          </MainSection>
-        </MainSectionContainer>
-      </TitleMainSectionContainer>
-      {/* </GroupDiv> */}
-      {/* <Footer /> */}
-      {/* </Wrapper> */}
-    </>
-  );
-};
 
-export default Settings;
-
-const Div = styled.div`
-  height: auto;
-  width: 901px;
-  border: 1px solid red;
-`;
-
-const Wrapper = styled.div`
-  box-sizing: border-box;
-
-  height: 680px;
-  width: 1024px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-
-  background: transparent
-    linear-gradient(
-      90deg,
-      ${(props) => (props.mode ? '#EBEBEB' : '#233a54')} 0%,
-      ${(props) => (props.mode ? '#BBBBBB' : '#060d19')} 100%
-    )
-    0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 1px 1px #ffffff29, 0px 0px 2px #00000080;
-
-  opacity: 1;
-
-  padding: var(--space1) 0;
-`;
-
-const Title = styled.img`
-  margin-bottom: var(--space3);
-`;
-
-const GroupDiv = styled.div`
-  height: 488px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 8px;
-  /* border: 1px solid blue; */
-`;
-
-const SidebarContainer = styled.div`
-  /* border: 1px solid red; */
-  padding-left: 8px;
-`;
 
 const TitleMainSectionContainer = styled.div`
   margin-right: 8px;
@@ -130,24 +50,22 @@ const TitleContainer = styled.div`
 
 const MainSectionContainer = styled.div`
   width: 902px;
-  height: 462px;
-  ${flexboxCenter};
+  height: auto;
   margin-top: 8px;
 
-  border: 1px solid red;
 
-  /* background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 4px var(--unnamed-color-000000);
-  border: 1px solid var(--unnamed-color-1b2b44); */
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 4px #000000;
   border-radius: 12px;
   opacity: 1;
+  ${flexboxCenter};
 `;
 
 const MainSection = styled.div`
-  width: 894px;
-  height: 454px;
+  width: 898px;
+  height: auto;
+  margin-top: 2px;
+  margin-bottom: 2px;
 
   background: transparent
     linear-gradient(
@@ -164,25 +82,14 @@ const MainSection = styled.div`
   /* border: 1px solid red; */
 `;
 
-const Img = styled.img`
-  margin-top: 4px;
-  margin-left: 4px;
-`;
-
 const ContainerUnitsSettings = styled.div`
-  position: absolute;
-  left: 0%;
-  top: -1%;
+  ${flexboxCenter}
+  margin-top:5px;
 `;
 
-const ContainerSettingsAndInterface = styled.div`
-  position: absolute;
-  left: -0.85%;
-  top: 8.5%;
-`;
-
-const ContainerSelectUnits = styled.div`
-  position: absolute;
-  left: 32.3%;
-  top: 6.5%;
+const WrapperSettingsModeAndSelect = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin-top: 4px;
 `;
