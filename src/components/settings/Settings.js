@@ -32,7 +32,6 @@ const Settings = () => {
         <TitleContainer>
           <Titles name='settings' />
         </TitleContainer>
-
         <MainSectionContainer>
           <MainSection mode={mode}>
             <ContainerUnitsSettings>
