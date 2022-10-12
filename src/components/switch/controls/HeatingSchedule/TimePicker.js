@@ -1,28 +1,41 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import Clock from "./Clock";
-import TimeOption from "./TimeOption";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import Clock from './Clock';
+import TimeOption from './TimeOption';
 
 const TimePicker = ({ time, setTime, id }) => {
   const [openHourSelector, setOpenHourSelector] = useState(false);
   const [openMinuteSelector, setOpenMinuteSelector] = useState(false);
 
-  const timeOption = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const minuteOptions = ["00", 10, 20, 30, 40, 50, 60];
+  const timeOption = [
+    `01`,
+    `02`,
+    `03`,
+    `04`,
+    `05`,
+    `06`,
+    `07`,
+    `08`,
+    `09`,
+    10,
+    11,
+    12,
+  ];
+  const minuteOptions = ['00', 10, 20, 30, 40, 50, 60];
 
   const handleSetTime = (title, data) => {
     console.log(title, data);
     switch (title) {
-      case "division": {
+      case 'division': {
         setTime({ ...time, division: data }, id);
         return;
       }
-      case "hour": {
+      case 'hour': {
         setTime({ ...time, hour: data }, id);
         return;
       }
-      case "minute": {
+      case 'minute': {
         setTime({ ...time, minute: data }, id);
         return;
       }
@@ -32,7 +45,7 @@ const TimePicker = ({ time, setTime, id }) => {
   };
 
   const onClose = (title) => {
-    if (title === "hour") {
+    if (title === 'hour') {
       setOpenHourSelector(false);
     } else {
       setOpenMinuteSelector(false);
@@ -53,7 +66,7 @@ const TimePicker = ({ time, setTime, id }) => {
               <Hour onClick={() => setOpenHourSelector(true)}>{time.hour}</Hour>
               {openHourSelector && (
                 <OptionAndTitleWrapper>
-                  <Title>Hour</Title>
+                  <Title>hour</Title>
                   <OptionWrapper>
                     {timeOption.map((time) => (
                       <TimeOption
@@ -95,8 +108,8 @@ const TimePicker = ({ time, setTime, id }) => {
             <DivisionOuter>
               <DivisionInner>
                 <Division
-                  isSelected={time.division === "am" ? true : false}
-                  onClick={() => handleSetTime("division", "am")}
+                  isSelected={time.division === 'am' ? true : false}
+                  onClick={() => handleSetTime('division', 'am')}
                 >
                   a.m
                 </Division>
@@ -105,8 +118,8 @@ const TimePicker = ({ time, setTime, id }) => {
             <DivisionOuter>
               <DivisionInner>
                 <Division
-                  isSelected={time.division === "pm" ? true : false}
-                  onClick={() => handleSetTime("division", "pm")}
+                  isSelected={time.division === 'pm' ? true : false}
+                  onClick={() => handleSetTime('division', 'pm')}
                 >
                   p.m
                 </Division>
@@ -181,28 +194,53 @@ const Minute = styled.button`
 const OptionAndTitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   position: absolute;
   top: 0rem;
   left: 0rem;
   z-index: 1000;
-  overflow: auto;
+  overflow: hidden;
+
   width: 61px;
   height: 83px;
-  border-radius: 10px;
-  background-color: gray;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 12px;
+  opacity: 1;
 `;
 const OptionWrapper = styled.div`
-  height: 70%;
   display: flex;
   flex-direction: column;
+
   overflow: auto;
   scroll-behavior: smooth;
+
+  width: 53px;
+  height: 60px;
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 8px;
+  opacity: 1;
 `;
 
 const Title = styled.div`
-  font-size: 14px;
+  font-size: 8px;
   text-align: center;
-  color: #1b2b44;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 53px;
+  height: 14px;
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 8px;
+  opacity: 1;
+
+  ${flexboxCenter}
 `;
 
 const DivisionWrapper = styled.div`
@@ -240,7 +278,7 @@ const DivisionInner = styled.div`
 const Division = styled.button`
   font-size: 14px;
   letter-spacing: 1.4px;
-  color: ${(p) => (p.isSelected ? "#ffff" : "#808080")};
+  color: ${(p) => (p.isSelected ? '#ffff' : '#808080')};
   text-transform: uppercase;
 `;
 

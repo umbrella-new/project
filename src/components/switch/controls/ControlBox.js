@@ -39,7 +39,7 @@ const ControlBox = () => {
         </ControlsList>
       </PositionAbsolute>
       <SchedulerWrapper>
-        {state.heatingSchedule.displayed && <ScheduleCalendar />}
+        {state.heatingScheduleDisplayed && <ScheduleCalendar />}
       </SchedulerWrapper>
       {isKeyboardActivated && (
         <KeyboardWrapper>
