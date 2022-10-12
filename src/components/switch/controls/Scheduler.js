@@ -1,18 +1,24 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 const Scheduler = ({ handleOpenScheduler, start, end }) => {
-  const displayStart = start !== null ? start : " -----------------";
-  const displayEnd = end !== null ? end : " -----------------";
+  // const displayStart =
+  //   start.date !== null
+  //     ? `${start.time.hour}:${start.time.minute}- ${start.date.getDate()} `
+  //     : ' -----------------';
+  // const displayEnd = end.date !== null ? end : ' -----------------';
+
+  const displayStart = ' -----------------';
+  const displayEnd = ' -----------------';
 
   return (
     <Wrapper>
-      <DateWrapper>
-        <Date>{displayStart} </Date>
-        <Date>{displayEnd}</Date>
-      </DateWrapper>
+      <ScheduleDisplayWrapper>
+        <DateAndTimeWrapper>{displayStart} </DateAndTimeWrapper>
+        <DateAndTimeWrapper>{displayEnd}</DateAndTimeWrapper>
+      </ScheduleDisplayWrapper>
       <CalendarButton onClick={handleOpenScheduler}>
-        <Img src={"/images/calendar-button.svg"} />
+        <Img src={'/images/calendar-button.svg'} />
       </CalendarButton>
     </Wrapper>
   );
@@ -42,13 +48,14 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const DateWrapper = styled.div`
+const ScheduleDisplayWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 20px;
+  border: 1px solid red;
 `;
 
-const Date = styled.div`
+const DateAndTimeWrapper = styled.div`
   margin-bottom: 3px;
   width: 192px;
   height: 18px;
@@ -62,19 +69,8 @@ const Date = styled.div`
   font-size: 8px;
   ${flexboxCenter}
 `;
-const EndDate = styled.div`
-  /* Layout Properties */
 
-  width: 192px;
-  height: 18px;
-  /* UI Properties */
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
-  background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 14px;
-  opacity: 1;
-`;
+const Date = styled.span``;
 
 const CalendarButton = styled.button`
   width: 22px;
