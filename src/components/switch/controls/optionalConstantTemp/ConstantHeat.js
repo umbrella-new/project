@@ -31,12 +31,17 @@ const ConstantHeat = () => {
   const location = useLocation();
 
   const CONTROLLER_NAME = 'optional constant temp.';
-  const IMG_SRC =
-    location.pathname === '/'
-      ? '/images/optional-Constant-Temperature-Logo-enable.svg'
-      : '/images/optional-Constant-Temperature-Logo.svg';
+  const IMG_SRC = isEssSwitch
+    ? '/images/optional-Constant-Temperature-Logo.svg'
+    : location.pathname === '/'
+    ? '/images/optional-Constant-Temperature-Logo.svg-enable'
+    : '/images/optional-Constant-Temperature-Logo.svg';
 
-  const isEnable = location.pathname === '/' ? false : true;
+  const isEnable = isEssSwitch
+    ? true
+    : location.pathname === '/'
+    ? false
+    : true;
 
   const handleDispatch = (temp) => {
     dispatch(constantTemp(temp));
