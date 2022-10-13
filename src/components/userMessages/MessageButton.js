@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../styles/commonStyles";
 
 const MessageButton = ({ name, buttonHandler }) => {
   return (
@@ -59,4 +59,5 @@ const ButtonTop = styled.div`
 `;
 const Title = styled.span`
   text-transform: uppercase;
+  font-size: 8px;
 `;

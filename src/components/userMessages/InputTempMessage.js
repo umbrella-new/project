@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
-import MessageButton from './MessageButton';
+import styled from "styled-components";
+import { flexboxCenter } from "../../styles/commonStyles";
+import MessageButton from "./MessageButton";
 
 const InputTempMessage = ({ onClose, title, message }) => {
   return (
@@ -76,7 +76,9 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   height: 15%;
 `;
-const HeaderTitle = styled.span``;
+const HeaderTitle = styled.span`
+  text-transform: uppercase;
+`;
 
 const Logo = styled.img``;
 
