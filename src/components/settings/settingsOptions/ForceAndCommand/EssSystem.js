@@ -1,52 +1,51 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import ButtonCloseAndExpend from "./ButtonCloseAndExpend";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import ButtonCloseAndExpand from './ButtonCloseAndExpand';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setEssButtonExpandAndClose,
+  selectSettingsOfEss,
+} from '../../../../store/slices/settingsOfEssSlice';
 
-function SysFooter() {
-  const sysButtonActive = "./images/greenSysButton.svg";
-  const sysButton = "./images/sysButton.svg";
-  // setStates
-  const [toggleSysButton, setToggleSysButton] = useState(sysButton);
-  const [expandOrClose, setExpandOrClose] = useState("close");
-  // setFunctions
-  const handleSwitchButton = () => {
-    if (toggleSysButton === sysButton) {
-      return setToggleSysButton(sysButtonActive);
-    } else return setToggleSysButton(sysButton);
-  };
-
-  const handleCloseExpandButton = () => {
-    if (expandOrClose === "close") {
-      return setExpandOrClose("expand");
-    } else return setExpandOrClose("close");
-  };
+function EssHeader({
+  toggleEssButton,
+  essExpandOrClose,
+  handleCloseExpandButton,
+}) {
+  const state = useSelector(selectSettingsOfEss);
+  const buttonExpandClose = state.buttonOfExpandAndClose.essExpandAndClose;
 
   return (
     <Wrapper>
-      <ButtonHole
-        onClick={() => {
-          handleSwitchButton();
-        }}
-      >
-        <img src={toggleSysButton} />
+      {/* {buttonExpandClose ? (
+        <ButtonHole>
+          <img src={toggleEssButton} />
+        </ButtonHole>
+      ) : (
+        <ButtonHole>
+          <img src={essButton} />
+        </ButtonHole>
+      )} */}
+      <ButtonHole>
+        <img src={toggleEssButton} />
       </ButtonHole>
       <Span></Span>
       <ContainerTitle>
-        <P>system commands</P>
+        <P>electrical switch system</P>
       </ContainerTitle>
       <ContainerButton
         onClick={() => {
           handleCloseExpandButton();
         }}
       >
-        <ButtonCloseAndExpend name={expandOrClose} />
+        <ButtonCloseAndExpand name={essExpandOrClose} />
       </ContainerButton>
     </Wrapper>
   );
 }
 
-export default SysFooter;
+export default EssHeader;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -71,13 +70,12 @@ const ButtonHole = styled.div`
   border-radius: 50%;
   background: #18253a 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
-  border: 0.5px solid #142033;
   opacity: 1;
   ${flexboxCenter};
 `;
 
 const Span = styled.span`
-  content: "";
+  content: '';
   flex: 1;
   border-bottom: solid 2px #ffff;
   margin: auto 0.25em;
@@ -109,8 +107,7 @@ const ContainerButton = styled.div`
   margin-right: 6px;
   width: 66px;
   height: 24px;
-  background: var(--unnamed-color-1b2b44) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
+
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 19px;
