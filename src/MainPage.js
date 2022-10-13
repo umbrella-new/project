@@ -59,8 +59,6 @@ const Wrapper = styled.section`
   padding: var(--space2) var(--space0);
 
   position: relative;
-
-  border: 1px solid red;
 `;
 
 const Title = styled.img`

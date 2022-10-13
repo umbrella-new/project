@@ -109,10 +109,17 @@ const TempAndButton = ({
   //   }
   // };
 
-  const hanldeCloseMessage = () => {
+  const handleHideMessage = () => {
     setAlertMessage(false);
   };
-
+  const messageBoxTitle =
+    title === 'scheduler'
+      ? 'heating schedule program'
+      : 'optional constant temp';
+  const message =
+    title === 'scheduler'
+      ? 'in order to finalize your heating schedule program, '
+      : 'in order to finalize your heating schedule program, ';
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
       <InputAndLabelWrapper isEnable={isEnable} onClick={onInputHandler}>
@@ -156,7 +163,13 @@ const TempAndButton = ({
           />
         </KeyPadWrapper>
       )}
-      {alertMessage && <InputTempMessage onClose={hanldeCloseMessage} />}
+      {alertMessage && (
+        <InputTempMessage
+          onClose={handleHideMessage}
+          title={messageBoxTitle}
+          message={message}
+        />
+      )}
     </Wrapper>
   );
 };

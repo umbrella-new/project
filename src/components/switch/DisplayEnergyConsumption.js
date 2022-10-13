@@ -2,17 +2,22 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
+import { selectTgsSwitch } from '../../store/slices/tgsSwitchSlice';
 import { selectUserState } from '../../store/slices/userSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 const DisplayEnergyConsumption = () => {
-  const state = useSelector(selectEssSwitch);
+  const ssState = useSelector(selectEssSwitch);
+  const gsState = useSelector(selectTgsSwitch);
+
   const userState = useSelector(selectUserState);
   const location = useLocation();
 
-  const energyConsumption = state.energyConsumption
-    ? state.energyConsumption
-    : 350;
+  const energyConsumption = userState.isEssSwitch
+    ? ssState.energyConsumption
+    : location.pathname === '/'
+    ? gsState.energyConsumption
+    : ssState.energyConsumption;
 
   return (
     <Wrapper>
@@ -23,8 +28,10 @@ const DisplayEnergyConsumption = () => {
         </EnergyTitle>
       </LogoAndTitle>
       <EnergyConsumption>
-        {energyConsumption}{' '}
-        {location.pathname !== '/' ? (
+        350{' '}
+        {userState.isEssSwitch ? (
+          <EnergyConsumption>Kw</EnergyConsumption>
+        ) : location.pathname !== '/' ? (
           <EnergyConsumption>Kw</EnergyConsumption>
         ) : (
           <EnergyConsumption>
