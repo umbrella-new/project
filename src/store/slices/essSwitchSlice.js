@@ -1,18 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  heatingScheduleDisplayed: false,
   instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
   snowSensor: { isReady: false, activated: false },
   optionalConstantTemp: { inputTemp: 0, apply: false },
   heatingSchedule: {
-    start: null,
-    end: null,
+    start: { date: null, time: null },
+    end: { date: null, time: null },
     inputTemp: 0,
     isReady: false,
     activated: false,
-    displayed: false,
     disable: false,
   },
+  heatingScheduleList: [],
   windFactor: { isReady: false, activated: false },
   isExpanded: false,
   currentTemp: null,
@@ -22,7 +23,7 @@ const initialState = {
 };
 
 const essSwitchSlice = createSlice({
-  name: "essSwitch",
+  name: 'essSwitch',
   initialState,
   reducers: {
     expand: (state) => {
@@ -37,18 +38,28 @@ const essSwitchSlice = createSlice({
       state.snowSensor.isReady = !state.snowSensor.isReady;
     },
     heatingScheduleDate: (state, action) => {
-      state.heatingSchedule.start = action.payload.start;
-      state.heatingSchedule.end = action.payload.end;
+      state.heatingScheduleList.push({
+        start: action.payload.start,
+        end: action.payload.end,
+      });
+      state.heatingSchedule.start = {
+        date: action.payload.start.date,
+        time: action.payload.start.time,
+      };
+      state.heatingSchedule.end = {
+        date: action.payload.end.date,
+        time: action.payload.time,
+      };
     },
     heatingScheduleBeReady: (state, action) => {
       state.heatingSchedule.temp = action.payload.temp;
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
     heatingScheduleOpen: (state) => {
-      state.heatingSchedule.displayed = true;
+      state.heatingScheduleDisplayed = true;
     },
     heatingScheduleCancel: (state) => {
-      state.heatingSchedule.displayed = false;
+      state.heatingScheduleDisplayed = false;
     },
     heatingScheduleClear: (state) => {
       state.optionalConstantTemp.start = null;
@@ -58,7 +69,6 @@ const essSwitchSlice = createSlice({
       state.windFactor.isReady = !state.windFactor.isReady;
     },
     constantTemp: (state, action) => {
-      console.log(action.payload);
       state.optionalConstantTemp.apply = !state.optionalConstantTemp.apply;
       state.optionalConstantTemp.inputTemp = action.payload;
     },

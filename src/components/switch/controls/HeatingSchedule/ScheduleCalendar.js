@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useDatepicker, START_DATE, useMonth } from '@datepicker-react/hooks';
 
+import moment from 'moment/moment';
+
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 import Month from './Month';
@@ -15,8 +17,12 @@ import {
   heatingScheduleDate,
   heatingScheduleClear,
 } from '../../../../store/slices/essSwitchSlice';
+import { useEffect } from 'react';
 
 const ScheduleCalendar = () => {
+  const time = moment();
+  console.log(time._d);
+
   const dispatch = useDispatch();
   // Time Picker states
   const initialTimeState = {
@@ -34,22 +40,38 @@ const ScheduleCalendar = () => {
     focusedInput: START_DATE,
   });
 
+  const startArray =
+    dateState.startDate &&
+    dateState.startDate
+      .toLocaleString('en-ca', {
+        year: 'numeric',
+        month: 'long',
+        weekday: 'short',
+        day: 'numeric',
+      })
+      .replace(/\,/g, '')
+      .split(' ');
+
+  const endArray =
+    dateState.endDate &&
+    dateState.endDate
+      .toLocaleString('en-ca', {
+        year: 'numeric',
+        month: 'long',
+        weekday: 'short',
+        day: 'numeric',
+      })
+      .replace(/\,/g, '')
+      .split(' ');
+
+  console.log(startArray);
   const start =
     dateState.startDate &&
-    dateState.startDate.toLocaleString('en-ca', {
-      year: 'numeric',
-      month: 'short',
-      weekday: 'short',
-      day: 'numeric',
-    });
+    `${startArray[3]}/${startArray[1]}/${startArray[0]} ${startArray[2]}`;
+
   const end =
     dateState.endDate &&
-    dateState.endDate.toLocaleString('en-ca', {
-      year: 'numeric',
-      month: 'short',
-      weekday: 'short',
-      day: 'numeric',
-    });
+    `${endArray[3]}/${endArray[1]}/${endArray[0]} ${endArray[2]}`;
 
   const handleDateChange = (data) => {
     if (!data.focusedInput) {
@@ -59,6 +81,7 @@ const ScheduleCalendar = () => {
     }
   };
 
+  // Time picker
   const handleSetTime = (time, id) => {
     console.log(time, id);
     if (id === 'start') {
@@ -129,8 +152,8 @@ const ScheduleCalendar = () => {
       case '3': {
         dispatch(
           heatingScheduleDate({
-            start: `${start} / ${startTimeSet}`,
-            end: `${end} / ${endTimeSet}`,
+            start: { date: dateState.startDate, time: startTime },
+            end: { date: dateState.endDate, time: endTime },
           })
         );
         dispatch(heatingScheduleCancel());
@@ -260,8 +283,7 @@ const ScheduleCalendar = () => {
                   <DisplayTop>
                     <Date>
                       {dateState.startDate ? start : 'Choose the start date'}
-
-                      {dateState.startDate && ` / ${startTimeSet}`}
+                      {dateState.startDate && ` - ${startTimeSet}`}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>
@@ -277,7 +299,7 @@ const ScheduleCalendar = () => {
                     <Date>
                       {dateState.endDate ? end : 'Choose the end date'}
 
-                      {dateState.endDate && ` /  ${endTimeSet}`}
+                      {dateState.endDate && ` -  ${endTimeSet}`}
                     </Date>
                   </DisplayTop>
                 </DisplayDateInner>
@@ -566,8 +588,8 @@ const DisplayTop = styled.div`
 
 const Date = styled.span`
   /* text-align: left; */
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 0.9px;
   color: #fcff01;
   opacity: 1;
   text-transform: uppercase;

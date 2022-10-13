@@ -9,7 +9,8 @@ function Month({ year, month, firstDayOfWeek, startDay, endDay }) {
     month,
     firstDayOfWeek,
   });
-
+  // console.log(days[10].date.getDate());
+  // console.log(days);
   return (
     <Wrapper>
       {/* <MonthLabel>
@@ -83,9 +84,4 @@ const DateWrapper = styled.div`
   grid-template-columns: repeat(7, 1fr);
   justify-content: space-between;
   /* border: 1px solid red; */
-`;
-
-const MonthLabel = styled.div`
-  text-align: center;
-  margin: 0 0 16px;
 `;

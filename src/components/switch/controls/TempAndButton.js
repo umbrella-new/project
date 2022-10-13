@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { useEffect, useRef, useState } from 'react';
+import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -7,7 +7,8 @@ import {
   activeLayer1,
   activeInput,
   ButtonReady,
-} from "../../../styles/commonStyles";
+} from '../../../styles/commonStyles';
+import InputKeyPad from '../../keyboard/KeyPad';
 
 const TempAndButton = ({
   isEnable,
@@ -19,6 +20,9 @@ const TempAndButton = ({
   isAble,
 }) => {
   const inputRef = useRef();
+
+  // Local state displaying the keypad
+  const [openKeyPad, setOpenKeyPad] = useState(false);
 
   useEffect(() => {
     if (currTemp > 0) {
@@ -32,26 +36,33 @@ const TempAndButton = ({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const temp = inputRef.current.value;
+    const temp = Number(inputRef.current.value);
 
-    if (title === "scheduler") {
-      if (temp > 0) {
+    if (title === 'scheduler') {
+      if (temp !== 0) {
         if (!isReady) {
           buttonHandler(temp);
           inputRef.current.value = `${temp}\u00b0C`;
         } else {
           buttonHandler(0);
-          inputRef.current.value = "";
+          inputRef.current.value = '';
         }
       }
     } else {
-      if (temp > 0) {
-        if (!isActivated) {
-          buttonHandler(temp);
-          inputRef.current.value = `${temp}\u00b0C`;
+      if (temp !== 0) {
+        if (temp > 248) {
+          window.alert(
+            'Maximum temperature is 120\u00b0F(248\u00b0C). Please input desired temperature below the maximum temperature'
+          );
+          inputRef.current.value = '';
         } else {
-          buttonHandler(0);
-          inputRef.current.value = "";
+          if (!isActivated) {
+            buttonHandler(temp);
+            inputRef.current.value = `${temp}\u00b0C`;
+          } else {
+            buttonHandler(0);
+            inputRef.current.value = '';
+          }
         }
       }
     }
@@ -59,14 +70,42 @@ const TempAndButton = ({
 
   const handleCheck = () => {
     if (!isAble) {
-      alert("Please Set Schedule First");
-      inputRef.current.value = "";
+      alert('Please Set Schedule First');
+      inputRef.current.value = '';
     }
   };
 
+  // Handlers for keypad
+  const onInputHandler = () => {
+    // inputRef.current.focus();
+    setOpenKeyPad(true);
+  };
+
+  const handleClosekeypad = () => {
+    setOpenKeyPad(false);
+  };
+
+  // // Virtual keyboard input handler
+  // const handleVirtualKeyboardInput = (input) => {
+  //   const temp = Number(input);
+
+  //   if (temp !== 0) {
+  //     if (!instantButtonToggler) {
+  //       dispatch(instantHeat(temp));
+  //       inputRef.current.value = `${temp}\u00b0C`;
+  //       handleClosekeypad();
+  //     } else {
+  //       dispatch(instantHeat(0));
+  //       inputRef.current.value = ``;
+  //     }
+  //   } else {
+  //     return;
+  //   }
+  // };
+
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
-      <InputAndLabelWrapper isEnable={isEnable}>
+      <InputAndLabelWrapper isEnable={isEnable} onClick={onInputHandler}>
         <Label isEnable={isEnable}> input temp.</Label>
         <InputWrapper isEnable={isEnable}>
           <InputDegree
@@ -92,10 +131,21 @@ const TempAndButton = ({
             isActivated={isActivated}
             isReady={isReady}
           >
-            <ButtonName isEnable={isEnable}>apply</ButtonName>
+            <ButtonName isEnable={isEnable}>
+              {isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
+            </ButtonName>
           </ButtonTop>
         </ButtonHole>
       </ButtonWrapper>
+
+      {openKeyPad && (
+        <KeyPadWrapper>
+          <InputKeyPad
+            closeKeyPad={handleClosekeypad}
+            // handleOnSubmit={handleVirtualKeyboardInput}
+          />
+        </KeyPadWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -109,6 +159,8 @@ const Wrapper = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  position: relative;
 
   padding-left: 5px;
   padding-right: 3px;
@@ -143,7 +195,7 @@ const Label = styled.label`
   font-size: 8px;
   text-transform: uppercase;
   text-align: center;
-  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
 `;
 
 const InputWrapper = styled.div`
@@ -188,14 +240,14 @@ const InputDegree = styled.input`
         `}
 
   ::placeholder {
-    color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+    color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
     text-align: center;
     font-size: 10px;
   }
 `;
 
 const ButtonWrapper = styled.button`
-  cursor: ${(p) => (p.isEnable ? `pointer` : "default")};
+  cursor: ${(p) => (p.isEnable ? `pointer` : 'default')};
   height: 30px;
   width: 126px;
   border-radius: 25px;
@@ -304,7 +356,14 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
   text-transform: uppercase;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   text-align: center;
-  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+`;
+
+const KeyPadWrapper = styled.div`
+  position: absolute;
+  top: 0rem;
+  right: -17rem;
+  z-index: 1000;
 `;

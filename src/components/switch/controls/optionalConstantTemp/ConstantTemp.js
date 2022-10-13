@@ -16,6 +16,7 @@ import {
 
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
+import InputKeyPad from '../../../keyboard/KeyPad';
 
 const ConstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -29,8 +30,6 @@ const ConstantHeat = () => {
   const { apply } = state.optionalConstantTemp;
   const location = useLocation();
 
-  // local state having input temp
-
   const CONTROLLER_NAME = 'optional constant temp.';
   const IMG_SRC = isEssSwitch
     ? '/images/optional-Constant-Temperature-Logo.svg'
@@ -42,9 +41,7 @@ const ConstantHeat = () => {
     : false;
 
   const handleDispatch = (temp) => {
-    if (temp > 0) {
-      dispatch(constantTemp(temp));
-    }
+    dispatch(constantTemp(temp));
   };
 
   return (

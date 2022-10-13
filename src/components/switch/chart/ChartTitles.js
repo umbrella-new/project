@@ -60,6 +60,8 @@ export default ChartTitles;
 
 const Wrapper = styled.div`
   width: var(--chart-width);
+  width: 580px;
+
   height: 22px;
   /* UI Properties */
   background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
