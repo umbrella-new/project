@@ -8,24 +8,6 @@ function SysSystem({
   handleCloseExpandButton,
   toggleSysButton,
 }) {
-  const sysButtonActive = './images/greenSysButton.svg';
-  const sysButton = './images/sysButton.svg';
-  // setStates
-  // const [toggleSysButton, setToggleSysButton] = useState(sysButton);
-  // const [expandOrClose, setExpandOrClose] = useState('close');
-  // setFunctions
-  // const handleSwitchButton = () => {
-  //   if (toggleSysButton === sysButton) {
-  //     return setToggleSysButton(sysButtonActive);
-  //   } else return setToggleSysButton(sysButton);
-  // };
-
-  // const handleCloseExpandButton = () => {
-  //   if (expandOrClose === 'close') {
-  //     return setExpandOrClose('expand');
-  //   } else return setExpandOrClose('close');
-  // };
-
   return (
     <Wrapper>
       <ButtonHole>

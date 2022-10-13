@@ -13,20 +13,8 @@ function EssHeader({
   essExpandOrClose,
   handleCloseExpandButton,
 }) {
-  const state = useSelector(selectSettingsOfEss);
-  const buttonExpandClose = state.buttonOfExpandAndClose.essExpandAndClose;
-
   return (
     <Wrapper>
-      {/* {buttonExpandClose ? (
-        <ButtonHole>
-          <img src={toggleEssButton} />
-        </ButtonHole>
-      ) : (
-        <ButtonHole>
-          <img src={essButton} />
-        </ButtonHole>
-      )} */}
       <ButtonHole>
         <img src={toggleEssButton} />
       </ButtonHole>

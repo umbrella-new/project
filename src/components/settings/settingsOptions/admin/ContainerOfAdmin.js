@@ -11,6 +11,7 @@ import {
   setSysButtonExpandAndClose,
   selectSettingsOfEss,
 } from '../../../../store/slices/settingsOfEssSlice';
+import ContainerLogin from '../../../adminPassword/ContainerLogin';
 
 function ContainerOfAdmin() {
   // const essButton = './images/blueEssButton.svg';
@@ -82,6 +83,7 @@ function ContainerOfAdmin() {
             ) : (
               ''
             )}
+            <ContainerLogin />
           </Wrapper4>
         </Wrapper3>
       </Wrapper2>
