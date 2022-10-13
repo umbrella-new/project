@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   // isHeaterActivated: false,
+
   heatingScheduleDisplayed: false,
   instantHeat: {
     instantHeatTemp: 0,
@@ -10,12 +11,14 @@ const initialState = {
   fanOnly: false,
   snowSensor: { isReady: false, activated: false },
   optionalConstantTempL: { inputTemp: 0, apply: false },
+
   heatingSchedule: {
-    start: null,
-    end: null,
+    start: { date: null, time: null },
+    end: { date: null, time: null },
     inputTemp: 0,
     isReady: false,
     activated: false,
+    disable: false,
   },
   windFactor: { isReady: false, activated: false },
   currentTemp: null,
@@ -41,8 +44,14 @@ const tgsSwitchSlice = createSlice({
       state.snowSensor.isReady = !state.snowSensor.isReady;
     },
     tgsHeatingScheduleDate: (state, action) => {
-      state.heatingSchedule.start = action.payload.start;
-      state.heatingSchedule.end = action.payload.end;
+      state.heatingSchedule.start = {
+        date: action.payload.start.date,
+        time: action.payload.start.time,
+      };
+      state.heatingSchedule.end = {
+        date: action.payload.end.date,
+        time: action.payload.end.time,
+      };
     },
     tgsHeatingScheduleOpen: (state) => {
       state.heatingScheduleDisplayed = true;

@@ -72,7 +72,7 @@ const ScheduleDisplayWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 20px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
 const DateAndTimeWrapper = styled.div`
@@ -89,8 +89,6 @@ const DateAndTimeWrapper = styled.div`
   font-size: 8px;
   ${flexboxCenter}
 `;
-
-const Date = styled.span``;
 
 const CalendarButton = styled.button`
   width: 22px;

@@ -11,19 +11,17 @@ import Month from './Month';
 import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';
-import { useDispatch, useSelector } from 'react-redux';
-import essSwitchSlice, {
+import { useDispatch } from 'react-redux';
+import {
   heatingScheduleCancel,
   heatingScheduleDate,
   heatingScheduleClear,
-  selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
-import { useEffect } from 'react';
 
-const ScheduleCalendar = () => {
+const ScheduleCalendar = ({ state, handleScheduler }) => {
   // const time = moment();
   // console.log(time._d);
-  const state = useSelector(selectEssSwitch);
+
   const { start, end } = state.heatingSchedule;
   const dispatch = useDispatch();
   // Time Picker states
@@ -174,13 +172,10 @@ const ScheduleCalendar = () => {
         return;
       }
       case '3': {
-        dispatch(
-          heatingScheduleDate({
-            start: { date: dateState.startDate, time: startTime },
-            end: { date: dateState.endDate, time: endTime },
-          })
-        );
-        dispatch(heatingScheduleCancel());
+        handleScheduler({
+          start: { date: dateState.startDate, time: startTime },
+          end: { date: dateState.endDate, time: endTime },
+        });
         return;
       }
       default:

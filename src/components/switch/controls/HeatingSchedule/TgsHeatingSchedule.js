@@ -17,14 +17,15 @@ const TgsHeatingSchedule = () => {
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectTgsSwitch);
-  const { isReady, activated, inputTemp, start } = state.heatingSchedule;
+  const { isReady, inputTemp, activated, start, end } = state.heatingSchedule;
 
   const dispatch = useDispatch();
-  // console.log(state);
+
+  console.log(start);
 
   const handleDispatch = (temp) => {
     if (state.heatingSchedule.start) {
-      dispatch(tgsHeatingScheduleBeReady({ temp }));
+      dispatch(tgsHeatingScheduleBeReady(temp));
     } else {
       // Change it to modal!! make it beautiful
       window.alert('input schedule');
@@ -32,7 +33,6 @@ const TgsHeatingSchedule = () => {
   };
 
   const handleOpenScheduler = () => {
-    console.log('here');
     dispatch(tgsHeatingScheduleOpen());
   };
 
@@ -43,13 +43,16 @@ const TgsHeatingSchedule = () => {
       <SchedulerWrapper>
         <ScheduleSetTitleAndButton>
           <ScheduleSetTitle>start date - end date</ScheduleSetTitle>
-          <AddScheduleButton />
+          <AddScheduleButton
+            handleAddSchedule={handleOpenScheduler}
+            isVisible={start.date}
+          />
         </ScheduleSetTitleAndButton>
         <SchedulerCenter>
           <Scheduler
             handleOpenScheduler={handleOpenScheduler}
-            start={state.heatingSchedule.start}
-            end={state.heatingSchedule.end}
+            start={start}
+            end={end}
           />
         </SchedulerCenter>
       </SchedulerWrapper>
