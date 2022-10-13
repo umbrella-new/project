@@ -16,6 +16,7 @@ import ContainerOfWindFactor from './settingsOptions/windFactorTrigger/Container
 import ContainerOfSnowSensor from './settingsOptions/snowSensorTrigger/ContainerOfSnowSensor';
 import ContainerOfForceAndCommand from './settingsOptions/ForceAndCommand/ContainerOfForceAndCommand';
 import ContainerOfAdmin from './settingsOptions/admin/ContainerOfAdmin';
+import TitleOfSelectUnitsOfMeasurement from './settingsOptions/units/TitleOfSelectUnitsOfMeasurement';
 
 const Settings = () => {
   const state = useSelector(selectSettingsOfEss);
@@ -35,7 +36,30 @@ const Settings = () => {
         <MainSectionContainer>
           <MainSection mode={mode}>
             <ContainerUnitsSettings>
+              <TitleOfAllSettings />
+            </ContainerUnitsSettings>
+            <WrapperSettingsModeAndSelect>
+              <SettingsOptionsAndInterfaceMode />
+              {settingsOptionsUnits ? (
+                <ContainerOfMetricImperialAndMeasurementTitle />
+              ) : settingsOptionsWindFactor ? (
+                <ContainerOfWindFactor />
+              ) : settingsOptionsSnowFactor ? (
+                <ContainerOfSnowSensor />
+              ) : settingsOptionsForceAndCommand ? (
+                <ContainerOfForceAndCommand />
+              ) : (
+                <ContainerOfAdmin />
+              )}
+            </WrapperSettingsModeAndSelect>
+          </MainSection>
+        </MainSectionContainer>
+      </TitleMainSectionContainer>
+    </>
+  );
+};
 
+export default Settings;
 
 const TitleMainSectionContainer = styled.div`
   margin-right: 8px;
@@ -51,7 +75,6 @@ const MainSectionContainer = styled.div`
   width: 902px;
   height: auto;
   margin-top: 8px;
-
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 4px #000000;
