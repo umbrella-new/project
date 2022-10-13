@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 function Titles({ name }) {
-  const theme = useSelector(selectSettingsOfEss);
-  console.log('theme', theme);
-  const mode = theme.interfaceMode;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
 
   return (
     <>

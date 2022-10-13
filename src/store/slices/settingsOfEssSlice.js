@@ -14,6 +14,12 @@ const initialState = {
     settingsCancelButton: false,
     settingsApplyButton: false,
   },
+  buttonOfExpandAndClose: {
+    essExpandAndClose: true,
+    buttonEssExpandOrClose: '',
+    sysExpandAndClose: true,
+    buttonSysExpandOrClose: '',
+  },
 };
 
 export const settingsOfEssSlice = createSlice({
@@ -78,6 +84,16 @@ export const settingsOfEssSlice = createSlice({
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
     },
+    setEssButtonExpandAndClose: (state, action) => {
+      state.buttonOfExpandAndClose.essExpandAndClose = action.payload;
+      state.buttonOfExpandAndClose.buttonEssExpandOrClose = action.payload;
+      state.buttonOfExpandAndClose.essExpandAndClose = action.payload;
+    },
+    setSysButtonExpandAndClose: (state, action) => {
+      state.buttonOfExpandAndClose.sysExpandAndClose = action.payload;
+      state.buttonOfExpandAndClose.buttonEssExpandOrClose = action.payload;
+      state.buttonOfExpandAndClose.buttonSysExpandOrClose = action.payload;
+    },
   },
 });
 
@@ -92,6 +108,8 @@ export const {
   setSettingsCancelButton,
   setSettingsApplyButton,
   setResetAllSettingsButtons,
+  setEssButtonExpandAndClose,
+  setSysButtonExpandAndClose,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

@@ -1,19 +1,52 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
-import EssHeader from './EssHeader';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectSettingsOfEss,
+  setResetAllSettingsButtons,
+  setEssButtonExpandAndClose,
+} from '../../../../store/slices/settingsOfEssSlice';
+import EssHeader from './EssSystem';
 import SelectArts from './SelectArts';
 import SelectTc from './SelectTc';
-import SysFooter from './SysFooter';
+import SysSystem from './SysSystem';
 
 function ContainerOfForceAndCommand() {
+  const essButton = './images/blueEssButton.svg';
+  const essButtonActive = './images/greenEssButton.svg';
+  const sysButton = './images/sysButton.svg';
+
   const dispatch = useDispatch();
+  const state = useSelector(selectSettingsOfEss);
+  const ExpandCloseButton = state.buttonOfExpandAndClose.essExpandAndClose;
+  const [toggleEssButton, setToggleEssButton] = useState(essButtonActive);
+  const [essExpandOrClose, setEssExpandOrClose] = useState('close');
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
+    setToggleEssButton(essButtonActive);
+    dispatch(setEssButtonExpandAndClose(true));
   }, []);
+
+  const handleCloseExpandButton = () => {
+    switch (essExpandOrClose) {
+      case 'close': {
+        setEssExpandOrClose('expand');
+        dispatch(setEssButtonExpandAndClose(false));
+        setToggleEssButton(essButton);
+        break;
+      }
+      case 'expand': {
+        setEssExpandOrClose('close');
+        dispatch(setEssButtonExpandAndClose(true));
+        setToggleEssButton(essButtonActive);
+        break;
+      }
+      default:
+        return;
+    }
+  };
 
   return (
     <Wrapper>
@@ -21,16 +54,27 @@ function ContainerOfForceAndCommand() {
         <Wrapper3>
           <Wrapper4>
             <EssWrapper>
-              <EssHeader />
+              <EssHeader
+                toggleEssButton={toggleEssButton}
+                essExpandOrClose={essExpandOrClose}
+                handleCloseExpandButton={handleCloseExpandButton}
+              />
             </EssWrapper>
-            <NewWrapper>
-              <WrapperSelectTcSelectArts>
-                <SelectTc />
-                <SelectArts />
-              </WrapperSelectTcSelectArts>
-            </NewWrapper>
+            {ExpandCloseButton ? (
+              <NewWrapper>
+                <WrapperSelectTcSelectArts>
+                  <SelectTc />
+                  <SelectArts />
+                </WrapperSelectTcSelectArts>
+              </NewWrapper>
+            ) : (
+              ''
+            )}
             <SysWrapper>
-              <SysFooter />
+              <SysSystem
+                sysExpandOrClose={'expand'}
+                toggleSysButton={sysButton}
+              />
             </SysWrapper>
           </Wrapper4>
         </Wrapper3>

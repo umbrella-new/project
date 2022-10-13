@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const ButtonCloseAndExpend = ({ name }) => {
+const ButtonCloseAndExpand = ({ name }) => {
   return (
     <Wrapper>
       <ButtonHole>
@@ -12,7 +12,7 @@ const ButtonCloseAndExpend = ({ name }) => {
   );
 };
 
-export default ButtonCloseAndExpend;
+export default ButtonCloseAndExpand;
 
 const Wrapper = styled.button`
   cursor: pointer;
@@ -81,7 +81,7 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: var(--space2);
   text-transform: uppercase;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   letter-spacing: 0.8px;
   color: #ffffff;
   opacity: 1;
