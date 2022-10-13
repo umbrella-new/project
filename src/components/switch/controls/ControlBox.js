@@ -1,12 +1,16 @@
-import { useSelector } from 'react-redux';
-import { selectEssSwitch } from '../../../store/slices/essSwitchSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectEssSwitch,
+  heatingScheduleDate,
+  heatingScheduleCancel,
+} from '../../../store/slices/essSwitchSlice';
 import { selectUserState } from '../../../store/slices/userSlice';
 
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
-import ConstantHeat from './../controls/optionalConstantTemp/ConstantTemp';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
 import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
 import InstantHeat from './../controls/instantHeat/InstantHeat';
 import SnowSensor from './../controls/snowSensor/SnowSensor';
@@ -18,6 +22,17 @@ const ControlBox = () => {
   const userState = useSelector(selectUserState);
   const { isEssSwitch, isKeyboardActivated } = userState;
   const state = useSelector(selectEssSwitch);
+  const dispatch = useDispatch();
+
+  const handleDispatchSchdulerDate = (data) => {
+    dispatch(
+      heatingScheduleDate({
+        start: data.start,
+        end: data.end,
+      })
+    );
+    dispatch(heatingScheduleCancel());
+  };
 
   return (
     <Wrapper>
@@ -39,7 +54,12 @@ const ControlBox = () => {
         </ControlsList>
       </PositionAbsolute>
       <SchedulerWrapper>
-        {state.heatingScheduleDisplayed && <ScheduleCalendar />}
+        {state.heatingScheduleDisplayed && (
+          <ScheduleCalendar
+            state={state}
+            handleScheduler={handleDispatchSchdulerDate}
+          />
+        )}
       </SchedulerWrapper>
       {isKeyboardActivated && (
         <KeyboardWrapper>

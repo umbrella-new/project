@@ -42,6 +42,7 @@ const essSwitchSlice = createSlice({
       //   start: action.payload.start,
       //   end: action.payload.end,
       // });
+
       state.heatingSchedule.start = {
         date: action.payload.start.date,
         time: action.payload.start.time,

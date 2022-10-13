@@ -16,7 +16,7 @@ const TgsSnowSensor = () => {
   const isReady = state.snowSensor.isReady;
   const isActivated = state.snowSensor.isActivated;
 
-  console.log(isReady);
+  // console.log(isReady);
   const dispatch = useDispatch();
 
   const CONTROLLER_NAME = 'snow sensor program';

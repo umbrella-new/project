@@ -33,6 +33,7 @@ function Month({ year, month, firstDayOfWeek, startDay, endDay }) {
                 dayLabel={day.dayLabel}
                 startDay={startDay}
                 endDay={endDay}
+                month={month}
               />
             );
           }

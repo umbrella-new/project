@@ -1,18 +1,22 @@
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserState } from '../../../store/slices/userSlice';
-import { selectTgsSwitch } from '../../../store/slices/tgsSwitchSlice';
+import {
+  selectTgsSwitch,
+  tgsHeatingScheduleDate,
+  tgsHeatingScheduleCancel,
+} from '../../../store/slices/tgsSwitchSlice';
 
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 import TgsInstantHeat from './instantHeat/TgsInstantHeat';
 import TgsSnowSensor from './snowSensor/TgsSnowSensor';
-import ConstantHeat from './optionalConstantTemp/ConstantTemp';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
 import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
 import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
 import TgsWindFactor from './windFactor/TgsWindFactor';
-import TgsScheduleCalendar from './HeatingSchedule/TgsScheduleCalendar';
+import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
 
 const TgsControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -20,8 +24,17 @@ const TgsControlBox = () => {
   // conditionally change state ess || tgs || tes
 
   const state = useSelector(selectTgsSwitch);
-  // Read current URL
-  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const handleDispatchSchdulerDate = (data) => {
+    dispatch(
+      tgsHeatingScheduleDate({
+        start: data.start,
+        end: data.end,
+      })
+    );
+    dispatch(tgsHeatingScheduleCancel());
+  };
 
   return (
     <Wrapper>
@@ -38,7 +51,12 @@ const TgsControlBox = () => {
         </ControlsList>
       </PositionAbsolute>
       <SchedulerWrapper>
-        {state.heatingScheduleDisplayed && <TgsScheduleCalendar />}
+        {state.heatingScheduleDisplayed && (
+          <ScheduleCalendar
+            state={state}
+            handleScheduler={handleDispatchSchdulerDate}
+          />
+        )}
       </SchedulerWrapper>
     </Wrapper>
   );

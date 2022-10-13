@@ -17,10 +17,7 @@ const HeatingSchedule = () => {
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectEssSwitch);
-  const { isReady, inputTemp } = state.heatingSchedule;
-  const { activated, start, end } = state.heatingSchedule;
-
-  console.log(end);
+  const { isReady, inputTemp, activated, start, end } = state.heatingSchedule;
 
   const dispatch = useDispatch();
 
@@ -44,7 +41,10 @@ const HeatingSchedule = () => {
       <SchedulerWrapper>
         <ScheduleSetTitleAndButton>
           <ScheduleSetTitle>start date - end date</ScheduleSetTitle>
-          <AddScheduleButton handleAddSchedule={handleOpenScheduler} />
+          <AddScheduleButton
+            handleAddSchedule={handleOpenScheduler}
+            isVisible={start.date}
+          />
         </ScheduleSetTitleAndButton>
         <SchedulerCenter>
           <Scheduler
@@ -117,6 +117,7 @@ const ScheduleSetTitleAndButton = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding-right: 2px;
+  /* border: 1px solid red; */
 `;
 
 const ScheduleSetTitle = styled.span`
@@ -124,5 +125,5 @@ const ScheduleSetTitle = styled.span`
 
   height: 12px;
   font-size: 8px;
-  margin-right: 70px;
+  margin-right: 55px;
 `;

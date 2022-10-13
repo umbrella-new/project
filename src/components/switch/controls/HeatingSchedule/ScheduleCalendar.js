@@ -11,19 +11,17 @@ import Month from './Month';
 import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';
-import { useDispatch, useSelector } from 'react-redux';
-import essSwitchSlice, {
+import { useDispatch } from 'react-redux';
+import {
   heatingScheduleCancel,
   heatingScheduleDate,
   heatingScheduleClear,
-  selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
-import { useEffect } from 'react';
 
-const ScheduleCalendar = () => {
+const ScheduleCalendar = ({ state, handleScheduler }) => {
   // const time = moment();
   // console.log(time._d);
-  const state = useSelector(selectEssSwitch);
+
   const { start, end } = state.heatingSchedule;
   const dispatch = useDispatch();
   // Time Picker states
@@ -47,7 +45,7 @@ const ScheduleCalendar = () => {
     endDate: end.date ? end.date : null,
     focusedInput: START_DATE,
   });
-  console.log(dateState.startDate);
+  // console.log(dateState.startDate);
 
   const startArray =
     dateState.startDate &&
@@ -151,7 +149,6 @@ const ScheduleCalendar = () => {
     dateState.endDate &&
     `${dateState.endDate.getMonth()}${dateState.endDate.getDate()}`;
 
-  console.log('startdat', startDay);
   const handleOnClick = (id) => {
     switch (id) {
       case '1': {
@@ -174,21 +171,16 @@ const ScheduleCalendar = () => {
         return;
       }
       case '3': {
-        dispatch(
-          heatingScheduleDate({
-            start: { date: dateState.startDate, time: startTime },
-            end: { date: dateState.endDate, time: endTime },
-          })
-        );
-        dispatch(heatingScheduleCancel());
+        handleScheduler({
+          start: { date: dateState.startDate, time: startTime },
+          end: { date: dateState.endDate, time: endTime },
+        });
         return;
       }
       default:
         return;
     }
   };
-
-  console.log(endTime);
 
   return (
     <DatepickerContext.Provider
@@ -292,8 +284,8 @@ const ScheduleCalendar = () => {
                 year={activeMonths[1].year}
                 month={activeMonths[1].month}
                 firstDayOfWeek={firstDayOfWeek}
-                startDay={dateState.startDate && dateState.startDate.getDate()}
-                endDay={dateState.endDate && dateState.endDate.getDate()}
+                startDay={dateState.startDate && startDay}
+                endDay={dateState.endDate && endDay}
               />
             </Calendar>
 
