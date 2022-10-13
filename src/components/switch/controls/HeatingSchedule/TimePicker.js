@@ -25,7 +25,6 @@ const TimePicker = ({ time, setTime, id }) => {
   const minuteOptions = ['00', 10, 20, 30, 40, 50, 60];
 
   const handleSetTime = (title, data) => {
-    console.log(title, data);
     switch (title) {
       case 'division': {
         setTime({ ...time, division: data }, id);

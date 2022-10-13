@@ -18,7 +18,9 @@ const HeatingSchedule = () => {
 
   const state = useSelector(selectEssSwitch);
   const { isReady, inputTemp } = state.heatingSchedule;
-  const { activated, start } = state.heatingSchedule;
+  const { activated, start, end } = state.heatingSchedule;
+
+  console.log(end);
 
   const dispatch = useDispatch();
 
@@ -47,8 +49,8 @@ const HeatingSchedule = () => {
         <SchedulerCenter>
           <Scheduler
             handleOpenScheduler={handleOpenScheduler}
-            start={state.heatingSchedule.start}
-            end={state.heatingSchedule.end}
+            start={start}
+            end={end}
           />
         </SchedulerCenter>
       </SchedulerWrapper>

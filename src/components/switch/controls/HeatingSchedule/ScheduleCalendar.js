@@ -11,34 +11,43 @@ import Month from './Month';
 import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';
-import { useDispatch } from 'react-redux';
-import {
+import { useDispatch, useSelector } from 'react-redux';
+import essSwitchSlice, {
   heatingScheduleCancel,
   heatingScheduleDate,
   heatingScheduleClear,
+  selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
 import { useEffect } from 'react';
 
 const ScheduleCalendar = () => {
-  const time = moment();
-  console.log(time._d);
-
+  // const time = moment();
+  // console.log(time._d);
+  const state = useSelector(selectEssSwitch);
+  const { start, end } = state.heatingSchedule;
   const dispatch = useDispatch();
   // Time Picker states
-  const initialTimeState = {
-    hour: '00',
-    minute: '00',
-    division: 'am',
+
+  const initialStartTimeState = {
+    hour: start.time ? start.time.hour : '00',
+    minute: start.time ? start.time.minute : '00',
+    division: start.time ? start.time.division : 'am',
+  };
+  const initialEndTimeState = {
+    hour: end.time ? end.time.hour : '00',
+    minute: end.time ? end.time.minute : '00',
+    division: end.time ? end.time.division : 'am',
   };
 
-  const [startTime, setStartTime] = useState(initialTimeState);
-  const [endTime, setEndTime] = useState(initialTimeState);
+  const [startTime, setStartTime] = useState(initialStartTimeState);
+  const [endTime, setEndTime] = useState(initialEndTimeState);
 
   const [dateState, setDateState] = useState({
-    startDate: null,
-    endDate: null,
+    startDate: start.date ? start.date : null,
+    endDate: end.date ? end.date : null,
     focusedInput: START_DATE,
   });
+  console.log(dateState.startDate);
 
   const startArray =
     dateState.startDate &&
@@ -64,12 +73,11 @@ const ScheduleCalendar = () => {
       .replace(/\,/g, '')
       .split(' ');
 
-  console.log(startArray);
-  const start =
+  const startDate =
     dateState.startDate &&
     `${startArray[3]}/${startArray[1]}/${startArray[0]} ${startArray[2]}`;
 
-  const end =
+  const endDate =
     dateState.endDate &&
     `${endArray[3]}/${endArray[1]}/${endArray[0]} ${endArray[2]}`;
 
@@ -83,7 +91,6 @@ const ScheduleCalendar = () => {
 
   // Time picker
   const handleSetTime = (time, id) => {
-    console.log(time, id);
     if (id === 'start') {
       setStartTime(time);
     } else {
@@ -136,13 +143,30 @@ const ScheduleCalendar = () => {
   const currMonth = months[activeMonths[0].month];
   const nextMonth = months[activeMonths[1].month];
 
+  // Pass them as props to Day component For styling(border-radious)
+  const startDay =
+    dateState.startDate &&
+    `${dateState.startDate.getMonth()}${dateState.startDate.getDate()}`;
+  const endDay =
+    dateState.endDate &&
+    `${dateState.endDate.getMonth()}${dateState.endDate.getDate()}`;
+
+  console.log('startdat', startDay);
   const handleOnClick = (id) => {
     switch (id) {
       case '1': {
         onResetDates();
         dispatch(heatingScheduleClear());
-        setStartTime(initialTimeState);
-        setEndTime(initialTimeState);
+        setStartTime({
+          hour: '00',
+          minute: '00',
+          division: 'am',
+        });
+        setEndTime({
+          hour: '00',
+          minute: '00',
+          division: 'am',
+        });
         return;
       }
       case '2': {
@@ -163,6 +187,8 @@ const ScheduleCalendar = () => {
         return;
     }
   };
+
+  console.log(endTime);
 
   return (
     <DatepickerContext.Provider
@@ -229,6 +255,8 @@ const ScheduleCalendar = () => {
                 year={activeMonths[0].year}
                 month={activeMonths[0].month}
                 firstDayOfWeek={firstDayOfWeek}
+                startDay={dateState.startDate && startDay}
+                endDay={dateState.endDate && endDay}
               />
             </Calendar>
 
@@ -264,6 +292,8 @@ const ScheduleCalendar = () => {
                 year={activeMonths[1].year}
                 month={activeMonths[1].month}
                 firstDayOfWeek={firstDayOfWeek}
+                startDay={dateState.startDate && dateState.startDate.getDate()}
+                endDay={dateState.endDate && dateState.endDate.getDate()}
               />
             </Calendar>
 
@@ -282,7 +312,9 @@ const ScheduleCalendar = () => {
 
                   <DisplayTop>
                     <Date>
-                      {dateState.startDate ? start : 'Choose the start date'}
+                      {dateState.startDate
+                        ? startDate
+                        : 'Choose the start date'}
                       {dateState.startDate && ` - ${startTimeSet}`}
                     </Date>
                   </DisplayTop>
@@ -297,7 +329,7 @@ const ScheduleCalendar = () => {
 
                   <DisplayTop>
                     <Date>
-                      {dateState.endDate ? end : 'Choose the end date'}
+                      {dateState.endDate ? endDate : 'Choose the end date'}
 
                       {dateState.endDate && ` -  ${endTimeSet}`}
                     </Date>

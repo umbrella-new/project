@@ -2,14 +2,34 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 const Scheduler = ({ handleOpenScheduler, start, end }) => {
-  // const displayStart =
-  //   start.date !== null
-  //     ? `${start.time.hour}:${start.time.minute}- ${start.date.getDate()} `
-  //     : ' -----------------';
-  // const displayEnd = end.date !== null ? end : ' -----------------';
+  const displayStart =
+    start.date !== null
+      ? `${start.time.hour} : ${start.time.minute} ${
+          start.time.division
+        } - ${start.date.getDate()} / ${
+          start.date.getMonth() + 1
+        } / ${start.date.getFullYear()} `
+      : ' -----------------';
 
-  const displayStart = ' -----------------';
-  const displayEnd = ' -----------------';
+  const displayEnd =
+    end.date !== null
+      ? `${end.time.hour} : ${end.time.minute} ${
+          end.time.division
+        } - ${end.date.getDate()} / ${
+          end.date.getMonth() + 1
+        } / ${end.date.getFullYear()} `
+      : ' -----------------';
+
+  // console.log(
+  //   `${start.time.hour}:${start.time.minute}${
+  //     start.time.division
+  //   }-${start.date.getDate()}/${
+  //     start.date.getMonth() + 1
+  //   }/${start.date.getFullYear()} `
+  // );
+
+  // const displayStart = ' -----------------';
+  // const displayEnd = ' -----------------';
 
   return (
     <Wrapper>
