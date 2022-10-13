@@ -9,8 +9,7 @@ function Month({ year, month, firstDayOfWeek, startDay, endDay }) {
     month,
     firstDayOfWeek,
   });
-  // console.log(days[10].date.getDate());
-  // console.log(days);
+
   return (
     <Wrapper>
       {/* <MonthLabel>

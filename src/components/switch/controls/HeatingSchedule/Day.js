@@ -4,7 +4,9 @@ import DatepickerContext from './datepickerContext';
 import getColor from './getColor';
 import styled from 'styled-components';
 
-const Day = ({ dayLabel, date, startDay, endDay }) => {
+const Day = ({ dayLabel, date, startDay, endDay, month }) => {
+  console.log(endDay);
+  console.log(startDay);
   const dayRef = useRef(null);
   const {
     focusedDate,
@@ -86,8 +88,8 @@ const Day = ({ dayLabel, date, startDay, endDay }) => {
       type='button'
       ref={dayRef}
       style={btnStyle}
-      isStartDay={dayLabel === startDay ? true : false}
-      isEndDay={dayLabel === endDay ? true : false}
+      isStartDay={Number(dayLabel) === startDay ? true : false}
+      isEndDay={Number(dayLabel) === endDay ? true : false}
     >
       {dayLabel}
     </Date>
@@ -101,6 +103,6 @@ const Date = styled.div`
   text-align: center;
   /* border: 1px solid red; */
 
-  border-radius: ${(p) => p.isStarDay && '50% 0 0 50%'};
-  border-radius: ${(p) => p.isEndday && '50% 0 0 50%'};
+  border-radius: ${(p) => p.isStartDay && '50% 0 0 50%'};
+  border-radius: ${(p) => p.isEndDay && '0 50% 50% 0 '};
 `;

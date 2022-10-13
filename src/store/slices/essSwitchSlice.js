@@ -38,17 +38,17 @@ const essSwitchSlice = createSlice({
       state.snowSensor.isReady = !state.snowSensor.isReady;
     },
     heatingScheduleDate: (state, action) => {
-      state.heatingScheduleList.push({
-        start: action.payload.start,
-        end: action.payload.end,
-      });
+      // state.heatingScheduleList.push({
+      //   start: action.payload.start,
+      //   end: action.payload.end,
+      // });
       state.heatingSchedule.start = {
         date: action.payload.start.date,
         time: action.payload.start.time,
       };
       state.heatingSchedule.end = {
         date: action.payload.end.date,
-        time: action.payload.time,
+        time: action.payload.end.time,
       };
     },
     heatingScheduleBeReady: (state, action) => {
