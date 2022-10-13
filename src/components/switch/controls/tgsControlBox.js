@@ -12,7 +12,7 @@ import { flexboxCenter } from '../../../styles/commonStyles';
 
 import TgsInstantHeat from './instantHeat/TgsInstantHeat';
 import TgsSnowSensor from './snowSensor/TgsSnowSensor';
-import ConstantHeat from './optionalConstantTemp/ConstantTemp';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
 import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
 import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
 import TgsWindFactor from './windFactor/TgsWindFactor';

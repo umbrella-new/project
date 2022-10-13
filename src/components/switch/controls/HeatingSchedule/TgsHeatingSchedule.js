@@ -21,8 +21,6 @@ const TgsHeatingSchedule = () => {
 
   const dispatch = useDispatch();
 
-  console.log(start);
-
   const handleDispatch = (temp) => {
     if (state.heatingSchedule.start) {
       dispatch(tgsHeatingScheduleBeReady(temp));

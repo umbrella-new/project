@@ -9,6 +9,7 @@ import {
   ButtonReady,
 } from '../../../styles/commonStyles';
 import InputKeyPad from '../../keyboard/KeyPad';
+import InputTempMessage from '../../userMessages/InputTempMessage';
 
 const TempAndButton = ({
   isEnable,
@@ -23,6 +24,7 @@ const TempAndButton = ({
 
   // Local state displaying the keypad
   const [openKeyPad, setOpenKeyPad] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
 
   useEffect(() => {
     if (currTemp > 0) {
@@ -33,8 +35,12 @@ const TempAndButton = ({
     }
   });
 
+  // Button handler
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Check the user input and show the user message
+    inputRef.current.value.length === 0 && setAlertMessage(true);
 
     const temp = Number(inputRef.current.value);
 
@@ -103,6 +109,10 @@ const TempAndButton = ({
   //   }
   // };
 
+  const hanldeCloseMessage = () => {
+    setAlertMessage(false);
+  };
+
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
       <InputAndLabelWrapper isEnable={isEnable} onClick={onInputHandler}>
@@ -146,6 +156,7 @@ const TempAndButton = ({
           />
         </KeyPadWrapper>
       )}
+      {alertMessage && <InputTempMessage onClose={hanldeCloseMessage} />}
     </Wrapper>
   );
 };

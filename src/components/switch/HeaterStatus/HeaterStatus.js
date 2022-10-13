@@ -32,9 +32,13 @@ const HeaterStatus = () => {
 
   return (
     <Wrapper isExpanded={state.isExpanded}>
-      <TitleWrapper>
-        <Title>heater status</Title>
-      </TitleWrapper>
+      <Header>
+        <TitleAndButtonWrapper>
+          <Title>heater status</Title>
+          <AdministratorButton>administator</AdministratorButton>
+        </TitleAndButtonWrapper>
+        <UnderLine />
+      </Header>
 
       <StatusButtonsWrapper>
         <ButtonGroup>
@@ -102,30 +106,46 @@ const Wrapper = styled.div`
   padding: 0.3rem 0;
 `;
 
-const TitleWrapper = styled.div`
+const Header = styled.div`
   width: 887px;
   height: 22px;
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 16px;
   opacity: 1;
-  ${flexboxCenter}
+
   padding: 0 var(--space2);
+  ${flexboxCenter}
 `;
+const TitleAndButtonWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #fff;
+  /* border: 1px solid red; */
+  margin-bottom: 0.4rem;
+`;
+
 const Title = styled.div`
   /* Layout Properties */
 
-  width: 100%;
   height: 65%;
   /* UI Properties */
   color: var(--unnamed-color-ffffff);
   text-align: left;
   font-size: 10px;
   text-transform: uppercase;
-  border-bottom: 1px solid #fff;
 `;
+
+const AdministratorButton = styled.button`
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 8px;
+`;
+const UnderLine = styled.div``;
 
 const StatusButtonsWrapper = styled.div`
   /* Layout Properties */

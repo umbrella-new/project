@@ -149,7 +149,6 @@ const ScheduleCalendar = ({ state, handleScheduler }) => {
     dateState.endDate &&
     `${dateState.endDate.getMonth()}${dateState.endDate.getDate()}`;
 
-  console.log('startdat', startDay);
   const handleOnClick = (id) => {
     switch (id) {
       case '1': {
@@ -182,8 +181,6 @@ const ScheduleCalendar = ({ state, handleScheduler }) => {
         return;
     }
   };
-
-  console.log(endTime);
 
   return (
     <DatepickerContext.Provider

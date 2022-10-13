@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
-import ConstantHeat from './../controls/optionalConstantTemp/ConstantTemp';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
 import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
 import InstantHeat from './../controls/instantHeat/InstantHeat';
 import SnowSensor from './../controls/snowSensor/SnowSensor';

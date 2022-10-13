@@ -34,7 +34,6 @@ const HeatingSchedule = () => {
     dispatch(heatingScheduleOpen());
   };
 
-  console.log(start.date);
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
