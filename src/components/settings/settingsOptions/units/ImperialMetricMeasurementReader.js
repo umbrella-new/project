@@ -1,34 +1,44 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../../src/styles/commonStyles";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUnit } from "../../../../store/slices/settingsOfEssSlice";
-import { selectSettingsOfEss } from "../../../../store/slices/settingsOfEssSlice";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../../src/styles/commonStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectUnit,
+  selectSettingsOfEss,
+} from '../../../../store/slices/settingsOfEssSlice';
 
 function ImperialMetricMeasurementReader({
-  title,
-  temp,
-  energy,
-  measure,
-  gas,
-  backgroundColor,
-  count,
+  // title,
+  // temp,
+  // energy,
+  // measure,
+  // gas,
+  // backgroundColor,
+  // count,
+  value,
+  index,
+  metricImperialToggle,
+  handleClick,
 }) {
+  const { title, temp, energy, measure, gas, backgroundColor } = value;
+
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
 
-  const handleClick = () => {
-    dispatch(selectUnit());
-  };
+  const { settingsEditButton } = state.buttonsOfSettings;
 
   return (
     <div>
       <Wrapper>
         <Wrapper2 backgroundColor={backgroundColor} mode={mode}>
           <ContainerOfTitle mode={mode}>
-            <OutsideRingGreenCircle onClick={() => handleClick()}>
-              <InsideFilledGreenCircle color={count}></InsideFilledGreenCircle>
+            <OutsideRingGreenCircle
+              onClick={() => settingsEditButton && handleClick(index)}
+            >
+              <InsideFilledGreenCircle
+                color={index === metricImperialToggle ? true : false}
+              ></InsideFilledGreenCircle>
             </OutsideRingGreenCircle>
 
             <Span mode={mode}>{title}</Span>
@@ -96,8 +106,8 @@ const Wrapper2 = styled.div`
   border: 0.5px solid black;
   background-image: -webkit-linear-gradient(
     ${(props) => props.backgroundColor}deg,
-    ${(props) => (props.mode ? "#BBBBBB" : "rgb(0, 0, 0)")} 0%,
-    ${(props) => (props.mode ? "#EBEBEB" : "rgb(35, 58, 84)")} 100%
+    ${(props) => (props.mode ? '#BBBBBB' : 'rgb(0, 0, 0)')} 0%,
+    ${(props) => (props.mode ? '#EBEBEB' : 'rgb(35, 58, 84)')} 100%
   );
 
   opacity: 1;
@@ -109,8 +119,8 @@ const ContainerOfTitle = styled.div`
   width: 274px;
   height: 30px;
   box-shadow: inset 0px 0px 3px #000000;
-  background: ${(props) => (props.mode ? "#FFFF" : "#233a54")};
-  border: ${(props) => (props.mode ? "1px solid #1B2B44" : "none")};
+  background: ${(props) => (props.mode ? '#FFFF' : '#233a54')};
+  border: ${(props) => (props.mode ? '1px solid #1B2B44' : 'none')};
   border-radius: 16px;
   opacity: 1;
   display: flex;
@@ -132,21 +142,21 @@ const OutsideRingGreenCircle = styled.span`
 const InsideFilledGreenCircle = styled.div`
   width: 14px;
   height: 14px;
-  background-color: ${(props) => (props.color ? "#95ff45" : "none")};
+  background-color: ${(props) => (props.color ? '#95ff45' : 'none')};
   border-radius: 50%;
 `;
 
 const Span = styled.span`
   margin-left: 6px;
   font-size: var(--font-size3);
-  color: ${(props) => (props.mode ? "#1B2B44" : "#FFFF")};
+  color: ${(props) => (props.mode ? '#1B2B44' : '#FFFF')};
 `;
 
 const ContainerOfMeasurements = styled.div`
   width: 274px;
   height: 170px;
-  background: ${(props) => (props.mode ? "#FFFF" : "#233a54")};
-  border: ${(props) => (props.mode ? "1px solid #1B2B44" : "none")};
+  background: ${(props) => (props.mode ? '#FFFF' : '#233a54')};
+  border: ${(props) => (props.mode ? '1px solid #1B2B44' : 'none')};
 
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 12px;
@@ -180,7 +190,7 @@ const Measurements = styled.p`
   margin-top: 4px;
   margin-bottom: 4px;
   margin-left: 2px;
-  color: ${(props) => (props.mode ? "#1B2B44" : "#FFFF")};
+  color: ${(props) => (props.mode ? '#1B2B44' : '#FFFF')};
 `;
 
 const IndividualContainer = styled.div`
@@ -196,5 +206,5 @@ const IndividualContainer = styled.div`
 const MeasureUnits = styled.p`
   font-size: var(--space2);
   margin-left: 8px;
-  color: ${(props) => (props.mode ? "#1B2B44" : "#FFFF")};
+  color: ${(props) => (props.mode ? '#1B2B44' : '#FFFF')};
 `;

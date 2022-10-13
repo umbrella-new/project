@@ -1,37 +1,65 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../../src/styles/commonStyles";
-import TitleOfSelectUnitsOfMeasurement from "./TitleOfSelectUnitsOfMeasurement";
-import ImperialMetricMeasurementReader from "./ImperialMetricMeasurementReader";
-import { useSelector } from "react-redux";
-import { selectSettingsOfEss } from "../../../../store/slices/settingsOfEssSlice";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../../src/styles/commonStyles';
+import TitleOfSelectUnitsOfMeasurement from './TitleOfSelectUnitsOfMeasurement';
+import ImperialMetricMeasurementReader from './ImperialMetricMeasurementReader';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectSettingsOfEss,
+  setResetAllSettingsButtons,
+} from '../../../../store/slices/settingsOfEssSlice';
+import { useState, useEffect } from 'react';
 
 function ContainerOfMetricImperialAndMeasurementTitle() {
+  const measurementsArr = [
+    {
+      title: 'Metric',
+      temp: 'C ° - CENTIGRADE',
+      energy: 'Kw - KILOWATTS',
+      measure: 'Cms - CENTIMETERS M - METERS',
+      gas: 'M³ - CUBIC METERS',
+      backgroundColor: '180',
+    },
+    {
+      title: 'Imperial',
+      temp: 'F °- FAHRENHEIT',
+      energy: 'Kw - KILOWATTS',
+      measure: 'In - INCHES - Ft - FEET',
+      gas: 'FT³- CUBIC FEET',
+      backgroundColor: '360',
+    },
+  ];
+
+  const [metricImperialToggle, setMetricImperialToggle] = useState(0);
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
-  const count = state.value;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setResetAllSettingsButtons());
+  }, []);
+
+  const handleClick = (index) => {
+    if (index !== metricImperialToggle) {
+      return setMetricImperialToggle(index);
+    }
+  };
   return (
     <Wrapper>
       <Wrapper2 mode={mode}>
         <TitleOfSelectUnitsOfMeasurement />
         <ContainerMetricImperial>
-          <ImperialMetricMeasurementReader
-            title={"Metric"}
-            temp={"C ° - CENTIGRADE"}
-            energy={"Kw - KILOWATTS"}
-            measure={"Cms - CENTIMETERS M - METERS"}
-            gas={"M³ - CUBIC METERS"}
-            backgroundColor={"180"}
-            count={count}
-          />
-          <ImperialMetricMeasurementReader
-            title={"Imperial"}
-            temp={"F °- FAHRENHEIT"}
-            energy={"Kw - KILOWATTS"}
-            measure={"In - INCHES - Ft - FEET"}
-            gas={"FT³- CUBIC FEET"}
-            backgroundColor={"360"}
-            count={!count}
-          />
+          {measurementsArr.map((value, index) => {
+            return (
+              <div key={index}>
+                <ImperialMetricMeasurementReader
+                  value={value}
+                  index={index}
+                  handleClick={handleClick}
+                  metricImperialToggle={metricImperialToggle}
+                />
+              </div>
+            );
+          })}
         </ContainerMetricImperial>
       </Wrapper2>
     </Wrapper>
@@ -41,8 +69,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
 const Wrapper = styled.div`
   width: 594px;
   height: 267px;
-  /* margin-top: 37px;
-  margin-left: 4px; */
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 12px 12px 18px 18px;
@@ -59,11 +86,11 @@ const Wrapper2 = styled.div`
   box-sizing: border-box;
   background-image: -webkit-linear-gradient(
     360deg,
-    ${(props) => (props.mode ? "#EBEBEB" : "rgb(0, 0, 0)")} 0%,
-    ${(props) => (props.mode ? "#BBBBBB" : "rgb(35, 58, 84)")} 100%
+    ${(props) => (props.mode ? '#EBEBEB' : 'rgb(0, 0, 0)')} 0%,
+    ${(props) => (props.mode ? '#BBBBBB' : 'rgb(35, 58, 84)')} 100%
   );
   box-shadow: inset 0 1px 1px
-    rgba(255, 255, 255, ${(props) => (props.mode ? "24%" : "14%")});
+    rgba(255, 255, 255, ${(props) => (props.mode ? '24%' : '14%')});
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
   opacity: 1;
   ${flexboxCenter}
