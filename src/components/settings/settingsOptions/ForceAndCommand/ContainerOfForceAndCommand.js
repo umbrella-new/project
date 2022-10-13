@@ -1,11 +1,20 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import EssHeader from "./EssHeader";
-import SelectArts from "./SelectArts";
-import SelectTc from "./SelectTc";
-import SysFooter from "./SysFooter";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
+import EssHeader from './EssHeader';
+import SelectArts from './SelectArts';
+import SelectTc from './SelectTc';
+import SysFooter from './SysFooter';
 
 function ContainerOfForceAndCommand() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setResetAllSettingsButtons());
+  }, []);
+
   return (
     <Wrapper>
       <Wrapper2>
@@ -34,9 +43,9 @@ export default ContainerOfForceAndCommand;
 
 const Wrapper = styled.div`
   width: 594px;
-  height: 592px;
-  /* margin-top: 37px;
-  margin-left: 6px; */
+  height: auto;
+  margin-top: 2px;
+  margin-bottom: 2px;
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 4px;
@@ -48,7 +57,9 @@ const Wrapper = styled.div`
 
 const Wrapper2 = styled.div`
   width: 590px;
-  height: 588px;
+  height: auto;
+  margin-top: 2px;
+  margin-bottom: 2px;
 
   opacity: 1;
 
@@ -70,7 +81,9 @@ const Wrapper2 = styled.div`
 
 const Wrapper3 = styled.div`
   width: 570px;
-  height: 571px;
+  height: auto;
+  margin-top: 2px;
+  margin-bottom: 2px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;
@@ -81,7 +94,9 @@ const Wrapper3 = styled.div`
 
 const Wrapper4 = styled.div`
   width: 566px;
-  height: 567px;
+  height: auto;
+  margin-top: 2px;
+  margin-bottom: 2px;
 
   background-image: -webkit-linear-gradient(
     270deg,

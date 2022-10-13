@@ -1,23 +1,37 @@
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { flexboxCenter } from "../../../styles/commonStyles";
-import TitleOfSettingsOptions from "./TitleOfSettingsOptions";
-import AllTheSelectionsOfSettingsOptions from "./AllTheSelectionsOfSettingsOptions";
-import Button from "./Button";
-import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { flexboxCenter } from '../../../styles/commonStyles';
+import TitleOfSettingsOptions from './TitleOfSettingsOptions';
+import AllTheSelectionsOfSettingsOptions from './AllTheSelectionsOfSettingsOptions';
+import Button from './Button';
+import {
+  selectSettingsOfEss,
+  setSettingsEditButton,
+  setSettingsCancelButton,
+  setSettingsApplyButton,
+} from '../../../store/slices/settingsOfEssSlice';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
-  const theme = useSelector(selectSettingsOfEss);
-  const mode = theme.interfaceMode;
+  const buttonNames = ['edit', 'cancel', 'apply'];
 
-  const handleEdit = () => {
-    return;
-  };
-  const handleCancel = () => {
-    return;
-  };
-  const handleApply = () => {
-    return;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const dispatch = useDispatch();
+
+  const handleClick = (id) => {
+    switch (id) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setSettingsApplyButton());
+        break;
+      default:
+        return;
+    }
   };
 
   return (
@@ -25,9 +39,13 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       <TitleOfSettingsOptions />
       <AllTheSelectionsOfSettingsOptions />
       <ContainerButtons mode={mode}>
-        <Button name={"Edit"} onClick={() => handleEdit()} />
-        <Button name={"Cancel"} onClick={() => handleCancel()} />
-        <Button name={"Apply"} onClick={() => handleApply()} />
+        {buttonNames.map((name, index) => {
+          return (
+            <div key={index}>
+              <Button id={index} handleClick={handleClick} name={name} />
+            </div>
+          );
+        })}
       </ContainerButtons>
     </Wrapper>
   );
@@ -49,8 +67,8 @@ const Wrapper = styled.div`
   border: 0.5px solid black;
   background-image: -webkit-linear-gradient(
     180deg,
-    ${(props) => (props.mode ? "#BBBBBB" : "rgb(0, 0, 0) ")} 0%,
-    ${(props) => (props.mode ? "#EBEBEB" : "rgb(35, 58, 84)")} 100%
+    ${(props) => (props.mode ? '#BBBBBB' : 'rgb(0, 0, 0) ')} 0%,
+    ${(props) => (props.mode ? '#EBEBEB' : 'rgb(35, 58, 84)')} 100%
   );
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
@@ -60,7 +78,7 @@ const Wrapper = styled.div`
 const ContainerButtons = styled.div`
   width: 270px;
   height: 37px;
-  background: ${(props) => (props.mode ? "#FFFFFF" : "#233a54")};
+  background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')};
   /* background: #233a54 0% 0% no-repeat padding-box; */
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 19px;

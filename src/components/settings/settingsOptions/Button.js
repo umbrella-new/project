@@ -1,13 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const Button = ({ name }) => {
-  // Apply button handler
-  // When click the apply button it calls button handler in it's parents component
-  // const handleOnClick = () => {
-  //   buttonHandler();
-  // };
+const Button = ({ name, handleClick, id }) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={() => handleClick(id)}>
       <ButtonHole>
         <ButtonTop>
           <ButtonName>{name}</ButtonName>
@@ -87,7 +82,7 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
   text-transform: uppercase;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   letter-spacing: 1px;
   color: #ffffff;
   opacity: 1;

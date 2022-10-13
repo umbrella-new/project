@@ -1,8 +1,16 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import SnowFactor from "./SnowFactor";
+import styled from 'styled-components';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import SnowFactor from './SnowFactor';
+import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 
 function ContainerOfSnowSensor() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setResetAllSettingsButtons());
+  }, []);
   return (
     <Wrapper>
       <Wrapper1>

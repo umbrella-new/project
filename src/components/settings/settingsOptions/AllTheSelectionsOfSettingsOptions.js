@@ -1,7 +1,7 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { flexboxCenter } from "../../../styles/commonStyles";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectSettingsOfEss,
   setSettingsOptionsUnits,
@@ -9,15 +9,15 @@ import {
   setSettingsOptionsSnowFactor,
   setSettingsOptionsForceAndCommand,
   setSettingsOptionsAdmin,
-} from "../../../store/slices/settingsOfEssSlice";
+} from '../../../store/slices/settingsOfEssSlice';
 
 function AllTheSelectionsOfSettingsOptions() {
   const settingsData = [
-    "units",
-    "wind factor trigger",
-    "snow sensor trigger",
-    "force & command",
-    "admin.",
+    'units',
+    'wind factor trigger',
+    'snow sensor trigger',
+    'force & command',
+    'admin.',
   ];
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
@@ -76,7 +76,7 @@ function AllTheSelectionsOfSettingsOptions() {
 const Wrapper = styled.div`
   width: 272px;
   height: 136px;
-  background: ${(props) => (props.mode ? "#FFFFFF" : "#1b2b44 ")};
+  background: ${(props) => (props.mode ? '#FFFFFF' : '#1b2b44 ')};
   /* background: #1b2b44 0% 0% no-repeat padding-box; */
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 8px;
@@ -106,7 +106,7 @@ const SelectBox = styled.div`
   height: 20px;
   margin-left: 1px;
   background: ${(props) =>
-    props.color ? "#95ff45 0% 0% no-repeat padding-box" : "#46698C"};
+    props.color ? '#95ff45 0% 0% no-repeat padding-box' : '#46698C'};
   border: 1px solid #427293;
   opacity: 1;
 `;

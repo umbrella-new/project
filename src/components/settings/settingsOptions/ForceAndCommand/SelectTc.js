@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import ButtonSelect from "./ButtonSelect";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import ButtonSelect from './ButtonSelect';
 
 function SelectTc() {
   const data = [
-    { title: "current heater temperature", selection: "select t/c" },
-    { title: "enclosure temperature", selection: "select t/c" },
-    { title: "outside temperature", selection: "select t/c" },
+    { title: 'current heater temperature', selection: 'select t/c' },
+    { title: 'enclosure temperature', selection: 'select t/c' },
+    { title: 'outside temperature', selection: 'select t/c' },
   ];
 
   return (
@@ -32,18 +32,17 @@ function SelectTc() {
                       <Selection>{value.selection}</Selection>
                     </SelectionIndentWrapper>
 
-                    <Img src={"./images/whiteTriangle.svg"} />
+                    <Img src={'./images/whiteTriangle.svg'} />
                   </SelectionWrapper>
                 </SelectionShadowWrapper>
               </SubTitleSelectionWrapper>
             );
           })}
           <WrapperButton>
-            {" "}
+            {' '}
             <ButtonSelect />
           </WrapperButton>
         </FlexWrapper>
-        {/* <Triangle></Triangle> */}
       </WrapperTelemetry2>
     </WrapperTelemetry>
   );
