@@ -20,8 +20,6 @@ const HeatingSchedule = () => {
   const { isReady, inputTemp } = state.heatingSchedule;
   const { activated, start, end } = state.heatingSchedule;
 
-  console.log(end);
-
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {

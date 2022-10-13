@@ -47,7 +47,7 @@ const ScheduleCalendar = () => {
     endDate: end.date ? end.date : null,
     focusedInput: START_DATE,
   });
-  console.log(dateState.startDate);
+  // console.log(dateState.startDate);
 
   const startArray =
     dateState.startDate &&
@@ -292,8 +292,8 @@ const ScheduleCalendar = () => {
                 year={activeMonths[1].year}
                 month={activeMonths[1].month}
                 firstDayOfWeek={firstDayOfWeek}
-                startDay={dateState.startDate && dateState.startDate.getDate()}
-                endDay={dateState.endDate && dateState.endDate.getDate()}
+                startDay={dateState.startDate && startDay}
+                endDay={dateState.endDate && endDay}
               />
             </Calendar>
 

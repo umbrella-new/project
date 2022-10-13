@@ -5,8 +5,9 @@ import getColor from './getColor';
 import styled from 'styled-components';
 
 const Day = ({ dayLabel, date, startDay, endDay, month }) => {
-  console.log(endDay);
-  console.log(startDay);
+  const today = `${month}` + Number(dayLabel);
+  // console.log('today', today, 'start', startDay);
+
   const dayRef = useRef(null);
   const {
     focusedDate,
@@ -88,8 +89,8 @@ const Day = ({ dayLabel, date, startDay, endDay, month }) => {
       type='button'
       ref={dayRef}
       style={btnStyle}
-      isStartDay={Number(dayLabel) === startDay ? true : false}
-      isEndDay={Number(dayLabel) === endDay ? true : false}
+      isStartDay={today === startDay ? true : false}
+      isEndDay={today === endDay ? true : false}
     >
       {dayLabel}
     </Date>

@@ -1,38 +1,38 @@
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 import {
   selectTgsSwitch,
   tgsHeatingScheduleBeReady,
   tgsHeatingScheduleOpen,
-} from "../../../../store/slices/tgsSwitchSlice";
-import { flexboxCenter } from "../../../../styles/commonStyles";
-import AddScheduleButton from "../AddScheduleButton";
-import ControllerName from "../ControllerName";
-import Scheduler from "../Scheduler";
-import TempAndButton from "../TempAndButton";
+} from '../../../../store/slices/tgsSwitchSlice';
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import AddScheduleButton from '../AddScheduleButton';
+import ControllerName from '../ControllerName';
+import Scheduler from '../Scheduler';
+import TempAndButton from '../TempAndButton';
 
 const TgsHeatingSchedule = () => {
-  const CONTROLLER_NAME = "heating schedule program";
-  const IMG_SRC = "/images/heating-Schedule-Program-Logo.svg";
+  const CONTROLLER_NAME = 'heating schedule program';
+  const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectTgsSwitch);
   const { isReady, activated, inputTemp, start } = state.heatingSchedule;
 
   const dispatch = useDispatch();
-  console.log(state);
+  // console.log(state);
 
   const handleDispatch = (temp) => {
     if (state.heatingSchedule.start) {
       dispatch(tgsHeatingScheduleBeReady({ temp }));
     } else {
       // Change it to modal!! make it beautiful
-      window.alert("input schedule");
+      window.alert('input schedule');
     }
   };
 
   const handleOpenScheduler = () => {
-    console.log("here");
+    console.log('here');
     dispatch(tgsHeatingScheduleOpen());
   };
 
