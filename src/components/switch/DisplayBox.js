@@ -1,8 +1,15 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { selectUserState } from "../../store/slices/userSlice";
+import { flexboxCenter } from "../../styles/commonStyles";
 
 const DisplayBox = ({ currData, label, unit }) => {
-  const labelArry = label.split(' ');
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  const location = useLocation();
+
+  const labelArry = label.split(" ");
   const displayLabel1 = labelArry[0];
   const displayLabel2 =
     labelArry.length > 2 ? `${labelArry[1]} ${labelArry[2]}` : labelArry[1];
@@ -13,7 +20,15 @@ const DisplayBox = ({ currData, label, unit }) => {
         {unit !== null ? (
           <DisplayDataWrapper>
             <DisplayData>{currData}</DisplayData>
-            <DisplayUnit>{unit}</DisplayUnit>
+            {isEssSwitch ? (
+              <DisplayUnit>{unit}</DisplayUnit>
+            ) : location.pathname === "/" ? (
+              <DisplayUnit>
+                M<Sup>3</Sup>
+              </DisplayUnit>
+            ) : (
+              <DisplayUnit>{unit}</DisplayUnit>
+            )}
           </DisplayDataWrapper>
         ) : (
           <DisplayDataWrapper>
@@ -99,4 +114,10 @@ const DisplayLabel = styled.span`
   opacity: 1;
   text-transform: uppercase;
   line-height: 0.9;
+`;
+
+const Sup = styled.span`
+  font-size: 0.5rem;
+  color: #1b2b44;
+  vertical-align: super;
 `;

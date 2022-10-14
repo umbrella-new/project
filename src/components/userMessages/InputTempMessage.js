@@ -31,7 +31,7 @@ export default InputTempMessage;
 
 const Wrapper = styled.div`
   width: 1024px;
-  height: 800px;
+  height: 600px;
 
   position: fixed;
   top: 0px;
