@@ -1,7 +1,16 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
+import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
 
-const Scheduler = ({ handleOpenScheduler, start, end }) => {
+const Scheduler = ({
+  handleOpenScheduler,
+  start,
+  end,
+  handleClear,
+  handleCancel,
+  state,
+  handleDispatchSchedulerDate,
+}) => {
   const displayStart =
     start.date !== null
       ? `${start.time.hour} : ${start.time.minute} ${
@@ -20,16 +29,9 @@ const Scheduler = ({ handleOpenScheduler, start, end }) => {
         } / ${end.date.getFullYear()} `
       : ' -----------------';
 
-  // console.log(
-  //   `${start.time.hour}:${start.time.minute}${
-  //     start.time.division
-  //   }-${start.date.getDate()}/${
-  //     start.date.getMonth() + 1
-  //   }/${start.date.getFullYear()} `
-  // );
-
-  // const displayStart = ' -----------------';
-  // const displayEnd = ' -----------------';
+  const handleSchedulerDate = (data) => {
+    handleDispatchSchedulerDate(data);
+  };
 
   return (
     <Wrapper>
@@ -40,6 +42,17 @@ const Scheduler = ({ handleOpenScheduler, start, end }) => {
       <CalendarButton onClick={handleOpenScheduler}>
         <Img src={'/images/calendar-button.svg'} />
       </CalendarButton>
+
+      {state.heatingScheduleDisplayed && (
+        <SchedulerWrapper>
+          <ScheduleCalendar
+            state={state}
+            handleScheduler={handleSchedulerDate}
+            handleCancel={handleCancel}
+            handleClear={handleClear}
+          />
+        </SchedulerWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -98,3 +111,9 @@ const CalendarButton = styled.button`
 `;
 
 const Img = styled.img``;
+
+const SchedulerWrapper = styled.div`
+  position: absolute;
+  top: 1rem;
+  z-index: 10000;
+`;

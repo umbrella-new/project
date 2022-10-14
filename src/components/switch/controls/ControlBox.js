@@ -24,16 +24,6 @@ const ControlBox = () => {
   const state = useSelector(selectEssSwitch);
   const dispatch = useDispatch();
 
-  const handleDispatchSchdulerDate = (data) => {
-    dispatch(
-      heatingScheduleDate({
-        start: data.start,
-        end: data.end,
-      })
-    );
-    dispatch(heatingScheduleCancel());
-  };
-
   return (
     <Wrapper>
       <BackgroundImg src={'/images/controller-background.svg'} />
@@ -53,14 +43,7 @@ const ControlBox = () => {
           <DisplayTemperatureStates state={state} />
         </ControlsList>
       </PositionAbsolute>
-      <SchedulerWrapper>
-        {state.heatingScheduleDisplayed && (
-          <ScheduleCalendar
-            state={state}
-            handleScheduler={handleDispatchSchdulerDate}
-          />
-        )}
-      </SchedulerWrapper>
+
       {isKeyboardActivated && (
         <KeyboardWrapper>
           <InputKeyboard />
@@ -126,12 +109,6 @@ const ControlsList = styled.ul`
   padding-bottom: 0.1rem;
 
   box-sizing: border-box;
-`;
-
-const SchedulerWrapper = styled.div`
-  position: absolute;
-  top: 1rem;
-  z-index: 100;
 `;
 
 const KeyboardWrapper = styled.div`

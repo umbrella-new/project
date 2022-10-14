@@ -85,6 +85,10 @@ const TgsInstantHeat = () => {
     setOpenKeyPad(false);
   };
 
+  const handleFanToggler = () => {
+    instantButtonToggler || dispatch(fanOnlyToggler());
+  };
+
   return (
     <Wrapper toggler={instantButtonToggler}>
       <ContentWrapper toggler={instantButtonToggler} onSubmit={handleOnSubmit}>
@@ -122,10 +126,7 @@ const TgsInstantHeat = () => {
 
       <ContentWrapperNotForm toggler={fanOnly}>
         <ActiveButtonWrapper>
-          <ActiveButton
-            toggler={fanOnly}
-            onClick={() => dispatch(fanOnlyToggler())}
-          >
+          <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
                 <ButtonImage src={'/images/fan-only-icon.svg'} />

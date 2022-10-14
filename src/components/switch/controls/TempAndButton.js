@@ -81,7 +81,7 @@ const TempAndButton = ({
 
   // Handlers for keypad
   const onInputHandler = () => {
-    isActivated || isReady || setOpenKeyPad(true);
+    !isEnable || isActivated || isReady || setOpenKeyPad(true);
   };
 
   // Virtual keyboard input handler
@@ -117,7 +117,7 @@ const TempAndButton = ({
             placeholder='0&deg;C'
             disabled={!isEnable}
             onChange={handleCheck}
-            disabled={isReady || isActivated}
+            disabled={isReady || isActivated || !isEnable}
           />
         </InputWrapper>
       </InputAndLabelWrapper>

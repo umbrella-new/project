@@ -18,14 +18,18 @@ import {
   heatingScheduleClear,
 } from '../../../../store/slices/essSwitchSlice';
 
-const ScheduleCalendar = ({ state, handleScheduler }) => {
+const ScheduleCalendar = ({
+  state,
+  handleScheduler,
+  handleClear,
+  handleCancel,
+}) => {
   // const time = moment();
   // console.log(time._d);
 
   const { start, end } = state.heatingSchedule;
-  const dispatch = useDispatch();
-  // Time Picker states
 
+  // Time Picker states
   const initialStartTimeState = {
     hour: start.time ? start.time.hour : '00',
     minute: start.time ? start.time.minute : '00',
@@ -153,7 +157,6 @@ const ScheduleCalendar = ({ state, handleScheduler }) => {
     switch (id) {
       case '1': {
         onResetDates();
-        dispatch(heatingScheduleClear());
         setStartTime({
           hour: '00',
           minute: '00',
@@ -164,10 +167,11 @@ const ScheduleCalendar = ({ state, handleScheduler }) => {
           minute: '00',
           division: 'am',
         });
+        handleClear();
         return;
       }
       case '2': {
-        dispatch(heatingScheduleCancel());
+        handleCancel();
         return;
       }
       case '3': {

@@ -34,21 +34,23 @@ const ConstantHeat = () => {
   const IMG_SRC = '/images/optional-Constant-Temperature-Logo-enable.svg';
   const isEnable = location.pathname === '/tes' ? true : false;
 
+  console.log(isEnable);
+
   const handleDispatch = (temp) => {
     dispatch(constantTemp(temp));
   };
 
   return (
-    <Wrapper isEssSwitch={isEnable}>
+    <Wrapper isEssSwitch={false}>
       <ControllerName
-        isEnable={isEnable}
+        isEnable={false}
         name={CONTROLLER_NAME}
         imgSrc={IMG_SRC}
       />
       <TempAndButton
-        isEnable={isEnable}
+        isEnable={false}
         buttonHandler={handleDispatch}
-        isActivated={apply}
+        isActivated={false}
       />
     </Wrapper>
   );

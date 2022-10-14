@@ -34,7 +34,7 @@ const ConstantHeat = () => {
   const IMG_SRC = isEssSwitch
     ? '/images/optional-Constant-Temperature-Logo.svg'
     : location.pathname === '/'
-    ? '/images/optional-Constant-Temperature-Logo.svg-enable'
+    ? '/images/optional-Constant-Temperature-Logo-enable.svg'
     : '/images/optional-Constant-Temperature-Logo.svg';
 
   const isEnable = isEssSwitch

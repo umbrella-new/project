@@ -63,8 +63,8 @@ const essSwitchSlice = createSlice({
       state.heatingScheduleDisplayed = false;
     },
     heatingScheduleClear: (state) => {
-      state.optionalConstantTemp.start = null;
-      state.optionalConstantTemp.end = null;
+      state.heatingSchedule.start = { date: null, time: null };
+      state.heatingSchedule.end = { date: null, time: null };
     },
     windFactor: (state) => {
       state.windFactor.isReady = !state.windFactor.isReady;
