@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSettingsOfEss,
   setResetAllSettingsButtons,
-  setEssButtonExpandAndClose,
 } from '../../../../store/slices/settingsOfEssSlice';
-import EssHeader from './EssSystem';
+import EssSystem from './EssSystem';
 import SelectArts from './SelectArts';
 import SelectTc from './SelectTc';
 import SysSystem from './SysSystem';
@@ -17,31 +16,31 @@ function ContainerOfForceAndCommand() {
   const essButtonActive = './images/greenEssButton.svg';
   const sysButton = './images/sysButton.svg';
 
+  // redux
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
-  const expandCloseButton = state.buttonOfExpandAndClose.essExpandAndClose;
   const activatedByEditButton = state.buttonsOfSettings.settingsEditButton;
-  const [toggleEssButton, setToggleEssButton] = useState(essButtonActive);
+
+  // useState
+  const [toggleEssButtonColor, setToggleEssButtonColor] =
+    useState(essButtonActive);
   const [essExpandOrClose, setEssExpandOrClose] = useState('close');
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
-    setToggleEssButton(essButtonActive);
-    dispatch(setEssButtonExpandAndClose(true));
+    setToggleEssButtonColor(essButtonActive);
   }, []);
 
   const handleCloseExpandButton = () => {
     switch (essExpandOrClose) {
       case 'close': {
         setEssExpandOrClose('expand');
-        dispatch(setEssButtonExpandAndClose(false));
-        setToggleEssButton(essButton);
+        setToggleEssButtonColor(essButton);
         break;
       }
       case 'expand': {
         setEssExpandOrClose('close');
-        dispatch(setEssButtonExpandAndClose(true));
-        setToggleEssButton(essButtonActive);
+        setToggleEssButtonColor(essButtonActive);
         break;
       }
       default:
@@ -55,26 +54,24 @@ function ContainerOfForceAndCommand() {
         <Wrapper3>
           <Wrapper4>
             <EssWrapper>
-              <EssHeader
-                toggleEssButton={toggleEssButton}
+              <EssSystem
+                toggleEssButtonColor={toggleEssButtonColor}
                 essExpandOrClose={essExpandOrClose}
                 handleCloseExpandButton={handleCloseExpandButton}
               />
             </EssWrapper>
-            {expandCloseButton ? (
+            {essExpandOrClose === 'close' && (
               <NewWrapper>
                 <WrapperSelectTcSelectArts>
                   <SelectTc activateSelectButton={activatedByEditButton} />
                   <SelectArts activateOnOffSwitch={activatedByEditButton} />
                 </WrapperSelectTcSelectArts>
               </NewWrapper>
-            ) : (
-              ''
             )}
             <SysWrapper>
               <SysSystem
                 sysExpandOrClose={'expand'}
-                toggleSysButton={sysButton}
+                toggleSysButtonColor={sysButton}
               />
             </SysWrapper>
           </Wrapper4>

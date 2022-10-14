@@ -1,22 +1,16 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from './ButtonCloseAndExpand';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setEssButtonExpandAndClose,
-  selectSettingsOfEss,
-} from '../../../../store/slices/settingsOfEssSlice';
 
-function EssHeader({
-  toggleEssButton,
+function EssSystem({
+  toggleEssButtonColor,
   essExpandOrClose,
   handleCloseExpandButton,
 }) {
   return (
     <Wrapper>
       <ButtonHole>
-        <img src={toggleEssButton} />
+        <img src={toggleEssButtonColor} />
       </ButtonHole>
       <Span></Span>
       <ContainerTitle>
@@ -33,7 +27,7 @@ function EssHeader({
   );
 }
 
-export default EssHeader;
+export default EssSystem;
 
 const Wrapper = styled.div`
   width: 100%;
