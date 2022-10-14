@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
-const HoverMessageBox = () => {
-  const message = '';
+const HoverMessageBox = ({ message }) => {
   return (
     <Wrapper>
-      <Message>shlc-switch heating load configuration</Message>
+      <Message>{message}</Message>
     </Wrapper>
   );
 };

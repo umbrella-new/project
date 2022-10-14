@@ -1,20 +1,37 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectUserState } from '../../../store/slices/userSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
+import ContainerLogin from '../../adminPassword/ContainerLogin';
 import HoverMessageBox from './HoverMessageBox';
 
 const SettingButton = ({
   isSettingOpen,
   setIsSettingOpen,
-  displayHiddenMessage,
-  setDisplayHiddenMessage,
   isFault,
   column,
+  displayHiddenMessage,
+  setDisplayHiddenMessage,
 }) => {
+  const userState = useSelector(selectUserState);
+  const { isAdministrator } = userState;
+
+  const message = isAdministrator
+    ? 'shlc-switch heating load configuration'
+    : 'Password required';
+
+  const handleOnClick = () => {
+    isAdministrator
+      ? setIsSettingOpen(!isSettingOpen)
+      : console.log('password Required');
+  };
+
   return (
     <Wrapper column={column}>
       <SettingHole
         disabled={isFault ? true : false}
-        onClick={() => setIsSettingOpen(!isSettingOpen)}
+        onClick={handleOnClick}
         onMouseEnter={() => setDisplayHiddenMessage(true)}
         onMouseLeave={() => setDisplayHiddenMessage(false)}
       >
@@ -25,7 +42,7 @@ const SettingButton = ({
 
       {displayHiddenMessage && (
         <HiddenMessageWrapper isSettingOpen={isSettingOpen}>
-          <HoverMessageBox />
+          <HoverMessageBox message={message} />
         </HiddenMessageWrapper>
       )}
     </Wrapper>
