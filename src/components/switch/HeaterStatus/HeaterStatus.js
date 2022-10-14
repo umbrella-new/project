@@ -1,5 +1,5 @@
 // APIs
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
 
@@ -12,11 +12,13 @@ import { flexboxCenter } from '../../../styles/commonStyles';
 import ApplyButton from '../controls/ApplyButton';
 import SSRButton from './SSRButton';
 import SSRDetail from './SSRDetail';
+import ContainerLogin from '../../adminPassword/ContainerLogin';
 
 const HeaterStatus = () => {
   const ssrState = useSelector(selectSSRState);
 
   const { dispatch, state } = useContext(Context);
+  const [displayAdminLogin, setDisplayAdminLogin] = useState(true);
 
   const ssrStateArr = Object.values(ssrState);
   const statusArr = ssrStateArr.map((status) => status.buttonStatus);
@@ -29,8 +31,12 @@ const HeaterStatus = () => {
     dispatch({ type: 'expand' });
   };
 
+  const handleClick = () => {
+    setDisplayAdminLogin(false);
+  };
+
   return (
-    <Wrapper isExpanded={state.isExpanded}>
+    <Wrapper isExpanded={state.isExpanded} onClick={handleClick}>
       <Header>
         <TitleAndButtonWrapper>
           <Title>heater status</Title>
@@ -51,7 +57,11 @@ const HeaterStatus = () => {
           ))}
         </ButtonGroup>
       </StatusButtonsWrapper>
-
+      {displayAdminLogin && (
+        <LoginWrapper>
+          <ContainerLogin />
+        </LoginWrapper>
+      )}
       {state.isExpanded && (
         <DetailWrapper>
           {ssrStateArr.map((data, index) => (
@@ -194,4 +204,9 @@ const ApplyButtonWrapper = styled.div`
   padding: 0;
 
   ${flexboxCenter}
+`;
+
+const LoginWrapper = styled.div`
+  position: absolute;
+  top
 `;

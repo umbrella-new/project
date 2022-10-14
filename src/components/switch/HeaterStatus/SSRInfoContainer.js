@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
@@ -16,6 +17,7 @@ const SSRInfoContainer = ({ data }) => {
 
   // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
+  const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
 
   return (
     <Wrapper>
@@ -48,7 +50,15 @@ const SSRInfoContainer = ({ data }) => {
           <ItemData isEnable={isEnable}>{data.description}</ItemData>
         </ItemDescription>
 
-        <SettingButton />
+        <SettingButton
+          isSettingOpen={false}
+          setIsSettingOpen={false}
+          displayHiddenMessage={displayHiddenMessage}
+          setDisplayHiddenMessage={setDisplayHiddenMessage}
+          // when ssr status is fault button will be disable
+          isFault={isFault}
+          isEnable={isEnable}
+        />
       </ItemWrapper>
     </Wrapper>
   );
