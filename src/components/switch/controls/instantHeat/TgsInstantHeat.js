@@ -1,10 +1,10 @@
-import { useRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
-} from "../../../../store/slices/tgsSwitchSlice";
+} from '../../../../store/slices/tgsSwitchSlice';
 
 import {
   activeInput,
@@ -12,9 +12,9 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
-import InputKeyPad from "../../../keyboard/KeyPad";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+import InputKeyPad from '../../../keyboard/KeyPad';
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
@@ -85,6 +85,10 @@ const TgsInstantHeat = () => {
     setOpenKeyPad(false);
   };
 
+  const handleFanToggler = () => {
+    instantButtonToggler || dispatch(fanOnlyToggler());
+  };
+
   return (
     <Wrapper toggler={instantButtonToggler}>
       <ContentWrapper toggler={instantButtonToggler} onSubmit={handleOnSubmit}>
@@ -92,7 +96,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -115,19 +119,17 @@ const TgsInstantHeat = () => {
             placeholder='0&deg;C'
             type='text'
             ref={inputRef}
+            disabled={instantButtonToggler}
           />
         </LabelAndInputOuterWrapper>
       </ContentWrapper>
 
       <ContentWrapperNotForm toggler={fanOnly}>
         <ActiveButtonWrapper>
-          <ActiveButton
-            toggler={fanOnly}
-            onClick={() => dispatch(fanOnlyToggler())}
-          >
+          <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={"/images/fan-only-icon.svg"} />
+                <ButtonImage src={'/images/fan-only-icon.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -262,7 +264,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 

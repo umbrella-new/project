@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import {
   selectTgsSwitch,
   tgsHeatingScheduleBeReady,
+  tgsHeatingScheduleCancel,
+  tgsHeatingScheduleClear,
+  tgsHeatingScheduleDate,
   tgsHeatingScheduleOpen,
 } from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
@@ -22,7 +25,7 @@ const TgsHeatingSchedule = () => {
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
-    if (state.heatingSchedule.start) {
+    if (start.date) {
       dispatch(tgsHeatingScheduleBeReady(temp));
     } else {
       // Change it to modal!! make it beautiful
@@ -30,8 +33,25 @@ const TgsHeatingSchedule = () => {
     }
   };
 
+  // Schedule calendar handlers
   const handleOpenScheduler = () => {
     dispatch(tgsHeatingScheduleOpen());
+  };
+  const handleClear = () => {
+    dispatch(tgsHeatingScheduleClear());
+  };
+  const handleCancel = () => {
+    dispatch(tgsHeatingScheduleCancel());
+  };
+
+  const handleDispatchSchedulerDate = (data) => {
+    dispatch(
+      tgsHeatingScheduleDate({
+        start: data.start,
+        end: data.end,
+      })
+    );
+    dispatch(tgsHeatingScheduleCancel());
   };
 
   return (
@@ -49,8 +69,12 @@ const TgsHeatingSchedule = () => {
         <SchedulerCenter>
           <Scheduler
             handleOpenScheduler={handleOpenScheduler}
+            handleClear={handleClear}
+            handleCancel={handleCancel}
+            handleDispatchSchedulerDate={handleDispatchSchedulerDate}
             start={start}
             end={end}
+            state={state}
           />
         </SchedulerCenter>
       </SchedulerWrapper>

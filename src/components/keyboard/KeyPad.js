@@ -1,15 +1,25 @@
-import React, { useRef, useState } from "react";
-import Keyboard from "react-simple-keyboard";
-import "./keyboard.css";
+import React, { useRef, useState } from 'react';
+import Keyboard from 'react-simple-keyboard';
+import './keyboard.css';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const keyboard = useRef();
 
   const onChange = (input) => {
     setInput(input);
+  };
+
+  const handleOnClick = () => {
+    console.log('input', input.length);
+
+    if (input.length !== 0) {
+      handleOnSubmit(input);
+    } else {
+      return;
+    }
   };
 
   return (
@@ -25,12 +35,12 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         onChange={onChange}
-        theme={"hg-theme-default hg-layout-default myTheme"}
+        theme={'hg-theme-default hg-layout-default myTheme'}
         layout={{
-          default: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 ."],
+          default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 .'],
         }}
       />
-      <EnterButton onClick={() => handleOnSubmit(input)}>Enter</EnterButton>
+      <EnterButton onClick={handleOnClick}>Enter</EnterButton>
     </Wrapper>
   );
 };

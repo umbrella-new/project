@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import {
   selectTgsSwitch,
   tgsSnowSensor,
+  FanOnlyActivator,
 } from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ApplyButton from '../ApplyButton';
@@ -15,6 +17,11 @@ const TgsSnowSensor = () => {
   const state = useSelector(selectTgsSwitch);
   const isReady = state.snowSensor.isReady;
   const isActivated = state.snowSensor.isActivated;
+
+  // If snow sensor was activated, activate Fan
+  useEffect(() => {
+    isActivated && dispatch(FanOnlyActivator());
+  }, [isActivated]);
 
   // console.log(isReady);
   const dispatch = useDispatch();

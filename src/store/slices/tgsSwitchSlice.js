@@ -40,6 +40,9 @@ const tgsSwitchSlice = createSlice({
     fanOnlyToggler: (state) => {
       state.fanOnly = !state.fanOnly;
     },
+    FanOnlyActivator: (state) => {
+      state.fanOnly = true;
+    },
     tgsSnowSensor: (state) => {
       state.snowSensor.isReady = !state.snowSensor.isReady;
     },
@@ -59,13 +62,17 @@ const tgsSwitchSlice = createSlice({
     tgsHeatingScheduleCancel: (state) => {
       state.heatingScheduleDisplayed = false;
     },
+    heatingScheduleClear: (state) => {
+      state.optionalConstantTemp.start = null;
+      state.optionalConstantTemp.end = null;
+    },
     tgsHeatingScheduleBeReady: (state, action) => {
-      state.heatingSchedule.temp = action.payload.temp;
+      state.heatingSchedule.inputTemp = action.payload;
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
     tgsHeatingScheduleClear: (state) => {
-      state.optionalConstantTemp.start = null;
-      state.optionalConstantTemp.end = null;
+      state.heatingSchedule.start = { date: null, time: null };
+      state.heatingSchedule.end = { date: null, time: null };
     },
     tgsWindFactor: (state) => {
       state.windFactor.isReady = !state.windFactor.isReady;
@@ -88,4 +95,5 @@ export const {
   tgsHeatingScheduleDate,
   tgsHeatingScheduleClear,
   tgsWindFactor,
+  FanOnlyActivator,
 } = tgsSwitchSlice.actions;

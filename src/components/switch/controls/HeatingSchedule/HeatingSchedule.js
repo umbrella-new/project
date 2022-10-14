@@ -4,6 +4,9 @@ import {
   heatingScheduleBeReady,
   selectEssSwitch,
   heatingScheduleOpen,
+  heatingScheduleCancel,
+  heatingScheduleClear,
+  heatingScheduleDate,
 } from '../../../../store/slices/essSwitchSlice';
 
 import { flexboxCenter } from '../../../../styles/commonStyles';
@@ -22,7 +25,7 @@ const HeatingSchedule = () => {
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
-    if (state.heatingSchedule.start.date) {
+    if (start.date) {
       dispatch(heatingScheduleBeReady(temp));
     } else {
       // Change it to modal!! make it beautiful
@@ -30,8 +33,25 @@ const HeatingSchedule = () => {
     }
   };
 
+  // Schedule calendar handlers
   const handleOpenScheduler = () => {
     dispatch(heatingScheduleOpen());
+  };
+
+  const handleClear = () => {
+    dispatch(heatingScheduleClear());
+  };
+  const handleCancel = () => {
+    dispatch(heatingScheduleCancel());
+  };
+  const handleDispatchSchedulerDate = (data) => {
+    dispatch(
+      heatingScheduleDate({
+        start: data.start,
+        end: data.end,
+      })
+    );
+    dispatch(heatingScheduleCancel());
   };
 
   return (
@@ -49,8 +69,12 @@ const HeatingSchedule = () => {
         <SchedulerCenter>
           <Scheduler
             handleOpenScheduler={handleOpenScheduler}
+            handleClear={handleClear}
+            handleCancel={handleCancel}
+            handleDispatchSchedulerDate={handleDispatchSchedulerDate}
             start={start}
             end={end}
+            state={state}
           />
         </SchedulerCenter>
       </SchedulerWrapper>
