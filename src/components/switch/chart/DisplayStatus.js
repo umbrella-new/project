@@ -1,16 +1,16 @@
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { selectUserState } from '../../../store/slices/userSlice';
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { selectUserState } from "../../../store/slices/userSlice";
 
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
-import DisplayBox from './../DisplayBox';
+import DisplayBox from "./../DisplayBox";
 
 const DisplayStatus = () => {
   // Add conditional statement to assignment values
   const a = 350;
-  const b = '___';
+  const b = "___";
   const energyConsumption = `${a} `;
   const enclosureTemp = b;
   const outsideTemp = b;
@@ -26,9 +26,7 @@ const DisplayStatus = () => {
         <ContentsInnerWrapper>
           <DisplayBox
             currData={energyConsumption}
-            unit={
-              isEssSwitch ? 'Kw/H' : location.pathname === '/' ? 'Kw/H' : 'Kw/H'
-            }
+            unit={"Kw/H"}
             label='energy consumption'
           />
           <DisplayBox

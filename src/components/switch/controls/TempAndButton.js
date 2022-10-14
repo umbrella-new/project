@@ -112,7 +112,6 @@ const TempAndButton = ({
   const handleHideMessage = () => {
     setAlertMessage(false);
     inputRef.current.focus();
-    setOpenKeyPad(true);
   };
   const messageBoxTitle =
     title === "scheduler"
