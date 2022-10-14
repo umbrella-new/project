@@ -1,19 +1,15 @@
-import React, { useRef, useState } from 'react';
-import Keyboard from 'react-simple-keyboard';
-import './keyboard.css';
+import React, { useRef, useState } from "react";
+import Keyboard from "react-simple-keyboard";
+import "./keyboard.css";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const keyboard = useRef();
 
   const onChange = (input) => {
     setInput(input);
-  };
-
-  const handleCancel = () => {
-    closeKeyPad();
   };
 
   return (
@@ -24,14 +20,14 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
           placeHoler='Please input numbers'
           onChange={setInput}
         />
-        <CancelButton onClick={handleCancel}>X</CancelButton>
       </InputAndButtonWrapper>
+
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         onChange={onChange}
-        theme={'hg-theme-default hg-layout-default myTheme'}
+        theme={"hg-theme-default hg-layout-default myTheme"}
         layout={{
-          default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 .'],
+          default: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 ."],
         }}
       />
       <EnterButton onClick={() => handleOnSubmit(input)}>Enter</EnterButton>
@@ -66,7 +62,7 @@ const InputAndButtonWrapper = styled.div`
 `;
 
 const Input = styled.input`
-  width: 200px;
+  width: 100%;
   height: 42px;
 
   background: #233a54 0% 0% no-repeat padding-box;
@@ -74,6 +70,9 @@ const Input = styled.input`
   border: 0.5px solid #142033;
   border-radius: 12px;
   opacity: 1;
+  ::placeholder {
+    color: #fff;
+  }
 `;
 
 const CancelButton = styled.button`

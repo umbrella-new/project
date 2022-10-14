@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: false,
+  isEssSwitch: true,
   isAdministrator: false,
   isKeyboardActivated: false,
   dateAndWeather: {
