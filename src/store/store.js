@@ -4,6 +4,7 @@ import essSwitchSlice from "./slices/essSwitchSlice";
 import userSlice from "./slices/userSlice";
 import tgsSwitchSlice from "./slices/tgsSwitchSlice";
 import settingsOfEssSlice from "./slices/settingsOfEssSlice";
+import chartSlice from "./slices/chartSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     user: userSlice.reducer,
     tgsSwitch: tgsSwitchSlice.reducer,
     settingsOfEss: settingsOfEssSlice.reducer,
+    chart: chartSlice.reducer,
   },
 });
 

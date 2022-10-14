@@ -1,18 +1,17 @@
 // APIs
-import { useContext } from 'react';
-import { useSelector } from 'react-redux';
-import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
+import { useContext } from "react";
+import { useSelector } from "react-redux";
+import { selectSSRState } from "../../../store/slices/heaterStatusSlice";
 
 // Styling
-import styled from 'styled-components';
-import { Context } from '../../../context/Context';
-import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { Context } from "../../../context/Context";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
 // Components
-import ApplyButton from '../controls/ApplyButton';
-import SSRButton from './SSRButton';
-import SSRDetail from './SSRDetail';
+import ApplyButton from "../controls/ApplyButton";
+import SSRButton from "./SSRButton";
+import SSRDetail from "./SSRDetail";
 
 const HeaterStatus = () => {
   const ssrState = useSelector(selectSSRState);
@@ -27,7 +26,7 @@ const HeaterStatus = () => {
   const ssrGroupTwo = statusArr.slice(4);
 
   const onExpand = () => {
-    dispatch({ type: 'expand' });
+    dispatch({ type: "expand" });
   };
 
   return (
@@ -64,7 +63,7 @@ const HeaterStatus = () => {
       )}
       <ApplyButtonWrapper>
         <ApplyButton
-          name={state.isExpanded ? 'close' : 'expand'}
+          name={state.isExpanded ? "close" : "expand"}
           buttonHandler={onExpand}
           isEnable={true}
         />
@@ -79,7 +78,7 @@ const Wrapper = styled.div`
   /* Layout Properties */
 
   width: 895px;
-  /* height: ${(p) => (p.isExpanded ? '632px' : '145px')}; */
+  /* height: ${(p) => (p.isExpanded ? "632px" : "145px")}; */
 
   ${flexboxCenter}
   flex-direction: column;

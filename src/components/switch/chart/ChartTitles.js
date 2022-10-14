@@ -1,11 +1,12 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import { selectChart } from "../../../store/slices/chartSlice";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
 function ChartTitles() {
-  const gpState = true;
-  const espState = true;
-  const wifiState = true;
-  const alarmState = false;
+  const state = useSelector(selectChart);
+  const { gpState, ebpState, wifiState, alarmState } = state;
+
   return (
     <Wrapper>
       <Title>SWITCH GENERATED TELEMETRY </Title>
@@ -16,19 +17,19 @@ function ChartTitles() {
           <BatteryImage
             src={
               gpState
-                ? '/images/battery-activated.svg'
-                : '/images/battery-inactivated.svg'
+                ? "/images/battery-activated.svg"
+                : "/images/battery-inactivated.svg"
             }
           />
         </GpEbpWrapper>
 
         <GpEbpWrapper>
-          <ItemEbpTitle isActivated={espState}>EBP</ItemEbpTitle>
+          <ItemEbpTitle isActivated={ebpState}>EBP</ItemEbpTitle>
           <BatteryImage
             src={
-              espState
-                ? '/images/battery-activated-orange.svg'
-                : '/images/battery-inactivated.svg'
+              ebpState
+                ? "/images/battery-activated-orange.svg"
+                : "/images/battery-inactivated.svg"
             }
           />
         </GpEbpWrapper>
@@ -37,8 +38,8 @@ function ChartTitles() {
           <Img
             src={
               wifiState
-                ? '/images/wifi-activated.svg'
-                : '/images/wifi-inactivated.svg'
+                ? "/images/wifi-activated.svg"
+                : "/images/wifi-inactivated.svg"
             }
           />
         </WifiAlertIconsWrapper>
@@ -46,8 +47,8 @@ function ChartTitles() {
           <Img
             src={
               alarmState
-                ? '/images/alarm-activated.svg'
-                : '/images/alarm-inactivated.svg'
+                ? "/images/alarm-activated.svg"
+                : "/images/alarm-inactivated.svg"
             }
           />
         </WifiAlertIconsWrapper>
@@ -122,12 +123,12 @@ const GpEbpWrapper = styled.li`
 `;
 
 const ItemTitle = styled.span`
-  color: ${(p) => (p.isActivated ? '#95ff45' : `#808080`)};
+  color: ${(p) => (p.isActivated ? "#95ff45" : `#808080`)};
   font-size: 11px;
 `;
 
 const ItemEbpTitle = styled.span`
-  color: ${(p) => (p.isActivated ? '#FF7800' : `#808080`)};
+  color: ${(p) => (p.isActivated ? "#FF7800" : `#808080`)};
   font-size: 11px;
 `;
 
