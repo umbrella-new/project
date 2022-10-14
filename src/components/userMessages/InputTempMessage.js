@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../styles/commonStyles";
-import MessageButton from "./MessageButton";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../styles/commonStyles';
+import MessageButton from './MessageButton';
 
 const InputTempMessage = ({ onClose, title, message }) => {
   return (
@@ -83,7 +83,7 @@ const HeaderTitle = styled.span`
 const Logo = styled.img``;
 
 const MessageWrapper = styled.div`
-  width: 80%;
+  width: 100%;
   height: 60%;
   ${flexboxCenter}
   flex-direction: column;

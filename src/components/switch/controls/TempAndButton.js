@@ -25,6 +25,7 @@ const TempAndButton = ({
   // Local state displaying the keypad
   const [openKeyPad, setOpenKeyPad] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
+  const [overHeat, setOverHeat] = useState(false);
 
   useEffect(() => {
     if (currTemp > 0) {
@@ -44,20 +45,25 @@ const TempAndButton = ({
     const temp = Number(inputRef.current.value);
     if (title === 'scheduler') {
       if (temp !== 0) {
-        if (!isReady) {
-          buttonHandler(temp);
-          inputRef.current.value = `${temp}\u00b0C`;
-        } else {
-          buttonHandler(0);
+        if (temp > 248) {
+          setOverHeat(true);
+          setAlertMessage(true);
           inputRef.current.value = '';
+        } else {
+          if (!isReady) {
+            buttonHandler(temp);
+            inputRef.current.value = `${temp}\u00b0C`;
+          } else {
+            buttonHandler(0);
+            inputRef.current.value = '';
+          }
         }
       }
     } else {
       if (temp !== 0) {
         if (temp > 248) {
-          window.alert(
-            'Maximum temperature is 120\u00b0F(248\u00b0C). Please input desired temperature below the maximum temperature'
-          );
+          setOverHeat(true);
+          setAlertMessage(true);
           inputRef.current.value = '';
         } else {
           if (!isActivated) {
@@ -87,13 +93,21 @@ const TempAndButton = ({
   // Virtual keyboard input handler
   const handleVirtualKeyboardInput = (input) => {
     const temp = Number(input);
-    buttonHandler(temp);
-    setOpenKeyPad(false);
+    if (temp > 248) {
+      setOverHeat(true);
+      setAlertMessage(true);
+      setOpenKeyPad(false);
+      inputRef.current.value = '';
+    } else {
+      buttonHandler(temp);
+      setOpenKeyPad(false);
+    }
   };
 
   // Display Message box
   const handleHideMessage = () => {
     setAlertMessage(false);
+    setOverHeat(false);
     inputRef.current.focus();
   };
 
@@ -101,10 +115,20 @@ const TempAndButton = ({
     title === 'scheduler'
       ? 'heating schedule program'
       : 'optional constant temp';
-  const message =
-    title === 'scheduler'
-      ? 'in order to finalize your heating schedule program, '
-      : 'in order to finalize your optional constant temp program, ';
+
+  const handleMessage = () => {
+    if ((title = 'schedule')) {
+      return overHeat
+        ? 'Maximum temperature is 120\u00b0F (248\u00b0C)'
+        : 'in order to finalize your heating schedule program,';
+    } else {
+      return overHeat
+        ? 'Maximum temperature is 120\u00b0F (248\u00b0C)'
+        : 'in order to finalize your optional constant temp program,';
+    }
+  };
+  const message = handleMessage();
+
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
       <InputAndLabelWrapper isEnable={isEnable} onClick={onInputHandler}>
