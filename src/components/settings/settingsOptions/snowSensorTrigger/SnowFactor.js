@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
 
 function SnowFactor() {
   return (
@@ -10,7 +10,9 @@ function SnowFactor() {
 
       <ValueContainer>
         <SmallContainer>
-          <Temperature> ° c</Temperature>
+          <Temperature>
+            <Input></Input> ° c
+          </Temperature>
         </SmallContainer>
       </ValueContainer>
     </ContainerWindFactors>
@@ -81,4 +83,13 @@ const Temperature = styled.span`
   font-size: var(--font-size7);
   margin-right: var(--font-size6);
   text-transform: uppercase;
+`;
+
+const Input = styled.input`
+  width: auto;
+  height: auto;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  border-radius: 21px;
+  opacity: 1;
 `;

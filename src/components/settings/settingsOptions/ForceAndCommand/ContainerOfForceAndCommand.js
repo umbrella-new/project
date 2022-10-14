@@ -6,15 +6,14 @@ import {
   selectSettingsOfEss,
   setResetAllSettingsButtons,
 } from '../../../../store/slices/settingsOfEssSlice';
-import EssSystem from './EssSystem';
+import SystemHeader from './SystemHeader';
 import SelectArts from './SelectArts';
 import SelectTc from './SelectTc';
-import SysSystem from './SysSystem';
 
 function ContainerOfForceAndCommand() {
   const essButton = './images/blueEssButton.svg';
-  const essButtonActive = './images/greenEssButton.svg';
   const sysButton = './images/sysButton.svg';
+  const sysButtonActive = './images/greenSysButton.svg';
 
   // redux
   const dispatch = useDispatch();
@@ -22,25 +21,24 @@ function ContainerOfForceAndCommand() {
   const activatedByEditButton = state.buttonsOfSettings.settingsEditButton;
 
   // useState
-  const [toggleEssButtonColor, setToggleEssButtonColor] =
-    useState(essButtonActive);
+  const [toggleButtonColor, setToggleButtonColor] = useState(sysButtonActive);
   const [essExpandOrClose, setEssExpandOrClose] = useState('close');
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
-    setToggleEssButtonColor(essButtonActive);
+    setToggleButtonColor(sysButtonActive);
   }, []);
 
   const handleCloseExpandButton = () => {
     switch (essExpandOrClose) {
       case 'close': {
         setEssExpandOrClose('expand');
-        setToggleEssButtonColor(essButton);
+        setToggleButtonColor(sysButton);
         break;
       }
       case 'expand': {
         setEssExpandOrClose('close');
-        setToggleEssButtonColor(essButtonActive);
+        setToggleButtonColor(sysButtonActive);
         break;
       }
       default:
@@ -54,26 +52,28 @@ function ContainerOfForceAndCommand() {
         <Wrapper3>
           <Wrapper4>
             <EssWrapper>
-              <EssSystem
-                toggleEssButtonColor={toggleEssButtonColor}
-                essExpandOrClose={essExpandOrClose}
-                handleCloseExpandButton={handleCloseExpandButton}
+              <SystemHeader
+                name={'electrical switch system'}
+                expandOrClose={'expand'}
+                toggleButtonColor={essButton}
               />
             </EssWrapper>
+            <SysWrapper>
+              <SystemHeader
+                name={'system commands'}
+                toggleButtonColor={toggleButtonColor}
+                expandOrClose={essExpandOrClose}
+                handleCloseExpandButton={handleCloseExpandButton}
+              />
+            </SysWrapper>
             {essExpandOrClose === 'close' && (
               <NewWrapper>
                 <WrapperSelectTcSelectArts>
                   <SelectTc activateSelectButton={activatedByEditButton} />
-                  <SelectArts activateOnOffSwitch={activatedByEditButton} />
+                  {/* <SelectArts activateOnOffSwitch={activatedByEditButton} /> */}
                 </WrapperSelectTcSelectArts>
               </NewWrapper>
             )}
-            <SysWrapper>
-              <SysSystem
-                sysExpandOrClose={'expand'}
-                toggleSysButtonColor={sysButton}
-              />
-            </SysWrapper>
           </Wrapper4>
         </Wrapper3>
       </Wrapper2>
@@ -156,6 +156,7 @@ const Wrapper4 = styled.div`
 const EssWrapper = styled.div`
   width: 564px;
   height: 53px;
+  margin-top: 17px;
   margin-top: 1px;
 `;
 
@@ -196,5 +197,5 @@ const WrapperSelectTcSelectArts = styled.div`
 const SysWrapper = styled.div`
   width: 564px;
   height: 53px;
-  margin-top: 17px;
+  margin-top: 4px;
 `;

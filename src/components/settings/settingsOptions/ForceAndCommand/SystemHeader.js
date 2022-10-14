@@ -2,32 +2,33 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from './ButtonCloseAndExpand';
 
-function EssSystem({
-  toggleEssButtonColor,
-  essExpandOrClose,
+function SystemHeader({
+  toggleButtonColor,
+  expandOrClose,
   handleCloseExpandButton,
+  name,
 }) {
   return (
     <Wrapper>
       <ButtonHole>
-        <img src={toggleEssButtonColor} />
+        <img src={toggleButtonColor} />
       </ButtonHole>
       <Span></Span>
       <ContainerTitle>
-        <P>electrical switch system</P>
+        <P>{name}</P>
       </ContainerTitle>
       <ContainerButton
         onClick={() => {
           handleCloseExpandButton();
         }}
       >
-        <ButtonCloseAndExpand name={essExpandOrClose} />
+        <ButtonCloseAndExpand name={expandOrClose} />
       </ContainerButton>
     </Wrapper>
   );
 }
 
-export default EssSystem;
+export default SystemHeader;
 
 const Wrapper = styled.div`
   width: 100%;

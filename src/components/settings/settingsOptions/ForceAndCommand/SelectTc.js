@@ -2,48 +2,67 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonSelect from './ButtonSelect';
 
-function SelectTc() {
+function SelectTc({ name }) {
+  // { title: 'outside temperature', selection: 'select t/c' },
   const data = [
-    { title: 'current heater temperature', selection: 'select t/c' },
+    { title: `current ${name} heater temperature`, selection: 'select t/c' },
     { title: 'enclosure temperature', selection: 'select t/c' },
-    { title: 'outside temperature', selection: 'select t/c' },
   ];
 
   return (
     <WrapperTelemetry>
-      <WrapperTelemetry2>
-        <TitleWrapper>
-          <P>select t/c telemetry</P>
-        </TitleWrapper>
-        <FlexWrapper>
-          {data.map((value) => {
-            return (
-              <SubTitleSelectionWrapper
-                key={Math.floor(Math.random() * 1555555)}
-              >
-                <SubTitleWrapper>
-                  <SubTitleWrapper2>
-                    <SubTitle>{value.title}</SubTitle>
-                  </SubTitleWrapper2>
-                </SubTitleWrapper>
-                <SelectionShadowWrapper>
-                  <SelectionWrapper>
-                    <SelectionIndentWrapper>
-                      <Selection>{value.selection}</Selection>
-                    </SelectionIndentWrapper>
+      <WrapperTelemetry1>
+        <WrapperTelemetry2>
+          <TitleWrapper>
+            <P>select t/c telemetry</P>
+          </TitleWrapper>
+          <Wrapper>
+            <div>
+              <SubTitleWrapper>
+                <SubTitleWrapper2>
+                  <SubTitle>{'outside temperature'}</SubTitle>
+                </SubTitleWrapper2>
+              </SubTitleWrapper>
+              <SelectionShadowWrapper>
+                <SelectionWrapper>
+                  <SelectionIndentWrapper>
+                    <Selection>select t/c</Selection>
+                  </SelectionIndentWrapper>
 
-                    <Img src={'./images/whiteTriangle.svg'} />
-                  </SelectionWrapper>
-                </SelectionShadowWrapper>
-              </SubTitleSelectionWrapper>
-            );
-          })}
+                  <Img src={'./images/whiteTriangle.svg'} />
+                </SelectionWrapper>
+              </SelectionShadowWrapper>
+            </div>
+            <FlexWrapper>
+              {data.map((value) => {
+                return (
+                  <SubTitleSelectionWrapper
+                    key={Math.floor(Math.random() * 1555555)}
+                  >
+                    <SubTitleWrapper>
+                      <SubTitleWrapper2>
+                        <SubTitle>{value.title}</SubTitle>
+                      </SubTitleWrapper2>
+                    </SubTitleWrapper>
+                    <SelectionShadowWrapper>
+                      <SelectionWrapper>
+                        <SelectionIndentWrapper>
+                          <Selection>{value.selection}</Selection>
+                        </SelectionIndentWrapper>
+
+                        <Img src={'./images/whiteTriangle.svg'} />
+                      </SelectionWrapper>
+                    </SelectionShadowWrapper>
+                  </SubTitleSelectionWrapper>
+                );
+              })}
+            </FlexWrapper>
+          </Wrapper>
           <WrapperButton>
-            {' '}
             <ButtonSelect />
           </WrapperButton>
-        </FlexWrapper>
-      </WrapperTelemetry2>
+        </WrapperTelemetry2>
+      </WrapperTelemetry1>
     </WrapperTelemetry>
   );
 }
@@ -51,9 +70,10 @@ function SelectTc() {
 export default SelectTc;
 
 const WrapperTelemetry = styled.div`
-  width: 546px;
-  height: 234px;
-  margin-top: 2px;
+  width: 552px;
+  height: 286px;
+  height: auto;
+  margin: 2px 0 2px 0;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
@@ -63,9 +83,24 @@ const WrapperTelemetry = styled.div`
   ${flexboxCenter}
 `;
 
+const WrapperTelemetry1 = styled.div`
+  width: 548px;
+  height: 281px;
+  height: auto;
+  margin: 2px 0 2px 0;
+
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 2px #000000;
+  border-radius: 12px;
+  opacity: 1;
+  ${flexboxCenter}
+`;
+
 const WrapperTelemetry2 = styled.div`
-  width: 542px;
-  height: 230px;
+  width: 544px;
+  height: 275px;
+  height: auto;
+  margin: 2px 0 2px 0;
 
   background: transparent
     linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%) 0% 0% no-repeat
@@ -99,9 +134,21 @@ const TitleWrapper = styled.div`
   ${flexboxCenter}
 `;
 
+const Wrapper = styled.div`
+  width: 546px;
+  height: 234px;
+  height: auto;
+  margin: 2px 0 2px 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+`;
+
 const FlexWrapper = styled.div`
-  width: 562px;
-  height: 238px;
+  /* width: 562px;
+  height: 238px; */
+  width: auto;
+  height: auto;
 
   display: flex;
   flex-direction: column;
@@ -111,6 +158,7 @@ const FlexWrapper = styled.div`
 `;
 
 const SubTitleSelectionWrapper = styled.div`
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -192,8 +240,8 @@ const Img = styled.img`
 const WrapperButton = styled.div`
   width: 130px;
   height: 46px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;

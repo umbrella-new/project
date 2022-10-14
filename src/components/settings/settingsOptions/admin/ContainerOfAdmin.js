@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import EssSystem from '../ForceAndCommand/EssSystem';
-import SysSystem from '../ForceAndCommand/SysSystem';
+import SystemHeader from '../ForceAndCommand/SystemHeader';
 import Control from './Control';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
-import { selectUserState } from '../../../../store/slices/userSlice';
+import {
+  selectUserState,
+  setAdminAccess,
+} from '../../../../store/slices/userSlice';
 
 function ContainerOfAdmin() {
   const sysButtonActive = './images/greenSysButton.svg';
@@ -26,6 +28,7 @@ function ContainerOfAdmin() {
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
+    dispatch(setAdminAccess(false));
   }, []);
 
   const handleCloseExpandButton = () => {
@@ -52,17 +55,19 @@ function ContainerOfAdmin() {
       <Wrapper2>
         <Wrapper3>
           <EssWrapper>
-            <EssSystem
-              essExpandOrClose={'expand'}
-              toggleEssButtonColor={essButton}
+            <SystemHeader
+              name={'electrical switch system'}
+              expandOrClose={'expand'}
+              toggleButtonColor={essButton}
             />
           </EssWrapper>
           <Wrapper4>
             <SysWrapper>
-              <SysSystem
-                sysExpandOrClose={adminAccess ? sysExpandOrClose : 'expand'}
+              <SystemHeader
+                name={'system commands'}
+                expandOrClose={adminAccess ? sysExpandOrClose : 'expand'}
                 handleCloseExpandButton={handleCloseExpandButton}
-                toggleSysButtonColor={adminAccess ? toggleSysButton : sysButton}
+                toggleButtonColor={adminAccess ? toggleSysButton : sysButton}
               />
             </SysWrapper>
             {adminAccess && sysExpandOrClose === 'close' && (
@@ -72,7 +77,11 @@ function ContainerOfAdmin() {
                 </ControlWrapper>
               </Wrapper5>
             )}
-            {adminAccess || <ContainerLogin />}
+            {adminAccess || (
+              <LoginWrapper>
+                <ContainerLogin />
+              </LoginWrapper>
+            )}
           </Wrapper4>
         </Wrapper3>
       </Wrapper2>
@@ -176,4 +185,8 @@ const ControlWrapper = styled.div`
   width: 554px;
   height: 155px;
   margin-top: 4px;
+`;
+
+const LoginWrapper = styled.div`
+  margin-bottom: 4px;
 `;

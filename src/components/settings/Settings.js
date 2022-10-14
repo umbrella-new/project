@@ -62,8 +62,8 @@ const Settings = () => {
 export default Settings;
 
 const TitleMainSectionContainer = styled.div`
-  margin-right: 8px;
-  /* border: 1px solid red; */
+  height: auto;
+  width: 901px;
 `;
 
 const TitleContainer = styled.div`
