@@ -6,12 +6,12 @@ import ButtonCloseAndExpand from './ButtonCloseAndExpand';
 function SysSystem({
   sysExpandOrClose,
   handleCloseExpandButton,
-  toggleSysButton,
+  toggleSysButtonColor,
 }) {
   return (
     <Wrapper>
       <ButtonHole>
-        <img src={toggleSysButton} />
+        <img src={toggleSysButtonColor} />
       </ButtonHole>
       <Span></Span>
       <ContainerTitle>

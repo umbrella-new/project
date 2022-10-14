@@ -2,52 +2,41 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import EssHeader from '../ForceAndCommand/EssSystem';
+import EssSystem from '../ForceAndCommand/EssSystem';
 import SysSystem from '../ForceAndCommand/SysSystem';
 import Control from './Control';
-import {
-  setResetAllSettingsButtons,
-  setEssButtonExpandAndClose,
-  setSysButtonExpandAndClose,
-  selectSettingsOfEss,
-} from '../../../../store/slices/settingsOfEssSlice';
+import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
 
 function ContainerOfAdmin() {
-  // const essButton = './images/blueEssButton.svg';
-  // const essButtonActive = './images/greenEssButton.svg';
   const sysButtonActive = './images/greenSysButton.svg';
   const sysButton = './images/sysButton.svg';
   const essButton = './images/blueEssButton.svg';
   // Redux
   const dispatch = useDispatch();
-  const state = useSelector(selectSettingsOfEss);
-  const sysExpandClose = state.buttonOfExpandAndClose.sysExpandAndClose;
+
   // states
   const [essExpandOrClose, setEssExpandOrClose] = useState('close');
   const [sysExpandOrClose, setSysExpandOrClose] = useState('close');
   const [toggleSysButton, setToggleSysButton] = useState(sysButton);
+
   // useEffect
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
-    setEssExpandOrClose('expand');
-    setSysExpandOrClose('close');
-    dispatch(setEssButtonExpandAndClose(false));
-    dispatch(setSysButtonExpandAndClose(true));
   }, []);
 
   const handleCloseExpandButton = () => {
     switch (sysExpandOrClose) {
       case 'close': {
         setSysExpandOrClose('expand');
-        dispatch(setSysButtonExpandAndClose(false));
+
         setToggleSysButton(sysButton);
         break;
       }
       case 'expand': {
         setSysExpandOrClose('close');
-        dispatch(setSysButtonExpandAndClose(true));
+
         setToggleSysButton(sysButtonActive);
         break;
       }
@@ -61,9 +50,9 @@ function ContainerOfAdmin() {
       <Wrapper2>
         <Wrapper3>
           <EssWrapper>
-            <EssHeader
+            <EssSystem
               essExpandOrClose={essExpandOrClose}
-              toggleEssButton={essButton}
+              toggleEssButtonColor={essButton}
             />
           </EssWrapper>
           <Wrapper4>
@@ -71,17 +60,15 @@ function ContainerOfAdmin() {
               <SysSystem
                 sysExpandOrClose={sysExpandOrClose}
                 handleCloseExpandButton={handleCloseExpandButton}
-                toggleSysButton={toggleSysButton}
+                toggleSysButtonColor={toggleSysButton}
               />
             </SysWrapper>
-            {sysExpandClose ? (
+            {sysExpandOrClose === 'close' && (
               <Wrapper5>
                 <ControlWrapper>
                   <Control />
                 </ControlWrapper>
               </Wrapper5>
-            ) : (
-              ''
             )}
             <ContainerLogin />
           </Wrapper4>
@@ -96,8 +83,7 @@ export default ContainerOfAdmin;
 const Wrapper = styled.div`
   width: 594px;
   height: 469px;
-  /* margin-top: 37px;
-  margin-left: 6px; */
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 4px;
