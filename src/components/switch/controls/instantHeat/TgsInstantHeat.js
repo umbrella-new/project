@@ -1,10 +1,10 @@
-import { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
-} from '../../../../store/slices/tgsSwitchSlice';
+} from "../../../../store/slices/tgsSwitchSlice";
 
 import {
   activeInput,
@@ -12,8 +12,9 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from '../../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
+} from "../../../../styles/commonStyles";
+import styled, { css } from "styled-components";
+import InputKeyPad from "../../../keyboard/KeyPad";
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
@@ -21,6 +22,13 @@ const TgsInstantHeat = () => {
   const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
   const { fanOnly } = state;
   const inputRef = useRef();
+
+  // const { isKeyboardActivated } = userState;
+  const [openKeyPad, setOpenKeyPad] = useState(false);
+
+  useEffect(() => {
+    setOpenKeyPad(false);
+  }, [instantButtonToggler]);
 
   useEffect(() => {
     if (instantHeatTemp > 0) {
@@ -45,8 +53,36 @@ const TgsInstantHeat = () => {
     }
   };
 
+  // Virtual keyboard input handler
+  const handleVirtualKeyboardInput = (input) => {
+    const temp = Number(input);
+
+    if (temp !== 0) {
+      if (!instantButtonToggler) {
+        dispatch(tgsInstantHeat(temp));
+        inputRef.current.value = `${temp}\u00b0C`;
+        handleKeypadClosed();
+      } else {
+        dispatch(tgsInstantHeat(0));
+        inputRef.current.value = ``;
+      }
+    } else {
+      return;
+    }
+  };
+
   const onInputHandler = () => {
-    inputRef.current.focus();
+    if (instantButtonToggler) {
+      dispatch(tgsInstantHeat(0));
+      inputRef.current.value = ``;
+    } else {
+      inputRef.current.focus();
+      setOpenKeyPad(true);
+    }
+  };
+
+  const handleKeypadClosed = () => {
+    setOpenKeyPad(false);
   };
 
   return (
@@ -56,7 +92,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -75,7 +111,7 @@ const TgsInstantHeat = () => {
           </LabelOuterHole>
 
           <InputDegree
-            toggler={instantButtonToggler}
+            isActivated={instantButtonToggler}
             placeholder='0&deg;C'
             type='text'
             ref={inputRef}
@@ -91,7 +127,7 @@ const TgsInstantHeat = () => {
           >
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={'/images/fan-only-icon.svg'} />
+                <ButtonImage src={"/images/fan-only-icon.svg"} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -101,6 +137,13 @@ const TgsInstantHeat = () => {
           <FanLabel>fan Only</FanLabel>
         </LabelWrapper>
       </ContentWrapperNotForm>
+
+      {/* Conditionally display keypad */}
+      {openKeyPad && (
+        <KeyPadWrapper>
+          <InputKeyPad handleOnSubmit={handleVirtualKeyboardInput} />
+        </KeyPadWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -219,7 +262,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 
@@ -229,14 +272,12 @@ const InputDegree = styled.input`
     font-size: 7px;
   }
 
-  ${(props) =>
-    props.toggler
-      ? css`
-          ${activeInput}
-        `
-      : css`
-          ${layer1}
-        `}
+  ${layer1}
+  ${(p) =>
+    p.isActivated &&
+    css`
+      ${activeInput}
+    `}
 `;
 
 const ActiveButtonWrapper = styled.div`
@@ -319,4 +360,12 @@ const LabelWrapper = styled.div`
 const FanLabel = styled.span`
   font-size: 8px;
   text-transform: uppercase;
+`;
+
+const KeyPadWrapper = styled.div`
+  position: absolute;
+  top: -0.5rem;
+  right: -17rem;
+
+  z-index: 1000;
 `;

@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState, useEffect } from "react";
 
 import {
   instantHeat,
   selectEssSwitch,
-} from '../../../../store/slices/essSwitchSlice';
+} from "../../../../store/slices/essSwitchSlice";
 
-import { activateKeyboard } from '../../../../store/slices/userSlice';
+import { activateKeyboard } from "../../../../store/slices/userSlice";
 
 import {
   activeInput,
@@ -14,10 +14,10 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from '../../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
-import { selectUserState } from '../../../../store/slices/userSlice';
-import InputKeyPad from '../../../keyboard/KeyPad';
+} from "../../../../styles/commonStyles";
+import styled, { css } from "styled-components";
+import { selectUserState } from "../../../../store/slices/userSlice";
+import InputKeyPad from "../../../keyboard/KeyPad";
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -27,6 +27,10 @@ const InstantHeat = () => {
 
   // const { isKeyboardActivated } = userState;
   const [openKeyPad, setOpenKeyPad] = useState(false);
+
+  useEffect(() => {
+    setOpenKeyPad(false);
+  }, [instantButtonToggler]);
 
   const inputRef = useRef();
   useEffect(() => {
@@ -71,9 +75,13 @@ const InstantHeat = () => {
   };
 
   const onInputHandler = () => {
-    inputRef.current.focus();
-    setOpenKeyPad(true);
-    // dispatch(activateKeyboard());
+    if (instantButtonToggler) {
+      dispatch(instantHeat(0));
+      inputRef.current.value = ``;
+    } else {
+      inputRef.current.focus();
+      setOpenKeyPad(true);
+    }
   };
 
   const handleKeypadClosed = () => {
@@ -93,7 +101,7 @@ const InstantHeat = () => {
           <LabelAndInputInnerWrapper isActivated={instantButtonToggler}>
             <Label>instant heat</Label>
             <InputDegree
-              toggler={instantButtonToggler}
+              isActivated={instantButtonToggler}
               placeholder='0&deg;C'
               type='text'
               ref={inputRef}
@@ -104,17 +112,16 @@ const InstantHeat = () => {
         <ActiveButton isActivated={instantButtonToggler}>
           <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
             <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
-              <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+              <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
         </ActiveButton>
       </InnerWrapper>
+
+      {/* Conditionally display keypad */}
       {openKeyPad && (
         <KeyPadWrapper>
-          <InputKeyPad
-            closeKeyPad={handleKeypadClosed}
-            handleOnSubmit={handleVirtualKeyboardInput}
-          />
+          <InputKeyPad handleOnSubmit={handleVirtualKeyboardInput} />
         </KeyPadWrapper>
       )}
     </Wrapper>
@@ -229,7 +236,7 @@ const InputDegree = styled.input`
   height: 20px;
   width: 58px;
   border-radius: 20px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   box-shadow: 0 0 3px black;
   margin-right: 5.06px;
   font-size: 10px;
@@ -240,14 +247,12 @@ const InputDegree = styled.input`
     font-size: 10px;
   }
 
-  ${(props) =>
-    props.isActivated
-      ? css`
-          ${activeInput}
-        `
-      : css`
-          ${layer1}
-        `}
+  ${layer1}
+  ${(p) =>
+    p.isActivated &&
+    css`
+      ${activeInput}
+    `}
 `;
 
 const ActiveButton = styled.button`
