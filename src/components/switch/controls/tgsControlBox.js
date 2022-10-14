@@ -59,11 +59,11 @@ const TgsControlBox = () => {
           />
         )}
       </SchedulerWrapper>
-      <ConflictMessage
+      {/* <ConflictMessage
         headerTitle='tgs and tes conflict'
-        currentSwitch='tes-typhoon electricsystem'
+        currentSwitch='tes-typhoon electric system'
         DesiredSwitch='tgs-typhoon gas system'
-      />
+      /> */}
     </Wrapper>
   );
 };
