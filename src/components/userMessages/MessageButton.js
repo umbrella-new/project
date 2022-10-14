@@ -25,6 +25,8 @@ const WrapperHole = styled.button`
   opacity: 1;
 
   ${flexboxCenter}
+
+  margin-left: 0.3rem;
 `;
 const ButtonOuter = styled.div`
   width: 72px;
