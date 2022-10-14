@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useState, useEffect } from 'react';
 
 import {
   instantHeat,
   selectEssSwitch,
-} from "../../../../store/slices/essSwitchSlice";
+} from '../../../../store/slices/essSwitchSlice';
 
-import { activateKeyboard } from "../../../../store/slices/userSlice";
+import { activateKeyboard } from '../../../../store/slices/userSlice';
 
 import {
   activeInput,
@@ -14,10 +14,10 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
-import { selectUserState } from "../../../../store/slices/userSlice";
-import InputKeyPad from "../../../keyboard/KeyPad";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+import { selectUserState } from '../../../../store/slices/userSlice';
+import InputKeyPad from '../../../keyboard/KeyPad';
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -105,6 +105,7 @@ const InstantHeat = () => {
               placeholder='0&deg;C'
               type='text'
               ref={inputRef}
+              disabled={instantButtonToggler}
             />
           </LabelAndInputInnerWrapper>
         </LabelAndInputOuterWrapper>
@@ -112,7 +113,7 @@ const InstantHeat = () => {
         <ActiveButton isActivated={instantButtonToggler}>
           <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
             <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
-              <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+              <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
         </ActiveButton>
@@ -236,7 +237,7 @@ const InputDegree = styled.input`
   height: 20px;
   width: 58px;
   border-radius: 20px;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   margin-right: 5.06px;
   font-size: 10px;

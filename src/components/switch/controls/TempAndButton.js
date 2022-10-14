@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import styled, { css } from "styled-components";
+import { useEffect, useRef, useState } from 'react';
+import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -7,9 +7,9 @@ import {
   activeLayer1,
   activeInput,
   ButtonReady,
-} from "../../../styles/commonStyles";
-import InputKeyPad from "../../keyboard/KeyPad";
-import InputTempMessage from "../../userMessages/InputTempMessage";
+} from '../../../styles/commonStyles';
+import InputKeyPad from '../../keyboard/KeyPad';
+import InputTempMessage from '../../userMessages/InputTempMessage';
 
 const TempAndButton = ({
   isEnable,
@@ -38,36 +38,34 @@ const TempAndButton = ({
   // Button handler
   const handleSubmit = (event) => {
     event.preventDefault();
-
     // Check the user input and show the user message
     inputRef.current.value.length === 0 && setAlertMessage(true);
 
     const temp = Number(inputRef.current.value);
-
-    if (title === "scheduler") {
+    if (title === 'scheduler') {
       if (temp !== 0) {
         if (!isReady) {
           buttonHandler(temp);
           inputRef.current.value = `${temp}\u00b0C`;
         } else {
           buttonHandler(0);
-          inputRef.current.value = "";
+          inputRef.current.value = '';
         }
       }
     } else {
       if (temp !== 0) {
         if (temp > 248) {
           window.alert(
-            "Maximum temperature is 120\u00b0F(248\u00b0C). Please input desired temperature below the maximum temperature"
+            'Maximum temperature is 120\u00b0F(248\u00b0C). Please input desired temperature below the maximum temperature'
           );
-          inputRef.current.value = "";
+          inputRef.current.value = '';
         } else {
           if (!isActivated) {
             buttonHandler(temp);
             inputRef.current.value = `${temp}\u00b0C`;
           } else {
             buttonHandler(0);
-            inputRef.current.value = "";
+            inputRef.current.value = '';
           }
         }
       }
@@ -76,51 +74,37 @@ const TempAndButton = ({
 
   const handleCheck = () => {
     if (!isAble) {
-      alert("Please Set Schedule First");
-      inputRef.current.value = "";
+      alert('Please Set Schedule First');
+      inputRef.current.value = '';
     }
   };
 
   // Handlers for keypad
   const onInputHandler = () => {
-    // inputRef.current.focus();
-    setOpenKeyPad(true);
+    isActivated || isReady || setOpenKeyPad(true);
   };
 
-  const handleClosekeypad = () => {
+  // Virtual keyboard input handler
+  const handleVirtualKeyboardInput = (input) => {
+    const temp = Number(input);
+    buttonHandler(temp);
     setOpenKeyPad(false);
   };
 
-  // // Virtual keyboard input handler
-  // const handleVirtualKeyboardInput = (input) => {
-  //   const temp = Number(input);
-
-  //   if (temp !== 0) {
-  //     if (!instantButtonToggler) {
-  //       dispatch(instantHeat(temp));
-  //       inputRef.current.value = `${temp}\u00b0C`;
-  //       handleClosekeypad();
-  //     } else {
-  //       dispatch(instantHeat(0));
-  //       inputRef.current.value = ``;
-  //     }
-  //   } else {
-  //     return;
-  //   }
-  // };
-
+  // Display Message box
   const handleHideMessage = () => {
     setAlertMessage(false);
     inputRef.current.focus();
   };
+
   const messageBoxTitle =
-    title === "scheduler"
-      ? "heating schedule program"
-      : "optional constant temp";
+    title === 'scheduler'
+      ? 'heating schedule program'
+      : 'optional constant temp';
   const message =
-    title === "scheduler"
-      ? "in order to finalize your heating schedule program, "
-      : "in order to finalize your optional constant temp program, ";
+    title === 'scheduler'
+      ? 'in order to finalize your heating schedule program, '
+      : 'in order to finalize your optional constant temp program, ';
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
       <InputAndLabelWrapper isEnable={isEnable} onClick={onInputHandler}>
@@ -133,6 +117,7 @@ const TempAndButton = ({
             placeholder='0&deg;C'
             disabled={!isEnable}
             onChange={handleCheck}
+            disabled={isReady || isActivated}
           />
         </InputWrapper>
       </InputAndLabelWrapper>
@@ -150,7 +135,7 @@ const TempAndButton = ({
             isReady={isReady}
           >
             <ButtonName isEnable={isEnable}>
-              {isReady ? "ready" : isActivated ? "activated" : "apply"}
+              {isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
             </ButtonName>
           </ButtonTop>
         </ButtonHole>
@@ -159,8 +144,8 @@ const TempAndButton = ({
       {openKeyPad && (
         <KeyPadWrapper>
           <InputKeyPad
-            closeKeyPad={handleClosekeypad}
-            // handleOnSubmit={handleVirtualKeyboardInput}
+            handleOnSubmit={handleVirtualKeyboardInput}
+            title={title}
           />
         </KeyPadWrapper>
       )}
@@ -220,7 +205,7 @@ const Label = styled.label`
   font-size: 8px;
   text-transform: uppercase;
   text-align: center;
-  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
 `;
 
 const InputWrapper = styled.div`
@@ -265,14 +250,14 @@ const InputDegree = styled.input`
         `}
 
   ::placeholder {
-    color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+    color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
     text-align: center;
     font-size: 10px;
   }
 `;
 
 const ButtonWrapper = styled.button`
-  cursor: ${(p) => (p.isEnable ? `pointer` : "default")};
+  cursor: ${(p) => (p.isEnable ? `pointer` : 'default')};
   height: 30px;
   width: 126px;
   border-radius: 25px;
@@ -381,9 +366,9 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
   text-transform: uppercase;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   text-align: center;
-  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
 `;
 
 const KeyPadWrapper = styled.div`

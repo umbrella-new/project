@@ -53,7 +53,7 @@ const essSwitchSlice = createSlice({
       };
     },
     heatingScheduleBeReady: (state, action) => {
-      state.heatingSchedule.temp = action.payload.temp;
+      state.heatingSchedule.inputTemp = action.payload;
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
     heatingScheduleOpen: (state) => {

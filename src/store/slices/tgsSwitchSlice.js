@@ -60,7 +60,7 @@ const tgsSwitchSlice = createSlice({
       state.heatingScheduleDisplayed = false;
     },
     tgsHeatingScheduleBeReady: (state, action) => {
-      state.heatingSchedule.temp = action.payload.temp;
+      state.heatingSchedule.InputTemp = action.payload;
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
     tgsHeatingScheduleClear: (state) => {
