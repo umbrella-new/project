@@ -17,6 +17,7 @@ import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
 import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
 import TgsWindFactor from './windFactor/TgsWindFactor';
 import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
+import ConflictMessage from '../../userMessages/ConflictMessage';
 
 const TgsControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -58,6 +59,11 @@ const TgsControlBox = () => {
           />
         )}
       </SchedulerWrapper>
+      <ConflictMessage
+        headerTitle='tgs and tes conflict'
+        currentSwitch='tes-typhoon electricsystem'
+        DesiredSwitch='tgs-typhoon gas system'
+      />
     </Wrapper>
   );
 };
