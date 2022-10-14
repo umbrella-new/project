@@ -67,6 +67,7 @@ const AdminSSRInfoContainer = ({ data, id }) => {
           array.map((data, index) => (
             <DescriptionAndButtonWrapper>
               <AdminSSRInfoDetailItems
+                key={index}
                 data={data}
                 isSettingOpen={isSettingOpen}
                 setIsSettingOpen={setIsSettingOpen}

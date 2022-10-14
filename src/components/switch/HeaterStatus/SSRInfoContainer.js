@@ -4,6 +4,7 @@ import {
   ItemBackground,
   ItemBackgroundDisable,
 } from '../../../styles/commonStyles';
+import SettingButton from './SettingButton';
 
 const SSRInfoContainer = ({ data }) => {
   const titles = Object.keys(data).slice(2);
@@ -20,7 +21,7 @@ const SSRInfoContainer = ({ data }) => {
     <Wrapper>
       <TitleWrapper>
         <Title>{titles[0]} (a)</Title>
-        <Title>{titles[1]} (w)</Title>
+        <Title>{titles[1]} (kw)</Title>
         <Title>{titles[2]} (v)</Title>
         <Title>{titles[3]} (m)</Title>
         <Title>{titles[4]}</Title>
@@ -28,24 +29,26 @@ const SSRInfoContainer = ({ data }) => {
 
       <ItemWrapper isEnable={isEnable} isFault={isFault}>
         <ItemCurrent isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.current} a</ItemData>
+          <ItemData isEnable={isEnable}>{data.current}</ItemData>
         </ItemCurrent>
 
         <ItemWattage isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.wattage} w</ItemData>
+          <ItemData isEnable={isEnable}>{data.wattage}</ItemData>
         </ItemWattage>
 
         <ItemVlotage isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.voltage} v</ItemData>
+          <ItemData isEnable={isEnable}>{data.voltage}</ItemData>
         </ItemVlotage>
 
         <ItemLength isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.length} m</ItemData>
+          <ItemData isEnable={isEnable}>{data.length}</ItemData>
         </ItemLength>
 
         <ItemDescription isEnable={isEnable}>
           <ItemData isEnable={isEnable}>{data.description}</ItemData>
         </ItemDescription>
+
+        <SettingButton />
       </ItemWrapper>
     </Wrapper>
   );
@@ -66,16 +69,16 @@ const Title = styled.span`
   text-transform: uppercase;
   font-size: 8px;
   &:first-child {
-    margin-right: 2.2rem;
+    margin-right: 2rem;
   }
   &:nth-child(2) {
     margin-right: 2.2rem;
   }
   &:nth-child(3) {
-    margin-right: 3rem;
+    margin-right: 2.6rem;
   }
   &:nth-child(4) {
-    margin-right: 9rem;
+    margin-right: 8rem;
   }
 `;
 
@@ -191,7 +194,7 @@ const ItemLength = styled.li`
 const ItemDescription = styled.li`
   ${flexboxCenter}
 
-  width: 286px;
+  width: 264px;
   height: 20px;
 
   ${(p) =>
