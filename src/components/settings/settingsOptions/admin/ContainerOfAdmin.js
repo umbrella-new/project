@@ -7,6 +7,7 @@ import SysSystem from '../ForceAndCommand/SysSystem';
 import Control from './Control';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
+import { selectUserState } from '../../../../store/slices/userSlice';
 
 function ContainerOfAdmin() {
   const sysButtonActive = './images/greenSysButton.svg';
@@ -14,9 +15,10 @@ function ContainerOfAdmin() {
   const essButton = './images/blueEssButton.svg';
   // Redux
   const dispatch = useDispatch();
+  const state = useSelector(selectUserState);
+  const adminAccess = state.isAdministrator;
 
   // states
-  const [essExpandOrClose, setEssExpandOrClose] = useState('close');
   const [sysExpandOrClose, setSysExpandOrClose] = useState('close');
   const [toggleSysButton, setToggleSysButton] = useState(sysButton);
 
@@ -51,26 +53,26 @@ function ContainerOfAdmin() {
         <Wrapper3>
           <EssWrapper>
             <EssSystem
-              essExpandOrClose={essExpandOrClose}
+              essExpandOrClose={'expand'}
               toggleEssButtonColor={essButton}
             />
           </EssWrapper>
           <Wrapper4>
             <SysWrapper>
               <SysSystem
-                sysExpandOrClose={sysExpandOrClose}
+                sysExpandOrClose={adminAccess ? sysExpandOrClose : 'expand'}
                 handleCloseExpandButton={handleCloseExpandButton}
-                toggleSysButtonColor={toggleSysButton}
+                toggleSysButtonColor={adminAccess ? toggleSysButton : sysButton}
               />
             </SysWrapper>
-            {sysExpandOrClose === 'close' && (
+            {adminAccess && sysExpandOrClose === 'close' && (
               <Wrapper5>
                 <ControlWrapper>
                   <Control />
                 </ControlWrapper>
               </Wrapper5>
             )}
-            <ContainerLogin />
+            {adminAccess || <ContainerLogin />}
           </Wrapper4>
         </Wrapper3>
       </Wrapper2>
