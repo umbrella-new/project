@@ -1,10 +1,10 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function SelectArts() {
-  const switchOnImage = "./images/greenOnOffSwitch.png";
-  const switchOffImage = "./images/redOnOffSwitch.png";
+function SelectArts({ activateOnOffSwitch }) {
+  const switchOnImage = './images/greenOnOffSwitch.png';
+  const switchOffImage = './images/redOnOffSwitch.png';
   const [switchImage, setSwitchImage] = useState(switchOffImage);
 
   const handleImages = () => {
@@ -18,14 +18,20 @@ function SelectArts() {
       <Wrapper2>
         <WrapperTitle>
           <Title>Select Arts</Title>
-          <GreenConnectionSignal src={"./images/ConnectionSignal.svg"} />
+          <GreenConnectionSignal src={'./images/ConnectionSignal.svg'} />
         </WrapperTitle>
         <WrapperText>
           <P>when system is on & power goes out the system will not run</P>
         </WrapperText>
-        <OnOffSwitch onClick={() => handleImages()}>
-          <Img src={switchImage} />
-        </OnOffSwitch>
+        {activateOnOffSwitch ? (
+          <OnOffSwitch onClick={() => handleImages()}>
+            <Img src={switchImage} />
+          </OnOffSwitch>
+        ) : (
+          <OnOffSwitch>
+            <Img src={switchOffImage} />
+          </OnOffSwitch>
+        )}
       </Wrapper2>
     </Wrapper>
   );

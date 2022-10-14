@@ -16,9 +16,7 @@ const initialState = {
   },
   buttonOfExpandAndClose: {
     essExpandAndClose: true,
-    buttonEssExpandOrClose: '',
     sysExpandAndClose: true,
-    buttonSysExpandOrClose: '',
   },
 };
 
@@ -91,8 +89,6 @@ export const settingsOfEssSlice = createSlice({
     },
     setSysButtonExpandAndClose: (state, action) => {
       state.buttonOfExpandAndClose.sysExpandAndClose = action.payload;
-      state.buttonOfExpandAndClose.buttonEssExpandOrClose = action.payload;
-      state.buttonOfExpandAndClose.buttonSysExpandOrClose = action.payload;
     },
   },
 });

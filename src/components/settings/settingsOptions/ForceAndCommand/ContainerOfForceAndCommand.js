@@ -19,7 +19,8 @@ function ContainerOfForceAndCommand() {
 
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
-  const ExpandCloseButton = state.buttonOfExpandAndClose.essExpandAndClose;
+  const expandCloseButton = state.buttonOfExpandAndClose.essExpandAndClose;
+  const activatedByEditButton = state.buttonsOfSettings.settingsEditButton;
   const [toggleEssButton, setToggleEssButton] = useState(essButtonActive);
   const [essExpandOrClose, setEssExpandOrClose] = useState('close');
 
@@ -60,11 +61,11 @@ function ContainerOfForceAndCommand() {
                 handleCloseExpandButton={handleCloseExpandButton}
               />
             </EssWrapper>
-            {ExpandCloseButton ? (
+            {expandCloseButton ? (
               <NewWrapper>
                 <WrapperSelectTcSelectArts>
-                  <SelectTc />
-                  <SelectArts />
+                  <SelectTc activateSelectButton={activatedByEditButton} />
+                  <SelectArts activateOnOffSwitch={activatedByEditButton} />
                 </WrapperSelectTcSelectArts>
               </NewWrapper>
             ) : (
