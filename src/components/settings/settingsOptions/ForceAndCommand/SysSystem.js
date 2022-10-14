@@ -4,9 +4,10 @@ import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from './ButtonCloseAndExpand';
 
 function SysSystem({
-  sysExpandOrClose,
+  expandOrClose,
   handleCloseExpandButton,
   toggleSysButtonColor,
+  name,
 }) {
   return (
     <Wrapper>
@@ -15,14 +16,14 @@ function SysSystem({
       </ButtonHole>
       <Span></Span>
       <ContainerTitle>
-        <P>system commands</P>
+        <P>{name}</P>
       </ContainerTitle>
       <ContainerButton
         onClick={() => {
           handleCloseExpandButton();
         }}
       >
-        <ButtonCloseAndExpand name={sysExpandOrClose} />
+        <ButtonCloseAndExpand name={expandOrClose} />
       </ContainerButton>
     </Wrapper>
   );

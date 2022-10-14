@@ -49,18 +49,20 @@ function ContainerLogin() {
           <Form onSubmit={handleSubmit}>
             <Label for='password'>password</Label>
             <ContainerInputButton>
-              <Input
-                type={passwordType}
-                value={passwordInput}
-                onChange={handlePasswordChange}
-              />
-              <Button onClick={togglePassword}>
-                {passwordType === 'password' ? (
-                  <AiOutlineEyeInvisible />
-                ) : (
-                  <AiOutlineEye />
-                )}
-              </Button>
+              <InputWrap>
+                <Input
+                  type={passwordType}
+                  value={passwordInput}
+                  onChange={handlePasswordChange}
+                />
+                <Button onClick={togglePassword}>
+                  {passwordType === 'password' ? (
+                    <AiOutlineEyeInvisible />
+                  ) : (
+                    <AiOutlineEye />
+                  )}
+                </Button>
+              </InputWrap>
             </ContainerInputButton>
             <Div>
               {showErrorMessage
@@ -145,6 +147,8 @@ const P = styled.p`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Label = styled.label`
@@ -164,10 +168,9 @@ const ContainerInputButton = styled.div`
   /* justify-content: center; */
 `;
 
-const Input = styled.input`
-  width: 190px;
+const InputWrap = styled.div`
+  width: 236px;
   height: 40px;
-  margin-left: 20px;
   margin-top: 4px;
 
   font-size: 24px;
@@ -175,11 +178,22 @@ const Input = styled.input`
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 20px;
   opacity: 1;
+  ${flexboxCenter}
+`;
+
+const Input = styled.input`
+  width: 206px;
+  height: auto;
+  font-size: 24px;
+  background: #233a54 0% 0% no-repeat padding-box;
+  border-radius: 19px;
+  opacity: 1;
 `;
 
 const Button = styled.button`
   font-size: 24px;
-  margin-top: 6px;
+  margin-top: 8px;
+  opacity: 1;
 `;
 
 const WarningMessage = styled.p`
