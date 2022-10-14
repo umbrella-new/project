@@ -18,7 +18,7 @@ const HeaterStatus = () => {
   const ssrState = useSelector(selectSSRState);
 
   const { dispatch, state } = useContext(Context);
-  const [displayAdminLogin, setDisplayAdminLogin] = useState(true);
+  const [displayAdminLogin, setDisplayAdminLogin] = useState(false);
 
   const ssrStateArr = Object.values(ssrState);
   const statusArr = ssrStateArr.map((status) => status.buttonStatus);
