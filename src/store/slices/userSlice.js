@@ -1,17 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 // this slice is for the user information
 
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: true,
+  isEssSwitch: false,
   isAdministrator: false,
+  isAdminPassword: 'ATEF61',
   isKeyboardActivated: false,
   dateAndWeather: {
     date: null,
     weather: null,
-    iconSrc: "/images/weather-sunny.svg",
+    iconSrc: '/images/weather-sunny.svg',
   },
   userId: null,
   switchName: null,
@@ -22,16 +23,19 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     activateKeyboard: (state) => {
-      console.log("here");
+      console.log('here');
       state.isKeyboardActivated = !state.isKeyboardActivated;
+    },
+    setAdminAccess: (state, action) => {
+      state.isAdministrator = action.payload;
     },
   },
 });
 
 export default userSlice;
 export const selectUserState = (state) => state.user;
-export const { activateKeyboard } = userSlice.actions;
+export const { activateKeyboard, setAdminAccess } = userSlice.actions;

@@ -2,14 +2,20 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAdminAccess, selectUserState } from '../../store/slices/userSlice';
 
 function ContainerLogin() {
   // state
   const [passwordType, setPasswordType] = useState('password');
   const [passwordInput, setPasswordInput] = useState('');
-  const [adminAccess, setAdminAccess] = useState(true);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('hello');
+
+  // redux
+  const state = useSelector(selectUserState);
+  const adminAccess = state.isAdministrator;
+  const adminPassword = state.isAdminPassword;
+  const dispatch = useDispatch();
 
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
@@ -25,10 +31,11 @@ function ContainerLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     console.log(passwordInput);
     if (passwordInput === adminPassword) {
-      return setAdminAccess(false), setShowErrorMessage(false);
-    } else return setShowErrorMessage(true), setAdminAccess(true);
+      return dispatch(setAdminAccess(true)), setShowErrorMessage(false);
+    } else return dispatch(setAdminAccess(false)), setShowErrorMessage(true);
   };
 
   return (
@@ -55,9 +62,15 @@ function ContainerLogin() {
                 )}
               </Button>
             </ContainerInputButton>
-            {showErrorMessage
-              ? adminAccess && <P>invalid password please try again</P>
-              : ''}
+            <Div>
+              {showErrorMessage
+                ? adminAccess || (
+                    <WarningMessage>
+                      invalid password please try again
+                    </WarningMessage>
+                  )
+                : ''}
+            </Div>
 
             <EnterButton type='submit'>
               <Wrap>
@@ -79,7 +92,7 @@ export default ContainerLogin;
 
 const Wrapper = styled.div`
   width: 256px;
-  /* height: 171px; */
+
   height: auto;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
@@ -127,13 +140,12 @@ const P = styled.p`
   color: #ffffff;
   text-transform: uppercase;
   opacity: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
 `;
 
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Label = styled.label`
   margin-top: 8px;
@@ -168,6 +180,22 @@ const Input = styled.input`
 const Button = styled.button`
   font-size: 24px;
   margin-top: 6px;
+`;
+
+const WarningMessage = styled.p`
+  width: 160px;
+  height: 27px;
+  margin: 4px 0 4px 0;
+
+  text-align: center;
+  font-size: var(--space0);
+  letter-spacing: 1.2px;
+  color: #ff0000;
+  opacity: 1;
+`;
+
+const Div = styled.div`
+  ${flexboxCenter}
 `;
 
 const EnterButton = styled.button`
