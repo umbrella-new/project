@@ -1,25 +1,27 @@
-import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUserState } from '../../../store/slices/userSlice';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserState } from "../../../store/slices/userSlice";
 import {
   selectTgsSwitch,
   tgsHeatingScheduleDate,
   tgsHeatingScheduleCancel,
-} from '../../../store/slices/tgsSwitchSlice';
+} from "../../../store/slices/tgsSwitchSlice";
 
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
-import TgsInstantHeat from './instantHeat/TgsInstantHeat';
-import TgsSnowSensor from './snowSensor/TgsSnowSensor';
-import ConstantHeat from './optionalConstantTemp/ConstantHeat';
-import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
-import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
-import TgsWindFactor from './windFactor/TgsWindFactor';
-import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
-import ConflictMessage from '../../userMessages/ConflictMessage';
+import TgsInstantHeat from "./instantHeat/TgsInstantHeat";
+import TgsSnowSensor from "./snowSensor/TgsSnowSensor";
+import ConstantHeat from "./optionalConstantTemp/ConstantHeat";
+import DisplayTemperatureStates from "./displayState/DisplayTemperatureStates";
+import TgsHeatingSchedule from "./HeatingSchedule/TgsHeatingSchedule";
+import TgsWindFactor from "./windFactor/TgsWindFactor";
+import ScheduleCalendar from "./HeatingSchedule/ScheduleCalendar";
+import ConflictMessage from "../../userMessages/ConflictMessage";
 
 const TgsControlBox = () => {
+  const [conflictMessage, setConflictMessage] = useState(false);
+
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   // conditionally change state ess || tgs || tes
@@ -39,7 +41,7 @@ const TgsControlBox = () => {
 
   return (
     <Wrapper>
-      <BackgroundImg src={'/images/controller-background.svg'} />
+      <BackgroundImg src={"/images/controller-background.svg"} />
       <PositionAbsolute>
         <Title>tgs-controls</Title>
         <ControlsList>
@@ -59,11 +61,13 @@ const TgsControlBox = () => {
           />
         )}
       </SchedulerWrapper>
-      {/* <ConflictMessage
-        headerTitle='tgs and tes conflict'
-        currentSwitch='tes-typhoon electric system'
-        DesiredSwitch='tgs-typhoon gas system'
-      /> */}
+      {conflictMessage && (
+        <ConflictMessage
+          headerTitle='tgs and tes conflict'
+          currentSwitch='tes-typhoon electric system'
+          DesiredSwitch='tgs-typhoon gas system'
+        />
+      )}
     </Wrapper>
   );
 };

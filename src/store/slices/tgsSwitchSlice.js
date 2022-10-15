@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   // isHeaterActivated: false,
-
+  isTgsSwitchActivated: false,
   heatingScheduleDisplayed: false,
   instantHeat: {
     instantHeatTemp: 0,
@@ -28,7 +28,7 @@ const initialState = {
 };
 
 const tgsSwitchSlice = createSlice({
-  name: 'tgsSwitch',
+  name: "tgsSwitch",
   initialState,
   reducers: {
     tgsInstantHeat: (state, action) => {
@@ -77,6 +77,12 @@ const tgsSwitchSlice = createSlice({
     tgsWindFactor: (state) => {
       state.windFactor.isReady = !state.windFactor.isReady;
     },
+    activateTgsSwitchStatus: (state) => {
+      state.isTgsSwitchActivated = true;
+    },
+    deactivateTgsSwitchStatus: (state) => {
+      state = { initialState };
+    },
   },
 });
 
@@ -96,4 +102,6 @@ export const {
   tgsHeatingScheduleClear,
   tgsWindFactor,
   FanOnlyActivator,
+  activateTgsSwitchStatus,
+  deactivateTgsSwitchStatus,
 } = tgsSwitchSlice.actions;
