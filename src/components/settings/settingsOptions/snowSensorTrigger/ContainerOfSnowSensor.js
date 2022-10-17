@@ -6,6 +6,11 @@ import SnowFactor from './SnowFactor';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 
 function ContainerOfSnowSensor() {
+  const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
+  const ess = ['ess-snow sensor trigger'];
+  const temp = ['350'];
+
+  // redux
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,9 +19,7 @@ function ContainerOfSnowSensor() {
   return (
     <Wrapper>
       <Wrapper1>
-        <FlexWrapper>
-          <SnowFactor />
-        </FlexWrapper>
+        <SnowFactor tgsTes={tgsTes} ess={ess} temp={temp} />
       </Wrapper1>
     </Wrapper>
   );
@@ -27,10 +30,14 @@ export default ContainerOfSnowSensor;
 const Wrapper = styled.div`
   width: 594px;
   height: auto;
+  ${flexboxCenter};
 `;
+
 const Wrapper1 = styled.div`
-  width: 299px;
-  height: 107px;
+  width: 588px;
+  height: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
   /* margin-top: 37px;
   margin-left: 4px; */
   background: #233a54 0% 0% no-repeat padding-box;
@@ -38,14 +45,5 @@ const Wrapper1 = styled.div`
   border-radius: 18px;
   opacity: 1;
   ${flexboxCenter};
-`;
-
-const FlexWrapper = styled.div`
-  width: 286px;
-  height: 94px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-evenly;
 `;
