@@ -50,14 +50,14 @@ function ContainerOfForceAndCommand() {
     <Wrapper>
       <Wrapper2>
         <Wrapper3>
+          <EssWrapper>
+            <SystemHeader
+              name={'electrical switch system'}
+              expandOrClose={'expand'}
+              toggleButtonColor={essButton}
+            />
+          </EssWrapper>
           <Wrapper4>
-            <EssWrapper>
-              <SystemHeader
-                name={'electrical switch system'}
-                expandOrClose={'expand'}
-                toggleButtonColor={essButton}
-              />
-            </EssWrapper>
             <SysWrapper>
               <SystemHeader
                 name={'system commands'}
@@ -125,13 +125,14 @@ const Wrapper3 = styled.div`
   width: 570px;
   height: auto;
   margin-top: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;
   border-radius: 28px;
   opacity: 1;
   ${flexboxCenter}
+  flex-direction: column;
 `;
 
 const Wrapper4 = styled.div`
@@ -156,15 +157,14 @@ const Wrapper4 = styled.div`
 const EssWrapper = styled.div`
   width: 564px;
   height: 53px;
-  margin-top: 17px;
   margin-top: 1px;
 `;
 
 const NewWrapper = styled.div`
   width: 560px;
-  height: 442px;
-
+  height: auto;
   margin-top: 5px;
+  margin-bottom: 2px;
   background-image: -webkit-linear-gradient(
     90deg,
     rgb(0, 0, 0) 0%,
@@ -173,6 +173,7 @@ const NewWrapper = styled.div`
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
   border-radius: 9px 9px 24px 24px;
+  border: none;
   opacity: 1;
   ${flexboxCenter}
   flex-direction:row;
@@ -180,9 +181,10 @@ const NewWrapper = styled.div`
 `;
 
 const WrapperSelectTcSelectArts = styled.div`
-  width: 550px;
-  height: 409px;
+  width: 556px;
+  height: auto;
   margin-top: 4px;
+  margin-bottom: 20px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
@@ -197,5 +199,5 @@ const WrapperSelectTcSelectArts = styled.div`
 const SysWrapper = styled.div`
   width: 564px;
   height: 53px;
-  margin-top: 4px;
+  margin-top: 1px;
 `;

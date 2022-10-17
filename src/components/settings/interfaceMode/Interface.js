@@ -1,18 +1,20 @@
-import styled from "styled-components";
-import Button from "../settingsOptions/Button";
-import { flexboxCenter } from "../../../styles/commonStyles";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setInterfaceMode } from "../../../store/slices/settingsOfEssSlice";
-import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import styled from 'styled-components';
+import Button from '../settingsOptions/Button';
+import { flexboxCenter } from '../../../styles/commonStyles';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInterfaceMode } from '../../../store/slices/settingsOfEssSlice';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 function Interface() {
-  const modesData = ["light mode", "dark mode"];
+  const modesData = ['light mode', 'dark mode'];
+  // states
   const [interfaceModeButton, setInterfaceModeButton] = useState(0);
+  // redux
   const dispatch = useDispatch();
-  const theme = useSelector(selectSettingsOfEss);
-  const mode = theme.interfaceMode;
-
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  // functions
   const handleClick = (index) => {
     if (index !== interfaceModeButton) return setInterfaceModeButton(index);
   };
@@ -55,7 +57,7 @@ function Interface() {
         })}
       </ControlContainer>
       <ContainerButton onClick={() => handleMode()}>
-        <Button name={"apply"} />
+        <Button name={'apply'} />
       </ContainerButton>
     </Wrapper>
   );
@@ -77,8 +79,8 @@ const Wrapper = styled.div`
   border: 0.5px solid black;
   background-image: -webkit-linear-gradient(
     180deg,
-    ${(props) => (props.mode ? "#BBBBBB" : "rgb(0, 0, 0) ")} 0%,
-    ${(props) => (props.mode ? "#EBEBEB" : "rgb(35, 58, 84)")} 100%
+    ${(props) => (props.mode ? '#BBBBBB' : 'rgb(0, 0, 0) ')} 0%,
+    ${(props) => (props.mode ? '#EBEBEB' : 'rgb(35, 58, 84)')} 100%
   );
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
@@ -89,9 +91,9 @@ const InterfaceContainer = styled.div`
   width: 272px;
   height: 26px;
 
-  background: ${(props) => (props.mode ? "#FFFFFF" : "#233a54")};
+  background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')};
   box-shadow: inset 0px 0px 3px #000000;
-  border: ${(props) => (props.mode ? "1.5px solid #142033" : "none")};
+  border: ${(props) => (props.mode ? '1.5px solid #142033' : 'none')};
   border-radius: 16px;
   opacity: 1;
   display: flex;
@@ -102,7 +104,7 @@ const InterfaceP = styled.p`
   font-size: var(--font-size3);
   margin-left: 12px;
   text-transform: uppercase;
-  color: ${(props) => (props.mode ? "#233a54" : "#FFFFFF")};
+  color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};
   letter-spacing: 1.2px;
   opacity: 1;
 `;
@@ -111,7 +113,7 @@ const ControlContainer = styled.div`
   width: 272px;
   height: 74px;
 
-  background: ${(props) => (props.mode ? "#FFFFFF" : "#233a54")} 0% 0% no-repeat
+  background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')} 0% 0% no-repeat
     padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 18px;
@@ -145,7 +147,7 @@ const OutsideRingGreenCircle = styled.span`
 const InsideFilledGreenCircle = styled.div`
   width: 14px;
   height: 14px;
-  background-color: ${(props) => (props.color ? "#95ff45" : "none")};
+  background-color: ${(props) => (props.color ? '#95ff45' : 'none')};
   border-radius: 50%;
 `;
 
@@ -164,7 +166,7 @@ const ModeP = styled.p`
   font-size: var(--font-size7);
   margin-left: 10px;
   text-transform: uppercase;
-  color: ${(props) => (props.mode ? "#233a54" : "#FFFFFF")};
+  color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};
   letter-spacing: 1.2px;
   opacity: 1;
 `;
