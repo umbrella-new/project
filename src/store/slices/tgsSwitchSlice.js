@@ -10,7 +10,7 @@ const initialState = {
   },
   fanOnly: false,
   snowSensor: { isReady: false, activated: false },
-  optionalConstantTempL: { inputTemp: 0, apply: false },
+  optionalConstantTemp: { inputTemp: 0, apply: false },
 
   heatingSchedule: {
     start: { date: null, time: null },
