@@ -63,11 +63,16 @@ const ControlBox = () => {
     dispatch(deactivateEsConflictMessage());
   };
   const handleConfirmConflictMessage = () => {
-    console.log('turn off tgs');
     // Turn off all tgs switches at once
     dispatch(deactivateTgsSwitchStatus());
     // Deactivate the message box
     dispatch(deactivateEsConflictMessage());
+    // conditionally render on ES switch
+    // 1. instant Heat
+    // 2. snow sensor
+    // 3. optional Constant Heat
+    // 4. heating scheduler
+    // 5. wind factor
   };
 
   return (
