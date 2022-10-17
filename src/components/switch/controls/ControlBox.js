@@ -1,28 +1,35 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { selectEssSwitch } from "../../../store/slices/essSwitchSlice";
-import { selectUserState } from "../../../store/slices/userSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import {
+  deactivateEsConflictMessage,
+  selectEssSwitch,
+} from '../../../store/slices/essSwitchSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
 
-import styled from "styled-components";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
-import DisplayTemperatureStates from "./displayState/DisplayTemperatureStates";
-import ConstantHeat from "./optionalConstantTemp/ConstantHeat";
-import HeatingSchedule from "./../controls/HeatingSchedule/HeatingSchedule";
-import InstantHeat from "./../controls/instantHeat/InstantHeat";
-import SnowSensor from "./../controls/snowSensor/SnowSensor";
-import WindFactor from "./../controls/windFactor/WindFactor";
+import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
+import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
+import InstantHeat from './../controls/instantHeat/InstantHeat';
+import SnowSensor from './../controls/snowSensor/SnowSensor';
+import WindFactor from './../controls/windFactor/WindFactor';
 
-import InputKeyboard from "../../keyboard/InputKeyboard";
+import InputKeyboard from '../../keyboard/InputKeyboard';
 import {
   activateTgsSwitchStatus,
+  deactivateTgsSwitchStatus,
   selectTgsSwitch,
-} from "../../../store/slices/tgsSwitchSlice";
+} from '../../../store/slices/tgsSwitchSlice';
+import ConflictMessage from '../../userMessages/ConflictMessage';
 
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
   const { isEssSwitch, isKeyboardActivated } = userState;
+
   const state = useSelector(selectEssSwitch);
+  const { displayConflictMessage } = state;
   const tgsState = useSelector(selectTgsSwitch);
   const {
     instantButtonToggler,
@@ -35,6 +42,7 @@ const ControlBox = () => {
 
   const dispatch = useDispatch();
 
+  // Check if tgs is activated
   useEffect(() => {
     instantButtonToggler && dispatch(activateTgsSwitchStatus());
     fanOnly && dispatch(activateTgsSwitchStatus());
@@ -47,13 +55,27 @@ const ControlBox = () => {
     windFactor.isActivated && dispatch(activateTgsSwitchStatus());
   }, [tgsState]);
 
+  // Conflict message handlers
+  const handleCancelConflictMessage = () => {
+    // change display conflict message state into false
+    dispatch(deactivateEsConflictMessage());
+  };
+  const handleConfirmConflictMessage = () => {
+    console.log('turn off tgs');
+    // Turn off all tgs switches at once
+    dispatch(deactivateTgsSwitchStatus());
+    // Deactivate the message box
+    dispatch(deactivateEsConflictMessage());
+  };
+
+  console.log(tgsState);
   return (
     <Wrapper>
-      <BackgroundImg src={"/images/controller-background.svg"} />
+      <BackgroundImg src={'/images/controller-background.svg'} />
 
       <PositionAbsolute>
         <Title>
-          {isEssSwitch ? "ess" : "tes"}
+          {isEssSwitch ? 'ess' : 'tes'}
           -controls
         </Title>
 
@@ -67,10 +89,19 @@ const ControlBox = () => {
         </ControlsList>
       </PositionAbsolute>
 
-      {isKeyboardActivated && (
+      {/* {isKeyboardActivated && (
         <KeyboardWrapper>
           <InputKeyboard />
         </KeyboardWrapper>
+      )} */}
+      {displayConflictMessage && (
+        <ConflictMessage
+          headerTitle='tgs and tes conflict'
+          currentSwitch='tgs-typhoon gas system'
+          DesiredSwitch='tes-typhoon gas system'
+          handleCancel={handleCancelConflictMessage}
+          handleConfirm={handleConfirmConflictMessage}
+        />
       )}
     </Wrapper>
   );
