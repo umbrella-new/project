@@ -1,25 +1,51 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function SnowFactor() {
-  return (
-    <ContainerWindFactors>
-      <TitleContainer>
-        <Title>ess-snow sensor trigger</Title>
-      </TitleContainer>
+function SnowFactor({ tgsTes, ess, temp }) {
+  console.log(tgsTes);
 
-      <ValueContainer>
-        <SmallContainer>
-          <Temperature>
-            <Input></Input> ° c
-          </Temperature>
-        </SmallContainer>
-      </ValueContainer>
-    </ContainerWindFactors>
+  return (
+    <>
+      {tgsTes?.map((value, index) => {
+        return (
+          <div key={index}>
+            <FlexWrapper>
+              <ContainerWindFactors>
+                <TitleContainer>
+                  <Title>{value}</Title>
+                </TitleContainer>
+
+                <ValueContainer>
+                  <SmallContainer>
+                    <Temperature>
+                      <Input
+                        type='number'
+                        placeholder='enter temperature'
+                      ></Input>{' '}
+                      ° c
+                    </Temperature>
+                  </SmallContainer>
+                </ValueContainer>
+              </ContainerWindFactors>
+            </FlexWrapper>
+          </div>
+        );
+      })}
+    </>
   );
 }
 
 export default SnowFactor;
+
+const FlexWrapper = styled.div`
+  width: 286px;
+  height: 94px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+`;
 
 const ContainerWindFactors = styled.div`
   width: 286px;
@@ -92,4 +118,11 @@ const Input = styled.input`
   background: #233a54 0% 0% no-repeat padding-box;
   border-radius: 21px;
   opacity: 1;
+  text-transform: uppercase;
+
+  &::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
