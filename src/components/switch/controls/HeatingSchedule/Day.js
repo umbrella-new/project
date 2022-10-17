@@ -2,9 +2,9 @@ import { useRef, useContext } from 'react';
 import { useDay } from '@datepicker-react/hooks';
 import DatepickerContext from './datepickerContext';
 import getColor from './getColor';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Day = ({ dayLabel, date, startDay, endDay, month }) => {
+const Day = ({ dayLabel, date, startDay, endDay, month, isDisabled }) => {
   const today = `${month}` + Number(dayLabel);
   // console.log('today', today, 'start', startDay);
 
@@ -75,14 +75,9 @@ const Day = ({ dayLabel, date, startDay, endDay, month }) => {
     }),
   };
 
-  const handleOnClick = () => {
-    onClick();
-    // console.log(date);
-  };
-
   return (
     <Date
-      onClick={handleOnClick}
+      onClick={() => !isDisabled && onClick()}
       onKeyDown={onKeyDown}
       onMouseEnter={onMouseEnter}
       tabIndex={tabIndex}
@@ -91,6 +86,7 @@ const Day = ({ dayLabel, date, startDay, endDay, month }) => {
       style={btnStyle}
       isStartDay={today === startDay ? true : false}
       isEndDay={today === endDay ? true : false}
+      isDisabled={isDisabled}
     >
       {dayLabel}
     </Date>
@@ -103,7 +99,7 @@ const Date = styled.div`
   font-size: 14px;
   text-align: center;
   /* border: 1px solid red; */
-
+  cursor: ${(p) => p.isDisabled || `pointer`};
   border-radius: ${(p) => p.isStartDay && '50% 0 0 50%'};
   border-radius: ${(p) => p.isEndDay && '0 50% 50% 0 '};
 `;

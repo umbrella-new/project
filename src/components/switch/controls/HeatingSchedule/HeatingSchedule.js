@@ -8,6 +8,7 @@ import {
   heatingScheduleClear,
   heatingScheduleDate,
   activateEsConflictMessage,
+  addHeatingSchedule,
 } from '../../../../store/slices/essSwitchSlice';
 import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
@@ -16,13 +17,20 @@ import AddScheduleButton from '../AddScheduleButton';
 import ControllerName from '../ControllerName';
 import Scheduler from '../Scheduler';
 import TempAndButton from '../TempAndButton';
+import ScheduleCalendar from './ScheduleCalendar';
 
 const HeatingSchedule = () => {
   const CONTROLLER_NAME = 'heating schedule program';
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectEssSwitch);
-  const { isReady, inputTemp, activated, start, end } = state.heatingSchedule;
+  const { isReady, inputTemp, activated } = state.heatingSchedule;
+  const { heatingScheduleCalendar, heatingScheduleList } = state;
+
+  const firstHeatingSchedule = heatingScheduleList[0];
+  const { start, end } = firstHeatingSchedule;
+
+  console.log(heatingScheduleList);
 
   const tgsState = useSelector(selectTgsSwitch);
   const { isTgsSwitchActivated } = tgsState;
@@ -44,8 +52,8 @@ const HeatingSchedule = () => {
   };
 
   // Schedule calendar handlers
-  const handleOpenScheduler = () => {
-    dispatch(heatingScheduleOpen());
+  const handleOpenScheduler = (id) => {
+    dispatch(heatingScheduleOpen(id));
   };
 
   const handleClear = () => {
@@ -54,13 +62,26 @@ const HeatingSchedule = () => {
   const handleCancel = () => {
     dispatch(heatingScheduleCancel());
   };
-  const handleDispatchSchedulerDate = (data) => {
-    dispatch(
-      heatingScheduleDate({
-        start: data.start,
-        end: data.end,
-      })
-    );
+
+  const handleDispatchSchedulerDate = (data, id) => {
+    console.log(id);
+    // Check is it the first schedule or not
+    if (id === 1) {
+      dispatch(
+        heatingScheduleDate({
+          start: data.start,
+          end: data.end,
+        })
+      );
+    } else {
+      dispatch(
+        addHeatingSchedule({
+          start: data.start,
+          end: data.end,
+        })
+      );
+    }
+
     dispatch(heatingScheduleCancel());
   };
 
@@ -72,19 +93,15 @@ const HeatingSchedule = () => {
         <ScheduleSetTitleAndButton>
           <ScheduleSetTitle>start date - end date</ScheduleSetTitle>
           <AddScheduleButton
-            handleAddSchedule={handleOpenScheduler}
+            handleOpenScheduler={handleOpenScheduler}
             isVisible={start.date}
           />
         </ScheduleSetTitleAndButton>
         <SchedulerCenter>
           <Scheduler
             handleOpenScheduler={handleOpenScheduler}
-            handleClear={handleClear}
-            handleCancel={handleCancel}
-            handleDispatchSchedulerDate={handleDispatchSchedulerDate}
-            start={start}
-            end={end}
-            state={state}
+            start={heatingScheduleList[0].start}
+            end={heatingScheduleList[0].end}
           />
         </SchedulerCenter>
       </SchedulerWrapper>
@@ -98,6 +115,19 @@ const HeatingSchedule = () => {
         currTemp={inputTemp}
         isAble={start}
       />
+
+      {heatingScheduleCalendar.isDisplayed && (
+        <ScheduleCalendarWrapper>
+          <ScheduleCalendar
+            handleScheduler={handleDispatchSchedulerDate}
+            handleCancel={handleCancel}
+            handleClear={handleClear}
+            start={start}
+            end={end}
+            unit={heatingScheduleCalendar.id}
+          />
+        </ScheduleCalendarWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -160,4 +190,11 @@ const ScheduleSetTitle = styled.span`
   height: 12px;
   font-size: 8px;
   margin-right: 55px;
+`;
+
+const ScheduleCalendarWrapper = styled.div`
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  z-index: 10000;
 `;

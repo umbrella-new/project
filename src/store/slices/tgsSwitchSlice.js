@@ -4,7 +4,7 @@ const initialState = {
   // isHeaterActivated: false,
   isTgsSwitchActivated: false,
   displayConflictMessage: false,
-  heatingScheduleDisplayed: false,
+  heatingScheduleCalendar: { isDisplayed: false, id: null },
   instantHeat: {
     instantHeatTemp: 0,
     instantButtonToggler: false,
@@ -12,10 +12,13 @@ const initialState = {
   fanOnly: false,
   snowSensor: { isReady: false, activated: false },
   optionalConstantTemp: { inputTemp: 0, apply: false },
-
+  heatingScheduleList: [
+    {
+      start: { date: null, time: null },
+      end: { date: null, time: null },
+    },
+  ],
   heatingSchedule: {
-    start: { date: null, time: null },
-    end: { date: null, time: null },
     inputTemp: 0,
     isReady: false,
     activated: false,
@@ -48,32 +51,36 @@ const tgsSwitchSlice = createSlice({
       state.snowSensor.isReady = !state.snowSensor.isReady;
     },
     tgsHeatingScheduleDate: (state, action) => {
-      state.heatingSchedule.start = {
-        date: action.payload.start.date,
-        time: action.payload.start.time,
-      };
-      state.heatingSchedule.end = {
-        date: action.payload.end.date,
-        time: action.payload.end.time,
-      };
+      state.heatingScheduleList = [
+        {
+          start: action.payload.start,
+          end: action.payload.end,
+        },
+      ];
     },
-    tgsHeatingScheduleOpen: (state) => {
-      state.heatingScheduleDisplayed = true;
-    },
-    tgsHeatingScheduleCancel: (state) => {
-      state.heatingScheduleDisplayed = false;
-    },
-    heatingScheduleClear: (state) => {
-      state.optionalConstantTemp.start = null;
-      state.optionalConstantTemp.end = null;
+    addTgsHeatingSchedule: (state, action) => {
+      state.heatingScheduleList.push({
+        start: action.payload.start,
+        end: action.payload.end,
+      });
     },
     tgsHeatingScheduleBeReady: (state, action) => {
       state.heatingSchedule.inputTemp = action.payload;
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
+    tgsHeatingScheduleOpen: (state, action) => {
+      state.heatingScheduleCalendar.isDisplayed = true;
+      state.heatingScheduleCalendar.id = action.payload;
+    },
+    tgsHeatingScheduleCancel: (state) => {
+      state.heatingScheduleCalendar.isDisplayed = false;
+    },
+
     tgsHeatingScheduleClear: (state) => {
-      state.heatingSchedule.start = { date: null, time: null };
-      state.heatingSchedule.end = { date: null, time: null };
+      state.heatingScheduleList[0] = {
+        start: { date: null, time: null },
+        end: { date: null, time: null },
+      };
     },
     tgsWindFactor: (state) => {
       state.windFactor.isReady = !state.windFactor.isReady;
@@ -119,4 +126,5 @@ export const {
   deactivateTgsSwitchStatus,
   activateTgsConflictMessage,
   deactivateTgsConflictMessage,
+  addTgsHeatingSchedule,
 } = tgsSwitchSlice.actions;

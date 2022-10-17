@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
-const AddScheduleButton = ({ handleAddSchedule, isVisible }) => {
+const AddScheduleButton = ({ handleOpenScheduler, isVisible }) => {
   return (
-    <Wrapper onClick={handleAddSchedule} isVisible={isVisible}>
+    <Wrapper onClick={() => handleOpenScheduler(2)} isVisible={isVisible}>
       <InnerLayer>
         <AddSign src={'/images/add-sign.svg'} />
       </InnerLayer>
