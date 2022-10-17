@@ -1,36 +1,59 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { selectEssSwitch } from "../../../store/slices/essSwitchSlice";
+import { selectUserState } from "../../../store/slices/userSlice";
+
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
+
+import DisplayTemperatureStates from "./displayState/DisplayTemperatureStates";
+import ConstantHeat from "./optionalConstantTemp/ConstantHeat";
+import HeatingSchedule from "./../controls/HeatingSchedule/HeatingSchedule";
+import InstantHeat from "./../controls/instantHeat/InstantHeat";
+import SnowSensor from "./../controls/snowSensor/SnowSensor";
+import WindFactor from "./../controls/windFactor/WindFactor";
+
+import InputKeyboard from "../../keyboard/InputKeyboard";
 import {
-  selectEssSwitch,
-  heatingScheduleDate,
-  heatingScheduleCancel,
-} from '../../../store/slices/essSwitchSlice';
-import { selectUserState } from '../../../store/slices/userSlice';
-
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
-
-import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
-import ConstantHeat from './optionalConstantTemp/ConstantHeat';
-import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
-import InstantHeat from './../controls/instantHeat/InstantHeat';
-import SnowSensor from './../controls/snowSensor/SnowSensor';
-import WindFactor from './../controls/windFactor/WindFactor';
-import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
-import InputKeyboard from '../../keyboard/InputKeyboard';
+  activateTgsSwitchStatus,
+  selectTgsSwitch,
+} from "../../../store/slices/tgsSwitchSlice";
 
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
   const { isEssSwitch, isKeyboardActivated } = userState;
   const state = useSelector(selectEssSwitch);
+  const tgsState = useSelector(selectTgsSwitch);
+  const {
+    instantButtonToggler,
+    fanOnly,
+    snowSensor,
+    optionalConstantTemp,
+    heatingSchedule,
+    windFactor,
+  } = tgsState;
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    instantButtonToggler && dispatch(activateTgsSwitchStatus());
+    fanOnly && dispatch(activateTgsSwitchStatus());
+    snowSensor.isReady && dispatch(activateTgsSwitchStatus());
+    snowSensor.activated && dispatch(activateTgsSwitchStatus());
+    optionalConstantTemp.apply && dispatch(activateTgsSwitchStatus());
+    heatingSchedule.isReady && dispatch(activateTgsSwitchStatus());
+    heatingSchedule.isActivated && dispatch(activateTgsSwitchStatus());
+    windFactor.isReady && dispatch(activateTgsSwitchStatus());
+    windFactor.isActivated && dispatch(activateTgsSwitchStatus());
+  }, [tgsState]);
 
   return (
     <Wrapper>
-      <BackgroundImg src={'/images/controller-background.svg'} />
+      <BackgroundImg src={"/images/controller-background.svg"} />
 
       <PositionAbsolute>
         <Title>
-          {isEssSwitch ? 'ess' : 'tes'}
+          {isEssSwitch ? "ess" : "tes"}
           -controls
         </Title>
 
