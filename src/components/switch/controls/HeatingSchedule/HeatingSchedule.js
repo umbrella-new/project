@@ -7,7 +7,9 @@ import {
   heatingScheduleCancel,
   heatingScheduleClear,
   heatingScheduleDate,
+  activateEsConflictMessage,
 } from '../../../../store/slices/essSwitchSlice';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import AddScheduleButton from '../AddScheduleButton';
@@ -22,14 +24,22 @@ const HeatingSchedule = () => {
   const state = useSelector(selectEssSwitch);
   const { isReady, inputTemp, activated, start, end } = state.heatingSchedule;
 
+  const tgsState = useSelector(selectTgsSwitch);
+  const { isTgsSwitchActivated } = tgsState;
+
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
-    if (start.date) {
-      dispatch(heatingScheduleBeReady(temp));
+    if (!isTgsSwitchActivated) {
+      if (start.date) {
+        dispatch(heatingScheduleBeReady(temp));
+      } else {
+        // Change it to modal!! make it beautiful
+        window.alert('input schedule');
+      }
     } else {
-      // Change it to modal!! make it beautiful
-      window.alert('input schedule');
+      // Activate Conflict Message Box
+      dispatch(activateEsConflictMessage());
     }
   };
 

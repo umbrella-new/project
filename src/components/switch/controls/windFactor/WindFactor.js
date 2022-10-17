@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { windFactor } from '../../../../store/slices/essSwitchSlice';
+import {
+  activateEsConflictMessage,
+  windFactor,
+} from '../../../../store/slices/essSwitchSlice';
 import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 import {
   flexboxCenter,
@@ -10,6 +13,7 @@ import {
 
 import styled, { css } from 'styled-components';
 import ControllerName from '../ControllerName';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 const WindFactor = () => {
   // off || ready || activated
@@ -20,8 +24,20 @@ const WindFactor = () => {
   const isActivated = state.windFactor.Activated;
   const isReady = state.windFactor.isReady;
 
+  const tgsState = useSelector(selectTgsSwitch);
+  const { isTgsSwitchActivated } = tgsState;
+
   const CONTROLLER_NAME = 'wind factor';
   const IMG_SRC = '/images/wind-Factor-Program-Logo.svg';
+
+  const handleWindFactor = () => {
+    if (!isTgsSwitchActivated) {
+      dispatch(windFactor());
+    } else {
+      // Activate Conflict Message Box
+      dispatch(activateEsConflictMessage());
+    }
+  };
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
@@ -29,7 +45,7 @@ const WindFactor = () => {
         <ApplyButtonWrapper
           isActivated={isActivated}
           isReady={isReady}
-          onClick={() => dispatch(windFactor())}
+          onClick={handleWindFactor}
         >
           <ButtonHole isActivated={isActivated}>
             <ButtonTop isActivated={isActivated} isReady={isReady}>

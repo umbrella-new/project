@@ -4,6 +4,12 @@ import {
   deactivateEsConflictMessage,
   selectEssSwitch,
 } from '../../../store/slices/essSwitchSlice';
+import {
+  activateTgsSwitchStatus,
+  deactivateTgsSwitchStatus,
+  selectTgsSwitch,
+} from '../../../store/slices/tgsSwitchSlice';
+
 import { selectUserState } from '../../../store/slices/userSlice';
 
 import styled from 'styled-components';
@@ -15,14 +21,9 @@ import HeatingSchedule from './../controls/HeatingSchedule/HeatingSchedule';
 import InstantHeat from './../controls/instantHeat/InstantHeat';
 import SnowSensor from './../controls/snowSensor/SnowSensor';
 import WindFactor from './../controls/windFactor/WindFactor';
+import ConflictMessage from '../../userMessages/ConflictMessage';
 
 import InputKeyboard from '../../keyboard/InputKeyboard';
-import {
-  activateTgsSwitchStatus,
-  deactivateTgsSwitchStatus,
-  selectTgsSwitch,
-} from '../../../store/slices/tgsSwitchSlice';
-import ConflictMessage from '../../userMessages/ConflictMessage';
 
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -30,9 +31,10 @@ const ControlBox = () => {
 
   const state = useSelector(selectEssSwitch);
   const { displayConflictMessage } = state;
+
   const tgsState = useSelector(selectTgsSwitch);
   const {
-    instantButtonToggler,
+    instantHeat,
     fanOnly,
     snowSensor,
     optionalConstantTemp,
@@ -44,7 +46,7 @@ const ControlBox = () => {
 
   // Check if tgs is activated
   useEffect(() => {
-    instantButtonToggler && dispatch(activateTgsSwitchStatus());
+    instantHeat.instantButtonToggler && dispatch(activateTgsSwitchStatus());
     fanOnly && dispatch(activateTgsSwitchStatus());
     snowSensor.isReady && dispatch(activateTgsSwitchStatus());
     snowSensor.activated && dispatch(activateTgsSwitchStatus());
@@ -68,7 +70,6 @@ const ControlBox = () => {
     dispatch(deactivateEsConflictMessage());
   };
 
-  console.log(tgsState);
   return (
     <Wrapper>
       <BackgroundImg src={'/images/controller-background.svg'} />

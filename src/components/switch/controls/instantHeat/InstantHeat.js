@@ -50,13 +50,11 @@ const InstantHeat = () => {
     event.preventDefault();
     if (!isTgsSwitchActivated) {
       const temp = Number(inputRef.current.value);
-
+      setOpenKeyPad(false);
       if (temp !== 0) {
         if (!instantButtonToggler) {
           dispatch(instantHeat(temp));
           inputRef.current.value = `${temp}\u00b0C`;
-
-          // check tes tes switch status
         } else {
           dispatch(instantHeat(0));
           inputRef.current.value = ``;
@@ -80,9 +78,6 @@ const InstantHeat = () => {
           dispatch(instantHeat(temp));
           inputRef.current.value = `${temp}\u00b0C`;
           handleKeypadClosed();
-
-          // check tes tes switch status
-          activateTgsSwitchStatus();
         } else {
           dispatch(instantHeat(0));
           inputRef.current.value = ``;

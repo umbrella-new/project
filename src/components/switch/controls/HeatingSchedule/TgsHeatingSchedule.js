@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 
 import {
+  activateTgsConflictMessage,
   selectTgsSwitch,
   tgsHeatingScheduleBeReady,
   tgsHeatingScheduleCancel,
@@ -22,14 +24,22 @@ const TgsHeatingSchedule = () => {
   const state = useSelector(selectTgsSwitch);
   const { isReady, inputTemp, activated, start, end } = state.heatingSchedule;
 
+  const esState = useSelector(selectEssSwitch);
+  const { isEsSwitchActivated } = esState;
+
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
-    if (start.date) {
-      dispatch(tgsHeatingScheduleBeReady(temp));
+    if (!isEsSwitchActivated) {
+      if (start.date) {
+        dispatch(tgsHeatingScheduleBeReady(temp));
+      } else {
+        // Change it to modal!! make it beautiful
+        window.alert('input schedule');
+      }
     } else {
-      // Change it to modal!! make it beautiful
-      window.alert('input schedule');
+      // Activate Conflict Message Box
+      dispatch(activateTgsConflictMessage());
     }
   };
 

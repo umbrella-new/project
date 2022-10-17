@@ -90,6 +90,12 @@ const tgsSwitchSlice = createSlice({
       state.heatingSchedule = initialState.heatingSchedule;
       state.windFactor = initialState.windFactor;
     },
+    activateTgsConflictMessage: (state) => {
+      state.displayConflictMessage = true;
+    },
+    deactivateTgsConflictMessage: (state) => {
+      state.displayConflictMessage = false;
+    },
   },
 });
 
@@ -111,4 +117,6 @@ export const {
   FanOnlyActivator,
   activateTgsSwitchStatus,
   deactivateTgsSwitchStatus,
+  activateTgsConflictMessage,
+  deactivateTgsConflictMessage,
 } = tgsSwitchSlice.actions;
