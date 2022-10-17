@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
+  activateEsConflictMessage,
   constantTemp,
   selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
@@ -17,6 +18,7 @@ import {
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
 import InputKeyPad from '../../../keyboard/KeyPad';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 const ConstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -29,6 +31,9 @@ const ConstantHeat = () => {
   // console.log(state.optionalConstantTemp.temp);
   const { apply } = state.optionalConstantTemp;
   const location = useLocation();
+
+  const tgsState = useSelector(selectTgsSwitch);
+  const { isTgsSwitchActivated } = tgsState;
 
   const CONTROLLER_NAME = 'optional constant temp.';
   const IMG_SRC = isEssSwitch
@@ -44,7 +49,12 @@ const ConstantHeat = () => {
     : true;
 
   const handleDispatch = (temp) => {
-    dispatch(constantTemp(temp));
+    if (!isTgsSwitchActivated) {
+      dispatch(constantTemp(temp));
+    } else {
+      // Activate Conflict Message Box
+      dispatch(activateEsConflictMessage());
+    }
   };
 
   return (

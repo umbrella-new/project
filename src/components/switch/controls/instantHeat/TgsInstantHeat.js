@@ -1,11 +1,12 @@
-import { useRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
   activateTgsSwitchStatus,
-} from "../../../../store/slices/tgsSwitchSlice";
+  activateTgsConflictMessage,
+} from '../../../../store/slices/tgsSwitchSlice';
 
 import {
   activeInput,
@@ -13,9 +14,10 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
-import InputKeyPad from "../../../keyboard/KeyPad";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+import InputKeyPad from '../../../keyboard/KeyPad';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
@@ -23,6 +25,10 @@ const TgsInstantHeat = () => {
   const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
   const { fanOnly } = state;
   const inputRef = useRef();
+
+  // Check es switch
+  const esState = useSelector(selectEssSwitch);
+  const { isEsSwitchActivated } = esState;
 
   // const { isKeyboardActivated } = userState;
   const [openKeyPad, setOpenKeyPad] = useState(false);
@@ -37,41 +43,51 @@ const TgsInstantHeat = () => {
     }
   }, []);
 
+  console.log(isEsSwitchActivated);
+
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    const temp = Number(inputRef.current.value);
-
-    if (temp !== 0) {
-      if (!instantButtonToggler) {
-        dispatch(tgsInstantHeat(temp));
-        inputRef.current.value = `${temp}\u00b0C`;
-
-        // Check tes status
-        activateTgsSwitchStatus();
+    if (!isEsSwitchActivated) {
+      const temp = Number(inputRef.current.value);
+      setOpenKeyPad(false);
+      if (temp !== 0) {
+        if (!instantButtonToggler) {
+          dispatch(tgsInstantHeat(temp));
+          inputRef.current.value = `${temp}\u00b0C`;
+        } else {
+          dispatch(tgsInstantHeat(0));
+          inputRef.current.value = ``;
+        }
       } else {
-        dispatch(tgsInstantHeat(0));
-        inputRef.current.value = ``;
+        return;
       }
     } else {
-      return;
+      // Activate Conflict Message Box
+      dispatch(activateTgsConflictMessage());
     }
   };
 
   // Virtual keyboard input handler
   const handleVirtualKeyboardInput = (input) => {
-    const temp = Number(input);
+    if (!isEsSwitchActivated) {
+      const temp = Number(input);
 
-    if (temp !== 0) {
-      if (!instantButtonToggler) {
-        dispatch(tgsInstantHeat(temp));
-        inputRef.current.value = `${temp}\u00b0C`;
-        handleKeypadClosed();
+      if (temp !== 0) {
+        if (!instantButtonToggler) {
+          dispatch(tgsInstantHeat(temp));
+          inputRef.current.value = `${temp}\u00b0C`;
+          handleKeypadClosed();
+        } else {
+          dispatch(tgsInstantHeat(0));
+          inputRef.current.value = ``;
+        }
       } else {
-        dispatch(tgsInstantHeat(0));
-        inputRef.current.value = ``;
+        return;
       }
     } else {
-      return;
+      setOpenKeyPad(false);
+      // Activate Conflict Message Box
+      dispatch(activateTgsConflictMessage());
     }
   };
 
@@ -100,7 +116,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -133,7 +149,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={"/images/fan-only-icon.svg"} />
+                <ButtonImage src={'/images/fan-only-icon.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -268,7 +284,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 

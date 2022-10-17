@@ -1,47 +1,81 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserState } from "../../../store/slices/userSlice";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserState } from '../../../store/slices/userSlice';
 import {
   selectTgsSwitch,
   tgsHeatingScheduleDate,
   tgsHeatingScheduleCancel,
-} from "../../../store/slices/tgsSwitchSlice";
+  deactivateTgsConflictMessage,
+} from '../../../store/slices/tgsSwitchSlice';
 
-import styled from "styled-components";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import essSwitchSlice, {
+  activateEsSwitchStatus,
+  deactivateEsSwitchStatus,
+  selectEssSwitch,
+} from '../../../store/slices/essSwitchSlice';
 
-import TgsInstantHeat from "./instantHeat/TgsInstantHeat";
-import TgsSnowSensor from "./snowSensor/TgsSnowSensor";
-import ConstantHeat from "./optionalConstantTemp/ConstantHeat";
-import DisplayTemperatureStates from "./displayState/DisplayTemperatureStates";
-import TgsHeatingSchedule from "./HeatingSchedule/TgsHeatingSchedule";
-import TgsWindFactor from "./windFactor/TgsWindFactor";
-import ScheduleCalendar from "./HeatingSchedule/ScheduleCalendar";
-import ConflictMessage from "../../userMessages/ConflictMessage";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
+
+import TgsInstantHeat from './instantHeat/TgsInstantHeat';
+import TgsSnowSensor from './snowSensor/TgsSnowSensor';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
+import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
+import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
+import TgsWindFactor from './windFactor/TgsWindFactor';
+import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
+import ConflictMessage from '../../userMessages/ConflictMessage';
 
 const TgsControlBox = () => {
-  const [conflictMessage, setConflictMessage] = useState(false);
-
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   // conditionally change state ess || tgs || tes
 
   const state = useSelector(selectTgsSwitch);
+  const { displayConflictMessage } = state;
+
+  const esState = useSelector(selectEssSwitch);
+  const {
+    instantHeat,
+    fanOnly,
+    snowSensor,
+    optionalConstantTemp,
+    heatingSchedule,
+    windFactor,
+  } = esState;
+
   const dispatch = useDispatch();
 
-  const handleDispatchSchdulerDate = (data) => {
-    dispatch(
-      tgsHeatingScheduleDate({
-        start: data.start,
-        end: data.end,
-      })
-    );
-    dispatch(tgsHeatingScheduleCancel());
+  // Check if es is activated
+  useEffect(() => {
+    instantHeat.instantButtonToggler && dispatch(activateEsSwitchStatus());
+    fanOnly && dispatch(activateEsSwitchStatus());
+    snowSensor.isReady && dispatch(activateEsSwitchStatus());
+    snowSensor.activated && dispatch(activateEsSwitchStatus());
+    optionalConstantTemp.apply && dispatch(activateEsSwitchStatus());
+    heatingSchedule.isReady && dispatch(activateEsSwitchStatus());
+    heatingSchedule.isActivated && dispatch(activateEsSwitchStatus());
+    windFactor.isReady && dispatch(activateEsSwitchStatus());
+    windFactor.isActivated && dispatch(activateEsSwitchStatus());
+  }, [esState]);
+
+  // Conflict message handlers
+  const handleCancelConflictMessage = () => {
+    // change display conflict message state into false
+    dispatch(deactivateTgsConflictMessage());
+  };
+
+  const handleConfirmConflictMessage = () => {
+    console.log('turn off es');
+    // Turn off all tgs switches at once
+    dispatch(deactivateEsSwitchStatus());
+    // Deactivate the message box
+    dispatch(deactivateTgsConflictMessage());
   };
 
   return (
     <Wrapper>
-      <BackgroundImg src={"/images/controller-background.svg"} />
+      <BackgroundImg src={'/images/controller-background.svg'} />
       <PositionAbsolute>
         <Title>tgs-controls</Title>
         <ControlsList>
@@ -53,19 +87,14 @@ const TgsControlBox = () => {
           <DisplayTemperatureStates state={state} />
         </ControlsList>
       </PositionAbsolute>
-      <SchedulerWrapper>
-        {state.heatingScheduleDisplayed && (
-          <ScheduleCalendar
-            state={state}
-            handleScheduler={handleDispatchSchdulerDate}
-          />
-        )}
-      </SchedulerWrapper>
-      {conflictMessage && (
+
+      {displayConflictMessage && (
         <ConflictMessage
           headerTitle='tgs and tes conflict'
           currentSwitch='tes-typhoon electric system'
           DesiredSwitch='tgs-typhoon gas system'
+          handleCancel={handleCancelConflictMessage}
+          handleConfirm={handleConfirmConflictMessage}
         />
       )}
     </Wrapper>

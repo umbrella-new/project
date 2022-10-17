@@ -13,8 +13,6 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
   };
 
   const handleOnClick = () => {
-    console.log('input', input.length);
-
     if (input.length !== 0) {
       handleOnSubmit(input);
     } else {

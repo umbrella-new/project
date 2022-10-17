@@ -9,9 +9,11 @@ import {
 import styled, { css } from 'styled-components';
 import ControllerName from '../ControllerName';
 import {
+  activateTgsConflictMessage,
   selectTgsSwitch,
   tgsWindFactor,
 } from '../../../../store/slices/tgsSwitchSlice';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 
 const TgsWindFactor = () => {
   // off || ready || activated
@@ -19,11 +21,24 @@ const TgsWindFactor = () => {
   const state = useSelector(selectTgsSwitch);
   const dispatch = useDispatch();
 
+  const esState = useSelector(selectEssSwitch);
+  const { isEsSwitchActivated } = esState;
+
   const isActivated = state.windFactor.Activated;
   const isReady = state.windFactor.isReady;
 
   const CONTROLLER_NAME = 'wind factor';
   const IMG_SRC = '/images/wind-Factor-Program-Logo.svg';
+
+  const handleWindFactor = () => {
+    if (!isEsSwitchActivated) {
+      dispatch(tgsWindFactor());
+    } else {
+      // Activate Conflict Message Box
+      dispatch(activateTgsConflictMessage());
+    }
+  };
+
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
@@ -31,7 +46,7 @@ const TgsWindFactor = () => {
         <ApplyButtonWrapper
           isActivated={isActivated}
           isReady={isReady}
-          onClick={() => dispatch(tgsWindFactor())}
+          onClick={handleWindFactor}
         >
           <ButtonHole isActivated={isActivated}>
             <ButtonTop isActivated={isActivated} isReady={isReady}>

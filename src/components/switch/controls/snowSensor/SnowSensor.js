@@ -2,9 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import {
+  activateEsConflictMessage,
   selectEssSwitch,
   snowSensor,
 } from '../../../../store/slices/essSwitchSlice';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ApplyButton from '../ApplyButton';
 
@@ -16,10 +18,23 @@ const SnowSensor = () => {
   const isReady = state.snowSensor.isReady;
   const isActivated = state.snowSensor.isActivated;
 
+  const tgsState = useSelector(selectTgsSwitch);
+  const { isTgsSwitchActivated } = tgsState;
+
   const dispatch = useDispatch();
 
   const CONTROLLER_NAME = 'snow sensor program';
   const IMG_SRC = '/images/snow-Sensor-Program-Logo.svg';
+
+  const handleSnowSensor = () => {
+    // check tgs Switch status
+    if (!isTgsSwitchActivated) {
+      dispatch(snowSensor());
+    } else {
+      // Activate Conflict Message Box
+      dispatch(activateEsConflictMessage());
+    }
+  };
 
   return (
     <Wrapper>
@@ -27,7 +42,7 @@ const SnowSensor = () => {
       <TempAndButton>
         <ApplyButton
           name={isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
-          buttonHandler={() => dispatch(snowSensor())}
+          buttonHandler={handleSnowSensor}
           isEnable={true}
           isActivated={isActivated}
           isReady={isReady}

@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 
 import {
   selectTgsSwitch,
   tgsSnowSensor,
   FanOnlyActivator,
+  activateTgsConflictMessage,
 } from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ApplyButton from '../ApplyButton';
@@ -18,6 +20,10 @@ const TgsSnowSensor = () => {
   const isReady = state.snowSensor.isReady;
   const isActivated = state.snowSensor.isActivated;
 
+  // Check es switch
+  const esState = useSelector(selectEssSwitch);
+  const { isEsSwitchActivated } = esState;
+
   // If snow sensor was activated, activate Fan
   useEffect(() => {
     isActivated && dispatch(FanOnlyActivator());
@@ -28,14 +34,22 @@ const TgsSnowSensor = () => {
 
   const CONTROLLER_NAME = 'snow sensor program';
   const IMG_SRC = '/images/snow-Sensor-Program-Logo.svg';
-
+  const handleSnowSensor = () => {
+    // check tgs Switch status
+    if (!isEsSwitchActivated) {
+      dispatch(tgsSnowSensor());
+    } else {
+      // Activate Conflict Message Box
+      dispatch(activateTgsConflictMessage());
+    }
+  };
   return (
     <Wrapper>
       <ControllerName isEnable={true} name={CONTROLLER_NAME} imgSrc={IMG_SRC} />
       <TempAndButton>
         <ApplyButton
           name='apply'
-          buttonHandler={() => dispatch(tgsSnowSensor())}
+          buttonHandler={handleSnowSensor}
           isEnable={true}
           isActivated={isActivated}
           isReady={isReady}
