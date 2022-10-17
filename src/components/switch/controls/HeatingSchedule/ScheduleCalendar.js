@@ -11,44 +11,48 @@ import Month from './Month';
 import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';
-import { useDispatch } from 'react-redux';
-import {
-  heatingScheduleCancel,
-  heatingScheduleDate,
-  heatingScheduleClear,
-} from '../../../../store/slices/essSwitchSlice';
 
 const ScheduleCalendar = ({
-  state,
   handleScheduler,
   handleClear,
   handleCancel,
+  start,
+  end,
+  unit,
 }) => {
-  // const time = moment();
-  // console.log(time._d);
-
-  const { start, end } = state.heatingSchedule;
-
   // Time Picker states
-  const initialStartTimeState = {
-    hour: start.time ? start.time.hour : '00',
-    minute: start.time ? start.time.minute : '00',
-    division: start.time ? start.time.division : 'am',
-  };
-  const initialEndTimeState = {
-    hour: end.time ? end.time.hour : '00',
-    minute: end.time ? end.time.minute : '00',
-    division: end.time ? end.time.division : 'am',
-  };
+  const initialStartTimeState =
+    unit === 1
+      ? {
+          hour: start.time ? start.time.hour : '00',
+          minute: start.time ? start.time.minute : '00',
+          division: start.time ? start.time.division : 'am',
+        }
+      : { hour: '00', minute: '00', division: 'am' };
 
+  const initialEndTimeState =
+    unit === 1
+      ? {
+          hour: end.time ? end.time.hour : '00',
+          minute: end.time ? end.time.minute : '00',
+          division: end.time ? end.time.division : 'am',
+        }
+      : { hour: '00', minute: '00', division: 'am' };
+
+  const initialDateState =
+    unit === 1
+      ? {
+          startDate: start.date ? start.date : null,
+          endDate: end.date ? end.date : null,
+          focusedInput: START_DATE,
+        }
+      : { startDate: null, endDate: null, focusedInput: START_DATE };
+
+  const initialEditableState = unit === 1 && start.date ? true : false;
   const [startTime, setStartTime] = useState(initialStartTimeState);
   const [endTime, setEndTime] = useState(initialEndTimeState);
-
-  const [dateState, setDateState] = useState({
-    startDate: start.date ? start.date : null,
-    endDate: end.date ? end.date : null,
-    focusedInput: START_DATE,
-  });
+  const [editable, setEditable] = useState(initialEditableState);
+  const [dateState, setDateState] = useState(initialDateState);
   // console.log(dateState.startDate);
 
   const startArray =
@@ -167,7 +171,9 @@ const ScheduleCalendar = ({
           minute: '00',
           division: 'am',
         });
-        handleClear();
+
+        setEditable(false);
+        // handleClear();
         return;
       }
       case '2': {
@@ -175,10 +181,13 @@ const ScheduleCalendar = ({
         return;
       }
       case '3': {
-        handleScheduler({
-          start: { date: dateState.startDate, time: startTime },
-          end: { date: dateState.endDate, time: endTime },
-        });
+        handleScheduler(
+          {
+            start: { date: dateState.startDate, time: startTime },
+            end: { date: dateState.endDate, time: endTime },
+          },
+          unit
+        );
         return;
       }
       default:
@@ -253,6 +262,7 @@ const ScheduleCalendar = ({
                 firstDayOfWeek={firstDayOfWeek}
                 startDay={dateState.startDate && startDay}
                 endDay={dateState.endDate && endDay}
+                isDisabled={editable}
               />
             </Calendar>
 
@@ -290,6 +300,7 @@ const ScheduleCalendar = ({
                 firstDayOfWeek={firstDayOfWeek}
                 startDay={dateState.startDate && startDay}
                 endDay={dateState.endDate && endDay}
+                isDisabled={editable}
               />
             </Calendar>
 
@@ -348,7 +359,7 @@ const ScheduleCalendar = ({
                   onClickHandler={handleOnClick}
                 />
                 <SchedulerButton
-                  name='apply'
+                  name={unit === 1 ? 'apply' : 'add'}
                   id='3'
                   onClickHandler={handleOnClick}
                 />

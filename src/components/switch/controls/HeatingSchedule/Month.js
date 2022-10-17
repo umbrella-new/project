@@ -1,9 +1,10 @@
 import { useMonth } from '@datepicker-react/hooks';
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 import styled from 'styled-components';
 
 import Day from './Day';
 
-function Month({ year, month, firstDayOfWeek, startDay, endDay }) {
+function Month({ year, month, firstDayOfWeek, startDay, endDay, isDisabled }) {
   const { days, weekdayLabels, monthLabel } = useMonth({
     year,
     month,
@@ -34,6 +35,7 @@ function Month({ year, month, firstDayOfWeek, startDay, endDay }) {
                 startDay={startDay}
                 endDay={endDay}
                 month={month}
+                isDisabled={isDisabled}
               />
             );
           }

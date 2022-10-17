@@ -3,19 +3,24 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isEsSwitchActivated: false,
   displayConflictMessage: false,
-  heatingScheduleDisplayed: false,
+  heatingScheduleCalendar: { isDisplayed: false, id: null },
   instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
   snowSensor: { isReady: false, activated: false },
   optionalConstantTemp: { inputTemp: 0, apply: false },
+  heatingScheduleList: [
+    {
+      start: { date: null, time: null },
+      end: { date: null, time: null },
+    },
+  ],
+
   heatingSchedule: {
-    start: { date: null, time: null },
-    end: { date: null, time: null },
     inputTemp: 0,
     isReady: false,
     activated: false,
     disable: false,
   },
-  heatingScheduleList: [],
+
   windFactor: { isReady: false, activated: false },
   isExpanded: false,
   currentTemp: null,
@@ -40,33 +45,35 @@ const essSwitchSlice = createSlice({
       state.snowSensor.isReady = !state.snowSensor.isReady;
     },
     heatingScheduleDate: (state, action) => {
-      // state.heatingScheduleList.push({
-      //   start: action.payload.start,
-      //   end: action.payload.end,
-      // });
-
-      state.heatingSchedule.start = {
-        date: action.payload.start.date,
-        time: action.payload.start.time,
-      };
-      state.heatingSchedule.end = {
-        date: action.payload.end.date,
-        time: action.payload.end.time,
-      };
+      state.heatingScheduleList = [
+        {
+          start: action.payload.start,
+          end: action.payload.end,
+        },
+      ];
+    },
+    addHeatingSchedule: (state, action) => {
+      state.heatingScheduleList.push({
+        start: action.payload.start,
+        end: action.payload.end,
+      });
     },
     heatingScheduleBeReady: (state, action) => {
       state.heatingSchedule.inputTemp = action.payload;
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
-    heatingScheduleOpen: (state) => {
-      state.heatingScheduleDisplayed = true;
+    heatingScheduleOpen: (state, action) => {
+      state.heatingScheduleCalendar.isDisplayed = true;
+      state.heatingScheduleCalendar.id = action.payload;
     },
     heatingScheduleCancel: (state) => {
-      state.heatingScheduleDisplayed = false;
+      state.heatingScheduleCalendar.isDisplayed = false;
     },
     heatingScheduleClear: (state) => {
-      state.heatingSchedule.start = { date: null, time: null };
-      state.heatingSchedule.end = { date: null, time: null };
+      state.heatingScheduleList[0] = {
+        start: { date: null, time: null },
+        end: { date: null, time: null },
+      };
     },
     windFactor: (state) => {
       state.windFactor.isReady = !state.windFactor.isReady;
@@ -76,7 +83,6 @@ const essSwitchSlice = createSlice({
       state.optionalConstantTemp.inputTemp = action.payload;
     },
     activateEsSwitchStatus: (state) => {
-      console.log('changed');
       state.isEsSwitchActivated = true;
     },
     deactivateEsSwitchStatus: (state) => {
@@ -115,4 +121,5 @@ export const {
   deactivateEsSwitchStatus,
   activateEsConflictMessage,
   deactivateEsConflictMessage,
+  addHeatingSchedule,
 } = essSwitchSlice.actions;

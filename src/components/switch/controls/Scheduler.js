@@ -2,15 +2,7 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
 
-const Scheduler = ({
-  handleOpenScheduler,
-  start,
-  end,
-  handleClear,
-  handleCancel,
-  state,
-  handleDispatchSchedulerDate,
-}) => {
+const Scheduler = ({ handleOpenScheduler, start, end }) => {
   const displayStart =
     start.date !== null
       ? `${start.time.hour} : ${start.time.minute} ${
@@ -29,21 +21,17 @@ const Scheduler = ({
         } / ${end.date.getFullYear()} `
       : ' -----------------';
 
-  const handleSchedulerDate = (data) => {
-    handleDispatchSchedulerDate(data);
-  };
-
   return (
     <Wrapper>
       <ScheduleDisplayWrapper>
         <DateAndTimeWrapper>{displayStart} </DateAndTimeWrapper>
         <DateAndTimeWrapper>{displayEnd}</DateAndTimeWrapper>
       </ScheduleDisplayWrapper>
-      <CalendarButton onClick={handleOpenScheduler}>
+      <CalendarButton onClick={() => handleOpenScheduler(1)}>
         <Img src={'/images/calendar-button.svg'} />
       </CalendarButton>
 
-      {state.heatingScheduleDisplayed && (
+      {/* {state.heatingScheduleDisplayed && (
         <SchedulerWrapper>
           <ScheduleCalendar
             state={state}
@@ -52,7 +40,7 @@ const Scheduler = ({
             handleClear={handleClear}
           />
         </SchedulerWrapper>
-      )}
+      )} */}
     </Wrapper>
   );
 };

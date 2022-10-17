@@ -43,8 +43,6 @@ const TgsInstantHeat = () => {
     }
   }, []);
 
-  console.log(isEsSwitchActivated);
-
   const handleOnSubmit = (event) => {
     event.preventDefault();
     if (!isEsSwitchActivated) {
