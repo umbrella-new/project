@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isEsActivated: false,
+  displayConflictMessage: false,
   heatingScheduleDisplayed: false,
   instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
   snowSensor: { isReady: false, activated: false },
@@ -24,7 +25,7 @@ const initialState = {
 };
 
 const essSwitchSlice = createSlice({
-  name: "essSwitch",
+  name: 'essSwitch',
   initialState,
   reducers: {
     expand: (state) => {
@@ -78,7 +79,19 @@ const essSwitchSlice = createSlice({
       state.isEsSwitchActivated = true;
     },
     deactivateEsSwitchStatus: (state) => {
-      state = { initialState };
+      state.isTgsSwitchActivated = false;
+      state.instantHeat = initialState.instantHeat;
+      state.fanOnly = false;
+      state.snowSensor = initialState.snowSensor;
+      state.optionalConstantTemp = initialState.optionalConstantTemp;
+      state.heatingSchedule = initialState.heatingSchedule;
+      state.windFactor = initialState.windFactor;
+    },
+    activateEsConflictMessage: (state) => {
+      state.displayConflictMessage = true;
+    },
+    deactivateEsConflictMessage: (state) => {
+      state.displayConflictMessage = false;
     },
   },
 });
@@ -99,4 +112,6 @@ export const {
   constantTemp,
   activateEsSwitchStatus,
   deactivateEsSwitchStatus,
+  activateEsConflictMessage,
+  deactivateEsConflictMessage,
 } = essSwitchSlice.actions;

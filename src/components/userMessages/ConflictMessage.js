@@ -3,8 +3,8 @@ import { flexboxCenter } from '../../styles/commonStyles';
 import MessageButton from './MessageButton';
 
 const ConflictMessage = ({
-  onClose,
-  onConfirm,
+  handleCancel,
+  handleConfirm,
   headerTitle,
   currentSwitch,
   DesiredSwitch,
@@ -42,8 +42,8 @@ const ConflictMessage = ({
             </InnerWrapper>
           </MessageWrapper>
           <ButtonWrapper>
-            <MessageButton name='cancel' buttonHandler={onClose} />
-            <MessageButton name='confirm' buttonHandler={onConfirm} />
+            <MessageButton name='cancel' buttonHandler={handleCancel} />
+            <MessageButton name='confirm' buttonHandler={handleConfirm} />
           </ButtonWrapper>
         </MessageInner>
       </MessageOuter>
