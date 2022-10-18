@@ -63,6 +63,8 @@ function Interface() {
   );
 }
 
+export default Interface;
+
 const Wrapper = styled.div`
   width: 280px;
   height: 160px;
@@ -183,5 +185,3 @@ const ContainerButton = styled.div`
   ${flexboxCenter}
   margin-left: 192px;
 `;
-
-export default Interface;
