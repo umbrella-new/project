@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 function TitleOfAllSettings() {
   const state = useSelector(selectSettingsOfEss);
@@ -18,33 +18,33 @@ function TitleOfAllSettings() {
           SETTINGS//SETTINGS OPTIONS//
           <Span>
             {settingsOptionsUnits
-              ? "units"
+              ? 'units'
               : settingsOptionsWindFactor
-              ? "wind factor trigger"
+              ? 'wind factor trigger'
               : settingsOptionsSnowFactor
-              ? "snow sensor trigger"
+              ? 'snow sensor trigger'
               : settingsOptionsForceAndCommand
-              ? "admin."
-              : "admin."}
+              ? 'force & command'
+              : 'admin.'}
           </Span>
         </SettingTitle>
         <ContainerOptions>
           <UnitSettings>
             {settingsOptionsUnits
-              ? "units"
+              ? 'units'
               : settingsOptionsWindFactor
-              ? "wind factor trigger"
+              ? 'wind factor trigger'
               : settingsOptionsSnowFactor
-              ? "snow sensor trigger"
+              ? 'snow sensor trigger'
               : settingsOptionsForceAndCommand
-              ? "force & command"
-              : "admin."}
+              ? 'force & command'
+              : 'admin.'}
             <Dots>
               .................................................................................................
             </Dots>
           </UnitSettings>
         </ContainerOptions>
-        <Img src={"/images/logoBrighter.svg"} />
+        <Img src={'/images/logoBrighter.svg'} />
       </Container>
     </>
   );

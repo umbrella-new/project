@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import { flexboxCenter } from '../../../../../styles/commonStyles';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
+import { selectUserState } from '../../../../../store/slices/userSlice';
 
 function OutsideTemperature() {
   const tempMeasurementSelection = ['internet', 'thermocouple'];
@@ -16,6 +17,8 @@ function OutsideTemperature() {
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+  const stateOfEssTgs = useSelector(selectUserState);
+  const essSwitch = stateOfEssTgs.isEssSwitch;
 
   // functions
   const handleToggle = (index) => {
@@ -69,6 +72,25 @@ function OutsideTemperature() {
           <Img src={`${activeSelect ? whiteTriangle : greyTriangle}`} />
         </SelectionWrapper>
       </SelectionShadowWrapper>
+      {/* burning chamber */}
+      {!essSwitch && (
+        <SubTitleSelectionWrapper>
+          <SubTitleWrapper>
+            <SubTitleWrapper2>
+              <SubTitle>burning chamber current temp</SubTitle>
+            </SubTitleWrapper2>
+          </SubTitleWrapper>
+          <SelectionShadowWrapper1>
+            <SelectionWrapper1>
+              <SelectionIndentWrapper1>
+                <Selection1>select t/c</Selection1>
+              </SelectionIndentWrapper1>
+
+              <Img src={'./images/whiteTriangle.svg'} />
+            </SelectionWrapper1>
+          </SelectionShadowWrapper1>
+        </SubTitleSelectionWrapper>
+      )}
     </div>
   );
 }
@@ -211,4 +233,53 @@ const Img = styled.img`
   margin-top: 6px;
   margin-right: 4px;
   color: #808080 0% 0% no-repeat padding-box;
+`;
+
+const SubTitleSelectionWrapper = styled.div`
+  margin-top: 21px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const SelectionShadowWrapper1 = styled.div`
+  width: 252px;
+  height: 51px;
+  margin-top: 4px;
+
+  background: #142033 0% 0% no-repeat padding-box;
+  /* box-shadow: inset 0px 0px 1px #000000; */
+  border-radius: 31px;
+  opacity: 1;
+  ${flexboxCenter}
+`;
+
+const SelectionWrapper1 = styled.div`
+  width: 248px;
+  height: 47px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0% 0;
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 33px;
+  opacity: 1;
+  ${flexboxCenter}
+  justify-content: space-around;
+`;
+const SelectionIndentWrapper1 = styled.div`
+  width: 195px;
+  height: 38px;
+  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px var(--unnamed-color-000000);
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 22px;
+  opacity: 1;
+  ${flexboxCenter}
+`;
+
+const Selection1 = styled.div`
+  font-size: var(--font-size7);
+  text-transform: uppercase;
 `;
