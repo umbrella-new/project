@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAdminAccess, selectUserState } from '../../store/slices/userSlice';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import InputKeyboard from '../keyboard/InputKeyboard';
 
 function ContainerLogin() {
   // state
@@ -23,7 +24,6 @@ function ContainerLogin() {
 
   useEffect(() => {
     inputRef.current.focus();
-    setOpenKeyboard(true);
   }, []);
 
   const handlePasswordChange = (e) => {
@@ -40,66 +40,84 @@ function ContainerLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (passwordInput === adminPassword) {
-      return dispatch(setAdminAccess(true)), setShowErrorMessage(false);
-    } else return dispatch(setAdminAccess(false)), setShowErrorMessage(true);
+      dispatch(setAdminAccess(true));
+      setShowErrorMessage(false);
+    } else {
+      setPasswordInput('');
+      setShowErrorMessage(true);
+    }
   };
 
   return (
-    <Wrapper>
-      <Wrapper1>
-        <Wrapper2>
-          <P>
-            admin password <br />
-            required
-          </P>
-          <Form onSubmit={handleSubmit}>
-            <Label for='password'>password</Label>
-            <ContainerInputButton>
-              <InputWrap>
-                <Input
-                  type={passwordType}
-                  value={passwordInput}
-                  onChange={handlePasswordChange}
-                  ref={inputRef}
-                />
-                <Button onClick={togglePassword}>
-                  {passwordType === 'password' ? (
-                    <AiOutlineEyeInvisible />
-                  ) : (
-                    <AiOutlineEye />
-                  )}
-                </Button>
-              </InputWrap>
-            </ContainerInputButton>
-            <Div>
-              {showErrorMessage
-                ? adminAccess || (
-                    <WarningMessage>
-                      invalid password please try again
-                    </WarningMessage>
-                  )
-                : ''}
-            </Div>
+    <LoginAndKeyboardWrapper>
+      <Wrapper>
+        <Wrapper1>
+          <Wrapper2>
+            <P>
+              admin password <br />
+              required
+            </P>
+            <Form onSubmit={handleSubmit}>
+              <Label for='password'>password</Label>
+              <ContainerInputButton>
+                <InputWrap>
+                  <Input
+                    type={passwordType}
+                    value={passwordInput}
+                    ref={inputRef}
+                    placeholder='Input admin password'
+                    onChange={handlePasswordChange}
+                    onClick={() => setOpenKeyboard(true)}
+                  />
+                  <Button onClick={togglePassword}>
+                    {passwordType === 'password' ? (
+                      <AiOutlineEyeInvisible />
+                    ) : (
+                      <AiOutlineEye />
+                    )}
+                  </Button>
+                </InputWrap>
+              </ContainerInputButton>
+              <Div>
+                {showErrorMessage
+                  ? adminAccess || (
+                      <WarningMessage>
+                        invalid password please try again
+                      </WarningMessage>
+                    )
+                  : ''}
+              </Div>
 
-            <EnterButton type='submit'>
-              <Wrap>
-                <Wrap1>
-                  <Wrap2>
-                    <P>enter</P>
-                  </Wrap2>
-                </Wrap1>
-              </Wrap>
-            </EnterButton>
-          </Form>
-        </Wrapper2>
-      </Wrapper1>
-    </Wrapper>
+              <EnterButton type='submit'>
+                <Wrap>
+                  <Wrap1>
+                    <Wrap2>
+                      <P>enter</P>
+                    </Wrap2>
+                  </Wrap1>
+                </Wrap>
+              </EnterButton>
+            </Form>
+          </Wrapper2>
+        </Wrapper1>
+      </Wrapper>
+      {openKeyboard && (
+        <InputKeyboard input={passwordInput} setInput={setPasswordInput} />
+      )}
+    </LoginAndKeyboardWrapper>
   );
 }
 
 export default ContainerLogin;
+
+const LoginAndKeyboardWrapper = styled.div`
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Wrapper = styled.div`
   width: 256px;
@@ -192,12 +210,18 @@ const InputWrap = styled.div`
 `;
 
 const Input = styled.input`
-  width: 80%;
+  width: 90%;
   height: auto;
   font-size: 20px;
   background: #233a54 0% 0% no-repeat padding-box;
   border-radius: 19px;
+
   opacity: 1;
+  &::placeholder {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+  }
 `;
 
 const Button = styled.button`

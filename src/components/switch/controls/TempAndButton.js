@@ -8,7 +8,7 @@ import {
   activeInput,
   ButtonReady,
 } from '../../../styles/commonStyles';
-import InputKeyPad from '../../keyboard/KeyPad';
+import InputKeyPad from '../../keyboard/InputKeyPad';
 import InputTempMessage from '../../userMessages/InputTempMessage';
 
 const TempAndButton = ({
@@ -170,6 +170,7 @@ const TempAndButton = ({
           <InputKeyPad
             handleOnSubmit={handleVirtualKeyboardInput}
             title={title}
+            closeKeyPad={() => setOpenKeyPad(false)}
           />
         </KeyPadWrapper>
       )}
@@ -398,6 +399,6 @@ const ButtonName = styled.span`
 const KeyPadWrapper = styled.div`
   position: absolute;
   top: 0rem;
-  right: -17rem;
+  right: -13rem;
   z-index: 1000;
 `;

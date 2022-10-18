@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react';
 import Keyboard from 'react-simple-keyboard';
-import './keyboard.css';
+import './inputKeyboard.css';
 
 import styled from 'styled-components';
 
-const InputKeyboard = () => {
-  const [input, setInput] = useState('');
+const InputKeyboard = ({ input, setInput }) => {
   const [layout, setLayout] = useState('default');
   const keyboard = useRef();
 
@@ -13,23 +12,16 @@ const InputKeyboard = () => {
     setInput(input);
   };
 
-  const handleShift = () => {
-    const newLayoutName = layout === 'default' ? 'shift' : 'default';
-    setLayout(newLayoutName);
-  };
-
   const onKeyPress = (button) => {
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === '{shift}' || button === '{lock}') handleShift();
+    if ((button = '{enter}')) {
+    }
   };
 
-  const onChangeInput = (event) => {
-    const input = event.target.value;
-    setInput(input);
-    keyboard.current.setInput(input);
-  };
+  // const onChangeInput = (event) => {
+  //   const input = event.target.value;
+  //   setInput(input);
+  //   keyboard.current.setInput(input);
+  // };
 
   return (
     <Wrapper>
@@ -37,10 +29,32 @@ const InputKeyboard = () => {
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
         onChange={onChange}
-        onKeyPress={onKeyPress}
+        onKeyPress={(button) => onKeyPress(button)}
         theme={'hg-theme-default hg-layout-default myTheme'}
+        display={{
+          '{escape}': '⎋',
+          '{tab}': '⇥',
+          '{backspace}': '⌫',
+          '{enter}': '↵',
+          '{capslock}': '⇪',
+          '{shiftleft}': '⇧',
+          '{shiftright}': '⇧',
+          '{controlleft}': '⌃',
+          '{controlright}': '⌃',
+          '{altleft}': '⌥',
+          '{altright}': '⌥',
+          '{metaleft}': '⌘',
+          '{metaright}': '⌘',
+          '{space}': '   ',
+        }}
         layout={{
-          default: ['1 2 3', '4 5 6', '7 8 9', '0 {enter}'],
+          default: [
+            '1 2 3 4 5 6 7 8 9 0 {backspace}',
+            '{tab} Q W E R T Y U I O P',
+            '{capslock} A S D F G H J K L {enter}',
+            '{shiftleft} Z X C V B N M .  {shiftright}',
+            '{space}',
+          ],
         }}
       />
     </Wrapper>
@@ -50,5 +64,16 @@ const InputKeyboard = () => {
 export default InputKeyboard;
 
 const Wrapper = styled.div`
-  width: 200px;
+  width: 600px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  border: 1px solid #142033;
+  border-radius: 16px;
+  opacity: 1;
+
+  /* position: absolute;
+  z-index: 10000;
+  top: 10.5rem;
+  left: -10rem; */
 `;
