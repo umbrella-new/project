@@ -1,12 +1,18 @@
 import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
-import ButtonSelect from './ButtonSelect';
+import { flexboxCenter } from '../../../../../styles/commonStyles';
+import ButtonSelect from '../ButtonSelect';
 import CurrentEncloseAndBurningTemp from './CurrentEncloseAndBurningTemp';
 import OutsideTemperature from './OutsideTemperature';
 
-function SelectTc({ name }) {
-  const data = [
-    { title: `current ${name} heater temperature`, selection: 'select t/c' },
+function SelectTc({ ess, tgs, essSwitch }) {
+  const essData = [
+    { title: `current ${ess} heater temperature`, selection: 'select t/c' },
+    { title: 'enclosure temperature', selection: 'select t/c' },
+  ];
+
+  const tgsData = [
+    { title: `current ${tgs[0]} heater temperature`, selection: 'select t/c' },
+    { title: `current ${tgs[1]} heater temperature`, selection: 'select t/c' },
     { title: 'enclosure temperature', selection: 'select t/c' },
   ];
 
@@ -19,7 +25,10 @@ function SelectTc({ name }) {
           </TitleWrapper>
           <Wrapper>
             <OutsideTemperature />
-            <CurrentEncloseAndBurningTemp data={data} />
+            <CurrentEncloseAndBurningTemp
+              data={essSwitch ? essData : tgsData}
+              essSwitch={essSwitch}
+            />
           </Wrapper>
           <WrapperButton>
             <ButtonSelect />

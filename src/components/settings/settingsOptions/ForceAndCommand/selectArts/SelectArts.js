@@ -1,18 +1,28 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import { flexboxCenter } from '../../../../../styles/commonStyles';
 import { useSelector } from 'react-redux';
-import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
-import EditCancelApplyButtons from '../../settingsOptions/EditCancelApplyButtons';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
+import EditCancelApplyButtons from '../../EditCancelApplyButtons';
+import SelectBox from './SelectBox';
+import SubTitles from './SubTitles';
 
-function SelectArts({ activateOnOffSwitch }) {
+function SelectArts({ propIndex, essSwitch }) {
   const switchOnImage = './images/greenOnOffSwitch.png';
   const switchOffImage = './images/redOnOffSwitch.png';
-  const gpEbp = [
+  const essGpEbp = [
     'block and do not allow ess to operate when on ebp-emergency backup power',
     'reactivates ess when powered by ebp emergency backup power',
   ];
-
+  const tgsGpEbp = [
+    'switch to typhoon gas powered heating system when on emergency backup power',
+    'reactivates tes when powered by ebp emergency backup power',
+    'should be blocked and do not allow tes to operate when on ebp emergency backup power',
+  ];
+  const tesGpEbp = [
+    'reactive to tgs typhoon gas power heating system when on ebp emergency backup power',
+    'block and do not allow tgs to operate when on ebp emergency backup power',
+  ];
   // states
   const [switchImage, setSwitchImage] = useState(switchOffImage);
   const [gpEbpPowering, setGpEbpPowering] = useState(null);
@@ -28,7 +38,7 @@ function SelectArts({ activateOnOffSwitch }) {
     } else return setSwitchImage(switchOffImage);
   };
 
-  const handleClick = (index) => {
+  const handleToggle = (index) => {
     if (index !== gpEbpPowering) return setGpEbpPowering(index);
   };
 
@@ -42,64 +52,21 @@ function SelectArts({ activateOnOffSwitch }) {
           </TitleWrapper2>
         </TitleWrapper>
         <SubTitleWrapper>
-          <SubTitle>ess</SubTitle>
-          <SubTitleDescription>electric switch system</SubTitleDescription>
-          <GpEbpWrapper>
-            <Span1>gp</Span1>
-            <BigGreenConnectionSignal
-              src={'./images/bigGreenConnectionSignal.svg'}
-            />
-            <Span2>ebp</Span2>
-          </GpEbpWrapper>
+          <SubTitles essSwitch={essSwitch} propIndex={propIndex} />
         </SubTitleWrapper>
         <FlexSelections>
-          {gpEbp.map((data, index) => {
-            return (
-              <EachContainerOfSelection key={index}>
-                <ContainerDarkLight>
-                  <ContainerImages>
-                    <OutsideRingGreenCircle
-                      onClick={() => {
-                        handleClick(index);
-                      }}
-                      mode={mode}
-                    >
-                      <InsideFilledGreenCircle
-                        mode={mode}
-                        color={index === gpEbpPowering ? true : false}
-                      ></InsideFilledGreenCircle>
-                    </OutsideRingGreenCircle>
-                  </ContainerImages>
-                  <IndividualContainer mode={mode}>
-                    <Description mode={mode}>{data}</Description>
-                  </IndividualContainer>
-                </ContainerDarkLight>
-              </EachContainerOfSelection>
-            );
-          })}
+          <SelectBox
+            essGpEbp={essGpEbp}
+            mode={mode}
+            handleToggle={handleToggle}
+            gpEbpPowering={gpEbpPowering}
+            tgsGpEbp={tgsGpEbp}
+            tesGpEbp={tesGpEbp}
+          />
         </FlexSelections>
         <EditCancelApplyButtons />
       </Wrapper2>
     </Wrapper>
-    // <Wrapper>
-    //   <Wrapper2>
-    //     <WrapperTitle>
-    //       <Title>Select Arts</Title>
-    //     </WrapperTitle>
-    //     <WrapperText>
-    //       <P>when system is on & power goes out the system will not run</P>
-    //     </WrapperText>
-    //     {activateOnOffSwitch ? (
-    //       <OnOffSwitch onClick={() => handleImages()}>
-    //         <Img src={switchImage} />
-    //       </OnOffSwitch>
-    //     ) : (
-    //       <OnOffSwitch>
-    //         <Img src={switchOffImage} />
-    //       </OnOffSwitch>
-    //     )}
-    //   </Wrapper2>
-    // </Wrapper>
   );
 }
 
@@ -164,6 +131,7 @@ const Title = styled.p`
   color: #ffffff;
   opacity: 1;
   margin-left: 8px;
+  text-transform: uppercase;
 `;
 
 const GreenConnectionSignal = styled.img`
@@ -174,49 +142,6 @@ const GreenConnectionSignal = styled.img`
 
 const SubTitleWrapper = styled.div`
   margin-top: 6px;
-`;
-
-const SubTitle = styled.p`
-  font-size: var(--space0);
-  text-align: center;
-  letter-spacing: NaNpx;
-  color: #ff7800;
-  text-transform: uppercase;
-  opacity: 1;
-`;
-
-const SubTitleDescription = styled.p`
-  font-size: var(--space2);
-  text-align: center;
-
-  color: #ff7800;
-  text-transform: uppercase;
-  opacity: 1;
-`;
-const Span1 = styled.span`
-  font-size: 22px;
-  margin-left: 24px;
-
-  font-size: 22px;
-  letter-spacing: 2.2px;
-  color: #95ff45;
-  opacity: 1;
-  text-transform: uppercase;
-`;
-
-const GpEbpWrapper = styled.div`
-  margin-top: 4px;
-`;
-
-const BigGreenConnectionSignal = styled.img``;
-
-const Span2 = styled.span`
-  text-align: left;
-  font-size: 22px;
-  letter-spacing: 2.2px;
-  color: #ff7800;
-  opacity: 1;
-  text-transform: uppercase;
 `;
 
 const FlexSelections = styled.div`
@@ -230,68 +155,122 @@ const FlexSelections = styled.div`
   align-items: center;
 `;
 
-const EachContainerOfSelection = styled.div`
-  width: 258px;
-  height: 38px;
-  background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 19px;
-  opacity: 1;
-  display: flex;
-  justify-content: space-evenly;
-  justify-content: center;
-`;
+// const SubTitle = styled.p`
+//   font-size: var(--space0);
+//   text-align: center;
+//   letter-spacing: NaNpx;
+//   color: #ff7800;
+//   text-transform: uppercase;
+//   opacity: 1;
+// `;
 
-const ContainerDarkLight = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  margin-left: -1px;
-`;
+// const SubTitleDescription = styled.p`
+//   font-size: var(--space2);
+//   text-align: center;
 
-const ContainerImages = styled.div``;
+//   color: #ff7800;
+//   text-transform: uppercase;
+//   opacity: 1;
+// `;
+// const Span1 = styled.span`
+//   font-size: 22px;
+//   margin-left: 24px;
 
-const OutsideRingGreenCircle = styled.span`
-  width: 24px;
-  height: 24px;
-  margin-left: 4px;
-  margin-top: 2px;
-  border: 1.5px solid #95ff45;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #1b2b44;
-`;
+//   font-size: 22px;
+//   letter-spacing: 2.2px;
+//   color: #95ff45;
+//   opacity: 1;
+//   text-transform: uppercase;
+// `;
 
-const InsideFilledGreenCircle = styled.div`
-  width: 14px;
-  height: 14px;
-  background-color: ${(props) => (props.color ? '#95ff45' : 'none')};
-  border-radius: 50%;
-`;
+// const GpEbpWrapper = styled.div`
+//   margin-top: 4px;
+// `;
 
-const IndividualContainer = styled.div`
-  width: 224px;
-  height: 34px;
-  margin-left: 4px;
-  border: 1.5px solid #142033;
-  border-radius: 18px;
-  opacity: 1;
-  ${flexboxCenter}
-`;
+// const BigGreenConnectionSignal = styled.img``;
 
-const Description = styled.p`
-  font-size: var(--space2);
-  margin-left: 10px;
-  text-transform: uppercase;
-  color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};
-  letter-spacing: 1.2px;
-  opacity: 1;
-  max-width: 28ch;
-`;
+// const Span2 = styled.span`
+//   text-align: left;
+//   font-size: 22px;
+//   letter-spacing: 2.2px;
+//   color: #ff7800;
+//   opacity: 1;
+//   text-transform: uppercase;
+// `;
+
+// const FlexSelections = styled.div`
+//   width: auto;
+//   height: 80px;
+//   margin-top: 2px;
+
+//   display: flex;
+//   justify-content: space-around;
+//   flex-direction: column;
+//   align-items: center;
+// `;
+
+// const EachContainerOfSelection = styled.div`
+//   width: 258px;
+//   height: 38px;
+//   background: #233a54 0% 0% no-repeat padding-box;
+//   box-shadow: inset 0px 0px 3px #000000;
+//   border-radius: 19px;
+//   opacity: 1;
+//   display: flex;
+//   justify-content: space-evenly;
+//   justify-content: center;
+// `;
+
+// const ContainerDarkLight = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+//   height: 100%;
+//   margin-left: -1px;
+// `;
+
+// const ContainerImages = styled.div``;
+
+// const OutsideRingGreenCircle = styled.span`
+//   width: 24px;
+//   height: 24px;
+//   margin-left: 4px;
+//   margin-top: 2px;
+//   border: 1.5px solid #95ff45;
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background: #1b2b44;
+// `;
+
+// const InsideFilledGreenCircle = styled.div`
+//   width: 14px;
+//   height: 14px;
+//   background-color: ${(props) => (props.color ? '#95ff45' : 'none')};
+//   border-radius: 50%;
+// `;
+
+// const IndividualContainer = styled.div`
+//   width: 224px;
+//   height: 34px;
+//   margin-left: 4px;
+//   border: 1.5px solid #142033;
+//   border-radius: 18px;
+//   opacity: 1;
+//   ${flexboxCenter}
+// `;
+
+// const Description = styled.p`
+//   font-size: var(--space2);
+//   margin-left: 10px;
+//   text-transform: uppercase;
+//   color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};
+//   letter-spacing: 1.2px;
+//   opacity: 1;
+//   max-width: 28ch;
+// `;
 
 // const Wrapper = styled.div`
 //   width: 277px;

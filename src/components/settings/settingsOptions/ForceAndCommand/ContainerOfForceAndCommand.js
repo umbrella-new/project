@@ -7,8 +7,9 @@ import {
   setResetAllSettingsButtons,
 } from '../../../../store/slices/settingsOfEssSlice';
 import SystemHeader from './SystemHeader';
-import SelectArts from './SelectArts';
-import SelectTc from './SelectTc';
+import SelectArts from './selectArts/SelectArts';
+import SelectTc from './selectTc/SelectTc';
+import { selectUserState } from '../../../../store/slices/userSlice';
 
 function ContainerOfForceAndCommand() {
   const essButton = './images/blueEssButton.svg';
@@ -24,6 +25,8 @@ function ContainerOfForceAndCommand() {
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
   const activatedByEditButton = state.buttonsOfSettings.settingsEditButton;
+  const stateOfEssTgs = useSelector(selectUserState);
+  const essSwitch = stateOfEssTgs.isEssSwitch;
 
   // State buttons of Sys, Ess, Tgs and Tes
   const [toggleSysButtonColor, setToggleSysButtonColor] =
@@ -32,75 +35,120 @@ function ContainerOfForceAndCommand() {
   const [toggleTgsButtonColor, setToggleTgsButtonColor] = useState(tgsButton);
   const [toggleTesButtonColor, setToggleTesButtonColor] = useState(tesButton);
   // expand and close states
-  // const [sysExpandOrClose, setEssExpandOrClose] = useState('close');
+
   const [sysExpandOrClose, setSysExpandOrClose] = useState(true);
   const [essExpandOrClose, setEssExpandOrClose] = useState(false);
   const [tgsExpandOrClose, setTgsExpandOrClose] = useState(false);
   const [tesExpandOrClose, setTesExpandOrClose] = useState(false);
   const [options, setOptions] = useState(3);
 
-  const headers = [
-    {
-      button: toggleTgsButtonColor,
-      title: 'typhoon gas system',
-      // expandClose: expandOrClose,
-    },
-    {
-      button: toggleTesButtonColor,
-      title: 'typhoon gas system',
-      // expandClose: expandOrClose,
-    },
+  const essHeaders = [
     {
       button: toggleEssButtonColor,
       title: 'typhoon gas system',
-      // expandClose: expandOrClose,
     },
     {
       button: toggleSysButtonColor,
       title: 'typhoon gas system',
-      // expandClose: expandOrClose,
     },
   ];
 
+  const tgsHeaders = [
+    {
+      button: toggleTgsButtonColor,
+      title: 'typhoon gas system',
+    },
+    {
+      button: toggleTesButtonColor,
+      title: 'typhoon electrical system',
+    },
+    {
+      button: toggleSysButtonColor,
+      title: 'system commands',
+    },
+  ];
+
+  // const handleCloseExpandButton = (index) => {
+  //   switch (index) {
+  //     case 0: {
+  //       switch (tgsExpandOrClose) {
+  //         case false: {
+  //           setTgsExpandOrClose(true);
+  //           setSysExpandOrClose(false);
+  //           setToggleTgsButtonColor(tgsButtonActive);
+  //           setToggleTesButtonColor(tesButton);
+  //           setToggleSysButtonColor(sysButton);
+  //           setToggleEssButtonColor(essButton);
+  //           break;
+  //         }
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     }
+  //     case 1: {
+  //       switch (tesExpandOrClose) {
+  //         case false: {
+  //           setTesExpandOrClose(true);
+  //           setSysExpandOrClose(false);
+  //           setToggleTesButtonColor(tesButtonActive);
+  //           setToggleSysButtonColor(sysButton);
+  //           setToggleEssButtonColor(essButton);
+  //           setToggleTgsButtonColor(tgsButton);
+  //           break;
+  //         }
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     }
+  //     case 2: {
+  //       switch (essExpandOrClose) {
+  //         case false: {
+  //           setEssExpandOrClose(true);
+  //           setSysExpandOrClose(false);
+  //           setToggleEssButtonColor(essButtonActive);
+  //           setToggleSysButtonColor(sysButton);
+  //           setToggleTgsButtonColor(tgsButton);
+  //           setToggleTesButtonColor(tesButton);
+  //           break;
+  //         }
+
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     }
+
+  //     case 2: {
+  //       switch (sysExpandOrClose) {
+  //         case false: {
+  //           setSysExpandOrClose(true);
+  //           setEssExpandOrClose(false);
+  //           setToggleSysButtonColor(sysButtonActive);
+  //           setToggleEssButtonColor(essButton);
+  //           setToggleTgsButtonColor(tgsButton);
+  //           setToggleTesButtonColor(tesButton);
+  //           break;
+  //         }
+
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     }
+
+  //     default:
+  //       return;
+  //   }
+  // };
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
   }, []);
 
-  const handleCloseExpandButton = (index) => {
+  const handleEssCloseExpandButton = (index) => {
     switch (index) {
       case 0: {
-        switch (tgsExpandOrClose) {
-          case false: {
-            setTgsExpandOrClose(true);
-            setSysExpandOrClose(false);
-            setToggleTgsButtonColor(tgsButtonActive);
-            setToggleTesButtonColor(tesButton);
-            setToggleSysButtonColor(sysButton);
-            setToggleEssButtonColor(essButton);
-            break;
-          }
-          default:
-            return;
-        }
-        break;
-      }
-      case 1: {
-        switch (tesExpandOrClose) {
-          case false: {
-            setTesExpandOrClose(true);
-            setSysExpandOrClose(false);
-            setToggleTesButtonColor(tesButtonActive);
-            setToggleSysButtonColor(sysButton);
-            setToggleEssButtonColor(essButton);
-            setToggleTgsButtonColor(tgsButton);
-            break;
-          }
-          default:
-            return;
-        }
-        break;
-      }
-      case 2: {
         switch (essExpandOrClose) {
           case false: {
             setEssExpandOrClose(true);
@@ -118,22 +166,18 @@ function ContainerOfForceAndCommand() {
         break;
       }
 
-      case 3: {
+      case 1: {
         switch (sysExpandOrClose) {
           case false: {
             setSysExpandOrClose(true);
-            setEssExpandOrClose(false);
+            setTesExpandOrClose(false);
             setToggleSysButtonColor(sysButtonActive);
             setToggleEssButtonColor(essButton);
             setToggleTgsButtonColor(tgsButton);
             setToggleTesButtonColor(tesButton);
             break;
           }
-          // case true: {
-          //   setExpandOrClose(false);
-          //   setToggleSysButtonColor(sysButton);
-          //   break;
-          // }
+
           default:
             return;
         }
@@ -145,28 +189,66 @@ function ContainerOfForceAndCommand() {
     }
   };
 
-  // switch (sysExpandOrClose) {
-  //   case true: {
-  //     setSysExpandOrClose(false);
-  //     setToggleEssButtonColor(essButtonActive);
-  //     setToggleSysButtonColor(sysButton);
-  //     setToggleTgsButtonColor(tgsButton);
-  //     setToggleTesButtonColor(tesButton);
-  //     break;
-  //   }
-  //   case false: {
-  //     setSysExpandOrClose(false);
-  //     setToggleEssButtonColor(essButtonActive);
-  //     setToggleTesButtonColor(tesButton);
-  //     setToggleSysButtonColor(sysButton);
-  //     setToggleTgsButtonColor(tgsButton);
-  //     break;
-  //   }
-  //   default:
-  //     return;
-  // }
+  const handleTgsCloseExpandButton = (index) => {
+    switch (index) {
+      case 0: {
+        switch (tgsExpandOrClose) {
+          case false: {
+            setTgsExpandOrClose(true);
+            setTesExpandOrClose(false);
+            setSysExpandOrClose(false);
+            setToggleTgsButtonColor(tgsButtonActive);
+            setToggleTesButtonColor(tesButton);
+            setToggleSysButtonColor(sysButton);
+            setToggleEssButtonColor(essButton);
+            break;
+          }
+          default:
+            return;
+        }
+        break;
+      }
+      case 1: {
+        switch (tesExpandOrClose) {
+          case false: {
+            setTesExpandOrClose(true);
+            setTgsExpandOrClose(false);
+            setSysExpandOrClose(false);
+            setToggleTesButtonColor(tesButtonActive);
+            setToggleSysButtonColor(sysButton);
+            setToggleEssButtonColor(essButton);
+            setToggleTgsButtonColor(tgsButton);
+            break;
+          }
+          default:
+            return;
+        }
+        break;
+      }
 
-  // index === 3 && expandClose ? 'close' : 'expand'
+      case 2: {
+        switch (sysExpandOrClose) {
+          case false: {
+            setSysExpandOrClose(true);
+            setTgsExpandOrClose(false);
+            setTesExpandOrClose(false);
+            setToggleSysButtonColor(sysButtonActive);
+            setToggleEssButtonColor(essButton);
+            setToggleTgsButtonColor(tgsButton);
+            setToggleTesButtonColor(tesButton);
+            break;
+          }
+
+          default:
+            return;
+        }
+        break;
+      }
+
+      default:
+        return;
+    }
+  };
 
   const handleSelect = (index) => options !== index && setOptions(index);
 
@@ -174,43 +256,100 @@ function ContainerOfForceAndCommand() {
     <Wrapper>
       <Wrapper2>
         <Wrapper3>
-          {headers.map((value, index) => {
-            return (
-              <Wrapper4 key={index}>
-                <Wrapper5>
-                  <SystemHeader
-                    name={value.title}
-                    toggleButtonColor={value.button}
-                    handleCloseExpandButton={handleCloseExpandButton}
-                    handleSelect={handleSelect}
-                    index={index}
-                    options={options}
-                  />
-                  {essExpandOrClose && index === 2 && (
-                    <NewWrapper>
-                      <WrapperSelectTcSelect>
-                        <FlexWrapper>
-                          <SelectArts
-                            activateSelectButton={activatedByEditButton}
-                          />
-                        </FlexWrapper>
-                      </WrapperSelectTcSelect>
-                    </NewWrapper>
-                  )}
+          {essSwitch
+            ? essHeaders.map((value, index) => {
+                return (
+                  <Wrapper4 key={index}>
+                    <Wrapper5>
+                      <SystemHeader
+                        name={value.title}
+                        toggleButtonColor={value.button}
+                        handleCloseExpandButton={handleEssCloseExpandButton}
+                        handleSelect={handleSelect}
+                        index={index}
+                        options={options}
+                      />
+                      {essExpandOrClose && index === 0 && (
+                        <NewWrapper>
+                          <WrapperSelectTcSelect>
+                            <FlexWrapper>
+                              <SelectArts
+                                propIndex={index}
+                                essSwitch={essSwitch}
+                              />
+                            </FlexWrapper>
+                          </WrapperSelectTcSelect>
+                        </NewWrapper>
+                      )}
 
-                  {sysExpandOrClose && index === 3 && (
-                    <NewWrapper>
-                      <WrapperSelectTcSelect>
-                        <SelectTc
-                          activateSelectButton={activatedByEditButton}
-                        />
-                      </WrapperSelectTcSelect>
-                    </NewWrapper>
-                  )}
-                </Wrapper5>
-              </Wrapper4>
-            );
-          })}
+                      {sysExpandOrClose && index === 1 && (
+                        <NewWrapper>
+                          <WrapperSelectTcSelect>
+                            <SelectTc
+                              ess={'ess'}
+                              tgs={['tgs', 'tes']}
+                              essSwitch={essSwitch}
+                            />
+                          </WrapperSelectTcSelect>
+                        </NewWrapper>
+                      )}
+                    </Wrapper5>
+                  </Wrapper4>
+                );
+              })
+            : tgsHeaders.map((value, index) => {
+                return (
+                  <Wrapper4 key={index}>
+                    <Wrapper5>
+                      <SystemHeader
+                        name={value.title}
+                        toggleButtonColor={value.button}
+                        handleCloseExpandButton={handleTgsCloseExpandButton}
+                        handleSelect={handleSelect}
+                        index={index}
+                        options={options}
+                      />
+                      {tgsExpandOrClose && index === 0 && (
+                        <NewWrapper>
+                          <WrapperSelectTcSelect>
+                            <FlexWrapper>
+                              <SelectArts
+                                propIndex={index}
+                                essSwitch={essSwitch}
+                              />
+                            </FlexWrapper>
+                          </WrapperSelectTcSelect>
+                        </NewWrapper>
+                      )}
+
+                      {tesExpandOrClose && index === 1 && (
+                        <NewWrapper>
+                          <WrapperSelectTcSelect>
+                            <FlexWrapper>
+                              <SelectArts
+                                propIndex={index}
+                                essSwitch={essSwitch}
+                              />
+                            </FlexWrapper>
+                          </WrapperSelectTcSelect>
+                        </NewWrapper>
+                      )}
+
+                      {sysExpandOrClose && index === 2 && (
+                        <NewWrapper>
+                          <WrapperSelectTcSelect>
+                            <SelectTc
+                              tgs={['tgs', 'tes']}
+                              ess={'ess'}
+                              essSwitch={essSwitch}
+                            />
+                          </WrapperSelectTcSelect>
+                        </NewWrapper>
+                      )}
+                    </Wrapper5>
+                  </Wrapper4>
+                );
+              })}
         </Wrapper3>
       </Wrapper2>
     </Wrapper>
