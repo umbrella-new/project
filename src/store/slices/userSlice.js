@@ -8,7 +8,7 @@ const initialState = {
   isEssSwitch: true,
   isTesSwitch: false,
   isAdministrator: false,
-  isAdminPassword: 'ATEF61',
+  adminPassword: 'ATEF61',
   isKeyboardActivated: false,
   dateAndWeather: {
     date: null,

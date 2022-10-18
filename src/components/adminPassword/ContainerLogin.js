@@ -4,6 +4,8 @@ import { flexboxCenter } from '../../styles/commonStyles';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAdminAccess, selectUserState } from '../../store/slices/userSlice';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 
 function ContainerLogin() {
   // state
@@ -14,8 +16,15 @@ function ContainerLogin() {
   // redux
   const state = useSelector(selectUserState);
   const adminAccess = state.isAdministrator;
-  const adminPassword = state.isAdminPassword;
+  const [openKeyboard, setOpenKeyboard] = useState(false);
+  const { adminPassword } = state;
   const dispatch = useDispatch();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+    setOpenKeyboard(true);
+  }, []);
 
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
@@ -32,7 +41,6 @@ function ContainerLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(passwordInput);
     if (passwordInput === adminPassword) {
       return dispatch(setAdminAccess(true)), setShowErrorMessage(false);
     } else return dispatch(setAdminAccess(false)), setShowErrorMessage(true);
@@ -54,6 +62,7 @@ function ContainerLogin() {
                   type={passwordType}
                   value={passwordInput}
                   onChange={handlePasswordChange}
+                  ref={inputRef}
                 />
                 <Button onClick={togglePassword}>
                   {passwordType === 'password' ? (
@@ -94,9 +103,7 @@ export default ContainerLogin;
 
 const Wrapper = styled.div`
   width: 256px;
-
   height: auto;
-
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   border: 1px solid #142033;
@@ -121,7 +128,7 @@ const Wrapper2 = styled.div`
   width: 242px;
   height: 157px;
   height: auto;
-  margin: 2px 0 2px 0;
+  margin: 0.08rem 0;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -129,6 +136,7 @@ const Wrapper2 = styled.div`
   border-radius: 22px;
   opacity: 1;
   display: flex;
+
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -179,12 +187,14 @@ const InputWrap = styled.div`
   border-radius: 20px;
   opacity: 1;
   ${flexboxCenter}
+  justify-content: space-between;
+  padding: 0 0.5rem;
 `;
 
 const Input = styled.input`
-  width: 206px;
+  width: 80%;
   height: auto;
-  font-size: 24px;
+  font-size: 20px;
   background: #233a54 0% 0% no-repeat padding-box;
   border-radius: 19px;
   opacity: 1;

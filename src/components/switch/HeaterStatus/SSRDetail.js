@@ -1,16 +1,15 @@
-import { useSelector } from "react-redux";
-import { selectUserState } from "../../../store/slices/userSlice";
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { selectUserState } from '../../../store/slices/userSlice';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import ToggleSWitch from "./ToggleSwitch";
-import Select from "./Select";
-import SSRInfoContainer from "./SSRInfoContainer";
-import AdminSSRInfoContainer from "./AdminSSRInfoContainer";
+import ToggleSWitch from './ToggleSwitch';
+import Select from './Select';
+import SSRInfoContainer from './SSRInfoContainer';
 
 const SSRDetail = ({ data, id }) => {
   const userState = useSelector(selectUserState);
-  const { isAdministrator } = userState;
 
   return (
     <Wrapper>
@@ -18,11 +17,7 @@ const SSRDetail = ({ data, id }) => {
       <ToggleSWitchContainer>
         <ToggleSWitch data={data.buttonStatus} id={id} />
       </ToggleSWitchContainer>
-      {isAdministrator ? (
-        <AdminSSRInfoContainer data={data} id={id} />
-      ) : (
-        <SSRInfoContainer data={data} />
-      )}
+      <SSRInfoContainer data={data} id={id} />
     </Wrapper>
   );
 };

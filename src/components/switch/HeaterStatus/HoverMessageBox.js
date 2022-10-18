@@ -19,18 +19,14 @@ const Wrapper = styled.div`
   width: fit-content;
   ${flexboxCenter}
 `;
-const Message = styled.div`
+const Message = styled.span`
   /* Layout Properties */
 
-  width: 126px;
-
+  width: 150px;
+  text-align: center;
   /* UI Properties */
-  color: var(--unnamed-color-ffffff);
-  text-align: left;
   font-size: 8px;
-  letter-spacing: 0.8px;
   color: #ffffff;
-  opacity: 1;
   line-height: 90%;
 
   text-transform: uppercase;
