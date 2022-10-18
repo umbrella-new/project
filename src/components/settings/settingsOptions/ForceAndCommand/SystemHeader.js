@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from './ButtonCloseAndExpand';
 
 function SystemHeader({
   toggleButtonColor,
-  expandOrClose,
   handleCloseExpandButton,
   name,
+  index,
+  handleSelect,
+  options,
 }) {
   return (
     <Wrapper>
@@ -19,10 +22,10 @@ function SystemHeader({
       </ContainerTitle>
       <ContainerButton
         onClick={() => {
-          handleCloseExpandButton();
+          return handleCloseExpandButton(index), handleSelect(index);
         }}
       >
-        <ButtonCloseAndExpand name={expandOrClose} />
+        <ButtonCloseAndExpand name={options === index ? 'close' : 'expand'} />
       </ContainerButton>
     </Wrapper>
   );
