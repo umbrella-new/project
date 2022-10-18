@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 import { toggle } from '../../../store/slices/heaterStatusSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ToggleSWitch = ({ data, id }) => {
   // reducer test
@@ -39,17 +40,21 @@ const ToggleSWitch = ({ data, id }) => {
 
 export default ToggleSWitch;
 const Wrapper = styled.div`
+  padding-top: 0.2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 const Title = styled.span`
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 8px;
   color: #fcff01;
-  height: 50%;
+  margin-bottom: 0.2rem;
 `;
 const SwitchButton = styled.button`
-  height: 34px;
+  height: 20px;
+  ${flexboxCenter}
+  align-items: flex-start;
 `;
 
 const SwitchImg = styled.img``;

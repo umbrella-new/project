@@ -30,8 +30,6 @@ const HeatingSchedule = () => {
   const firstHeatingSchedule = heatingScheduleList[0];
   const { start, end } = firstHeatingSchedule;
 
-  console.log(heatingScheduleList);
-
   const tgsState = useSelector(selectTgsSwitch);
   const { isTgsSwitchActivated } = tgsState;
 
@@ -64,7 +62,6 @@ const HeatingSchedule = () => {
   };
 
   const handleDispatchSchedulerDate = (data, id) => {
-    console.log(id);
     // Check is it the first schedule or not
     if (id === 1) {
       dispatch(

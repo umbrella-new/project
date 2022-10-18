@@ -9,29 +9,29 @@ import HoverMessageBox from './HoverMessageBox';
 const SettingButton = ({
   isSettingOpen,
   setIsSettingOpen,
-  isFault,
   column,
-  displayHiddenMessage,
-  setDisplayHiddenMessage,
+  handleButtonClick,
+  id,
+  openPasswordBox,
 }) => {
   const userState = useSelector(selectUserState);
   const { isAdministrator } = userState;
+  const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
 
-  const message = isAdministrator
-    ? 'shlc-switch heating load configuration'
-    : 'Password required';
+  const firstMessage = openPasswordBox
+    ? 'close password box'
+    : 'password required';
 
-  const handleOnClick = () => {
-    isAdministrator
-      ? setIsSettingOpen(!isSettingOpen)
-      : console.log('password Required');
-  };
+  const secondMessage = isSettingOpen
+    ? 'click to close and logout'
+    : 'shlc-switch heating load configuration';
+
+  const message = isAdministrator ? secondMessage : firstMessage;
 
   return (
     <Wrapper column={column}>
       <SettingHole
-        disabled={isFault ? true : false}
-        onClick={handleOnClick}
+        onClick={() => handleButtonClick(id)}
         onMouseEnter={() => setDisplayHiddenMessage(true)}
         onMouseLeave={() => setDisplayHiddenMessage(false)}
       >
@@ -59,8 +59,10 @@ const Wrapper = styled.div`
   border-radius: 20px;
   opacity: 1;
   ${flexboxCenter}
-  visibility: ${(p) => p.column === 1 && 'hidden'};
   visibility: ${(p) => p.column === 2 && 'hidden'};
+  visibility: ${(p) => p.column === 3 && 'hidden'};
+
+  position: relative;
 `;
 const SettingHole = styled.button`
   width: 16px;
@@ -88,12 +90,14 @@ const SettingTop = styled.div`
   ${flexboxCenter}
 `;
 
-const SettingIcon = styled.img``;
+const SettingIcon = styled.img`
+  cursor: pointer;
+`;
 
 const HiddenMessageWrapper = styled.div`
   position: absolute;
-
-  top: ${(p) => (p.isSettingOpen ? '-0.5rem' : '-1.6rem')};
-  right: 0.5rem;
+  width: 150px;
+  top: ${(p) => (p.isSettingOpen ? '-0.5rem' : '-1.1rem')};
+  right: 0rem;
   z-index: 10000;
 `;

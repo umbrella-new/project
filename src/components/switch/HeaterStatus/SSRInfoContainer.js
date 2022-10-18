@@ -1,24 +1,66 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import {
+  selectUserState,
+  setAdminAccess,
+} from '../../../store/slices/userSlice';
 import {
   flexboxCenter,
   ItemBackground,
   ItemBackgroundDisable,
 } from '../../../styles/commonStyles';
+import ContainerLogin from '../../adminPassword/ContainerLogin';
+import AdminSSRItemDetails from './AdminSSRItemDetails';
 import DescriptionButton from './DescriptionButton';
 import SettingButton from './SettingButton';
+import SSRItemDetails from './SSRItemDetails';
+import SSRInfoDetailItems from './SSRItemDetails';
 
-const SSRInfoContainer = ({ data }) => {
+const SSRInfoContainer = ({ data, id }) => {
+  const userState = useSelector(selectUserState);
+  const { isAdministrator } = userState;
+
+  const [openPasswordBox, setOpenPasswordBox] = useState(false);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isAdministrator) {
+      setOpenPasswordBox(false);
+    }
+  }, [isAdministrator]);
+
   const titles = Object.keys(data).slice(2);
 
-  // this two variables will be merged as one with 3 conditions
-  // isEnable is for styling  [false:color gray-deActivated color]
   const isEnable =
     data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
 
   // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
-  const [displayHiddenMessage, setDisplayHiddenMessage] = useState(false);
+
+  const handleButtonClick = (id) => {
+    if (id === 1) {
+      if (isAdministrator) {
+        // admin? open the settings
+        setIsSettingOpen(true);
+      } else {
+        // no admin ?
+        if (openPasswordBox) {
+          // 1. close password box
+          setOpenPasswordBox(false);
+        } else {
+          // 2. Login process => Display Password require box
+          setOpenPasswordBox(true);
+        }
+      }
+    } else {
+      // id === 2  Close the setting and logout
+      setIsSettingOpen(false);
+      dispatch(setAdminAccess(false));
+    }
+  };
 
   return (
     <Wrapper>
@@ -30,49 +72,37 @@ const SSRInfoContainer = ({ data }) => {
         <Title>{titles[4]}</Title>
       </TitleWrapper>
 
-      <ItemWrapper isEnable={isEnable} isFault={isFault}>
-        <ItemCurrentWrapper>
-          <ItemCurrent isEnable={isEnable}>
-            <ItemData isDefault={true} isEnable={isEnable}>
-              {data.current}
-            </ItemData>
-          </ItemCurrent>
+      {isSettingOpen ? (
+        <AdminSSRItemDetails
+          isEnable={isEnable}
+          isFault={isFault}
+          id={2}
+          data={data}
+          isSettingOpen={isSettingOpen}
+          setIsSettingOpen={setIsSettingOpen}
+          handleButtonClick={handleButtonClick}
+          openPasswordBox={openPasswordBox}
+          isAdministrator={isAdministrator}
+        />
+      ) : (
+        <SSRItemDetails
+          isEnable={isEnable}
+          isFault={isFault}
+          id={1}
+          data={data}
+          isSettingOpen={isSettingOpen}
+          setIsSettingOpen={setIsSettingOpen}
+          handleButtonClick={handleButtonClick}
+          openPasswordBox={openPasswordBox}
+          isAdministrator={isAdministrator}
+        />
+      )}
 
-          <ItemCurrent isEnable={isEnable}>
-            <ItemData isEnable={isEnable}>{data.current}</ItemData>
-          </ItemCurrent>
-        </ItemCurrentWrapper>
-
-        <ItemWattage isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.wattage}</ItemData>
-        </ItemWattage>
-
-        <ItemVoltage isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.voltage}</ItemData>
-        </ItemVoltage>
-
-        <ItemLength isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.length}</ItemData>
-        </ItemLength>
-
-        <DescriptionAndButtonWrapper>
-          <ItemDescription isEnable={isEnable}>
-            <ItemData isDescription={true} isEnable={isEnable}>
-              {data.description}
-            </ItemData>
-          </ItemDescription>
-
-          <SettingButton
-            isSettingOpen={false}
-            setIsSettingOpen={false}
-            displayHiddenMessage={displayHiddenMessage}
-            setDisplayHiddenMessage={setDisplayHiddenMessage}
-            // when ssr status is fault button will be disable
-            isFault={isFault}
-            isEnable={isEnable}
-          />
-        </DescriptionAndButtonWrapper>
-      </ItemWrapper>
+      {openPasswordBox && (
+        <PasswordWrapper>
+          <ContainerLogin />
+        </PasswordWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -139,22 +169,6 @@ const ItemWrapper = styled.ul`
   border: ${(p) => (p.isFault ? '1px solid red' : '')};
 `;
 
-// const ItemBackground = css`
-//   background: #233a54 0% 0% no-repeat padding-box;
-//   box-shadow: inset 0px 0px 2px #000000;
-//   border-radius: 12px;
-//   opacity: 1;
-// `;
-
-// const ItemBackgroundDisable = css`
-//   background: var(--unnamed-color-3b3b3b) 0% 0% no-repeat padding-box;
-//   box-shadow: inset 0px 0px 2px var(--unnamed-color-000000);
-//   background: #3b3b3b 0% 0% no-repeat padding-box;
-//   box-shadow: inset 0px 0px 2px #000000;
-//   opacity: 1;
-//   border-radius: 12px;
-// `;
-
 const ItemCurrentWrapper = styled.div`
   display: flex;
   width: 91px;
@@ -166,74 +180,60 @@ const ItemCurrent = styled.li`
 
   width: 44px;
   height: 20px;
+  ${ItemBackground}
 
   ${(p) =>
-    p.isEnable
-      ? css`
-          ${ItemBackground}
-        `
-      : css`
-          ${ItemBackgroundDisable}
-        `}
+    p.isEnable ||
+    css`
+      ${ItemBackgroundDisable}
+    `}
 `;
 const ItemWattage = styled.li`
   ${flexboxCenter}
   width: 93px;
   height: 20px;
-
+  ${ItemBackground}
   ${(p) =>
-    p.isEnable
-      ? css`
-          ${ItemBackground}
-        `
-      : css`
-          ${ItemBackgroundDisable}
-        `}
+    p.isEnable ||
+    css`
+      ${ItemBackgroundDisable}
+    `}
 `;
 const ItemVoltage = styled.li`
   ${flexboxCenter}
 
   width: 93px;
   height: 20px;
-
+  ${ItemBackground}
   ${(p) =>
-    p.isEnable
-      ? css`
-          ${ItemBackground}
-        `
-      : css`
-          ${ItemBackgroundDisable}
-        `}
+    p.isEnable ||
+    css`
+      ${ItemBackgroundDisable}
+    `}
 `;
 const ItemLength = styled.li`
   ${flexboxCenter}
 
   width: 93px;
   height: 20px;
-
+  ${ItemBackground}
   ${(p) =>
-    p.isEnable
-      ? css`
-          ${ItemBackground}
-        `
-      : css`
-          ${ItemBackgroundDisable}
-        `}
+    p.isEnable ||
+    css`
+      ${ItemBackgroundDisable}
+    `}
 `;
 const ItemDescription = styled.li`
   ${flexboxCenter}
 
   width: 265px;
   height: 20px;
-
+  ${ItemBackground}
   ${(p) =>
-    p.isEnable
-      ? css`
-          ${ItemBackground}
-        `
-      : css`
-          ${ItemBackgroundDisable}
-        `}
+    p.isEnable ||
+    css`
+      ${ItemBackgroundDisable}
+    `}
 
   padding: 0 0.1rem;
 `;
@@ -241,17 +241,15 @@ const ItemData = styled.span`
   font-size: 8px;
   text-align: center;
   text-transform: uppercase;
-  color: ${(p) => (p.isEnable ? '#ffff' : `#808080;`)};
+
   ${(p) =>
     p.isDescription &&
     css`
       font-size: 6px;
     `}
-  ${(p) =>
-    p.isDefault &&
-    css`
-      color: #95ff45;
-    `}
+
+  color: ${(p) => p.isDefault && '#95ff45'};
+  color: ${(p) => p.isEnable || `#808080;`};
 `;
 
 const DescriptionAndButtonWrapper = styled.div`
@@ -260,4 +258,11 @@ const DescriptionAndButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const PasswordWrapper = styled.div`
+  margin-top: 0.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
