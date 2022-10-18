@@ -5,6 +5,7 @@ import {
   ItemBackground,
   ItemBackgroundDisable,
 } from '../../../styles/commonStyles';
+import DescriptionButton from './DescriptionButton';
 import SettingButton from './SettingButton';
 
 const SSRInfoContainer = ({ data }) => {
@@ -30,35 +31,47 @@ const SSRInfoContainer = ({ data }) => {
       </TitleWrapper>
 
       <ItemWrapper isEnable={isEnable} isFault={isFault}>
-        <ItemCurrent isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.current}</ItemData>
-        </ItemCurrent>
+        <ItemCurrentWrapper>
+          <ItemCurrent isEnable={isEnable}>
+            <ItemData isDefault={true} isEnable={isEnable}>
+              {data.current}
+            </ItemData>
+          </ItemCurrent>
+
+          <ItemCurrent isEnable={isEnable}>
+            <ItemData isEnable={isEnable}>{data.current}</ItemData>
+          </ItemCurrent>
+        </ItemCurrentWrapper>
 
         <ItemWattage isEnable={isEnable}>
           <ItemData isEnable={isEnable}>{data.wattage}</ItemData>
         </ItemWattage>
 
-        <ItemVlotage isEnable={isEnable}>
+        <ItemVoltage isEnable={isEnable}>
           <ItemData isEnable={isEnable}>{data.voltage}</ItemData>
-        </ItemVlotage>
+        </ItemVoltage>
 
         <ItemLength isEnable={isEnable}>
           <ItemData isEnable={isEnable}>{data.length}</ItemData>
         </ItemLength>
 
-        <ItemDescription isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.description}</ItemData>
-        </ItemDescription>
+        <DescriptionAndButtonWrapper>
+          <ItemDescription isEnable={isEnable}>
+            <ItemData isDescription={true} isEnable={isEnable}>
+              {data.description}
+            </ItemData>
+          </ItemDescription>
 
-        <SettingButton
-          isSettingOpen={false}
-          setIsSettingOpen={false}
-          displayHiddenMessage={displayHiddenMessage}
-          setDisplayHiddenMessage={setDisplayHiddenMessage}
-          // when ssr status is fault button will be disable
-          isFault={isFault}
-          isEnable={isEnable}
-        />
+          <SettingButton
+            isSettingOpen={false}
+            setIsSettingOpen={false}
+            displayHiddenMessage={displayHiddenMessage}
+            setDisplayHiddenMessage={setDisplayHiddenMessage}
+            // when ssr status is fault button will be disable
+            isFault={isFault}
+            isEnable={isEnable}
+          />
+        </DescriptionAndButtonWrapper>
       </ItemWrapper>
     </Wrapper>
   );
@@ -142,10 +155,16 @@ const ItemWrapper = styled.ul`
 //   border-radius: 12px;
 // `;
 
+const ItemCurrentWrapper = styled.div`
+  display: flex;
+  width: 91px;
+  justify-content: space-between;
+`;
+
 const ItemCurrent = styled.li`
   ${flexboxCenter}
 
-  width: 90px;
+  width: 44px;
   height: 20px;
 
   ${(p) =>
@@ -171,7 +190,7 @@ const ItemWattage = styled.li`
           ${ItemBackgroundDisable}
         `}
 `;
-const ItemVlotage = styled.li`
+const ItemVoltage = styled.li`
   ${flexboxCenter}
 
   width: 93px;
@@ -204,7 +223,7 @@ const ItemLength = styled.li`
 const ItemDescription = styled.li`
   ${flexboxCenter}
 
-  width: 264px;
+  width: 265px;
   height: 20px;
 
   ${(p) =>
@@ -223,4 +242,22 @@ const ItemData = styled.span`
   text-align: center;
   text-transform: uppercase;
   color: ${(p) => (p.isEnable ? '#ffff' : `#808080;`)};
+  ${(p) =>
+    p.isDescription &&
+    css`
+      font-size: 6px;
+    `}
+  ${(p) =>
+    p.isDefault &&
+    css`
+      color: #95ff45;
+    `}
+`;
+
+const DescriptionAndButtonWrapper = styled.div`
+  width: 285px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
