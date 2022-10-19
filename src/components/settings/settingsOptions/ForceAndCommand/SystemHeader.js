@@ -10,6 +10,8 @@ function SystemHeader({
   index,
   handleSelect,
   options,
+  essSwitch,
+  adminAccess,
 }) {
   return (
     <Wrapper>
@@ -22,10 +24,24 @@ function SystemHeader({
       </ContainerTitle>
       <ContainerButton
         onClick={() => {
-          return handleCloseExpandButton(index), handleSelect(index);
+          return (
+            adminAccess && handleCloseExpandButton(index), handleSelect(index)
+          );
         }}
       >
-        <ButtonCloseAndExpand name={options === index ? 'close' : 'expand'} />
+        <ButtonCloseAndExpand
+          name={
+            adminAccess
+              ? options === index
+                ? 'close'
+                : 'expand'
+              : index === 0
+              ? 'expand'
+              : index === 1
+              ? 'expand'
+              : 'close'
+          }
+        />
       </ContainerButton>
     </Wrapper>
   );

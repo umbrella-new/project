@@ -54,7 +54,7 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
             essSwitch={essSwitch}
           />
         </FlexSelections>
-        {/* <EditCancelApplyButtons /> */}
+        <EditCancelApplyButtons />
       </Wrapper2>
     </Wrapper>
   );
