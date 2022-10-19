@@ -28,7 +28,10 @@ function ContainerOfAdmin() {
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
-    dispatch(setAdminAccess(false));
+
+    return function cleanup() {
+      dispatch(setAdminAccess(false));
+    };
   }, []);
 
   const handleCloseExpandButton = () => {

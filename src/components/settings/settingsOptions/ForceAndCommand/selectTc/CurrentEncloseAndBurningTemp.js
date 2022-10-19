@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import { flexboxCenter } from '../../../../../styles/commonStyles';
 
-function CurrentEncloseAndBurningTemp({ data }) {
+function CurrentEncloseAndBurningTemp({ data, essSwitch }) {
   return (
     <FlexWrapper>
       {data.map((value, index) => {
@@ -9,7 +9,9 @@ function CurrentEncloseAndBurningTemp({ data }) {
           <SubTitleSelectionWrapper key={Math.floor(Math.random() * 1555555)}>
             <SubTitleWrapper>
               <SubTitleWrapper2>
-                <SubTitle color={index}>{value.title}</SubTitle>
+                <SubTitle essSwitch={essSwitch} color={index}>
+                  {value.title}
+                </SubTitle>
               </SubTitleWrapper2>
             </SubTitleWrapper>
             <SelectionShadowWrapper>
@@ -75,7 +77,16 @@ const SubTitleWrapper2 = styled.div`
 const SubTitle = styled.div`
   font-size: var(--space2);
   text-transform: uppercase;
-  color: ${({ color }) => (color === 0 ? '#83ffff' : '#ffff')};
+  color: ${({ color, essSwitch }) =>
+    !essSwitch
+      ? color === 0
+        ? '#FF7800'
+        : color === 1
+        ? '#95FF45'
+        : '#fff'
+      : color === 0
+      ? '#83ffff'
+      : '#ffff'};
 `;
 
 const SelectionShadowWrapper = styled.div`
