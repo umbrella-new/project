@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 function SnowFactor({ tgsTes, ess, temp }) {
-  console.log(tgsTes);
-
   return (
     <>
       {tgsTes?.map((value, index) => {
