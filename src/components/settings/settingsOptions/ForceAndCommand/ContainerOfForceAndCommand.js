@@ -21,10 +21,22 @@ function ContainerOfForceAndCommand() {
   const tesButton = './images/blueTesButton.svg';
   const tesButtonActive = './images/greenTesButton.svg';
 
+  const essGpEbp = [
+    'block and do not allow ess to operate when on ebp-emergency backup power',
+    'reactivates ess when powered by ebp emergency backup power',
+  ];
+  const tesGpEbp = [
+    'switch to typhoon gas powered heating system when on emergency backup power',
+    'reactivates tes when powered by ebp emergency backup power',
+    'should be blocked and do not allow tes to operate when on ebp emergency backup power',
+  ];
+  const tgsGpEbp = [
+    'reactive to tgs typhoon gas power heating system when on ebp emergency backup power',
+    'block and do not allow tgs to operate when on ebp emergency backup power',
+  ];
+
   // redux
   const dispatch = useDispatch();
-  const state = useSelector(selectSettingsOfEss);
-  const activatedByEditButton = state.buttonsOfSettings.settingsEditButton;
   const stateOfEssTgs = useSelector(selectUserState);
   const essSwitch = stateOfEssTgs.isEssSwitch;
 
@@ -68,80 +80,6 @@ function ContainerOfForceAndCommand() {
     },
   ];
 
-  // const handleCloseExpandButton = (index) => {
-  //   switch (index) {
-  //     case 0: {
-  //       switch (tgsExpandOrClose) {
-  //         case false: {
-  //           setTgsExpandOrClose(true);
-  //           setSysExpandOrClose(false);
-  //           setToggleTgsButtonColor(tgsButtonActive);
-  //           setToggleTesButtonColor(tesButton);
-  //           setToggleSysButtonColor(sysButton);
-  //           setToggleEssButtonColor(essButton);
-  //           break;
-  //         }
-  //         default:
-  //           return;
-  //       }
-  //       break;
-  //     }
-  //     case 1: {
-  //       switch (tesExpandOrClose) {
-  //         case false: {
-  //           setTesExpandOrClose(true);
-  //           setSysExpandOrClose(false);
-  //           setToggleTesButtonColor(tesButtonActive);
-  //           setToggleSysButtonColor(sysButton);
-  //           setToggleEssButtonColor(essButton);
-  //           setToggleTgsButtonColor(tgsButton);
-  //           break;
-  //         }
-  //         default:
-  //           return;
-  //       }
-  //       break;
-  //     }
-  //     case 2: {
-  //       switch (essExpandOrClose) {
-  //         case false: {
-  //           setEssExpandOrClose(true);
-  //           setSysExpandOrClose(false);
-  //           setToggleEssButtonColor(essButtonActive);
-  //           setToggleSysButtonColor(sysButton);
-  //           setToggleTgsButtonColor(tgsButton);
-  //           setToggleTesButtonColor(tesButton);
-  //           break;
-  //         }
-
-  //         default:
-  //           return;
-  //       }
-  //       break;
-  //     }
-
-  //     case 2: {
-  //       switch (sysExpandOrClose) {
-  //         case false: {
-  //           setSysExpandOrClose(true);
-  //           setEssExpandOrClose(false);
-  //           setToggleSysButtonColor(sysButtonActive);
-  //           setToggleEssButtonColor(essButton);
-  //           setToggleTgsButtonColor(tgsButton);
-  //           setToggleTesButtonColor(tesButton);
-  //           break;
-  //         }
-
-  //         default:
-  //           return;
-  //       }
-  //       break;
-  //     }
-
-  //     default:
-  //       return;
-  //   }
-  // };
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
   }, []);
@@ -276,6 +214,9 @@ function ContainerOfForceAndCommand() {
                               <SelectArts
                                 propIndex={index}
                                 essSwitch={essSwitch}
+                                essGpEbp={essGpEbp}
+                                tesGpEbp={tesGpEbp}
+                                tgsGpEbp={tgsGpEbp}
                               />
                             </FlexWrapper>
                           </WrapperSelectTcSelect>
@@ -316,6 +257,9 @@ function ContainerOfForceAndCommand() {
                               <SelectArts
                                 propIndex={index}
                                 essSwitch={essSwitch}
+                                tgsGpEbp={tgsGpEbp}
+                                essGpEbp={essGpEbp}
+                                tesGpEbp={tesGpEbp}
                               />
                             </FlexWrapper>
                           </WrapperSelectTcSelect>
@@ -329,6 +273,9 @@ function ContainerOfForceAndCommand() {
                               <SelectArts
                                 propIndex={index}
                                 essSwitch={essSwitch}
+                                tgsGpEbp={tgsGpEbp}
+                                essGpEbp={essGpEbp}
+                                tesGpEbp={tesGpEbp}
                               />
                             </FlexWrapper>
                           </WrapperSelectTcSelect>

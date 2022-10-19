@@ -1,33 +1,92 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 
-function SelectBox({ essGpEbp, mode, handleToggle, gpEbpPowering, tgsGpEbp }) {
+function SelectBox({
+  essGpEbp,
+  mode,
+  handleToggle,
+  gpEbpPowering,
+  tgsGpEbp,
+  tesGpEbp,
+  propIndex,
+  essSwitch,
+}) {
   return (
     <div>
-      {essGpEbp.map((data, index) => {
-        return (
-          <EachContainerOfSelection key={index}>
-            <ContainerDarkLight>
-              <ContainerImages>
-                <OutsideRingGreenCircle
-                  onClick={() => {
-                    handleToggle(index);
-                  }}
-                  mode={mode}
-                >
-                  <InsideFilledGreenCircle
-                    mode={mode}
-                    color={index === gpEbpPowering ? true : false}
-                  ></InsideFilledGreenCircle>
-                </OutsideRingGreenCircle>
-              </ContainerImages>
-              <IndividualContainer mode={mode}>
-                <Description mode={mode}>{data}</Description>
-              </IndividualContainer>
-            </ContainerDarkLight>
-          </EachContainerOfSelection>
-        );
-      })}
+      {essSwitch
+        ? essGpEbp.map((data, index) => {
+            return (
+              <EachContainerOfSelection key={index}>
+                <ContainerDarkLight>
+                  <ContainerImages>
+                    <OutsideRingGreenCircle
+                      onClick={() => {
+                        handleToggle(index);
+                      }}
+                      mode={mode}
+                    >
+                      <InsideFilledGreenCircle
+                        mode={mode}
+                        color={index === gpEbpPowering ? true : false}
+                      ></InsideFilledGreenCircle>
+                    </OutsideRingGreenCircle>
+                  </ContainerImages>
+                  <IndividualContainer mode={mode}>
+                    <Description mode={mode}>{data}</Description>
+                  </IndividualContainer>
+                </ContainerDarkLight>
+              </EachContainerOfSelection>
+            );
+          })
+        : propIndex === 0
+        ? tgsGpEbp.map((data, index) => {
+            return (
+              <EachContainerOfSelection key={index}>
+                <ContainerDarkLight>
+                  <ContainerImages>
+                    <OutsideRingGreenCircle
+                      onClick={() => {
+                        handleToggle(index);
+                      }}
+                      mode={mode}
+                    >
+                      <InsideFilledGreenCircle
+                        mode={mode}
+                        color={index === gpEbpPowering ? true : false}
+                      ></InsideFilledGreenCircle>
+                    </OutsideRingGreenCircle>
+                  </ContainerImages>
+                  <IndividualContainer mode={mode}>
+                    <Description mode={mode}>{data}</Description>
+                  </IndividualContainer>
+                </ContainerDarkLight>
+              </EachContainerOfSelection>
+            );
+          })
+        : tesGpEbp.map((data, index) => {
+            return (
+              <EachContainerOfSelection key={index}>
+                <ContainerDarkLight>
+                  <ContainerImages>
+                    <OutsideRingGreenCircle
+                      onClick={() => {
+                        handleToggle(index);
+                      }}
+                      mode={mode}
+                    >
+                      <InsideFilledGreenCircle
+                        mode={mode}
+                        color={index === gpEbpPowering ? true : false}
+                      ></InsideFilledGreenCircle>
+                    </OutsideRingGreenCircle>
+                  </ContainerImages>
+                  <IndividualContainer mode={mode}>
+                    <Description mode={mode}>{data}</Description>
+                  </IndividualContainer>
+                </ContainerDarkLight>
+              </EachContainerOfSelection>
+            );
+          })}
     </div>
   );
 }
@@ -95,4 +154,6 @@ const Description = styled.p`
   letter-spacing: 1.2px;
   opacity: 1;
   max-width: 28ch;
+  line-height: 7px;
+  text-align: center;
 `;
