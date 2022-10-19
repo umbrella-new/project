@@ -103,7 +103,11 @@ function ContainerLogin() {
         </Wrapper1>
       </Wrapper>
       {openKeyboard && (
-        <InputKeyboard input={passwordInput} setInput={setPasswordInput} />
+        <InputKeyboard
+          input={passwordInput}
+          setInput={setPasswordInput}
+          handleSubmit={handleSubmit}
+        />
       )}
     </LoginAndKeyboardWrapper>
   );

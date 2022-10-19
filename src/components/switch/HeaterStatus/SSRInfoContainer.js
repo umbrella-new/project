@@ -110,6 +110,7 @@ const SSRInfoContainer = ({ data, id }) => {
 export default SSRInfoContainer;
 const Wrapper = styled.div`
   margin-top: 0.7rem;
+  position: relative;
 `;
 
 const TitleWrapper = styled.div`
@@ -265,4 +266,11 @@ const PasswordWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 1rem;
+  position: absolute;
+  top: 0rem;
+  right: 5rem;
+  z-index: 10000;
 `;

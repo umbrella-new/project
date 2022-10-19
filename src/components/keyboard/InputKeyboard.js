@@ -50,9 +50,9 @@ const InputKeyboard = ({ input, setInput }) => {
         layout={{
           default: [
             '1 2 3 4 5 6 7 8 9 0 {backspace}',
-            '{tab} Q W E R T Y U I O P',
-            '{capslock} A S D F G H J K L {enter}',
-            '{shiftleft} Z X C V B N M .  {shiftright}',
+            'Q W E R T Y U I O P',
+            'A S D F G H J K L {enter}',
+            'Z X C V B N M . {shiftright}',
             '{space}',
           ],
         }}
