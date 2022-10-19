@@ -95,8 +95,6 @@ const AdminSSRInfoContainer = ({ data, id }) => {
           />
         )}
       </ItemWrapper>
-
-      {isSettingOpen && <DescriptionButtonContainer />}
     </Wrapper>
   );
 };

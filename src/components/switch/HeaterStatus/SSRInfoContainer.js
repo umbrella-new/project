@@ -13,7 +13,7 @@ import {
 } from '../../../styles/commonStyles';
 import ContainerLogin from '../../adminPassword/ContainerLogin';
 import AdminSSRItemDetails from './AdminSSRItemDetails';
-import DescriptionButton from './DescriptionButton';
+import DescriptionButton from './SSRDetailAddButton';
 import SettingButton from './SettingButton';
 import SSRItemDetails from './SSRItemDetails';
 import SSRInfoDetailItems from './SSRItemDetails';
@@ -64,11 +64,11 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{titles[0]} (a)</Title>
-        <Title>{titles[1]} (kw)</Title>
-        <Title>{titles[2]} (v)</Title>
-        <Title>{titles[3]} (m)</Title>
-        <Title>{titles[4]}</Title>
+        <Title>{titles[1]} (a)</Title>
+        <Title>{titles[2]} (kw)</Title>
+        <Title>{titles[3]} (v)</Title>
+        <Title>{titles[4]} (m)</Title>
+        <Title>{titles[5]}</Title>
       </TitleWrapper>
 
       {isSettingOpen ? (

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
-const DescriptionButton = ({ name }) => {
-  const handleOnClick = (name) => {
-    // console.log(name);
+const SSRDetailAddButton = ({ name, handleClick }) => {
+  const handleOnClick = () => {
+    handleClick(name);
   };
   return (
     <Wrapper onClick={handleOnClick}>
@@ -16,7 +16,7 @@ const DescriptionButton = ({ name }) => {
   );
 };
 
-export default DescriptionButton;
+export default SSRDetailAddButton;
 
 const Wrapper = styled.button`
   cursor: pointer;

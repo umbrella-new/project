@@ -5,7 +5,7 @@ const ssrInitialState = {
   buttonStatus: true,
   switchName: null,
   current: [2.95, null, null],
-  wattage: [1400, null, null],
+  wattage: [1.4, null, null],
   voltage: [240, null, null],
   length: [2.1, null, null],
   description: [
