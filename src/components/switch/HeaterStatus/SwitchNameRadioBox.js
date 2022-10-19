@@ -1,39 +1,37 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
-const RadioBox = ({ data, checked, onHandler, unit }) => {
+const SwitchNameRadioBox = ({ data, checked, handleClick }) => {
   return (
-    <Wrapper onClick={() => onHandler(data)}>
+    <Wrapper onClick={() => handleClick(data)}>
       <OptionChecker>
         <CheckedCircle checked={checked == data ? true : false}></CheckedCircle>
       </OptionChecker>
-      <Label>
-        {data} {unit}
-      </Label>
+      <Label>{data}</Label>
     </Wrapper>
   );
 };
 
-export default RadioBox;
+export default SwitchNameRadioBox;
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
 
-  width: 80px;
-  height: 20px;
-  border: 1px solid #233a54;
-  border-radius: 16px;
+  width: 56px;
+  height: 14px;
+  border: 1px solid #142033;
+  border-radius: 9px;
   opacity: 1;
 
-  padding: 0 0.1rem;
-  margin-bottom: 0.2rem;
+  padding: 0 0.05rem;
+  margin-bottom: 0.1rem;
   &:first-child {
-    margin-top: 0.05rem;
+    margin-top: 0.13rem;
   }
   &:last-child {
-    margin-bottom: 0.05rem;
+    margin-bottom: 0.13rem;
   }
   &:hover {
     background: #233a54 0% 0% no-repeat padding-box;
@@ -46,7 +44,7 @@ const Wrapper = styled.div`
 const Label = styled.span`
   cursor: pointer;
   text-transform: uppercase;
-  font-size: 8px;
+  font-size: 6px;
   text-align: center;
   width: 70%;
   /* border: 1px solid red; */
@@ -54,8 +52,8 @@ const Label = styled.span`
 const OptionChecker = styled.div`
   ${flexboxCenter}
   width: 30%;
-  height: 14px;
-  width: 14px;
+  height: 10px;
+  width: 10px;
   border: 1px solid #95ff45;
   border-radius: 50%;
 `;
