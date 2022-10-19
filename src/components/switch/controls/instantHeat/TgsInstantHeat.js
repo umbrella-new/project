@@ -16,7 +16,7 @@ import {
   layer90Deg,
 } from '../../../../styles/commonStyles';
 import styled, { css } from 'styled-components';
-import InputKeyPad from '../../../keyboard/KeyPad';
+import InputKeyPad from '../../../keyboard/InputKeyPad';
 import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 
 const TgsInstantHeat = () => {

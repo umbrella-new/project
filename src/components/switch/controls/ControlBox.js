@@ -95,11 +95,6 @@ const ControlBox = () => {
         </ControlsList>
       </PositionAbsolute>
 
-      {/* {isKeyboardActivated && (
-        <KeyboardWrapper>
-          <InputKeyboard />
-        </KeyboardWrapper>
-      )} */}
       {displayConflictMessage && (
         <ConflictMessage
           headerTitle='tgs and tes conflict'

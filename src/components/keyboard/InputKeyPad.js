@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Keyboard from 'react-simple-keyboard';
-import './keyboard.css';
+import './keypad.css';
 
 import styled from 'styled-components';
 
@@ -13,9 +13,11 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
   };
 
   const handleOnClick = () => {
-    if (input.length !== 0) {
-      handleOnSubmit(input);
+    const temp = Number(input);
+    if (temp !== 0) {
+      handleOnSubmit(temp);
     } else {
+      closeKeyPad();
       return;
     }
   };
@@ -34,6 +36,7 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
         keyboardRef={(r) => (keyboard.current = r)}
         onChange={onChange}
         theme={'hg-theme-default hg-layout-default myTheme'}
+        display={{ '{bksp}': '⌫' }}
         layout={{
           default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 .'],
         }}
@@ -46,7 +49,7 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit }) => {
 export default InputKeyPad;
 
 const Wrapper = styled.div`
-  width: 256px;
+  width: 200px;
   height: 280px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
@@ -81,26 +84,6 @@ const Input = styled.input`
   ::placeholder {
     color: #fff;
   }
-`;
-
-const CancelButton = styled.button`
-  cursor: pointer;
-
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-
-  border-style: solid;
-  border-width: 0.5px;
-  border-color: rgb(0, 0, 0);
-  background-image: -webkit-linear-gradient(
-    90deg,
-    rgb(0, 0, 0) 0%,
-    rgb(35, 58, 84) 100%
-  );
-  opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
 
 const EnterButton = styled.button`

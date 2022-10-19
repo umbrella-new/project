@@ -18,7 +18,7 @@ import {
 } from '../../../../styles/commonStyles';
 import styled, { css } from 'styled-components';
 import { selectUserState } from '../../../../store/slices/userSlice';
-import InputKeyPad from '../../../keyboard/KeyPad';
+import InputKeyPad from '../../../keyboard/InputKeyPad';
 import {
   activateTgsSwitchStatus,
   selectTgsSwitch,
@@ -69,16 +69,15 @@ const InstantHeat = () => {
   };
 
   // Virtual keyboard input handler
-  const handleVirtualKeyboardInput = (input) => {
+  const handleVirtualKeyboardInput = (temp) => {
     if (!isTgsSwitchActivated) {
-      const temp = Number(input);
-
       if (temp !== 0) {
         if (!instantButtonToggler) {
           dispatch(instantHeat(temp));
           inputRef.current.value = `${temp}\u00b0C`;
           handleKeypadClosed();
         } else {
+          console.log('here');
           dispatch(instantHeat(0));
           inputRef.current.value = ``;
         }
@@ -140,7 +139,10 @@ const InstantHeat = () => {
       {/* Conditionally display keypad */}
       {openKeyPad && (
         <KeyPadWrapper>
-          <InputKeyPad handleOnSubmit={handleVirtualKeyboardInput} />
+          <InputKeyPad
+            handleOnSubmit={handleVirtualKeyboardInput}
+            closeKeyPad={handleKeypadClosed}
+          />
         </KeyPadWrapper>
       )}
     </Wrapper>
@@ -341,7 +343,7 @@ const ButtonImage = styled.img`
 const KeyPadWrapper = styled.div`
   position: absolute;
   top: -0.5rem;
-  right: -17rem;
+  right: -13rem;
 
   z-index: 1000;
 `;

@@ -18,7 +18,12 @@ const Switch = () => {
   const location = useLocation();
 
   // only display Heater status ' in ESS Switch '
-  const isActivated = userState.isEssSwitch ? true : false;
+  const isActivated = isEssSwitch ? true : false;
+  const displayHeaterStatus = isEssSwitch
+    ? true
+    : location.pathname === '/'
+    ? false
+    : true;
   const backgroundSvg = '/images/background-hat.svg';
 
   return (
@@ -39,7 +44,7 @@ const Switch = () => {
           <ChartContainer />
         </MainSection>
 
-        {isActivated && (
+        {displayHeaterStatus && (
           <SubSection>
             <HeaterStatus />
           </SubSection>

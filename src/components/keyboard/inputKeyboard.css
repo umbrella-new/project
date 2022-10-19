@@ -78,8 +78,8 @@
   cursor: pointer;
   display: flex;
   height: 40px;
+
   justify-content: center;
-  padding: 5px;
 }
 
 .hg-theme-default .hg-button.hg-standardBtn {

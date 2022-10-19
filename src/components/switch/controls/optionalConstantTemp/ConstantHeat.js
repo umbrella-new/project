@@ -17,7 +17,7 @@ import {
 
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
-import InputKeyPad from '../../../keyboard/KeyPad';
+import InputKeyPad from '../../../keyboard/InputKeyPad';
 import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 const ConstantHeat = () => {
