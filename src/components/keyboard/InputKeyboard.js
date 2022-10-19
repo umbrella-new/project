@@ -4,7 +4,7 @@ import './inputKeyboard.css';
 
 import styled from 'styled-components';
 
-const InputKeyboard = ({ input, setInput }) => {
+const InputKeyboard = ({ input, setInput, handleSubmit }) => {
   const [layout, setLayout] = useState('default');
   const keyboard = useRef();
 
@@ -13,7 +13,10 @@ const InputKeyboard = ({ input, setInput }) => {
   };
 
   const onKeyPress = (button) => {
-    if ((button = '{enter}')) {
+    if (button === '{enter}') {
+      handleSubmit();
+    } else {
+      console.log('not enter');
     }
   };
 
