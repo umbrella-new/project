@@ -5,14 +5,10 @@ import { toggle } from '../../../store/slices/heaterStatusSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ToggleSWitch = ({ data, id }) => {
-  // reducer test
-  // const testData = useSelector(selectSSRState);
-  // console.log(testData.buttonStatus);
-
-  const machineName = 'we-cove-02';
+  const { buttonStatus, switchName } = data;
 
   // true || false || 'flt
-  const status = data === 'flt' ? 'flt' : data ? 'on' : 'off';
+  const status = buttonStatus === 'flt' ? 'flt' : buttonStatus ? 'on' : 'off';
   const switchIconSrc =
     status === 'on'
       ? '/images/ssr-switch-on.svg'
@@ -21,12 +17,11 @@ const ToggleSWitch = ({ data, id }) => {
       : '/images/ssr-switch-flt.svg';
 
   const dispatch = useDispatch();
-  const handleToggler = () => {};
 
   return (
     <Wrapper>
       <Title>
-        ssr{id} <br></br> {machineName}
+        ssr{id} <br></br> {switchName ? switchName : 'switch name'}
       </Title>
       <SwitchButton
         disabled={status === 'flt' ? true : false}
@@ -50,6 +45,10 @@ const Title = styled.span`
   font-size: 8px;
   color: #fcff01;
   margin-bottom: 0.2rem;
+
+  max-width: 90px;
+  max-height: 20px;
+  overflow: hidden;
 `;
 const SwitchButton = styled.button`
   height: 20px;

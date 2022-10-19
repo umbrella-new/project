@@ -3,6 +3,7 @@ import Keyboard from 'react-simple-keyboard';
 import './inputKeyboard.css';
 
 import styled from 'styled-components';
+import { flexboxCenter } from '../../styles/commonStyles';
 
 const InputKeyboard = ({ input, setInput, handleSubmit }) => {
   const [layout, setLayout] = useState('default');
@@ -15,16 +16,11 @@ const InputKeyboard = ({ input, setInput, handleSubmit }) => {
   const onKeyPress = (button) => {
     if (button === '{enter}') {
       handleSubmit();
-    } else {
-      console.log('not enter');
+    } else if (button === '{shift}') {
+      const layoutName = layout === 'default' ? 'shift' : 'default';
+      setLayout(layoutName);
     }
   };
-
-  // const onChangeInput = (event) => {
-  //   const input = event.target.value;
-  //   setInput(input);
-  //   keyboard.current.setInput(input);
-  // };
 
   return (
     <Wrapper>
@@ -40,8 +36,8 @@ const InputKeyboard = ({ input, setInput, handleSubmit }) => {
           '{backspace}': '⌫',
           '{enter}': '↵',
           '{capslock}': '⇪',
-          '{shiftleft}': '⇧',
-          '{shiftright}': '⇧',
+          '{shift}': '⇧',
+          '{shift}': '⇧',
           '{controlleft}': '⌃',
           '{controlright}': '⌃',
           '{altleft}': '⌥',
@@ -52,10 +48,17 @@ const InputKeyboard = ({ input, setInput, handleSubmit }) => {
         }}
         layout={{
           default: [
-            '1 2 3 4 5 6 7 8 9 0 {backspace}',
-            'Q W E R T Y U I O P',
+            '0 1 2 3 4 5 6 7 8 9 - _ {backspace}',
+            'q w e r t y u i o p \\',
+            'a s d f g h j k l {enter}',
+            '{shift} z x c v b n m . / {shift}',
+            '{space}',
+          ],
+          shift: [
+            '0 1 2 3 4 5 6 7 8 9 - _ {backspace}',
+            'Q W E R T Y U I O P \\',
             'A S D F G H J K L {enter}',
-            'Z X C V B N M . {shiftright}',
+            '{shift} Z X C V B N M . / {shift}',
             '{space}',
           ],
         }}
@@ -79,4 +82,9 @@ const Wrapper = styled.div`
   z-index: 10000;
   top: 10.5rem;
   left: -10rem; */
+`;
+
+const Logo = styled.div`
+  width: ;
+  ${flexboxCenter}
 `;

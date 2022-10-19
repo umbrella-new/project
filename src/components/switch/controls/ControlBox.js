@@ -99,7 +99,7 @@ const ControlBox = () => {
         <ConflictMessage
           headerTitle='tgs and tes conflict'
           currentSwitch='tgs-typhoon gas system'
-          DesiredSwitch='tes-typhoon gas system'
+          DesiredSwitch='tes-typhoon electric system'
           handleCancel={handleCancelConflictMessage}
           handleConfirm={handleConfirmConflictMessage}
         />

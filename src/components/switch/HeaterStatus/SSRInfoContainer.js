@@ -18,12 +18,11 @@ import SettingButton from './SettingButton';
 import SSRItemDetails from './SSRItemDetails';
 import SSRInfoDetailItems from './SSRItemDetails';
 
-const SSRInfoContainer = ({ data, id }) => {
+const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   const userState = useSelector(selectUserState);
   const { isAdministrator } = userState;
 
   const [openPasswordBox, setOpenPasswordBox] = useState(false);
-  const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {

@@ -7,6 +7,7 @@ import {
 } from '../../../styles/commonStyles';
 
 import SettingButton from './SettingButton';
+import SwitchNameSelector from './SwitchNameSelector';
 
 const AdminSSRItemDetails = ({
   isEnable,
@@ -17,12 +18,12 @@ const AdminSSRItemDetails = ({
   setIsSettingOpen,
   handleButtonClick,
 }) => {
-  const [emptyArray, setemptyArray] = useState([1, 2, 3]);
+  const [emptyArray, setEmptyArray] = useState([1, 2, 3]);
 
   return (
     <Wrapper isEnable={isEnable} isFault={isFault}>
-      {emptyArray.map((column) => (
-        <ItemWrapper>
+      {emptyArray.map((column, index) => (
+        <ItemWrapper key={index}>
           <ItemCurrent isEnable={isEnable}>
             <ItemDataInput
               type='text'
@@ -107,6 +108,8 @@ const Wrapper = styled.ul`
     `}
 
   border: ${(p) => (p.isFault ? '1px solid red' : '')};
+
+  position: relative;
 `;
 
 const ItemWrapper = styled.div`

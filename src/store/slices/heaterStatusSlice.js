@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const ssrInitialState = {
   select: 'tc-01',
   buttonStatus: true,
+  switchName: null,
   current: [2.95, null, null],
   wattage: [1400, null, null],
   voltage: [240, null, null],
@@ -56,11 +57,15 @@ const heaterStatusSlice = createSlice({
       state[action.payload.id].length[action.payload.index] =
         action.payload.data;
     },
+    changeSwitchName: (state, action) => {
+      state[action.payload.id].switchName = action.payload.name;
+    },
   },
 });
 
 export default heaterStatusSlice;
 export const selectSSRState = (state) => state.ssrState;
+
 export const {
   toggle,
   changeSwitch,
@@ -69,4 +74,5 @@ export const {
   wattage,
   voltage,
   length,
+  changeSwitchName,
 } = heaterStatusSlice.actions;

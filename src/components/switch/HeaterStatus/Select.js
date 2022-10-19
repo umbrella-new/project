@@ -40,9 +40,9 @@ const Select = ({ data, id }) => {
           <SelectedOne>
             <SelectedSwitch>{data}</SelectedSwitch>
           </SelectedOne>
-          <ArrowWarpper onClick={displayOptions}>
+          <ArrowWrapper onClick={displayOptions}>
             <Arrow src={'/images/selector.svg'} />
-          </ArrowWarpper>
+          </ArrowWrapper>
         </SelectedOneAndArrowWrapper>
 
         {isClicked && (
@@ -69,7 +69,6 @@ export default Select;
 
 const Wrapper = styled.div`
   margin-top: 0.7rem;
-
   width: 86px;
 `;
 const TitleWrapper = styled.div`
@@ -85,9 +84,7 @@ const Title = styled.span`
 
 const SelectorWrapper = styled.div`
   /* UI Properties */
-
   width: 86px;
-
   background: transparent
     linear-gradient(
       ${(p) => (p.isClicked ? '90' : '180')}deg,
@@ -108,6 +105,7 @@ const SelectorWrapper = styled.div`
   padding-bottom: ${(p) => (p.isClicked ? '0.1rem' : '0')};
   height: ${(p) => (p.isClicked ? 'none' : '24px')};
   position: ${(p) => (p.isClicked ? 'absolute' : 'none')};
+  z-index: 10;
 `;
 
 const SelectedOneAndArrowWrapper = styled.div`
@@ -121,7 +119,7 @@ const SelectedOneAndArrowWrapper = styled.div`
   align-items: center;
 `;
 
-const ArrowWarpper = styled.button`
+const ArrowWrapper = styled.button`
   cursor: pointer;
   width: 13px;
   height: 12px;
