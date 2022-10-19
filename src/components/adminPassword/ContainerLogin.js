@@ -49,6 +49,16 @@ function ContainerLogin() {
     }
   };
 
+  const handleKeyboardSubmit = () => {
+    if (passwordInput === adminPassword) {
+      dispatch(setAdminAccess(true));
+      setShowErrorMessage(false);
+    } else {
+      setPasswordInput('');
+      setShowErrorMessage(true);
+    }
+  };
+
   return (
     <LoginAndKeyboardWrapper>
       <Wrapper>
@@ -106,7 +116,7 @@ function ContainerLogin() {
         <InputKeyboard
           input={passwordInput}
           setInput={setPasswordInput}
-          handleSubmit={handleSubmit}
+          handleSubmit={handleKeyboardSubmit}
         />
       )}
     </LoginAndKeyboardWrapper>

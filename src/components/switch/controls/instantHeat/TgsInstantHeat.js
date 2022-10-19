@@ -161,7 +161,10 @@ const TgsInstantHeat = () => {
       {/* Conditionally display keypad */}
       {openKeyPad && (
         <KeyPadWrapper>
-          <InputKeyPad handleOnSubmit={handleVirtualKeyboardInput} />
+          <InputKeyPad
+            handleOnSubmit={handleVirtualKeyboardInput}
+            closeKeyPad={handleKeypadClosed}
+          />
         </KeyPadWrapper>
       )}
     </Wrapper>
@@ -384,8 +387,8 @@ const FanLabel = styled.span`
 
 const KeyPadWrapper = styled.div`
   position: absolute;
-  top: -0.5rem;
-  right: -17rem;
+  top: 1.1rem;
+  right: -12rem;
 
   z-index: 1000;
 `;
