@@ -56,5 +56,5 @@ const ToggleSWitchContainer = styled.div``;
 
 const SwitchNameSelectorWrapper = styled.div`
   position: absolute;
-  bottom: 0rem;
+  bottom: 2rem;
 `;

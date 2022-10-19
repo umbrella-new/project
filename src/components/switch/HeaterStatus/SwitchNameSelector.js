@@ -52,9 +52,13 @@ const SwitchNameSelector = ({ id }) => {
 
   // Apply Button handler(dispatch)
   const handleDispatchSwitchName = () => {
-    // dispatch with switchInputName and checked states WITH ID
-    const name = `${switchNameInput} ${checked}`;
-    dispatch(changeSwitchName({ id: `ssr${id}`, name }));
+    if (switchNameInput.length !== 0) {
+      // dispatch with switchInputName and checked states WITH ID
+      const name = `${switchNameInput} ${checked}`;
+      dispatch(changeSwitchName({ id: `ssr${id}`, name }));
+    } else {
+      return;
+    }
   };
 
   return (

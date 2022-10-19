@@ -7,7 +7,7 @@ import {
 } from '../../../styles/commonStyles';
 
 import SettingButton from './SettingButton';
-import SwitchNameSelector from './SwitchNameSelector';
+import SSRDetailButtonContainer from './SSRDetailButtonContainer';
 
 const AdminSSRItemDetails = ({
   isEnable,
@@ -20,82 +20,110 @@ const AdminSSRItemDetails = ({
 }) => {
   const [emptyArray, setEmptyArray] = useState([1, 2, 3]);
 
+  const handleClick = (name) => {
+    console.log(name);
+    if (name === 'add') {
+      switch (emptyArray) {
+        case 1: {
+          setEmptyArray([1, 2]);
+          break;
+        }
+        case 2: {
+          setEmptyArray([1, 2, 3]);
+          break;
+        }
+        case 3: {
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
   return (
-    <Wrapper isEnable={isEnable} isFault={isFault}>
-      {emptyArray.map((column, index) => (
-        <ItemWrapper key={index}>
-          <ItemCurrent isEnable={isEnable}>
-            <ItemDataInput
-              type='text'
-              isEnable={isEnable}
-              placeholder='Input Current'
-            />
-          </ItemCurrent>
+    <Wrapper>
+      <ContentWrapper isEnable={isEnable} isFault={isFault}>
+        {emptyArray.map((column, index) => (
+          <ItemWrapper key={index}>
+            <ItemCurrent isEnable={isEnable}>
+              <ItemDataInput
+                type='text'
+                isEnable={isEnable}
+                placeholder='Input Current'
+              />
+            </ItemCurrent>
 
-          <ItemWattage isEnable={isEnable}>
-            <ItemDataInput
-              type='text'
-              isEnable={isEnable}
-              placeholder='Input Wattage'
-            />
-          </ItemWattage>
+            <ItemWattage isEnable={isEnable}>
+              <ItemDataInput
+                type='text'
+                isEnable={isEnable}
+                placeholder='Input Wattage'
+              />
+            </ItemWattage>
 
-          <ItemVoltage isEnable={isEnable}>
-            <ItemDataInput
-              type='text'
-              isEnable={isEnable}
-              placeholder='input voltage'
-            />
-          </ItemVoltage>
+            <ItemVoltage isEnable={isEnable}>
+              <ItemDataInput
+                type='text'
+                isEnable={isEnable}
+                placeholder='input voltage'
+              />
+            </ItemVoltage>
 
-          <ItemLength isEnable={isEnable}>
-            <ItemDataInput
-              type='text'
-              isEnable={isEnable}
-              placeholder='input length'
-            />
-          </ItemLength>
+            <ItemLength isEnable={isEnable}>
+              <ItemDataInput
+                type='text'
+                isEnable={isEnable}
+                placeholder='input length'
+              />
+            </ItemLength>
 
-          <DescriptionAndButtonWrapper>
-            <ItemDescription isEnable={isEnable}>
-              <ItemDataDescription isDescription={true} isEnable={isEnable}>
-                -----------------
-              </ItemDataDescription>
-              <RadioButtonWrapper column={column}>
-                <RadioButton></RadioButton>
-              </RadioButtonWrapper>
-            </ItemDescription>
+            <DescriptionAndButtonWrapper>
+              <ItemDescription isEnable={isEnable}>
+                <ItemDataDescription isDescription={true} isEnable={isEnable}>
+                  -----------------
+                </ItemDataDescription>
+                <RadioButtonWrapper column={column}>
+                  <RadioButton></RadioButton>
+                </RadioButtonWrapper>
+              </ItemDescription>
 
-            <SettingButton
-              isSettingOpen={isSettingOpen}
-              setIsSettingOpen={setIsSettingOpen}
-              handleButtonClick={handleButtonClick}
-              id={id}
-              column={column}
-              // when ssr status is fault button will be disable
-            />
-          </DescriptionAndButtonWrapper>
-        </ItemWrapper>
-      ))}
+              <SettingButton
+                isSettingOpen={isSettingOpen}
+                setIsSettingOpen={setIsSettingOpen}
+                handleButtonClick={handleButtonClick}
+                id={id}
+                column={column}
+                // when ssr status is fault button will be disable
+              />
+            </DescriptionAndButtonWrapper>
+          </ItemWrapper>
+        ))}
+      </ContentWrapper>
+      <SSRDetailButtonContainer handleClick={handleClick} />
     </Wrapper>
   );
 };
 export default AdminSSRItemDetails;
 
-const Wrapper = styled.ul`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 110px;
+`;
+const ContentWrapper = styled.ul`
   width: 692px;
-  height: 74px;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.1rem 0;
+  padding-top: 0.1rem;
 
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 12px;
+  border-radius: 12px 12px 0 12px;
   opacity: 1;
 
   ${(p) =>

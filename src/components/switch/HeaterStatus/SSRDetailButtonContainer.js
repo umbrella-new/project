@@ -1,20 +1,25 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
-import DescriptionButton from './DescriptionButton';
+import SSRDetailAddButton from './SSRDetailAddButton';
 
-const DescriptionButtonContainer = () => {
+const SSRDetailButtonContainer = ({ handleClick }) => {
+  const buttonNames = ['add', 'clear', 'apply'];
   return (
     <Wrapper>
       <ButtonWrapper>
-        <DescriptionButton name='add' />
-        <DescriptionButton name='clear' />
-        <DescriptionButton name='apply' />
+        {buttonNames.map((name, index) => (
+          <SSRDetailAddButton
+            handleClick={handleClick}
+            name={name}
+            key={index}
+          />
+        ))}
       </ButtonWrapper>
     </Wrapper>
   );
 };
 
-export default DescriptionButtonContainer;
+export default SSRDetailButtonContainer;
 
 const Wrapper = styled.div`
   width: 246px;
