@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
-import { selectUserState } from "../../store/slices/userSlice";
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { selectFaults } from '../../store/slices/faultsSlice';
+import { selectUserState } from '../../store/slices/userSlice';
 
-import { flexboxCenter } from "../../styles/commonStyles";
+import { flexboxCenter } from '../../styles/commonStyles';
 
-import SidebarButton from "./SidebarButton";
+import SidebarButton from './SidebarButton';
 
 const Sidebar = () => {
   // const { state } = useContext(Context);
+  const faultsState = useSelector(selectFaults);
+  const { faults } = faultsState;
+
   const userState = useSelector(selectUserState);
   const initialState = userState.isEssSwitch
     ? {
@@ -28,37 +32,45 @@ const Sidebar = () => {
   const [isActivated, setIsActivated] = useState(initialState);
 
   const essSrc = isActivated.ess
-    ? "/images/ess-button-active.svg"
-    : "/images/ess-button.svg";
-  const alarmSrc = isActivated.alarm
-    ? "/images/alarm-button-active.svg"
-    : "/images/alarm-button.svg";
+    ? '/images/ess-button-active.svg'
+    : '/images/ess-button.svg';
+
+  const alarmFaults = isActivated.alarm
+    ? `/images/faults-button-activated.svg`
+    : `/images/faults-button-inActivated.svg`;
+
+  const alarmNoFaults = isActivated.alarm
+    ? '/images/alarm-button-active.svg'
+    : '/images/alarm-button.svg';
+
+  const alarmSrc = faults ? alarmFaults : alarmNoFaults;
+
   const settingSrc = isActivated.setting
-    ? "/images/setting-button-active.svg"
-    : "/images/setting-button.svg";
+    ? '/images/setting-button-active.svg'
+    : '/images/setting-button.svg';
   const tgsSrc = isActivated.tgs
-    ? "/images/tgs-button-active.svg"
-    : "/images/tgs-button.svg";
+    ? '/images/tgs-button-active.svg'
+    : '/images/tgs-button.svg';
   const tesSrc = isActivated.tes
-    ? "/images/tes-button-active.svg"
-    : "/images/tes-button.svg";
+    ? '/images/tes-button-active.svg'
+    : '/images/tes-button.svg';
 
   const buttonProps = userState.isEssSwitch
     ? [
-        [essSrc, "ess", "/"],
-        [alarmSrc, "alarm", "/alarm"],
-        [settingSrc, "setting", "/setting"],
+        [essSrc, 'ess', '/'],
+        [alarmSrc, 'alarm', '/alarm'],
+        [settingSrc, 'setting', '/setting'],
       ]
     : [
-        [tgsSrc, "tgs", "/"],
-        [tesSrc, "tes", "/tes"],
-        [alarmSrc, "alarm", "/alarm"],
-        [settingSrc, "setting", "/setting"],
+        [tgsSrc, 'tgs', '/'],
+        [tesSrc, 'tes', '/tes'],
+        [alarmSrc, 'alarm', '/alarm'],
+        [settingSrc, 'setting', '/setting'],
       ];
 
   const handleToggler = (id) => {
     switch (id) {
-      case "ess": {
+      case 'ess': {
         setIsActivated({
           ess: true,
           alarm: false,
@@ -69,7 +81,7 @@ const Sidebar = () => {
 
         break;
       }
-      case "alarm": {
+      case 'alarm': {
         setIsActivated({
           ess: false,
           alarm: true,
@@ -79,7 +91,7 @@ const Sidebar = () => {
         });
         break;
       }
-      case "setting": {
+      case 'setting': {
         setIsActivated({
           ess: false,
           alarm: false,
@@ -89,7 +101,7 @@ const Sidebar = () => {
         });
         break;
       }
-      case "tes": {
+      case 'tes': {
         setIsActivated({
           ess: false,
           alarm: false,
@@ -99,7 +111,7 @@ const Sidebar = () => {
         });
         break;
       }
-      case "tgs": {
+      case 'tgs': {
         setIsActivated({
           ess: false,
           alarm: false,
