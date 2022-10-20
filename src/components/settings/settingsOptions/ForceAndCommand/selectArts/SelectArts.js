@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
-import EditCancelApplyButtons from '../../EditCancelApplyButtons';
 import SelectBox from './SelectBox';
 import SubTitles from './SubTitles';
+import ConfirmButton from '../ConfirmButton';
 
 function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
   const switchOnImage = './images/greenOnOffSwitch.png';
@@ -54,7 +54,9 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
             essSwitch={essSwitch}
           />
         </FlexSelections>
-        <EditCancelApplyButtons />
+        <WrapperButton>
+          <ConfirmButton />
+        </WrapperButton>
       </Wrapper2>
     </Wrapper>
   );
@@ -143,5 +145,15 @@ const FlexSelections = styled.div`
   display: flex;
   justify-content: space-around;
   flex-direction: column;
+  align-items: center;
+`;
+
+const WrapperButton = styled.div`
+  height: auto;
+  width: 254px;
+  margin-bottom: 4px;
+
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
 `;

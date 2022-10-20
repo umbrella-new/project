@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function SnowFactor({ tgsTes, ess, temp }) {
+function SnowFactor({ tgsTes, ess, temp, tesSwitch }) {
   return (
     <>
       {tgsTes?.map((value, index) => {
         return (
           <div key={index}>
             <FlexWrapper>
-              <ContainerWindFactors>
+              <WrapperTgsTesSnowSensor
+                gradient={index === 0 ? true : index === 1 && false}
+              >
                 <TitleContainer>
                   <Title>{value}</Title>
                 </TitleContainer>
@@ -24,7 +26,7 @@ function SnowFactor({ tgsTes, ess, temp }) {
                     </Temperature>
                   </SmallContainer>
                 </ValueContainer>
-              </ContainerWindFactors>
+              </WrapperTgsTesSnowSensor>
             </FlexWrapper>
           </div>
         );
@@ -45,7 +47,7 @@ const FlexWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const ContainerWindFactors = styled.div`
+const WrapperTgsTesSnowSensor = styled.div`
   width: 286px;
   height: 94px;
   opacity: 1;
