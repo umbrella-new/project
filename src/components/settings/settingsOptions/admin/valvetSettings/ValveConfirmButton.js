@@ -16,23 +16,12 @@ function ValveConfirmButton() {
 
 export default ValveConfirmButton;
 
-const Wrapper = styled.div`
-  width: 71px;
-  height: 30px;
-
-  background: #1b2b44 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 16px;
-  opacity: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const Wrapper = styled.div``;
 
 const Wrapper1 = styled.button`
   cursor: pointer;
-  height: 28px;
-  width: 69px;
+  height: 35px;
+  width: 78px;
   border-radius: 25px;
   padding: 0;
 
@@ -52,14 +41,11 @@ const Wrapper1 = styled.button`
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const ButtonHole = styled.div`
-  width: 61px;
-  height: 20px;
+  width: 70px;
+  height: 27px;
 
   border-radius: 20px;
   display: flex;
@@ -74,8 +60,8 @@ const ButtonHole = styled.div`
 `;
 
 const ButtonTop = styled.div`
-  width: 59px;
-  height: 18px;
+  width: 66px;
+  height: 23px;
   border-radius: 25px;
 
   border-style: solid;
@@ -99,7 +85,7 @@ const ButtonTop = styled.div`
 const ButtonName = styled.span`
   height: 12px;
   display: inline-block;
-  font-size: var(--space1);
+  font-size: 10px;
   text-transform: uppercase;
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 1px;
