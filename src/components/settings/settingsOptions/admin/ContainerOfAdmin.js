@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SystemHeader from '../ForceAndCommand/SystemHeader';
+import SystemHeader from './SystemHeader';
 import Control from './Control';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
@@ -120,7 +120,6 @@ function ContainerOfAdmin() {
                       adminAccess ? toggleSysButton : sysButton
                     }
                     expandOrClose={adminAccess ? essExpandOrClose : 'expand'}
-                    // essSwitch={essSwitch}
                   />
                 </SysWrapper>
                 {adminAccess && essExpandOrClose === 'close' ? (
@@ -173,17 +172,6 @@ function ContainerOfAdmin() {
               );
             })
           )}
-          {/* <SysWrapper>
-            <SystemHeader
-              name={'system commands'}
-              handleCloseExpandButton={handleTgsTesExpandCloseButton}
-              toggleButtonColor={adminAccess ? toggleSysButton : sysButton}
-              expandOrClose={
-                adminAccess ? tgsTesExpandOrClose : !tgsTesExpandOrClose
-              }
-              essSwitch={essSwitch}
-            />
-          </SysWrapper> */}
         </Wrapper3>
       </Wrapper2>
     </Wrapper>
