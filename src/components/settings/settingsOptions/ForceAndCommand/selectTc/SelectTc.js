@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import ButtonSelect from '../ButtonSelect';
 import CurrentEncloseAndBurningTemp from './CurrentEncloseAndBurningTemp';
 import OutsideTemperature from './OutsideTemperature';
+import { selectUserState } from '../../../../../store/slices/userSlice';
 
 function SelectTc({ ess, tgs, essSwitch }) {
   const essData = [
@@ -16,6 +18,9 @@ function SelectTc({ ess, tgs, essSwitch }) {
     { title: 'enclosure temperature', selection: 'select t/c' },
   ];
 
+  const state = useSelector(selectUserState);
+  const tesSwitch = state.isTesSwitch;
+
   return (
     <WrapperTelemetry>
       <WrapperTelemetry1>
@@ -28,6 +33,7 @@ function SelectTc({ ess, tgs, essSwitch }) {
             <CurrentEncloseAndBurningTemp
               data={essSwitch ? essData : tgsData}
               essSwitch={essSwitch}
+              tesSwitch={tesSwitch}
             />
           </Wrapper>
           <WrapperButton>

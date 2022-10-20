@@ -3,11 +3,16 @@ import { flexboxCenter } from '../../../../styles/commonStyles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SystemHeader from './SystemHeader';
-import Control from './Control';
+import Control from './sysControl/Control';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
-import { selectUserState } from '../../../../store/slices/userSlice';
+import {
+  selectUserState,
+  setAdminAccess,
+} from '../../../../store/slices/userSlice';
 import ContainerValveSettings from './valvetSettings/ContainerValvetSettings';
+import Thermocouple from './sysControl/Thermocouple';
+import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -18,6 +23,10 @@ function ContainerOfAdmin() {
   const essButtonActive = './images/greenEssButton.svg';
   const sysButton = './images/sysButton.svg';
   const sysButtonActive = './images/greenSysButton.svg';
+  // enable disable switch images
+  const enableSwitch = './images/greenEnableSwitch.png';
+  const disableSwitch = './images/redDisableSwitch.png';
+  const notActiveSwitch = './images/greyEnableDisableSwitch.png';
 
   // Redux
   const dispatch = useDispatch();
@@ -33,6 +42,10 @@ function ContainerOfAdmin() {
   const [toggleTesButton, setToggleTesButton] = useState(tesButton);
   const [toggleEssButton, setToggleEssButton] = useState(essButton);
   const [options, setOptions] = useState(0);
+  const [toggleThermocoupleSwitch, setToggleThermocoupleSwitch] =
+    useState(enableSwitch);
+  const [toggleEnableDisableSwitch, setToggleEnableDisableSwitch] =
+    useState(enableSwitch);
 
   const tgsTesSysHeaderData = [
     { title: 'typhoon gas system', button: toggleTgsButton },
@@ -95,6 +108,18 @@ function ContainerOfAdmin() {
     }
   };
 
+  const handleThermocoupleSwitch = () => {
+    if (toggleThermocoupleSwitch === enableSwitch) {
+      return setToggleThermocoupleSwitch(disableSwitch);
+    } else setToggleThermocoupleSwitch(enableSwitch);
+  };
+
+  const handleForceGasElectricSwitch = () => {
+    if (toggleEnableDisableSwitch === enableSwitch) {
+      return setToggleEnableDisableSwitch(disableSwitch);
+    } else setToggleEnableDisableSwitch(enableSwitch);
+  };
+
   return (
     <Wrapper>
       <Wrapper2>
@@ -152,7 +177,16 @@ function ContainerOfAdmin() {
                       <ContainerValveSettings />
                     </ValveWrapper>
                   )}
-                  {index === 1 && adminAccess && <div></div>}
+                  {index === 1 && adminAccess && options === index && (
+                    <WrapperThermocouple>
+                      <WrapperThermocouple2>
+                        <Thermocouple
+                          toggleLeftEnableDisable={toggleThermocoupleSwitch}
+                          handleLeftSwitch={handleThermocoupleSwitch}
+                        />
+                      </WrapperThermocouple2>
+                    </WrapperThermocouple>
+                  )}
                   {/* {!adminAccess && index === 2 && (
                     <LoginWrapper>
                       <ContainerLogin />
@@ -161,7 +195,10 @@ function ContainerOfAdmin() {
                   {index === 2 && adminAccess && options === index && (
                     <Wrapper5>
                       <ControlWrapper>
-                        <Control />
+                        <ForceGasElectricSystem
+                          handleRightSwitch={handleForceGasElectricSwitch}
+                          toggleRightEnableDisable={toggleEnableDisableSwitch}
+                        />
                       </ControlWrapper>
                     </Wrapper5>
                   )}
@@ -229,17 +266,6 @@ const EssWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const TgsTesSysWrapper = styled.div`
-  width: 567px;
-  height: 53px;
-`;
-
-const ValveWrapper = styled.div`
-  width: auto;
-  height: auto;
-  ${flexboxCenter}
-`;
-
 const Wrapper4 = styled.div`
   width: 566px;
   height: auto;
@@ -254,6 +280,38 @@ const Wrapper4 = styled.div`
   align-items: center;
 `;
 
+const TgsTesSysWrapper = styled.div`
+  width: 567px;
+  height: 53px;
+`;
+
+const ValveWrapper = styled.div`
+  width: auto;
+  height: auto;
+  ${flexboxCenter}
+`;
+
+const WrapperThermocouple = styled.div`
+  width: 552px;
+  height: 153px;
+  margin-bottom: 10px;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 13px;
+  opacity: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const WrapperThermocouple2 = styled.div`
+  width: auto;
+  height: auto;
+  margin-left: 4px;
+  margin-bottom: 4px;
+`;
+
 const SysWrapper = styled.div`
   width: 564px;
   height: 52px;
@@ -262,16 +320,16 @@ const SysWrapper = styled.div`
 
 const Wrapper5 = styled.div`
   width: 562px;
-  height: 178px;
+  height: auto;
   margin-top: 2px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   background: transparent
     linear-gradient(180deg, rgb(35, 58, 84) 0%, rgb(0, 0, 0) 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   border: 0.5px solid #142033;
-  border-radius: 9px 9px 27px 27px;
+  border-radius: 9px;
   opacity: 1;
   ${flexboxCenter};
   align-items: flex-start;
@@ -279,8 +337,9 @@ const Wrapper5 = styled.div`
 
 const ControlWrapper = styled.div`
   width: 554px;
-  height: 155px;
+  height: auto;
   margin-top: 4px;
+  margin-bottom: 10px;
 `;
 
 const LoginWrapper = styled.div`

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import SnowFactor from './SnowFactor';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
+import { selectUserState } from '../../../../store/slices/userSlice';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
@@ -12,6 +13,8 @@ function ContainerOfSnowSensor() {
 
   // redux
   const dispatch = useDispatch();
+  const state = useSelector(selectUserState);
+  const tesSwitch = state.isTesSwitch;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
@@ -19,7 +22,12 @@ function ContainerOfSnowSensor() {
   return (
     <Wrapper>
       <Wrapper1>
-        <SnowFactor tgsTes={tgsTes} ess={ess} temp={temp} />
+        <SnowFactor
+          tgsTes={tgsTes}
+          ess={ess}
+          temp={temp}
+          tesSwitch={tesSwitch}
+        />
       </Wrapper1>
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-function ValveConfirmButton() {
+function ConfirmButton() {
   return (
     <Wrapper>
       <Wrapper1 onClick={() => {}}>
@@ -14,11 +14,11 @@ function ValveConfirmButton() {
   );
 }
 
-export default ValveConfirmButton;
+export default ConfirmButton;
 
 const Wrapper = styled.div`
-  width: 71px;
-  height: 30px;
+  width: 85px;
+  height: 34px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
@@ -31,8 +31,8 @@ const Wrapper = styled.div`
 
 const Wrapper1 = styled.button`
   cursor: pointer;
-  height: 28px;
-  width: 69px;
+  width: 83px;
+  height: 32px;
   border-radius: 25px;
   padding: 0;
 
@@ -58,8 +58,8 @@ const Wrapper1 = styled.button`
 `;
 
 const ButtonHole = styled.div`
-  width: 61px;
-  height: 20px;
+  width: 75px;
+  height: 24px;
 
   border-radius: 20px;
   display: flex;
@@ -74,8 +74,8 @@ const ButtonHole = styled.div`
 `;
 
 const ButtonTop = styled.div`
-  width: 59px;
-  height: 18px;
+  width: 73px;
+  height: 22px;
   border-radius: 25px;
 
   border-style: solid;
