@@ -6,10 +6,7 @@ import SystemHeader from './SystemHeader';
 import Control from './Control';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
-import {
-  selectUserState,
-  setAdminAccess,
-} from '../../../../store/slices/userSlice';
+import { selectUserState } from '../../../../store/slices/userSlice';
 import ContainerValveSettings from './valvetSettings/ContainerValvetSettings';
 
 function ContainerOfAdmin() {
