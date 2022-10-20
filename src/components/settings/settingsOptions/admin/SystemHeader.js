@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
-import ButtonCloseAndExpand from './ButtonCloseAndExpand';
+import ButtonCloseAndExpand from '../ForceAndCommand/ButtonCloseAndExpand';
 
 function SystemHeader({
   toggleButtonColor,
@@ -10,7 +10,6 @@ function SystemHeader({
   index,
   handleSelect,
   options,
-  essSwitch,
   adminAccess,
 }) {
   return (
