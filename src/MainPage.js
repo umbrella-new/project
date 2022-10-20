@@ -7,9 +7,12 @@ import Sidebar from './components/sidebar/Sidebar';
 import Switch from './components/switch/Switch';
 import Settings from './components/settings/Settings';
 import Faults from './components/faults/Faults';
+import { selectUserState } from './store/slices/userSlice';
 // import TestSettings from "./components/settings/TestSettings";
 
 const MainPage = () => {
+  const userState = useSelector(selectUserState);
+  const { isTesSwitch } = userState;
   return (
     <Wrapper>
       <Header />
@@ -21,6 +24,7 @@ const MainPage = () => {
 
           <Routes>
             <Route path='/' element={<Switch />} />
+
             <Route path='/tes' element={<Switch />} />
 
             <Route path='/alarm' element={<Faults />} />

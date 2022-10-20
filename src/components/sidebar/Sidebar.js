@@ -12,8 +12,8 @@ const Sidebar = () => {
   // const { state } = useContext(Context);
   const faultsState = useSelector(selectFaults);
   const { faults } = faultsState;
-
   const userState = useSelector(selectUserState);
+  const { isTesSwitch } = userState;
   const initialState = userState.isEssSwitch
     ? {
         ess: true,
@@ -48,12 +48,16 @@ const Sidebar = () => {
   const settingSrc = isActivated.setting
     ? '/images/setting-button-active.svg'
     : '/images/setting-button.svg';
+
   const tgsSrc = isActivated.tgs
     ? '/images/tgs-button-active.svg'
     : '/images/tgs-button.svg';
-  const tesSrc = isActivated.tes
-    ? '/images/tes-button-active.svg'
-    : '/images/tes-button.svg';
+
+  const tesSrc = isTesSwitch
+    ? isActivated.tes
+      ? '/images/tes-button-active.svg'
+      : '/images/tes-button.svg'
+    : '/images/non-tes-button.svg';
 
   const buttonProps = userState.isEssSwitch
     ? [
