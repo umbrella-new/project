@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
+import ValveConfirmButton from './ValveConfirmButton';
 
 function ValveSettings() {
   const data = [
@@ -15,9 +16,10 @@ function ValveSettings() {
           <Title>valve settings</Title>
         </WrapperTitle>
         <WrapperMachineNameData>
-          <WrapperMachineName>
-            <MachineName>we-cove-03-04-05 #10 s.t.tgs</MachineName>
-          </WrapperMachineName>
+          <MachineSerialNumberBackground
+            src={'./images/machineSerialNumberBackground.svg'}
+          />
+          <MachineName>we-cove-03-04-05 #10 s.t.tgs</MachineName>
           <WrapperData>
             <WrapperData2>
               <WrapperData3>
@@ -37,7 +39,7 @@ function ValveSettings() {
                     );
                   })}
                 </WrapperIndent>
-                <button></button>
+                <ValveConfirmButton />
               </WrapperData3>
             </WrapperData2>
           </WrapperData>
@@ -107,21 +109,15 @@ const WrapperMachineNameData = styled.div`
   opacity: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  position: relative;
 `;
 
-const WrapperMachineName = styled.div`
-  width: 311px;
-  height: 22px;
-
-  background: transparent linear-gradient(179deg, #233a54 0%, #233a54 100%) 0%
-    0% no-repeat padding-box;
-  box-shadow: inset 0px 1px 1px #ffffff29, 0px 3px 6px #00000029;
-  border: 0.5px solid #000000;
-  border-radius: 10px 0 0 0;
-  opacity: 1;
-  ${flexboxCenter}
+const MachineSerialNumberBackground = styled.img`
+  position: absolute;
+  left: -1.2%;
+  top: -5%;
 `;
 
 const MachineName = styled.p`
@@ -130,11 +126,15 @@ const MachineName = styled.p`
   color: #ffffff;
   text-transform: uppercase;
   opacity: 1;
+  position: absolute;
+  left: 3%;
+  top: 7%;
 `;
 
 const WrapperData = styled.div`
   width: 530px;
   height: 50px;
+  margin-bottom: 2px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -144,6 +144,7 @@ const WrapperData = styled.div`
   opacity: 1;
   ${flexboxCenter}
 `;
+
 const WrapperData2 = styled.div`
   width: 519px;
   height: 40px;
@@ -164,10 +165,14 @@ const WrapperData3 = styled.div`
   border: 0.5px solid #000000;
   border-radius: 33px;
   opacity: 1;
-  ${flexboxCenter}
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 `;
 
 const SmallTitle = styled.p`
+  width: 70px;
+  text-align: center;
   font-size: var(--space2);
   letter-spacing: 0.8px;
   color: #ffffff;
