@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import ValveSettings from './ValveSettings';
-import SelectGasType from './SelectGasType';
+import SelectGasType from '../selectGasType/ContainerSelectGasType';
 
 function ContainerValveSettings() {
   return (
