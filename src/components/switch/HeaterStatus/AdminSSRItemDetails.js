@@ -73,7 +73,6 @@ const AdminSSRItemDetails = ({
 
   // Activate keypad with input ID
   const handleActivateKeypad = (index, name) => {
-    console.log(index, name);
     // 1. set index and name
     setInputId([index, name]);
     // 2. Activate Keypad

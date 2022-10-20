@@ -13,7 +13,6 @@ import { switchNameSelect } from '../../../store/slices/constantData';
 
 const SwitchNameSelector = ({ id }) => {
   // id is the column number to identify the column e.g 1 === first column
-  const ssrState = useSelector(selectSSRState);
   const dispatch = useDispatch();
   const [isClicked, setIsClicked] = useState(false);
   const [checked, setChecked] = useState(null);
@@ -38,6 +37,9 @@ const SwitchNameSelector = ({ id }) => {
       setIsClicked(!isClicked);
     }
   };
+
+  // Onchange handler for later
+  const handleInputOnChange = () => {};
 
   // Switch name input handler
   const handleKeyboardInput = () => {
@@ -73,6 +75,7 @@ const SwitchNameSelector = ({ id }) => {
           placeholder='switch name'
           onClick={handleInput}
           value={switchNameInput}
+          onChange={handleInputOnChange}
         />
 
         <SelectBoxWrapperHole isClicked={isClicked}>
