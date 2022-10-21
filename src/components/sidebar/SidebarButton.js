@@ -1,17 +1,23 @@
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const SidebarButton = ({ src, onClickHandler, id, link }) => {
+const SidebarButton = ({ src, onClickHandler, id, link, isTesSwitch }) => {
+  const isAble = id !== 'tes' ? true : isTesSwitch ? true : false;
+
   return (
-    <Wrapper to={link} onClick={() => onClickHandler(id)}>
+    <WrapperLink
+      to={isAble && link}
+      onClick={() => onClickHandler(id)}
+      isAble={isAble}
+    >
       <ButtonImage src={src} />
-    </Wrapper>
+    </WrapperLink>
   );
 };
 
 export default SidebarButton;
 
-const Wrapper = styled(NavLink)`
+const WrapperLink = styled(NavLink)`
   width: 50px;
   height: 50px;
   padding: 0;
@@ -19,12 +25,18 @@ const Wrapper = styled(NavLink)`
   outline: 0;
   border: 0;
   position: relative;
-  /* transition: all 100ms ease-in; */
+
+  transition: all 100ms ease-in;
   &:hover {
-    transform: scale(102%);
-    img:last-child {
-      filter: invert(5%);
-    }
+    ${(p) =>
+      p.isAble &&
+      css`
+        transform: scale(102%);
+
+        img:last-child {
+          filter: invert(5%);
+        }
+      `}
   }
 `;
 

@@ -8,7 +8,6 @@ import HoverMessageBox from './HoverMessageBox';
 
 const SettingButton = ({
   isSettingOpen,
-  setIsSettingOpen,
   column,
   handleButtonClick,
   id,

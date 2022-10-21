@@ -1,6 +1,8 @@
 import { current } from '@reduxjs/toolkit';
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { handleSSRDetails } from '../../../store/slices/heaterStatusSlice';
 import {
   flexboxCenter,
   ItemBackground,
@@ -14,11 +16,12 @@ import SSRDetailButtonContainer from './SSRDetailButtonContainer';
 const AdminSSRItemDetails = ({
   isEnable,
   isFault,
-  id,
+  option,
   data,
   isSettingOpen,
   setIsSettingOpen,
   handleButtonClick,
+  id,
 }) => {
   const initialInputState = [
     { current: '', wattage: '', voltage: '', length: '' },
@@ -32,6 +35,8 @@ const AdminSSRItemDetails = ({
   const [activateKeypad, setActivateKeypad] = useState(initialKeypadState);
   const [hiddenNumber, setHiddenNumber] = useState(1);
   const [inputId, setInputId] = useState(initialInputId);
+
+  const dispatch = useDispatch();
 
   const handleClick = (name) => {
     if (name === 'add') {
@@ -50,24 +55,47 @@ const AdminSSRItemDetails = ({
       }
     } else if (name === 'clear') {
       // Logic for Delete the column
-      // switch (hiddenNumber) {
-      //   case 1: {
-      //     setHiddenNumber(2);
-      //     break;
-      //   }
-      //   case 2: {
-      //     setHiddenNumber(1);
-      //     break;
-      //   }
-      //   default: {
-      //     return;
-      //   }
-      // }
-
-      // Reset the inputDetails state
-      setInputDetails(initialInputState);
+      switch (hiddenNumber) {
+        case 3: {
+          // 1. Delete Column
+          setHiddenNumber(2);
+          // 2. Reset Input States
+          setInputDetails([
+            inputDetails[0],
+            inputDetails[1],
+            { current: '', wattage: '', voltage: '', length: '' },
+          ]);
+          break;
+        }
+        case 2: {
+          setHiddenNumber(1);
+          setInputDetails([
+            inputDetails[0],
+            { current: '', wattage: '', voltage: '', length: '' },
+            { current: '', wattage: '', voltage: '', length: '' },
+          ]);
+          break;
+        }
+        case 1: {
+          // Reset input state
+          setInputDetails([...initialInputState]);
+          break;
+        }
+        default: {
+          return;
+        }
+      }
     } else {
       // name === 'apply' do Dispatch
+      if (inputDetails[0].current.length > 0) {
+        dispatch(
+          handleSSRDetails({
+            data: inputDetails,
+            column: hiddenNumber,
+            id: `ssr${id}`,
+          })
+        );
+      }
     }
   };
 
@@ -106,7 +134,9 @@ const AdminSSRItemDetails = ({
                   type='text'
                   isEnable={isEnable}
                   placeholder='Input Current'
-                  onClick={() => handleActivateKeypad(index, 'current')}
+                  onClick={() =>
+                    isEnable && handleActivateKeypad(index, 'current')
+                  }
                   onChange={() => handleSetInput(index, 'current')}
                   value={element.current}
                 />
@@ -117,7 +147,9 @@ const AdminSSRItemDetails = ({
                   type='text'
                   isEnable={isEnable}
                   placeholder='Input Wattage'
-                  onClick={() => handleActivateKeypad(index, 'wattage')}
+                  onClick={() =>
+                    isEnable && handleActivateKeypad(index, 'wattage')
+                  }
                   onChange={() => handleSetInput(index, 'wattage')}
                   value={element.wattage}
                 />
@@ -129,7 +161,7 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='input voltage'
                   onClick={() => handleActivateKeypad(index, 'voltage')}
-                  onChange={() => handleSetInput(index, 'voltage')}
+                  onChange={() => isEnable && handleSetInput(index, 'voltage')}
                   value={element.voltage}
                 />
               </ItemVoltage>
@@ -140,7 +172,7 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='input length'
                   onClick={() => handleActivateKeypad(index, 'length')}
-                  onChange={() => handleSetInput(index, 'length')}
+                  onChange={() => isEnable && handleSetInput(index, 'length')}
                   value={element.length}
                 />
               </ItemLength>
@@ -148,18 +180,19 @@ const AdminSSRItemDetails = ({
               <DescriptionAndButtonWrapper>
                 <ItemDescription isEnable={isEnable}>
                   <ItemDataDescription isDescription={true} isEnable={isEnable}>
-                    -----------------
+                    {data.description[hiddenNumber - 1]} <br></br>
+                    {inputDetails[hiddenNumber - 1].current} a /{' '}
+                    {inputDetails[hiddenNumber - 1].wattage} w /{' '}
+                    {inputDetails[hiddenNumber - 1].voltage} v /{' '}
+                    {inputDetails[hiddenNumber - 1].length} l
                   </ItemDataDescription>
-                  <RadioButtonWrapper column={index + 1}>
-                    <RadioButton></RadioButton>
-                  </RadioButtonWrapper>
                 </ItemDescription>
 
                 <SettingButton
                   isSettingOpen={isSettingOpen}
                   setIsSettingOpen={setIsSettingOpen}
                   handleButtonClick={handleButtonClick}
-                  id={id}
+                  id={option}
                   column={index + 1}
                   // when ssr status is fault button will be disable
                 />
@@ -201,8 +234,6 @@ const ContentWrapper = styled.ul`
   justify-content: space-between;
   padding: 0.1rem 0;
 
-  /* padding-top: 0.1rem; */
-
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
@@ -213,6 +244,8 @@ const ContentWrapper = styled.ul`
   ${(p) =>
     p.isEnable ||
     css`
+      background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%)
+        0% 0% no-repeat padding-box;
       box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
       border: 0.5px solid #000000;
       border-radius: 12px;
