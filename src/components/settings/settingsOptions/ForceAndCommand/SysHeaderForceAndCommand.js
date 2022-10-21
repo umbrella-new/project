@@ -15,7 +15,7 @@ function SysHeaderForceAndCommand({
   return (
     <Wrapper>
       <ButtonHole>
-        <img src={toggleButtonColor} />
+        <Img src={toggleButtonColor} />
       </ButtonHole>
       <Span></Span>
       <ContainerTitle>
@@ -36,7 +36,7 @@ export default SysHeaderForceAndCommand;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 54px;
 
   background: transparent
     linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%) 0% 0% no-repeat
@@ -50,15 +50,11 @@ const Wrapper = styled.div`
 `;
 
 const ButtonHole = styled.div`
-  width: 43px;
-  height: 43px;
-  margin-left: 6px;
-
-  border-radius: 50%;
-  background: #18253a 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px #000000;
-  opacity: 1;
   ${flexboxCenter};
+`;
+
+const Img = styled.img`
+  margin-left: 6px;
 `;
 
 const Span = styled.span`

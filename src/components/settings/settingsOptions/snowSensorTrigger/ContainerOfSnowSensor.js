@@ -36,22 +36,21 @@ function ContainerOfSnowSensor() {
 export default ContainerOfSnowSensor;
 
 const Wrapper = styled.div`
-  width: 594px;
+  width: 598px;
   height: auto;
   ${flexboxCenter};
 `;
 
 const Wrapper1 = styled.div`
-  width: 588px;
-  height: auto;
+  width: 598px;
+  height: 106px;
   padding-top: 4px;
   padding-bottom: 4px;
-  /* margin-top: 37px;
-  margin-left: 4px; */
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 18px;
   opacity: 1;
   ${flexboxCenter};
-  justify-content: space-evenly;
+  justify-content: space-around;
 `;

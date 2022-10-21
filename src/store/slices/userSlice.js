@@ -6,7 +6,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isEssSwitch: false,
-  isTesSwitch: false,
+  isTesSwitch: true,
   isAdministrator: true,
   adminPassword: 'ATEF61',
   isKeyboardActivated: false,

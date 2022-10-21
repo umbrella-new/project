@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 function SnowFactor({ tgsTes, ess, temp, tesSwitch }) {
@@ -10,17 +10,21 @@ function SnowFactor({ tgsTes, ess, temp, tesSwitch }) {
             <FlexWrapper>
               <WrapperTgsTesSnowSensor
                 gradient={index === 0 ? true : index === 1 && false}
+                index={index}
+                tesSwitch={tesSwitch}
               >
-                <TitleContainer>
+                <TitleContainer index={index} tesSwitch={tesSwitch}>
                   <Title>{value}</Title>
                 </TitleContainer>
 
-                <ValueContainer>
-                  <SmallContainer>
+                <ValueContainer index={index} tesSwitch={tesSwitch}>
+                  <SmallContainer index={index} tesSwitch={tesSwitch}>
                     <Temperature>
                       <Input
                         type='number'
                         placeholder='enter temperature'
+                        index={index}
+                        tesSwitch={tesSwitch}
                       ></Input>{' '}
                       ° c
                     </Temperature>
@@ -40,6 +44,7 @@ export default SnowFactor;
 const FlexWrapper = styled.div`
   width: 286px;
   height: 94px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -58,11 +63,19 @@ const WrapperTgsTesSnowSensor = styled.div`
   box-sizing: border-box;
   border: 0.5px solid #000000;
   border-radius: 12px;
-  background-image: -webkit-linear-gradient(
-    ${(props) => (props.gradient ? 180 : 360)}deg,
+
+  background: -webkit-linear-gradient(
+    ${({ gradient }) => (gradient ? 180 : 360)}deg,
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
+  ${(p) =>
+    p.tesSwitch ||
+    (p.index === 1 &&
+      css`
+        background: -webkit-linear-gradient(180deg, #565656 0%, #1d1d1d 100%);
+      `)}
+
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
@@ -72,7 +85,13 @@ const TitleContainer = styled.div`
   width: 278px;
   height: 32px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: #233a54;
+  ${(p) =>
+    p.tesSwitch ||
+    (p.index === 1 &&
+      css`
+        background: #3b3b3b;
+      `)};
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 16px;
   opacity: 1;
@@ -88,7 +107,13 @@ const ValueContainer = styled.div`
   width: 278px;
   height: 42px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: #233a54;
+  ${(p) =>
+    p.tesSwitch ||
+    (p.index === 1 &&
+      css`
+        background: #3b3b3b;
+      `)};
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 21px;
   opacity: 1;
@@ -99,14 +124,17 @@ const SmallContainer = styled.div`
   width: 269px;
   height: 32px;
 
-  border: 1px solid #142033;
+  border: ${({ tesSwitch, index }) =>
+    tesSwitch
+      ? '1px solid #142033'
+      : tesSwitch || (index === 1 && '1px solid #808080')};
   border-radius: 16px;
   opacity: 1;
   ${flexboxCenter}
 `;
 
 const Temperature = styled.span`
-  font-size: var(--font-size7);
+  font-size: var(--space2);
   margin-right: var(--font-size6);
   text-transform: uppercase;
 `;
@@ -115,7 +143,9 @@ const Input = styled.input`
   width: auto;
   height: auto;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  font-size: var(--space2);
+  background-color: ${({ tesSwitch, index }) =>
+    tesSwitch ? '#233a54' : tesSwitch || (index === 1 && '#3b3b3b')};
   border-radius: 21px;
   opacity: 1;
   text-transform: uppercase;
