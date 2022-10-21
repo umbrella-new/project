@@ -10,7 +10,6 @@ import SSRInfoContainer from './SSRInfoContainer';
 import SwitchNameSelector from './SwitchNameSelector';
 
 const SSRDetail = ({ data, id }) => {
-  const userState = useSelector(selectUserState);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   return (
     <Wrapper>

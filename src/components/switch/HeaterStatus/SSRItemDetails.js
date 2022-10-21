@@ -20,8 +20,8 @@ const SSRItemDetails = ({
   handleButtonClick,
   openPasswordBox,
 }) => {
+  // For mapping
   const { specs } = data;
-  console.log(specs.length);
 
   return (
     <Wrapper>
@@ -36,7 +36,7 @@ const SSRItemDetails = ({
               </ItemCurrent>
 
               <ItemCurrent isEnable={isEnable}>
-                <ItemData isEnable={isEnable}>{data.currentCurrent}</ItemData>
+                <ItemData isEnable={isEnable}>{spec.currentCurrent}</ItemData>
               </ItemCurrent>
             </ItemCurrentWrapper>
 
