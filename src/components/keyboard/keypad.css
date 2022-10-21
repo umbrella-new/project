@@ -1,64 +1,31 @@
-.hg-theme-default {
-  /* background: #142033 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 1px #000000;
-  opacity: 1; */
-
-  background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
-  border: 0.5px solid #142033;
-  border-radius: 12px;
-  opacity: 1;
-
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue,
-    Helvetica, Arial, Lucida Grande, sans-serif;
-  overflow: hidden;
-  padding: 5px;
-  touch-action: manipulation;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  width: 100%;
-}
-
 .hg-theme-default .hg-button span {
   pointer-events: none;
   color: #fff;
   font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
 }
-.hg-theme-default button.hg-button {
-  border-width: 0;
-  font-size: inherit;
-  outline: 0;
-}
-.hg-theme-default .hg-button {
-  /* display: inline-block; */
-  flex-grow: 1;
-}
-.hg-theme-default .hg-row {
-  display: flex;
-}
-.hg-theme-default .hg-row:not(:last-child) {
-  margin-bottom: 5px;
-}
+
 .hg-theme-default .hg-row .hg-button-container,
 .hg-theme-default .hg-row .hg-button:not(:last-child) {
   margin-right: 5px;
 }
+
+.hg-theme-default .hg-row div {
+  /* margin-right: 5px; */
+  width: 20px;
+}
+
 .hg-theme-default .hg-row > div:last-child {
   margin-right: 0;
 }
 .hg-theme-default .hg-row .hg-button-container {
   display: flex;
 }
+
 .hg-theme-default .hg-button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   align-items: center;
   background: #1b2b44;
-
-  /* border-bottom: 1px solid #b5b5b5;  
-  box-shadow: 0 0 3px -1px rgba(0, 0, 0, 0.3); */
 
   border-style: solid;
   border-width: 0.5px;
@@ -82,12 +49,10 @@
   justify-content: center;
 }
 
-.hg-theme-default .hg-button.hg-standardBtn {
-  width: 20px;
-}
 .hg-theme-default .hg-button.hg-activeButton {
   background: #efefef;
 }
+
 .hg-theme-default.hg-layout-numeric .hg-button {
   align-items: center;
   display: flex;

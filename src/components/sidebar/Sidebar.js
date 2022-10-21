@@ -141,6 +141,7 @@ const Sidebar = () => {
               key={index}
               id={button[1]}
               link={button[2]}
+              isTesSwitch={isTesSwitch}
             />
           ))}
         </ButtonContainerInner>
