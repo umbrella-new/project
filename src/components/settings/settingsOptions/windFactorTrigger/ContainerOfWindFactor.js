@@ -28,8 +28,8 @@ function ContainerOfWindFactor() {
 export default ContainerOfWindFactor;
 
 const Wrapper = styled.div`
-  width: 594px;
-  height: 210px;
+  width: 596px;
+  height: 212px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
@@ -39,8 +39,8 @@ const Wrapper = styled.div`
 `;
 
 const FlexWrapper = styled.div`
-  width: 594px;
-  height: 210px;
+  width: 596px;
+  height: 212px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

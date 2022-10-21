@@ -25,9 +25,9 @@ function ValveSettings() {
               <WrapperData3>
                 <SmallTitle>gas value position</SmallTitle>
                 <WrapperIndent>
-                  {data.map((value) => {
+                  {data.map((value, index) => {
                     return (
-                      <MapDiv>
+                      <MapDiv key={index}>
                         <DataSubtitle>{value.title}</DataSubtitle>
                         <DataContainer>
                           <DataIndent>

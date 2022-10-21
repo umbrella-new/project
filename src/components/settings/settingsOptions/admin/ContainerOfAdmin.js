@@ -13,6 +13,7 @@ import {
 import ContainerValveSettings from './valvetSettings/ContainerValvetSettings';
 import Thermocouple from './sysControl/Thermocouple';
 import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
+import TgsTesSwitch from './tgsTesSwitch/TgsTesSwitch';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -33,6 +34,7 @@ function ContainerOfAdmin() {
   const state = useSelector(selectUserState);
   const adminAccess = state.isAdministrator;
   const essSwitch = state.isEssSwitch;
+  const tesSwitch = state.isTesSwitch;
 
   // states
   const [essExpandOrClose, setEssExpandOrClose] = useState('close');
@@ -160,7 +162,7 @@ function ContainerOfAdmin() {
           ) : (
             tgsTesSysHeaderData.map((data, index) => {
               return (
-                <Wrapper4>
+                <Wrapper4 key={index}>
                   <TgsTesSysWrapper>
                     <SystemHeader
                       handleCloseExpandButton={handleTgsTesExpandCloseButton}
@@ -199,6 +201,11 @@ function ContainerOfAdmin() {
                           handleRightSwitch={handleForceGasElectricSwitch}
                           toggleRightEnableDisable={toggleEnableDisableSwitch}
                         />
+                        {tesSwitch && (
+                          <WrapperTgsTesSwitch>
+                            <TgsTesSwitch tesSwitch={tesSwitch} />
+                          </WrapperTgsTesSwitch>
+                        )}
                       </ControlWrapper>
                     </Wrapper5>
                   )}
@@ -318,6 +325,11 @@ const SysWrapper = styled.div`
   margin-bottom: 3px;
 `;
 
+const LoginWrapper = styled.div`
+  margin-bottom: 4px;
+  margin-bottom: 10px;
+`;
+
 const Wrapper5 = styled.div`
   width: 562px;
   height: auto;
@@ -340,9 +352,10 @@ const ControlWrapper = styled.div`
   height: auto;
   margin-top: 4px;
   margin-bottom: 10px;
+  display: flex;
+  /* flex-direction: row; */
+  align-items: flex-start;
+  justify-content: space-evenly;
 `;
 
-const LoginWrapper = styled.div`
-  margin-bottom: 4px;
-  margin-bottom: 10px;
-`;
+const WrapperTgsTesSwitch = styled.div``;
