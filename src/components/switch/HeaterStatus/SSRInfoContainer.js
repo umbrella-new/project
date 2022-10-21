@@ -21,17 +21,14 @@ import SSRInfoDetailItems from './SSRItemDetails';
 const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   const userState = useSelector(selectUserState);
   const { isAdministrator } = userState;
-
   const [openPasswordBox, setOpenPasswordBox] = useState(false);
-
+  const { specs } = data;
   const dispatch = useDispatch();
   useEffect(() => {
     if (isAdministrator) {
       setOpenPasswordBox(false);
     }
   }, [isAdministrator]);
-
-  const titles = Object.keys(data).slice(2);
 
   const isEnable =
     data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
@@ -64,18 +61,21 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{titles[1]} (a)</Title>
-        <Title>{titles[2]} (kw)</Title>
-        <Title>{titles[3]} (v)</Title>
-        <Title>{titles[4]} (m)</Title>
-        <Title>{titles[5]}</Title>
+        <Title>current (a)</Title>
+        <Title>wattage (kw)</Title>
+        <Title>voltage (v)</Title>
+        <Title>length (m)</Title>
+        <Title>description</Title>
       </TitleWrapper>
 
       {isSettingOpen ? (
         <AdminSSRItemDetails
           isEnable={isEnable}
           isFault={isFault}
-          id={2}
+          // To distinguish between admin or not
+          option={2}
+          // id is column number
+          id={id}
           data={data}
           isSettingOpen={isSettingOpen}
           setIsSettingOpen={setIsSettingOpen}
@@ -84,10 +84,15 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
           isAdministrator={isAdministrator}
         />
       ) : (
+        // I need map depends on the column number
+
         <SSRItemDetails
           isEnable={isEnable}
           isFault={isFault}
-          id={1}
+          // id is column number
+          id={id}
+          // To distinguish between admin or not
+          option={1}
           data={data}
           isSettingOpen={isSettingOpen}
           setIsSettingOpen={setIsSettingOpen}

@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
 import {
   flexboxCenter,
   ItemBackground,
@@ -10,6 +12,7 @@ import SettingButton from './SettingButton';
 const SSRItemDetails = ({
   isEnable,
   isFault,
+  option,
   id,
   data,
   isSettingOpen,
@@ -17,56 +20,77 @@ const SSRItemDetails = ({
   handleButtonClick,
   openPasswordBox,
 }) => {
+  const { specs } = data;
+  console.log(specs.length);
+
   return (
-    <Wrapper isEnable={isEnable} isFault={isFault}>
-      <ItemCurrentWrapper>
-        <ItemCurrent isEnable={isEnable}>
-          <ItemData isDefault={true} isEnable={isEnable}>
-            {data.current}
-          </ItemData>
-        </ItemCurrent>
+    <Wrapper>
+      <ContentWrapper isEnable={isEnable} isFault={isFault}>
+        {specs.map((spec, index) => (
+          <ItemWrapper column={index} hiddenNumber={specs.length}>
+            <ItemCurrentWrapper>
+              <ItemCurrent isEnable={isEnable}>
+                <ItemData isDefault={true} isEnable={isEnable}>
+                  {spec.current}
+                </ItemData>
+              </ItemCurrent>
 
-        <ItemCurrent isEnable={isEnable}>
-          <ItemData isEnable={isEnable}>{data.current}</ItemData>
-        </ItemCurrent>
-      </ItemCurrentWrapper>
+              <ItemCurrent isEnable={isEnable}>
+                <ItemData isEnable={isEnable}>{data.currentCurrent}</ItemData>
+              </ItemCurrent>
+            </ItemCurrentWrapper>
 
-      <ItemWattage isEnable={isEnable}>
-        <ItemData isEnable={isEnable}>{data.wattage}</ItemData>
-      </ItemWattage>
+            <ItemWattage isEnable={isEnable}>
+              <ItemData isEnable={isEnable}>{spec.wattage}</ItemData>
+            </ItemWattage>
 
-      <ItemVoltage isEnable={isEnable}>
-        <ItemData isEnable={isEnable}>{data.voltage}</ItemData>
-      </ItemVoltage>
+            <ItemVoltage isEnable={isEnable}>
+              <ItemData isEnable={isEnable}>{spec.voltage}</ItemData>
+            </ItemVoltage>
 
-      <ItemLength isEnable={isEnable}>
-        <ItemData isEnable={isEnable}>{data.length}</ItemData>
-      </ItemLength>
+            <ItemLength isEnable={isEnable}>
+              <ItemData isEnable={isEnable}>{spec.length}</ItemData>
+            </ItemLength>
 
-      <DescriptionAndButtonWrapper>
-        <ItemDescription isEnable={isEnable}>
-          <ItemData isDescription={true} isEnable={isEnable}>
-            {data.description}
-          </ItemData>
-        </ItemDescription>
+            <DescriptionAndButtonWrapper>
+              <ItemDescription isEnable={isEnable}>
+                <ItemData isDescription={true} isEnable={isEnable}>
+                  {data.description} <br></br> / {data.current} a /{' '}
+                  {data.wattage} w / / {data.voltage} v / / {data.length}
+                </ItemData>
+              </ItemDescription>
 
-        <SettingButton
-          isSettingOpen={isSettingOpen}
-          setIsSettingOpen={setIsSettingOpen}
-          handleButtonClick={handleButtonClick}
-          id={id}
-          openPasswordBox={openPasswordBox}
-          // when ssr status is fault button will be disable
-        />
-      </DescriptionAndButtonWrapper>
+              <SettingButton
+                isSettingOpen={isSettingOpen}
+                setIsSettingOpen={setIsSettingOpen}
+                handleButtonClick={handleButtonClick}
+                id={option}
+                column={index + 1}
+                openPasswordBox={openPasswordBox}
+
+                // when ssr status is fault button will be disable
+              />
+            </DescriptionAndButtonWrapper>
+          </ItemWrapper>
+        ))}
+      </ContentWrapper>
     </Wrapper>
   );
 };
 export default SSRItemDetails;
 
-const Wrapper = styled.ul`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+const ContentWrapper = styled.ul`
   width: 692px;
-  height: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.1rem 0;
 
   ${(p) =>
     p.isEnable
@@ -80,8 +104,6 @@ const Wrapper = styled.ul`
           opacity: 1;
         `
       : css`
-          box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-          border: 0.5px solid var(--unnamed-color-000000);
           background: transparent
             linear-gradient(180deg, #565656 0%, #1d1d1d 100%) 0% 0% no-repeat
             padding-box;
@@ -91,11 +113,24 @@ const Wrapper = styled.ul`
           opacity: 1;
         `}
 
+  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+`;
+
+const ItemWrapper = styled.div`
   ${flexboxCenter}
   justify-content: space-between;
   padding: 0 0.1rem;
 
-  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+  &:first-child {
+    ${(p) =>
+      p.hiddenNumber !== 1 &&
+      css`
+        margin-bottom: 0.2rem;
+      `}
+  }
+  &:nth-child(2) {
+    margin-bottom: 0.2rem;
+  }
 `;
 
 const ItemCurrentWrapper = styled.div`
