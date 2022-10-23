@@ -1,40 +1,59 @@
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function SnowFactor({ tgsTes, ess, temp, tesSwitch }) {
+function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch }) {
   return (
     <>
-      {tgsTes?.map((value, index) => {
-        return (
-          <div key={index}>
-            <FlexWrapper>
-              <WrapperTgsTesSnowSensor
-                gradient={index === 0 ? true : index === 1 && false}
-                index={index}
-                tesSwitch={tesSwitch}
-              >
-                <TitleContainer index={index} tesSwitch={tesSwitch}>
-                  <Title>{value}</Title>
-                </TitleContainer>
+      {essSwitch ? (
+        <FlexWrapper>
+          <WrapperTgsTesSnowSensor>
+            <TitleContainer>
+              <Title>ess-snow sensor trigger</Title>
+            </TitleContainer>
 
-                <ValueContainer index={index} tesSwitch={tesSwitch}>
-                  <SmallContainer index={index} tesSwitch={tesSwitch}>
-                    <Temperature>
-                      <Input
-                        type='number'
-                        placeholder='enter temperature'
-                        index={index}
-                        tesSwitch={tesSwitch}
-                      ></Input>{' '}
-                      ° c
-                    </Temperature>
-                  </SmallContainer>
-                </ValueContainer>
-              </WrapperTgsTesSnowSensor>
-            </FlexWrapper>
-          </div>
-        );
-      })}
+            <ValueContainer>
+              <SmallContainer essSwitch={essSwitch}>
+                <Temperature>
+                  <Input type='number' placeholder='enter temperature'></Input>°
+                  c
+                </Temperature>
+              </SmallContainer>
+            </ValueContainer>
+          </WrapperTgsTesSnowSensor>
+        </FlexWrapper>
+      ) : (
+        tgsTes?.map((value, index) => {
+          return (
+            <div key={index}>
+              <FlexWrapper>
+                <WrapperTgsTesSnowSensor
+                  gradient={index === 0 ? true : index === 1 && false}
+                  index={index}
+                  tesSwitch={tesSwitch}
+                >
+                  <TitleContainer index={index} tesSwitch={tesSwitch}>
+                    <Title>{value}</Title>
+                  </TitleContainer>
+
+                  <ValueContainer index={index} tesSwitch={tesSwitch}>
+                    <SmallContainer index={index} tesSwitch={tesSwitch}>
+                      <Temperature>
+                        <Input
+                          type='number'
+                          placeholder='enter temperature'
+                          index={index}
+                          tesSwitch={tesSwitch}
+                        ></Input>
+                        ° c
+                      </Temperature>
+                    </SmallContainer>
+                  </ValueContainer>
+                </WrapperTgsTesSnowSensor>
+              </FlexWrapper>
+            </div>
+          );
+        })
+      )}
     </>
   );
 }
@@ -128,6 +147,8 @@ const SmallContainer = styled.div`
     tesSwitch
       ? '1px solid #142033'
       : tesSwitch || (index === 1 && '1px solid #808080')};
+  ${({ essSwitch }) => essSwitch && 'border: 1px solid #142033'};
+
   border-radius: 16px;
   opacity: 1;
   ${flexboxCenter}
@@ -145,7 +166,9 @@ const Input = styled.input`
 
   font-size: var(--space2);
   background-color: ${({ tesSwitch, index }) =>
-    tesSwitch ? '#233a54' : tesSwitch || (index === 1 && '#3b3b3b')};
+    tesSwitch
+      ? '#233a54'
+      : (!tesSwitch && index === 1 && '#3b3b3b') || '#233a54'};
   border-radius: 21px;
   opacity: 1;
   text-transform: uppercase;

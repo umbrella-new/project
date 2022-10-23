@@ -7,8 +7,16 @@ function CurrentEncloseAndBurningTemp({ data, essSwitch, tesSwitch }) {
       {data.map((value, index) => {
         return (
           <SubTitleSelectionWrapper key={Math.floor(Math.random() * 1555555)}>
-            <SubTitleWrapper tesSwitch={tesSwitch} index={index}>
-              <SubTitleWrapper2 tesSwitch={tesSwitch} index={index}>
+            <SubTitleWrapper
+              tesSwitch={tesSwitch}
+              essSwitch={essSwitch}
+              index={index}
+            >
+              <SubTitleWrapper2
+                tesSwitch={tesSwitch}
+                essSwitch={essSwitch}
+                index={index}
+              >
                 <SubTitle
                   essSwitch={essSwitch}
                   color={index}
@@ -18,14 +26,32 @@ function CurrentEncloseAndBurningTemp({ data, essSwitch, tesSwitch }) {
                 </SubTitle>
               </SubTitleWrapper2>
             </SubTitleWrapper>
-            <SelectionShadowWrapper tesSwitch={tesSwitch} index={index}>
-              <SelectionWrapper tesSwitch={tesSwitch} index={index}>
-                <SelectionIndentWrapper tesSwitch={tesSwitch} index={index}>
-                  <Selection tesSwitch={tesSwitch} index={index}>
+            <SelectionShadowWrapper
+              tesSwitch={tesSwitch}
+              essSwitch={essSwitch}
+              index={index}
+            >
+              <SelectionWrapper
+                tesSwitch={tesSwitch}
+                essSwitch={essSwitch}
+                index={index}
+              >
+                <SelectionIndentWrapper
+                  tesSwitch={tesSwitch}
+                  essSwitch={essSwitch}
+                  index={index}
+                >
+                  <Selection
+                    tesSwitch={tesSwitch}
+                    essSwitch={essSwitch}
+                    index={index}
+                  >
                     {value.selection}
                   </Selection>
                 </SelectionIndentWrapper>
-                {!tesSwitch && index === 1 ? (
+                {essSwitch ? (
+                  <Img src={'./images/whiteTriangle.svg'} />
+                ) : !tesSwitch && index === 1 ? (
                   <Img src={'./images/greyTriangle.svg'} />
                 ) : (
                   <Img src={'./images/whiteTriangle.svg'} />
@@ -67,8 +93,8 @@ const SubTitleWrapper = styled.div`
   height: 32px;
 
   background: ${({ tesSwitch, index }) =>
-      tesSwitch ? '#233a54' : index === 1 && '#3B3B3B'}
-    0% 0% no-repeat padding-box;
+    !tesSwitch && index === 1 ? '#3B3B3B' : '#233a54'};
+  background: ${({ essSwitch }) => essSwitch && '#233a54'};
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 16px;
   opacity: 1;
@@ -81,7 +107,8 @@ const SubTitleWrapper2 = styled.div`
 
   border: 1px solid
     ${({ tesSwitch, index }) =>
-      tesSwitch ? '#142033' : index === 1 ? '#808080' : '#142033'};
+      !tesSwitch && index === 1 ? '#808080' : '#142033'};
+  border: ${({ essSwitch }) => essSwitch && '1px solid #142033'};
   border-radius: 13px;
   opacity: 1;
   ${flexboxCenter}
@@ -126,7 +153,7 @@ const SelectionWrapper = styled.div`
       : index === 1
       ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
       : 'transparent linear-gradient(180deg, #233a54 0%, #060d19 100%)'};
-  /* background-color: #565656; */
+  background: ${({ essSwitch }) => essSwitch && '#233a54'};
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 33px;
@@ -140,6 +167,7 @@ const SelectionIndentWrapper = styled.div`
 
   background: ${({ tesSwitch, index }) =>
     tesSwitch ? '#233a54' : index === 1 && '#3B3B3B'};
+  background: ${({ essSwitch }) => essSwitch && '#233a54'};
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 22px;
   opacity: 1;
@@ -151,6 +179,7 @@ const Selection = styled.div`
   text-transform: uppercase;
   color: ${({ tesSwitch, index }) =>
     tesSwitch ? '#fff' : index === 1 && '#808080'};
+  color: ${({ essSwitch }) => essSwitch && '#fff'};
 `;
 
 const Img = styled.img`

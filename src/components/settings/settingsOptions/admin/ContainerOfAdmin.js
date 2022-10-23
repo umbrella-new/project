@@ -43,7 +43,7 @@ function ContainerOfAdmin() {
   const [toggleTgsButton, setToggleTgsButton] = useState(tgsButton);
   const [toggleTesButton, setToggleTesButton] = useState(tesButton);
   const [toggleEssButton, setToggleEssButton] = useState(essButton);
-  const [options, setOptions] = useState(0);
+  const [options, setOptions] = useState(essSwitch ? 1 : 2);
   const [toggleThermocoupleSwitch, setToggleThermocoupleSwitch] =
     useState(enableSwitch);
   const [toggleEnableDisableSwitch, setToggleEnableDisableSwitch] =
@@ -54,28 +54,39 @@ function ContainerOfAdmin() {
     { title: 'typhoon electrical system', button: toggleTesButton },
     { title: 'system commands', button: toggleSysButton },
   ];
+
+  const essHeaders = [
+    {
+      button: toggleEssButton,
+      title: 'electric switch system',
+    },
+    {
+      button: toggleSysButton,
+      title: 'system commands',
+    },
+  ];
   // useEffect
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
 
-    // return function cleanup() {
-    //   dispatch(setAdminAccess(false));
-    // };
+    return function cleanup() {
+      dispatch(setAdminAccess(false));
+    };
   }, []);
 
   const handleSelect = (value) => options !== value && setOptions(value);
 
-  const handleEssCloseExpandButton = () => {
-    switch (essExpandOrClose) {
-      case 'close': {
-        setEssExpandOrClose('expand');
+  const handleEssCloseExpandButton = (index) => {
+    switch (index) {
+      case 0: {
+        setToggleEssButton(essButtonActive);
 
         setToggleSysButton(sysButton);
         break;
       }
-      case 'expand': {
-        setEssExpandOrClose('close');
+      case 1: {
+        setToggleEssButton(essButton);
 
         setToggleSysButton(sysButtonActive);
         break;
@@ -122,97 +133,146 @@ function ContainerOfAdmin() {
     } else setToggleEnableDisableSwitch(enableSwitch);
   };
 
+  // <EssWrapper>
+  //                       <SystemHeader
+  //                         name={'electrical switch system'}
+  //                         expandOrClose={'expand'}
+  //                         toggleButtonColor={essButton}
+  //                       />
+  //                     </EssWrapper>
+  //                     <Wrapper4>
+  //                       <SysWrapper>
+  //                         <SystemHeader
+  //                           name={'system commands'}
+  //                           handleCloseExpandButton={handleEssCloseExpandButton}
+  //                           toggleButtonColor={
+  //                             adminAccess ? toggleSysButton : sysButton
+  //                           }
+  //                           expandOrClose={
+  //                             adminAccess ? essExpandOrClose : 'expand'
+  //                           }
+  //                         />
+  //                       </SysWrapper>
+  //                       {adminAccess || essExpandOrClose === 'close' ? (
+  //                         <Wrapper5>
+  //                           <ControlWrapper>
+  //                             <Control />
+  //                           </ControlWrapper>
+  //                         </Wrapper5>
+  //                       ) : (
+  //                         <LoginWrapper>
+  //                           <ContainerLogin />
+  //                         </LoginWrapper>
+  //                       )}
+  //                     </Wrapper4>
+
   return (
     <Wrapper>
       <Wrapper2>
         <Wrapper3>
-          {essSwitch ? (
-            <div>
-              <EssWrapper>
-                <SystemHeader
-                  name={'electrical switch system'}
-                  expandOrClose={'expand'}
-                  toggleButtonColor={essButton}
-                />
-              </EssWrapper>
-              <Wrapper4>
-                <SysWrapper>
-                  <SystemHeader
-                    name={'system commands'}
-                    handleCloseExpandButton={handleEssCloseExpandButton}
-                    toggleButtonColor={
-                      adminAccess ? toggleSysButton : sysButton
-                    }
-                    expandOrClose={adminAccess ? essExpandOrClose : 'expand'}
-                  />
-                </SysWrapper>
-                {adminAccess && essExpandOrClose === 'close' ? (
-                  <Wrapper5>
-                    <ControlWrapper>
-                      <Control />
-                    </ControlWrapper>
-                  </Wrapper5>
-                ) : (
-                  <LoginWrapper>
-                    <ContainerLogin />
-                  </LoginWrapper>
-                )}
-              </Wrapper4>
-            </div>
-          ) : (
-            tgsTesSysHeaderData.map((data, index) => {
-              return (
-                <Wrapper4 key={index}>
-                  <TgsTesSysWrapper>
-                    <SystemHeader
-                      handleCloseExpandButton={handleTgsTesExpandCloseButton}
-                      handleSelect={handleSelect}
-                      name={data.title}
-                      toggleButtonColor={data.button}
-                      index={index}
-                      options={options}
-                      adminAccess={adminAccess}
-                    />
-                  </TgsTesSysWrapper>
-                  {index === 0 && adminAccess && options === index && (
-                    <ValveWrapper>
-                      <ContainerValveSettings />
-                    </ValveWrapper>
-                  )}
-                  {index === 1 && adminAccess && options === index && (
-                    <WrapperThermocouple>
-                      <WrapperThermocouple2>
-                        <Thermocouple
-                          toggleLeftEnableDisable={toggleThermocoupleSwitch}
-                          handleLeftSwitch={handleThermocoupleSwitch}
+          {essSwitch
+            ? essHeaders.map((value, index) => {
+                return (
+                  <div key={index}>
+                    <Wrapper4>
+                      <EssWrapper>
+                        <SystemHeader
+                          name={value.title}
+                          toggleButtonColor={value.button}
+                          handleCloseExpandButton={handleEssCloseExpandButton}
+                          handleSelect={handleSelect}
+                          index={index}
+                          options={options}
+                          essSwitch={essSwitch}
+                          tesSwitch={tesSwitch}
+                          adminAccess={adminAccess}
                         />
-                      </WrapperThermocouple2>
-                    </WrapperThermocouple>
-                  )}
-                  {/* {!adminAccess && index === 2 && (
-                    <LoginWrapper>
-                      <ContainerLogin />
-                    </LoginWrapper>
-                  )} */}
-                  {index === 2 && adminAccess && options === index && (
-                    <Wrapper5>
-                      <ControlWrapper>
-                        <ForceGasElectricSystem
-                          handleRightSwitch={handleForceGasElectricSwitch}
-                          toggleRightEnableDisable={toggleEnableDisableSwitch}
-                        />
-                        {tesSwitch && (
-                          <WrapperTgsTesSwitch>
-                            <TgsTesSwitch tesSwitch={tesSwitch} />
-                          </WrapperTgsTesSwitch>
-                        )}
-                      </ControlWrapper>
-                    </Wrapper5>
-                  )}
-                </Wrapper4>
-              );
-            })
-          )}
+                      </EssWrapper>
+                      {adminAccess && index === 0 && options === index && (
+                        <WrapperThermocouple>
+                          <WrapperThermocouple2>
+                            <Thermocouple
+                              toggleLeftEnableDisable={toggleThermocoupleSwitch}
+                              handleLeftSwitch={handleThermocoupleSwitch}
+                            />
+                          </WrapperThermocouple2>
+                        </WrapperThermocouple>
+                      )}
+                      {adminAccess && options === index && index === 1 ? (
+                        <Wrapper5>
+                          <ControlWrapper>
+                            <Control />
+                          </ControlWrapper>
+                        </Wrapper5>
+                      ) : (
+                        !adminAccess &&
+                        options === index && (
+                          <LoginWrapper>
+                            <ContainerLogin />
+                          </LoginWrapper>
+                        )
+                      )}
+                    </Wrapper4>
+                  </div>
+                );
+              })
+            : tgsTesSysHeaderData.map((data, index) => {
+                return (
+                  <Wrapper4 key={index}>
+                    <TgsTesSysWrapper>
+                      <SystemHeader
+                        handleCloseExpandButton={handleTgsTesExpandCloseButton}
+                        handleSelect={handleSelect}
+                        name={data.title}
+                        toggleButtonColor={data.button}
+                        index={index}
+                        options={options}
+                        adminAccess={adminAccess}
+                        tesSwitch={tesSwitch}
+                        essSwitch={essSwitch}
+                      />
+                    </TgsTesSysWrapper>
+                    {index === 0 && adminAccess && options === index && (
+                      <ValveWrapper>
+                        <ContainerValveSettings />
+                      </ValveWrapper>
+                    )}
+                    {tesSwitch &&
+                      index === 1 &&
+                      adminAccess &&
+                      options === index && (
+                        <WrapperThermocouple>
+                          <WrapperThermocouple2>
+                            <Thermocouple
+                              toggleLeftEnableDisable={toggleThermocoupleSwitch}
+                              handleLeftSwitch={handleThermocoupleSwitch}
+                            />
+                          </WrapperThermocouple2>
+                        </WrapperThermocouple>
+                      )}
+                    {!adminAccess && index === 2 && (
+                      <LoginWrapper>
+                        <ContainerLogin />
+                      </LoginWrapper>
+                    )}
+                    {index === 2 && adminAccess && options === index && (
+                      <Wrapper5>
+                        <ControlWrapper>
+                          <ForceGasElectricSystem
+                            handleRightSwitch={handleForceGasElectricSwitch}
+                            toggleRightEnableDisable={toggleEnableDisableSwitch}
+                          />
+                          {tesSwitch && (
+                            <WrapperTgsTesSwitch>
+                              <TgsTesSwitch tesSwitch={tesSwitch} />
+                            </WrapperTgsTesSwitch>
+                          )}
+                        </ControlWrapper>
+                      </Wrapper5>
+                    )}
+                  </Wrapper4>
+                );
+              })}
         </Wrapper3>
       </Wrapper2>
     </Wrapper>
