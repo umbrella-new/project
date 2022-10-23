@@ -11,36 +11,62 @@ function SystemHeader({
   handleSelect,
   options,
   adminAccess,
+  tesSwitch,
+  essSwitch,
 }) {
+  const tesSwitchFalse = !tesSwitch && index === 1 && !essSwitch;
+
+  // return adminAccess && essSwitch
+  // ? (handleCloseExpandButton(index), handleSelect(index))
+  // : !tesSwitch && index === 1
+  // ? ''
+  // : (handleCloseExpandButton(index), handleSelect(index));
+
   return (
-    <Wrapper>
+    <Wrapper tesSwitchFalse={tesSwitchFalse}>
       <ButtonHole>
-        <Img src={toggleButtonColor} />
-      </ButtonHole>
-      <Span></Span>
-      <ContainerTitle>
-        <P>{name}</P>
-      </ContainerTitle>
-      <ContainerButton
-        onClick={() => {
-          return (
-            adminAccess && handleCloseExpandButton(index), handleSelect(index)
-          );
-        }}
-      >
-        <ButtonCloseAndExpand
-          name={
-            adminAccess
-              ? options === index
-                ? 'close'
-                : 'expand'
-              : index === 0
-              ? 'expand'
-              : index === 1
-              ? 'expand'
-              : 'close'
+        <Img
+          src={
+            !tesSwitch && index === 1 && !essSwitch
+              ? './images/non-tes-button.svg'
+              : toggleButtonColor
           }
         />
+      </ButtonHole>
+      <Span></Span>
+      <ContainerTitle tesSwitchFalse={tesSwitchFalse}>
+        <P tesSwitchFalse={tesSwitchFalse}>{name}</P>
+      </ContainerTitle>
+
+      <ContainerButton
+        onClick={() => {
+          return adminAccess && essSwitch
+            ? (handleCloseExpandButton(index), handleSelect(index))
+            : adminAccess && !tesSwitch && index === 1
+            ? ''
+            : adminAccess &&
+              (handleCloseExpandButton(index), handleSelect(index));
+        }}
+        tesSwitchFalse={tesSwitchFalse}
+      >
+        {essSwitch ? (
+          <ButtonCloseAndExpand name={options === index ? 'close' : 'expand'} />
+        ) : (
+          <ButtonCloseAndExpand
+            name={
+              adminAccess
+                ? options === index
+                  ? 'close'
+                  : 'expand'
+                : index === 0
+                ? 'expand'
+                : index === 1
+                ? 'expand'
+                : 'close'
+            }
+            tesSwitchFalse={tesSwitchFalse}
+          />
+        )}
       </ContainerButton>
     </Wrapper>
   );
@@ -52,9 +78,13 @@ const Wrapper = styled.div`
   width: 100%;
   height: 54px;
 
-  background: transparent
+  /* background: transparent
     linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%) 0% 0% no-repeat
-    padding-box;
+    padding-box; */
+  background: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse
+      ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
+      : 'transparent linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%)'};
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;
   border-radius: 38px;
@@ -84,9 +114,13 @@ const ContainerTitle = styled.div`
   margin-right: 4px;
   margin-left: 2px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  /* background: #233a54 0% 0% no-repeat padding-box; */
+  background: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse ? '#3B3B3B' : '#233a54'};
   box-shadow: inset 0px 0px 4px #000000;
-  border: 1px solid #142033;
+  /* border: 1px solid #142033; */
+  border: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse ? '1px solid #3B3B3B' : '1px solid #142033'};
   border-radius: 25px;
   opacity: 1;
   ${flexboxCenter};

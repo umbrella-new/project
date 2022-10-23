@@ -7,6 +7,7 @@ import SystemHeaderForceAndCommand from './SysHeaderForceAndCommand';
 import SelectArts from './selectArts/SelectArts';
 import SelectTc from './selectTc/SelectTc';
 import { selectUserState } from '../../../../store/slices/userSlice';
+import { clear } from '@testing-library/user-event/dist/clear';
 
 function ContainerOfForceAndCommand() {
   // button images of TGS TES ESS SYS
@@ -37,6 +38,8 @@ function ContainerOfForceAndCommand() {
   const dispatch = useDispatch();
   const stateOfEssTgs = useSelector(selectUserState);
   const essSwitch = stateOfEssTgs.isEssSwitch;
+  const tesSwitch = stateOfEssTgs.isTesSwitch;
+  console.log('tesSwitch', tesSwitch);
 
   // State buttons of Sys, Ess, Tgs and Tes
   const [toggleSysButtonColor, setToggleSysButtonColor] =
@@ -46,20 +49,16 @@ function ContainerOfForceAndCommand() {
   const [toggleTesButtonColor, setToggleTesButtonColor] = useState(tesButton);
   // expand and close states
 
-  // const [sysExpandOrClose, setSysExpandOrClose] = useState(true);
-  // const [essExpandOrClose, setEssExpandOrClose] = useState(false);
-  // const [tgsExpandOrClose, setTgsExpandOrClose] = useState(false);
-  // const [tesExpandOrClose, setTesExpandOrClose] = useState(false);
-  const [options, setOptions] = useState(2);
+  const [options, setOptions] = useState(essSwitch ? 1 : 2);
 
   const essHeaders = [
     {
       button: toggleEssButtonColor,
-      title: 'typhoon gas system',
+      title: 'electric switch system',
     },
     {
       button: toggleSysButtonColor,
-      title: 'typhoon gas system',
+      title: 'system commands',
     },
   ];
 
@@ -85,39 +84,19 @@ function ContainerOfForceAndCommand() {
   const handleEssCloseExpandButton = (index) => {
     switch (index) {
       case 0: {
-        // switch (essExpandOrClose) {
-        //   case false: {
-        // setEssExpandOrClose(true);
-        // setSysExpandOrClose(false);
         setToggleEssButtonColor(essButtonActive);
         setToggleSysButtonColor(sysButton);
         setToggleTgsButtonColor(tgsButton);
         setToggleTesButtonColor(tesButton);
         break;
-        // }
-
-        // default:
-        //   return;
-        // }
-        // break;
       }
 
       case 1: {
-        // switch (sysExpandOrClose) {
-        //   case false: {
-        //     // setSysExpandOrClose(true);
-        //     // setTesExpandOrClose(false);
         setToggleSysButtonColor(sysButtonActive);
         setToggleEssButtonColor(essButton);
         setToggleTgsButtonColor(tgsButton);
         setToggleTesButtonColor(tesButton);
         break;
-        //   }
-
-        //   default:
-        //     return;
-        // }
-        // break;
       }
 
       default:
@@ -128,57 +107,26 @@ function ContainerOfForceAndCommand() {
   const handleTgsCloseExpandButton = (index) => {
     switch (index) {
       case 0: {
-        // switch (tgsExpandOrClose) {
-        //   case false: {
-        //     // setTgsExpandOrClose(true);
-        //     // setTesExpandOrClose(false);
-        //     // setSysExpandOrClose(false);
         setToggleTgsButtonColor(tgsButtonActive);
         setToggleTesButtonColor(tesButton);
         setToggleSysButtonColor(sysButton);
         setToggleEssButtonColor(essButton);
         break;
-        // }
-        // default:
-        //   return;
-        // }
-        // break;
       }
       case 1: {
-        // switch (tesExpandOrClose) {
-        //   case false: {
-        //     // setTesExpandOrClose(true);
-        //     // setTgsExpandOrClose(false);
-        //     // setSysExpandOrClose(false);
         setToggleTesButtonColor(tesButtonActive);
         setToggleSysButtonColor(sysButton);
         setToggleEssButtonColor(essButton);
         setToggleTgsButtonColor(tgsButton);
         break;
-        //   }
-        //   default:
-        //     return;
-        // }
-        // break;
       }
 
       case 2: {
-        // switch (sysExpandOrClose) {
-        //   case false: {
-        //     // setSysExpandOrClose(true);
-        //     // setTgsExpandOrClose(false);
-        //     // setTesExpandOrClose(false);
         setToggleSysButtonColor(sysButtonActive);
         setToggleEssButtonColor(essButton);
         setToggleTgsButtonColor(tgsButton);
         setToggleTesButtonColor(tesButton);
         break;
-        //   }
-
-        //   default:
-        //     return;
-        // }
-        // break;
       }
 
       default:
@@ -204,6 +152,7 @@ function ContainerOfForceAndCommand() {
                         handleSelect={handleSelect}
                         index={index}
                         options={options}
+                        essSwitch={essSwitch}
                       />
                       {options === index && index === 0 && (
                         <NewWrapper>
@@ -247,6 +196,8 @@ function ContainerOfForceAndCommand() {
                         handleSelect={handleSelect}
                         index={index}
                         options={options}
+                        tesSwitch={tesSwitch}
+                        essSwitch={essSwitch}
                       />
                       {options === index && index === 0 && (
                         <NewWrapper>
@@ -264,7 +215,7 @@ function ContainerOfForceAndCommand() {
                         </NewWrapper>
                       )}
 
-                      {options === index && index === 1 && (
+                      {tesSwitch && options === index && index === 1 && (
                         <NewWrapper>
                           <WrapperSelectTcSelect>
                             <FlexWrapper>

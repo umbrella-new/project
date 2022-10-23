@@ -11,22 +11,39 @@ function SysHeaderForceAndCommand({
   index,
   handleSelect,
   options,
+  tesSwitch,
+  essSwitch,
 }) {
+  const tesSwitchFalse = !tesSwitch && index === 1 && !essSwitch;
   return (
-    <Wrapper>
+    <Wrapper tesSwitchFalse={tesSwitchFalse}>
       <ButtonHole>
-        <Img src={toggleButtonColor} />
+        <Img
+          src={
+            !tesSwitch && index === 1 && !essSwitch
+              ? './images/non-tes-button.svg'
+              : toggleButtonColor
+          }
+        />
       </ButtonHole>
       <Span></Span>
-      <ContainerTitle>
-        <Title>{name}</Title>
+      <ContainerTitle tesSwitchFalse={tesSwitchFalse}>
+        <Title tesSwitchFalse={tesSwitchFalse}>{name}</Title>
       </ContainerTitle>
       <ContainerButton
         onClick={() => {
-          return handleCloseExpandButton(index), handleSelect(index);
+          return essSwitch
+            ? (handleCloseExpandButton(index), handleSelect(index))
+            : !tesSwitch && index === 1 && !essSwitch
+            ? ''
+            : (handleCloseExpandButton(index), handleSelect(index));
         }}
+        tesSwitchFalse={tesSwitchFalse}
       >
-        <ButtonCloseAndExpand name={options === index ? 'close' : 'expand'} />
+        <ButtonCloseAndExpand
+          name={options === index ? 'close' : 'expand'}
+          tesSwitchFalse={tesSwitchFalse}
+        />
       </ContainerButton>
     </Wrapper>
   );
@@ -38,9 +55,11 @@ const Wrapper = styled.div`
   width: 100%;
   height: 54px;
 
-  background: transparent
-    linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%) 0% 0% no-repeat
-    padding-box;
+  background: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse
+      ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
+      : 'transparent linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%)'};
+
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;
   border-radius: 38px;
@@ -70,9 +89,11 @@ const ContainerTitle = styled.div`
   margin-right: 4px;
   margin-left: 2px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse ? '#3B3B3B' : '#233a54'};
   box-shadow: inset 0px 0px 4px #000000;
-  border: 1px solid #142033;
+  border: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse ? '1px solid #3B3B3B' : '1px solid #142033'};
   border-radius: 25px;
   opacity: 1;
   ${flexboxCenter};
