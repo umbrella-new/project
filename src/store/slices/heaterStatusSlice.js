@@ -5,20 +5,8 @@ const ssrInitialState = {
   buttonStatus: true,
   switchName: null,
   description: [null, null, null],
-  currentCurrent: [2.65, null, null],
   index: 1,
 };
-
-const descriptionOptions = [
-  {
-    1: `RS-CRIB HEATER - TRSC - 7L-2S - A48`,
-    2: `RS-CRIB HEATER - trsc - 10L -2S - A48`,
-    3: `RS-CRIB HEATER - TRS - 11L - 2S - A48`,
-    4: `RS-CRIB HEATER - TRS - 16L - 2S - A48`,
-    5: `RS-CRIB HEATER - TRS - 16L - 2S - A48`,
-    6: 'RS-switch HEATER - t - flex - 24l -2s - a48 - p1 - monel 400',
-  },
-];
 
 const heaterStatusSlice = createSlice({
   name: 'ssrState',
@@ -29,8 +17,8 @@ const heaterStatusSlice = createSlice({
         {
           current: 2.95,
           wattage: 1.4,
-          voltage: 240,
-          length: 2.1,
+          voltage: 480,
+          lengths: 2.1,
           currentCurrent: 0,
         },
       ],
@@ -40,9 +28,9 @@ const heaterStatusSlice = createSlice({
       specs: [
         {
           current: 4.2,
-          wattage: 2.9,
+          wattage: 2.0,
           voltage: 480,
-          length: 3,
+          lengths: 3,
           currentCurrent: 0,
         },
       ],
@@ -54,9 +42,9 @@ const heaterStatusSlice = createSlice({
       specs: [
         {
           current: 4.6,
-          wattage: 2.0,
-          voltage: 280,
-          length: 3.3,
+          wattage: 2.2,
+          voltage: 480,
+          lengths: 3.3,
           currentCurrent: 0,
         },
       ],
@@ -68,7 +56,7 @@ const heaterStatusSlice = createSlice({
           current: 6.7,
           wattage: 3.2,
           voltage: 480,
-          length: 4.9,
+          lengths: 4.9,
           currentCurrent: 0,
         },
       ],
@@ -81,7 +69,7 @@ const heaterStatusSlice = createSlice({
           current: 8.4,
           wattage: 4.0,
           voltage: 480,
-          length: 6,
+          lengths: 6,
           currentCurrent: 0,
         },
       ],
@@ -93,7 +81,7 @@ const heaterStatusSlice = createSlice({
           current: 10,
           wattage: 4.8,
           voltage: 480,
-          length: 7.3,
+          lengths: 7.3,
           currentCurrent: 0,
         },
       ],
@@ -102,10 +90,10 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          current: 10,
-          wattage: 4.8,
-          voltage: 480,
-          length: 7.3,
+          current: 13.4,
+          wattage: 3.2,
+          voltage: 240,
+          lengths: 4.9,
           currentCurrent: 0,
         },
       ],
@@ -114,10 +102,10 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          current: 10,
-          wattage: 4.8,
+          current: 3.4,
+          wattage: 1.6,
           voltage: 480,
-          length: 7.3,
+          lengths: 2.44,
           currentCurrent: 0,
         },
       ],
