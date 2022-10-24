@@ -5,7 +5,7 @@ const initialState = {
   displayConflictMessage: false,
   heatingScheduleCalendar: { isDisplayed: false, id: null },
   instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
-  snowSensor: { isReady: false, activated: false },
+  snowSensor: { isReady: false, activated: false, defaultTemp: 350 },
   optionalConstantTemp: { inputTemp: 0, apply: false },
   heatingScheduleList: [
     {
@@ -100,6 +100,9 @@ const essSwitchSlice = createSlice({
     deactivateEsConflictMessage: (state) => {
       state.displayConflictMessage = false;
     },
+    handleSnowSensorDefaultTemp: (state, action) => {
+      state.snowSensor.defaultTemp = action.payload;
+    },
   },
 });
 
@@ -122,4 +125,5 @@ export const {
   activateEsConflictMessage,
   deactivateEsConflictMessage,
   addHeatingSchedule,
+  handleSnowSensorDefaultTemp,
 } = essSwitchSlice.actions;
