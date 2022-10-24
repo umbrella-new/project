@@ -201,6 +201,7 @@ const AdminSSRItemDetails = ({
           </>
         ))}
       </ContentWrapper>
+
       {activateKeypad && (
         <KeypadWrapper positionTop={hiddenNumber}>
           <InputKeyPad

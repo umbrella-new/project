@@ -6,6 +6,7 @@ import tgsSwitchSlice from './slices/tgsSwitchSlice';
 import settingsOfEssSlice from './slices/settingsOfEssSlice';
 import chartSlice from './slices/chartSlice';
 import faultsSlice from './slices/faultsSlice';
+import ssrDescriptionSlice from './slices/ssrDescriptionSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     settingsOfEss: settingsOfEssSlice.reducer,
     chart: chartSlice.reducer,
     faultsState: faultsSlice.reducer,
+    ssrDescription: ssrDescriptionSlice.reducer,
   },
 });
 
