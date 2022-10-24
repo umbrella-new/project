@@ -5,17 +5,33 @@ import './inputKeyboard.css';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
-const InputKeyboard = ({ input, setInput, handleSubmit }) => {
+const InputKeyboard = ({
+  input,
+  setInput,
+  handleSubmit,
+  handleOnSubmit,
+  column,
+  name,
+  closeKeyboard,
+}) => {
   const [layout, setLayout] = useState('default');
   const keyboard = useRef();
 
   const onChange = (input) => {
-    setInput(input);
+    if (column >= 0) {
+      handleOnSubmit(column, name, input);
+    } else {
+      setInput(input);
+    }
   };
 
   const onKeyPress = (button) => {
     if (button === '{enter}') {
-      handleSubmit();
+      if (column >= 0) {
+        closeKeyboard();
+      } else {
+        handleSubmit();
+      }
     } else if (button === '{shift}') {
       const layoutName = layout === 'default' ? 'shift' : 'default';
       setLayout(layoutName);
