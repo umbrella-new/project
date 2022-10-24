@@ -1,8 +1,10 @@
 import { current } from '@reduxjs/toolkit';
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { handleSSRDetails } from '../../../store/slices/heaterStatusSlice';
+import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
 import {
   flexboxCenter,
   ItemBackground,
@@ -23,10 +25,13 @@ const AdminSSRItemDetails = ({
   handleButtonClick,
   id,
 }) => {
+  const descriptionState = useSelector(selectDescription);
+  const { specsStr, descriptionOptions } = descriptionState;
+
   const initialInputState = [
-    { current: '', wattage: '', voltage: '', length: '' },
-    { current: '', wattage: '', voltage: '', length: '' },
-    { current: '', wattage: '', voltage: '', length: '' },
+    { current: '', wattage: '', voltage: '', lengths: '' },
+    { current: '', wattage: '', voltage: '', lengths: '' },
+    { current: '', wattage: '', voltage: '', lengths: '' },
   ];
   const initialInputId = [null, null];
   const initialKeypadState = false;
@@ -34,9 +39,39 @@ const AdminSSRItemDetails = ({
   const [inputDetails, setInputDetails] = useState(initialInputState);
   const [activateKeypad, setActivateKeypad] = useState(initialKeypadState);
   const [hiddenNumber, setHiddenNumber] = useState(1);
+
   const [inputId, setInputId] = useState(initialInputId);
+  const [description, setDescription] = useState(['', '', '']);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (
+      inputDetails[0].current > 0 &&
+      inputDetails[0].wattage > 0 &&
+      inputDetails[0].voltage > 0 &&
+      inputDetails[0].lengths > 0
+    ) {
+      console.log('index 0');
+      // 1. Make the specs as a string
+      const specsString = `${inputDetails[hiddenNumber - 1].current}/${
+        inputDetails[0].wattage
+      }/${inputDetails[0].voltage}/${inputDetails[0].lengths}`;
+      // 2. Find Index using indexOF
+      const descriptionIndex = specsStr.indexOf(specsString);
+      // 3. Set description state
+      const copyArr = description;
+      copyArr[0] = descriptionOptions[descriptionIndex];
+      setDescription(copyArr);
+    }
+  }, [
+    inputDetails[0].current,
+    inputDetails[0].wattage,
+    inputDetails[0].voltage,
+    inputDetails[0].lengths,
+  ]);
+
+  console.log(description);
 
   const handleClick = (name) => {
     if (name === 'add') {
@@ -63,22 +98,25 @@ const AdminSSRItemDetails = ({
           setInputDetails([
             inputDetails[0],
             inputDetails[1],
-            { current: '', wattage: '', voltage: '', length: '' },
+            { current: '', wattage: '', voltage: '', lengths: '' },
           ]);
+          setDescription([description[0], description[1]]);
           break;
         }
         case 2: {
           setHiddenNumber(1);
           setInputDetails([
             inputDetails[0],
-            { current: '', wattage: '', voltage: '', length: '' },
-            { current: '', wattage: '', voltage: '', length: '' },
+            { current: '', wattage: '', voltage: '', lengths: '' },
+            { current: '', wattage: '', voltage: '', lengths: '' },
           ]);
+          setDescription([description[0]]);
           break;
         }
         case 1: {
           // Reset input state
           setInputDetails([...initialInputState]);
+          setDescription([]);
           break;
         }
         default: {
@@ -114,12 +152,11 @@ const AdminSSRItemDetails = ({
 
   // For virtual keypad input
   const handleKeypadInput = (index, name, input) => {
-    // console.log(index, name, input);
-    // Copy current inputDetails state
+    // 1. Copy current inputDetails state
     const newInput = [...inputDetails];
-    // update new Input into requested index and name
+    // 2. update new Input into requested index and name
     newInput[index][name] = input;
-    // Set state
+    // 3. Set state
     setInputDetails(newInput);
   };
 
@@ -129,6 +166,7 @@ const AdminSSRItemDetails = ({
         {inputDetails.map((element, index) => (
           <>
             <ItemWrapper key={index} column={index} hiddenNumber={hiddenNumber}>
+              <ItemPartNumber></ItemPartNumber>
               <ItemCurrent isEnable={isEnable}>
                 <ItemDataInput
                   type='text'
@@ -171,20 +209,23 @@ const AdminSSRItemDetails = ({
                   type='text'
                   isEnable={isEnable}
                   placeholder='input length'
-                  onClick={() => handleActivateKeypad(index, 'length')}
-                  onChange={() => isEnable && handleSetInput(index, 'length')}
-                  value={element.length}
+                  onClick={() => handleActivateKeypad(index, 'lengths')}
+                  onChange={() => isEnable && handleSetInput(index, 'lengths')}
+                  value={element.lengths}
                 />
               </ItemLength>
 
               <DescriptionAndButtonWrapper>
                 <ItemDescription isEnable={isEnable}>
                   <ItemDataDescription isDescription={true} isEnable={isEnable}>
-                    {data.description[hiddenNumber - 1]} <br></br>
-                    {inputDetails[hiddenNumber - 1].current} a /{' '}
-                    {inputDetails[hiddenNumber - 1].wattage} w /{' '}
-                    {inputDetails[hiddenNumber - 1].voltage} v /{' '}
-                    {inputDetails[hiddenNumber - 1].length} l
+                    {description[index] && description[index]}
+                    <br></br>
+                    {description[index] &&
+                      `${inputDetails[index].current} a / ${
+                        inputDetails[index].wattage
+                      } w / ${inputDetails[index].voltage} v / ${
+                        inputDetails[index].lengths
+                      } l - ${Math.round(inputDetails[index].lengths * 3.28)}`}
                   </ItemDataDescription>
                 </ItemDescription>
 
@@ -269,7 +310,11 @@ const ItemWrapper = styled.div`
       `}
   }
   &:nth-child(2) {
-    margin-bottom: 0.2rem;
+    ${(p) =>
+      p.hiddenNumber === 2 ||
+      css`
+        margin-bottom: 0.2rem;
+      `}
 
     ${(p) =>
       p.column < p.hiddenNumber ||
@@ -285,11 +330,16 @@ const ItemWrapper = styled.div`
       `}
   }
 `;
+const ItemPartNumber = styled.li`
+  width: 90px;
+  height: 20px;
+  ${ItemBackground}
+`;
 
 const ItemCurrent = styled.li`
   ${flexboxCenter}
 
-  width: 90px;
+  width: 93px;
   height: 20px;
   ${ItemBackground}
 
@@ -337,7 +387,7 @@ const ItemLength = styled.li`
 const ItemDescription = styled.li`
   ${flexboxCenter}
 
-  width: 264px;
+  width: 162px;
   height: 20px;
   ${ItemBackground}
   ${(p) =>
@@ -356,8 +406,6 @@ const ItemDataInput = styled.input`
   &::placeholder {
     color: #fff;
   }
-
-  /* color: ${(p) => p.isEnable || `#808080;`}; */
 `;
 
 const ItemDataDescription = styled.span`
@@ -378,27 +426,11 @@ const ItemDataDescription = styled.span`
 `;
 
 const DescriptionAndButtonWrapper = styled.div`
-  width: 285px;
+  width: 184px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const RadioButtonWrapper = styled.button`
-  width: 16px;
-  height: 16px;
-
-  border: 1px solid #95ff45;
-  opacity: 1;
-  border-radius: 50%;
-  ${flexboxCenter}
-`;
-const RadioButton = styled.div`
-  width: 8px;
-  height: 8px;
-  background-color: ${(p) => (p.isChecked ? '#95ff45' : 'none')};
-  border-radius: 50%;
 `;
 
 const KeypadWrapper = styled.div`

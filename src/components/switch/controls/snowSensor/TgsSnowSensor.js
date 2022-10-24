@@ -17,8 +17,7 @@ import DefaultTemp from '../DefaultTemp';
 
 const TgsSnowSensor = () => {
   const state = useSelector(selectTgsSwitch);
-  const isReady = state.snowSensor.isReady;
-  const isActivated = state.snowSensor.isActivated;
+  const { isReady, isActivated, defaultTemp } = state.snowSensor;
 
   // Check es switch
   const esState = useSelector(selectEssSwitch);
@@ -54,7 +53,7 @@ const TgsSnowSensor = () => {
           isActivated={isActivated}
           isReady={isReady}
         />
-        <DefaultTemp />
+        <DefaultTemp defaultTemp={defaultTemp} />
       </TempAndButton>
     </Wrapper>
   );

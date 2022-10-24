@@ -61,11 +61,24 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>current (a)</Title>
-        <Title>wattage (kw)</Title>
-        <Title>voltage (v)</Title>
-        <Title>length (m)</Title>
-        <Title>description</Title>
+        {isSettingOpen ? (
+          <>
+            <AdminTitle>part number</AdminTitle>
+            <AdminTitle>current (a)</AdminTitle>
+            <AdminTitle>wattage (kw)</AdminTitle>
+            <AdminTitle>voltage (v)</AdminTitle>
+            <AdminTitle>length (m)</AdminTitle>
+            <AdminTitle>description</AdminTitle>
+          </>
+        ) : (
+          <>
+            <Title>current (a)</Title>
+            <Title>wattage (kw)</Title>
+            <Title>voltage (v)</Title>
+            <Title>length (m)</Title>
+            <Title>description</Title>
+          </>
+        )}
       </TitleWrapper>
 
       {isSettingOpen ? (
@@ -121,19 +134,39 @@ const TitleWrapper = styled.div`
   ${flexboxCenter}
   justify-content: flex-start;
   margin-bottom: 0.5rem;
-  padding: 0 1.3rem;
+  padding: 0 1rem;
 `;
-const Title = styled.span`
+
+const AdminTitle = styled.span`
   text-transform: uppercase;
   font-size: 8px;
   &:first-child {
-    margin-right: 2rem;
+    margin-right: 2.3rem;
   }
   &:nth-child(2) {
     margin-right: 2.2rem;
   }
   &:nth-child(3) {
-    margin-right: 2.6rem;
+    margin-right: 2.1rem;
+  }
+  &:nth-child(4) {
+    margin-right: 2.5rem;
+  }
+  &:nth-child(5) {
+    margin-right: 5rem;
+  }
+`;
+const Title = styled.span`
+  text-transform: uppercase;
+  font-size: 8px;
+  &:first-child {
+    margin-right: 1.8rem;
+  }
+  &:nth-child(2) {
+    margin-right: 2rem;
+  }
+  &:nth-child(3) {
+    margin-right: 2.5rem;
   }
   &:nth-child(4) {
     margin-right: 8rem;

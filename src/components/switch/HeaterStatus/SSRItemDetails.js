@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
@@ -22,10 +23,13 @@ const SSRItemDetails = ({
   handleButtonClick,
   openPasswordBox,
 }) => {
-  const descriptonState = useSelector(selectDescription);
-  const { specsStr, descriptionOptions } = descriptonState;
+  const descriptionState = useSelector(selectDescription);
+  const { specsStr, descriptionOptions } = descriptionState;
   const [description, setDescription] = useState([]);
 
+  const [isAcceptableAmp, setAcceptableAmp] = useState([]);
+
+  const dispatch = useDispatch();
   // For mapping
   const { specs } = data;
 
@@ -43,7 +47,9 @@ const SSRItemDetails = ({
       (dIndex) => descriptionOptions[dIndex]
     );
     setDescription(stateArr);
-  }, specs);
+
+    // Check the current with currentCurrent
+  }, [specs]);
 
   return (
     <Wrapper>
@@ -77,7 +83,12 @@ const SSRItemDetails = ({
             <DescriptionAndButtonWrapper>
               <ItemDescription isEnable={isEnable}>
                 <ItemData isDescription={true} isEnable={isEnable}>
-                  {description[index]}
+                  {description[index] && description[index]}
+                  <br></br>
+                  {description[index] &&
+                    `${spec.current}A / ${spec.wattage}W / ${spec.voltage}v / ${
+                      spec.lengths
+                    }l - ${Math.round(spec.lengths * 3.28)}`}
                 </ItemData>
               </ItemDescription>
 

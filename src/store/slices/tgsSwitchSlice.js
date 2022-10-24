@@ -10,7 +10,7 @@ const initialState = {
     instantButtonToggler: false,
   },
   fanOnly: false,
-  snowSensor: { isReady: false, activated: false },
+  snowSensor: { isReady: false, activated: false, defaultTemp: 350 },
   optionalConstantTemp: { inputTemp: 0, apply: false },
   heatingScheduleList: [
     {
@@ -103,6 +103,9 @@ const tgsSwitchSlice = createSlice({
     deactivateTgsConflictMessage: (state) => {
       state.displayConflictMessage = false;
     },
+    handleTgsSnowSensorDefaultTemp: (state, action) => {
+      state.snowSensor.defaultTemp = action.payload;
+    },
   },
 });
 
@@ -127,4 +130,5 @@ export const {
   activateTgsConflictMessage,
   deactivateTgsConflictMessage,
   addTgsHeatingSchedule,
+  handleTgsSnowSensorDefaultTemp,
 } = tgsSwitchSlice.actions;
