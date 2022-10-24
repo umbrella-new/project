@@ -10,6 +10,7 @@ import {
   ItemBackground,
   ItemBackgroundDisable,
 } from '../../../styles/commonStyles';
+import InputKeyboard from '../../keyboard/InputKeyboard';
 import InputKeyPad from '../../keyboard/InputKeyPad';
 
 import SettingButton from './SettingButton';
@@ -29,15 +30,16 @@ const AdminSSRItemDetails = ({
   const { specsStr, descriptionOptions } = descriptionState;
 
   const initialInputState = [
-    { current: '', wattage: '', voltage: '', lengths: '' },
-    { current: '', wattage: '', voltage: '', lengths: '' },
-    { current: '', wattage: '', voltage: '', lengths: '' },
+    { partNumber: '', current: '', wattage: '', voltage: '', lengths: '' },
+    { partNumber: '', current: '', wattage: '', voltage: '', lengths: '' },
+    { partNumber: '', current: '', wattage: '', voltage: '', lengths: '' },
   ];
   const initialInputId = [null, null];
   const initialKeypadState = false;
 
   const [inputDetails, setInputDetails] = useState(initialInputState);
   const [activateKeypad, setActivateKeypad] = useState(initialKeypadState);
+  const [activateKeyboard, setActivateKeyboard] = useState(initialKeypadState);
   const [hiddenNumber, setHiddenNumber] = useState(1);
 
   const [inputId, setInputId] = useState(initialInputId);
@@ -54,14 +56,11 @@ const AdminSSRItemDetails = ({
     ) {
       console.log('index 0');
       // 1. Make the specs as a string
-      const specsString = `${inputDetails[hiddenNumber - 1].current}/${
-        inputDetails[0].wattage
-      }/${inputDetails[0].voltage}/${inputDetails[0].lengths}`;
+      const specsString = `${inputDetails[0].current}/${inputDetails[0].wattage}/${inputDetails[0].voltage}/${inputDetails[0].lengths}`;
       // 2. Find Index using indexOF
       const descriptionIndex = specsStr.indexOf(specsString);
       // 3. Set description state
-      const copyArr = description;
-      copyArr[0] = descriptionOptions[descriptionIndex];
+      const copyArr = [descriptionOptions[descriptionIndex], '', ''];
       setDescription(copyArr);
     }
   }, [
@@ -71,7 +70,59 @@ const AdminSSRItemDetails = ({
     inputDetails[0].lengths,
   ]);
 
-  console.log(description);
+  useEffect(() => {
+    if (
+      inputDetails[1].current > 0 &&
+      inputDetails[1].wattage > 0 &&
+      inputDetails[1].voltage > 0 &&
+      inputDetails[1].lengths > 0
+    ) {
+      console.log('index 0');
+      // 1. Make the specs as a string
+      const specsString = `${inputDetails[1].current}/${inputDetails[1].wattage}/${inputDetails[1].voltage}/${inputDetails[1].lengths}`;
+      // 2. Find Index using indexOF
+      const descriptionIndex = specsStr.indexOf(specsString);
+      // 3. Set description state
+      const copyArr = [
+        description[0],
+        descriptionOptions[descriptionIndex],
+        '',
+      ];
+      setDescription(copyArr);
+    }
+  }, [
+    inputDetails[1].current,
+    inputDetails[1].wattage,
+    inputDetails[1].voltage,
+    inputDetails[1].lengths,
+  ]);
+
+  useEffect(() => {
+    if (
+      inputDetails[2].current > 0 &&
+      inputDetails[2].wattage > 0 &&
+      inputDetails[2].voltage > 0 &&
+      inputDetails[2].lengths > 0
+    ) {
+      console.log('index 0');
+      // 1. Make the specs as a string
+      const specsString = `${inputDetails[2].current}/${inputDetails[2].wattage}/${inputDetails[2].voltage}/${inputDetails[2].lengths}`;
+      // 2. Find Index using indexOF
+      const descriptionIndex = specsStr.indexOf(specsString);
+      // 3. Set description state
+      const copyArr = [
+        description[0],
+        description[1],
+        descriptionOptions[descriptionIndex],
+      ];
+      setDescription(copyArr);
+    }
+  }, [
+    inputDetails[2].current,
+    inputDetails[2].wattage,
+    inputDetails[2].voltage,
+    inputDetails[2].lengths,
+  ]);
 
   const handleClick = (name) => {
     if (name === 'add') {
@@ -139,10 +190,19 @@ const AdminSSRItemDetails = ({
 
   // Activate keypad with input ID
   const handleActivateKeypad = (index, name) => {
-    // 1. set index and name
-    setInputId([index, name]);
-    // 2. Activate Keypad
-    setActivateKeypad(true);
+    if (name === 'partNumber') {
+      // 1. set index and name
+      setInputId([index, name]);
+      // 2. Activate Keyboard
+      setActivateKeyboard(true);
+      setActivateKeypad(false);
+    } else {
+      // 1. set index and name
+      setInputId([index, name]);
+      // 2. Activate Keypad
+      setActivateKeypad(true);
+      setActivateKeyboard(false);
+    }
   };
 
   // For keyboard input
@@ -152,6 +212,7 @@ const AdminSSRItemDetails = ({
 
   // For virtual keypad input
   const handleKeypadInput = (index, name, input) => {
+    console.log(index, name, input);
     // 1. Copy current inputDetails state
     const newInput = [...inputDetails];
     // 2. update new Input into requested index and name
@@ -166,7 +227,18 @@ const AdminSSRItemDetails = ({
         {inputDetails.map((element, index) => (
           <>
             <ItemWrapper key={index} column={index} hiddenNumber={hiddenNumber}>
-              <ItemPartNumber></ItemPartNumber>
+              <ItemPartNumber>
+                <ItemPartNumberInput
+                  type='text'
+                  isEnable={isEnable}
+                  placeholder='Input part number'
+                  onClick={() =>
+                    isEnable && handleActivateKeypad(index, 'partNumber')
+                  }
+                  onChange={() => handleSetInput(index, 'partNumber')}
+                  value={element.partNumber}
+                />
+              </ItemPartNumber>
               <ItemCurrent isEnable={isEnable}>
                 <ItemDataInput
                   type='text'
@@ -219,13 +291,8 @@ const AdminSSRItemDetails = ({
                 <ItemDescription isEnable={isEnable}>
                   <ItemDataDescription isDescription={true} isEnable={isEnable}>
                     {description[index] && description[index]}
-                    <br></br>
                     {description[index] &&
-                      `${inputDetails[index].current} a / ${
-                        inputDetails[index].wattage
-                      } w / ${inputDetails[index].voltage} v / ${
-                        inputDetails[index].lengths
-                      } l - ${Math.round(inputDetails[index].lengths * 3.28)}`}
+                      ` / ${inputDetails[index].current} a / ${inputDetails[index].wattage} w / ${inputDetails[index].voltage} v / ${inputDetails[index].lengths} l`}
                   </ItemDataDescription>
                 </ItemDescription>
 
@@ -252,6 +319,17 @@ const AdminSSRItemDetails = ({
             name={inputId[1]}
           />
         </KeypadWrapper>
+      )}
+
+      {activateKeyboard && (
+        <KeyboardWrapper positionTop={hiddenNumber}>
+          <InputKeyboard
+            closeKeyboard={() => setActivateKeyboard(false)}
+            handleOnSubmit={handleKeypadInput}
+            column={inputId[0]}
+            name={inputId[1]}
+          />
+        </KeyboardWrapper>
       )}
 
       <SSRDetailButtonContainer handleClick={handleClick} />
@@ -396,6 +474,20 @@ const ItemDescription = styled.li`
       ${ItemBackgroundDisable}
     `};
 `;
+
+const ItemPartNumberInput = styled.input`
+  font-size: 6px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 90px;
+  vertical-align: middle;
+
+  background-color: transparent;
+  &::placeholder {
+    color: #fff;
+  }
+`;
+
 const ItemDataInput = styled.input`
   font-size: 8px;
   text-align: center;
@@ -451,4 +543,23 @@ const KeypadWrapper = styled.div`
         `}
 
   left: 15%;
+`;
+
+const KeyboardWrapper = styled.div`
+  z-index: 100;
+
+  position: absolute;
+  ${(p) =>
+    p.positionTop === 1
+      ? css`
+          top: 3rem;
+          right: 6rem;
+        `
+      : p.positionTop === 2
+      ? css`
+          top: 4.5rem;
+        `
+      : css`
+          top: 5.7rem;
+        `}
 `;
