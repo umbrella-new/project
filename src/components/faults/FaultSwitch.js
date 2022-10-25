@@ -3,10 +3,22 @@ import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import ExpandButton from './ExpandButton';
 import Faults from './Faults';
+import FaultsComments from './FaultsComments';
+import FaultsDetails from './FaultsDetails';
 
 const FaultSwitch = ({ title, number, isFaults, name }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [displayCommentBox, setDisplayCommentBox] = useState(false);
+  const [displayViewBox, setDisplayViewBox] = useState(false);
+  const initialCommentState = { name: null, type: null, comment: null };
+  const [commentInput, setCommentInput] = useState(initialCommentState);
 
+  const faultsDummyContents = [
+    'SSR2 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
+    'NETWORK FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+    'FAULT GROUND - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/05/2022',
+    'SSR1 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
+  ];
   const imgSrcNormal =
     name === 'ess'
       ? '/images/fault-ess-normal.svg'
@@ -30,44 +42,77 @@ const FaultSwitch = ({ title, number, isFaults, name }) => {
       }
     }
   };
-  console.log(number);
+
+  const handleButtonClick = (name, column) => {
+    console.log(name, column);
+    if (name === 'comment') {
+      // display comment box
+      setDisplayCommentBox(true);
+    } else if (name === 'view') {
+      // display history box
+      setDisplayViewBox(true);
+    } else {
+      // not decided
+    }
+  };
 
   return (
-    <Wrapper>
-      <ItemInnerHole isFaults={isFaults}>
-        <ItemTop>
-          <LogoAndTitleWrapper>
-            <SwitchLogo isFaults={isFaults}>
-              <img src={isExpanded ? imgSrcActivated : imgSrcNormal} />
-            </SwitchLogo>
-            <Title isFaults={isFaults}>{title}</Title>
-            <Divider isFaults={isFaults} name={name}></Divider>
-          </LogoAndTitleWrapper>
-          <DisplayAndButtonWrapper>
-            <DisplayFaults>
-              <FaultsDetailsNumber>{number ? number : ''}</FaultsDetailsNumber>
-              <FaultsDetailsTitle isFaults={isFaults}>
-                faults
-              </FaultsDetailsTitle>
-              <FaultsLogo isFaults={isFaults}>
-                <img
-                  src={
-                    isFaults
-                      ? '/images/fault-alarm-fault.svg'
-                      : '/images/fault-alarm-normal.svg'
-                  }
-                />
-              </FaultsLogo>
-            </DisplayFaults>
+    <Wrapper isExpanded={isExpanded}>
+      <ItemInnerHole isFaults={isFaults} isExpanded={isExpanded}>
+        <MainWrapper>
+          <ItemTop>
+            <LogoAndTitleWrapper>
+              <SwitchLogo isFaults={isFaults}>
+                <img src={isExpanded ? imgSrcActivated : imgSrcNormal} />
+              </SwitchLogo>
+              <Title isFaults={isFaults}>{title}</Title>
+              <Divider isFaults={isFaults} name={name}></Divider>
+            </LogoAndTitleWrapper>
+            <DisplayAndButtonWrapper>
+              <DisplayFaults>
+                <FaultsDetailsNumber>
+                  {number ? number : ''}
+                </FaultsDetailsNumber>
+                <FaultsDetailsTitle isFaults={isFaults}>
+                  faults
+                </FaultsDetailsTitle>
+                <FaultsLogo isFaults={isFaults}>
+                  <img
+                    src={
+                      isFaults
+                        ? '/images/fault-alarm-fault.svg'
+                        : '/images/fault-alarm-normal.svg'
+                    }
+                  />
+                </FaultsLogo>
+              </DisplayFaults>
 
-            <ExpandButton
-              handleOnClick={handleDisplayFaults}
-              isExpanded={isExpanded}
-              name={isExpanded ? 'close' : 'expand'}
-            />
-          </DisplayAndButtonWrapper>
-        </ItemTop>
+              <ExpandButton
+                handleOnClick={handleDisplayFaults}
+                isExpanded={isExpanded}
+                name={isExpanded ? 'close' : 'expand'}
+              />
+            </DisplayAndButtonWrapper>
+          </ItemTop>
+        </MainWrapper>
+        {isExpanded && (
+          <DetailWrapper>
+            <DetailInnerWrapper>
+              <DetailInnerTop>
+                {faultsDummyContents.map((message, index) => (
+                  <FaultsDetails
+                    faultContents={message}
+                    key={index}
+                    column={index}
+                    handleButtonClick={handleButtonClick}
+                  />
+                ))}
+              </DetailInnerTop>
+            </DetailInnerWrapper>
+          </DetailWrapper>
+        )}
       </ItemInnerHole>
+      {displayCommentBox && <FaultsComments />}
     </Wrapper>
   );
 };
@@ -76,7 +121,14 @@ export default FaultSwitch;
 
 const Wrapper = styled.div`
   width: 901px;
-  height: 80px;
+  ${(p) =>
+    p.isExpanded
+      ? css`
+          height: none;
+        `
+      : css`
+          height: 80px;
+        `}
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 4px #000000;
   border: 1px solid #1b2b44;
@@ -84,15 +136,31 @@ const Wrapper = styled.div`
 
   ${flexboxCenter}
   margin-top: 0.5rem;
+
+  ${(p) =>
+    p.isExpanded &&
+    css`
+      padding-top: 0.25rem;
+    `}
 `;
 const ItemInnerHole = styled.div`
   width: 895px;
-  height: 76px;
+  ${(p) =>
+    p.isExpanded
+      ? css`
+          height: none;
+        `
+      : css`
+          height: 76px;
+        `}
+
   background: #142033 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 38px;
 
   ${flexboxCenter}
+  flex-direction:column;
+
   ${(p) =>
     p.isFaults &&
     css`
@@ -230,4 +298,41 @@ const FaultsLogo = styled.div`
     css`
       border: 1px solid red;
     `}
+`;
+
+const MainWrapper = styled.div``;
+const DetailWrapper = styled.div`
+  margin-top: 0.5rem;
+  padding: 0.3rem 0;
+  width: 882px;
+  margin-bottom: 0.4rem;
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  border: 1px solid #142033;
+  border-radius: 14px 14px 32px 32px;
+
+  ${flexboxCenter}
+`;
+const DetailInnerWrapper = styled.div`
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border: 0.5px solid #142033;
+  border-radius: 16px 16px 34px 34px;
+
+  ${flexboxCenter}
+  margin-bottom: 1.2rem;
+`;
+
+const DetailInnerTop = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+
+  width: 869px;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 9px;
 `;
