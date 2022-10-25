@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
-const DefaultTemp = () => {
+const DefaultTemp = ({ defaultTemp }) => {
   return (
     <Wrapper>
       <InnerLayer>
@@ -9,7 +9,7 @@ const DefaultTemp = () => {
           default<br></br> temp.
         </Title>
         <Divider />
-        <DefaultDegree>350&deg;C</DefaultDegree>
+        <DefaultDegree>{defaultTemp}&deg;C</DefaultDegree>
       </InnerLayer>
     </Wrapper>
   );

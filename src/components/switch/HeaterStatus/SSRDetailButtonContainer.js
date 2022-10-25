@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import SSRDetailAddButton from './SSRDetailAddButton';
 
-const SSRDetailButtonContainer = ({ handleClick }) => {
+const SSRDetailButtonContainer = ({ handleClick, isEditable }) => {
   const buttonNames = ['add', 'clear', 'apply'];
+
   return (
     <Wrapper>
       <ButtonWrapper>

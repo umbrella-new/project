@@ -1,13 +1,16 @@
-import { useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
-import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import styled, { css } from "styled-components";
+import { selectSSRState } from "../../../store/slices/heaterStatusSlice";
+import { selectDescription } from "../../../store/slices/ssrDescriptionSlice";
 import {
   flexboxCenter,
   ItemBackground,
   ItemBackgroundDisable,
-} from '../../../styles/commonStyles';
+} from "../../../styles/commonStyles";
 
-import SettingButton from './SettingButton';
+import SettingButton from "./SettingButton";
 
 const SSRItemDetails = ({
   isEnable,
@@ -20,14 +23,39 @@ const SSRItemDetails = ({
   handleButtonClick,
   openPasswordBox,
 }) => {
+  const descriptionState = useSelector(selectDescription);
+  const { specsStr, descriptionOptions } = descriptionState;
+  const [description, setDescription] = useState([]);
+
+  const [isAcceptableAmp, setAcceptableAmp] = useState([]);
+
+  const dispatch = useDispatch();
   // For mapping
   const { specs } = data;
+
+  // To make descriptions
+  useEffect(() => {
+    // 1. Make the specs as a string
+    const specsStrArr = specs.map(
+      (spec) =>
+        `${spec.partNumber}-${spec.current}/${spec.wattage}/${spec.voltage}/${spec.lengths}`
+    );
+    // 2. Find Index using indexOF
+    const descriptionIndex = specsStrArr.map((spec) => specsStr.indexOf(spec));
+    // 3. Set description state
+    const stateArr = descriptionIndex.map(
+      (dIndex) => descriptionOptions[dIndex]
+    );
+    setDescription(stateArr);
+
+    // Check the current with currentCurrent
+  }, [specs]);
 
   return (
     <Wrapper>
       <ContentWrapper isEnable={isEnable} isFault={isFault}>
         {specs.map((spec, index) => (
-          <ItemWrapper column={index} hiddenNumber={specs.length}>
+          <ItemWrapper column={index} hiddenNumber={specs.length} key={index}>
             <ItemCurrentWrapper>
               <ItemCurrent isEnable={isEnable}>
                 <ItemData isDefault={true} isEnable={isEnable}>
@@ -49,14 +77,16 @@ const SSRItemDetails = ({
             </ItemVoltage>
 
             <ItemLength isEnable={isEnable}>
-              <ItemData isEnable={isEnable}>{spec.length}</ItemData>
+              <ItemData isEnable={isEnable}>{spec.lengths}</ItemData>
             </ItemLength>
 
             <DescriptionAndButtonWrapper>
               <ItemDescription isEnable={isEnable}>
                 <ItemData isDescription={true} isEnable={isEnable}>
-                  {data.description} <br></br> / {data.current} a /{' '}
-                  {data.wattage} w / / {data.voltage} v / / {data.length}
+                  {description[index] && description[index]}
+                  <br></br>
+                  {description[index] &&
+                    `${spec.current}A / ${spec.wattage}W / ${spec.voltage}v / ${spec.lengths}l`}
                 </ItemData>
               </ItemDescription>
 
@@ -113,7 +143,7 @@ const ContentWrapper = styled.ul`
           opacity: 1;
         `}
 
-  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+  border: ${(p) => (p.isFault ? "1px solid red" : "")};
 `;
 
 const ItemWrapper = styled.div`
@@ -212,7 +242,7 @@ const ItemData = styled.span`
       font-size: 6px;
     `}
 
-  color: ${(p) => p.isDefault && '#95ff45'};
+  color: ${(p) => p.isDefault && "#95ff45"};
   color: ${(p) => p.isEnable || `#808080;`};
 `;
 
