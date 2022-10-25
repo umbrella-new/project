@@ -160,10 +160,11 @@ const Title = styled.span`
   text-transform: uppercase;
   font-size: 8px;
   &:first-child {
-    margin-right: 1.8rem;
+    margin-left: 0.3rem;
+    margin-right: 2rem;
   }
   &:nth-child(2) {
-    margin-right: 2rem;
+    margin-right: 2.2rem;
   }
   &:nth-child(3) {
     margin-right: 2.5rem;
