@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
+import { selectFaults } from '../../store/slices/faultsSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 import CommentButton from './CommentButton';
 
 const FaultsComments = ({ handleClose, indexNumber }) => {
+  const faultsState = useSelector(selectFaults);
+  const { faultsTypes } = faultsState;
   const buttonNames = ['clear', 'save'];
 
   // States for faults type select box
@@ -46,9 +50,12 @@ const FaultsComments = ({ handleClose, indexNumber }) => {
           </TitleWrapper>
 
           <Title>select fault type</Title>
+
           <SelectBoxWrapper>
             <SelectBoxInner>
-              <SelectedOne>select fault type</SelectedOne>
+              <SelectedOne>
+                {selectedOne ? selectedOne : 'select fault type'}
+              </SelectedOne>
             </SelectBoxInner>
             <SelectButton>
               <img src={'/images/faults-comment-selector.svg'} />
