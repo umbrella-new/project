@@ -25,7 +25,9 @@ const Faults = () => {
             name='ess'
             title='electric switch system'
             isFaults={ess.isFaults}
-            number={ess.number}
+            number={ess.message.length}
+            message={ess.message}
+            comments={ess.comments}
           />
         ) : (
           <>
@@ -33,13 +35,17 @@ const Faults = () => {
               name='tgs'
               title='typhoon gas system'
               isFaults={tgs.isFaults}
-              number={tgs.number}
+              number={tgs.message.length}
+              message={ess.message}
+              comments={tgs.comments}
             />
             <FaultSwitch
               name='tes'
               title='typhoon electric system'
               isFaults={ess.isFaults}
-              number={ess.number}
+              number={ess.message.length}
+              message={ess.message}
+              comments={ess.comments}
             />
           </>
         )}
@@ -51,8 +57,8 @@ const Faults = () => {
 export default Faults;
 
 const Wrapper = styled.div`
-  height: 462px;
   width: 901px;
+  min-height: 462px;
 `;
 
 const TitleWrapper = styled.div`

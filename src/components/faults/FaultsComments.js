@@ -1,12 +1,20 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
+import { selectFaults } from '../../store/slices/faultsSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 import CommentButton from './CommentButton';
 
-const FaultsComments = () => {
+const FaultsComments = ({ handleClose, indexNumber }) => {
+  const faultsState = useSelector(selectFaults);
+  const { faultsTypes } = faultsState;
   const buttonNames = ['clear', 'save'];
+
+  // States for faults type select box
+  const [isClicked, setIsClicked] = useState(false);
+  const [selectedOne, setSelectedOne] = useState(null);
 
   const [commentsInput, setCommentsInput] = useState({
     name: null,
@@ -14,42 +22,74 @@ const FaultsComments = () => {
     comments: null,
   });
 
+  const handleCommentButtonClick = (name) => {
+    if (name === 'clear') {
+      // reset input state if it is not null
+      if (commentsInput.comments) {
+        setCommentsInput({
+          name: null,
+          type: null,
+          comments: null,
+        });
+      } else {
+        // close the comment box
+        handleClose(false);
+      }
+    } else {
+      // name === save -> send input state to the parents element with index
+      // dispatch to save the comments
+    }
+  };
+
   return (
-    <Wrapper>
-      <ContentsWrapper>
-        <TitleWrapper>
-          <ComponentTitle>faults comments</ComponentTitle>
-        </TitleWrapper>
+    <InvisibleWrapper>
+      <Wrapper>
+        <ContentsWrapper>
+          <TitleWrapper>
+            <ComponentTitle>faults comments</ComponentTitle>
+          </TitleWrapper>
 
-        <Title>select fault type</Title>
-        <SelectBoxWrapper>
-          <SelectBoxInner>
-            <SelectedOne>select fault type</SelectedOne>
-          </SelectBoxInner>
-          <SelectButton>
-            <img src={'/images/faults-comment-selector.svg'} />
-          </SelectButton>
-        </SelectBoxWrapper>
+          <Title>select fault type</Title>
 
-        <Title>comment</Title>
-        <CommentInput></CommentInput>
+          <SelectBoxWrapper>
+            <SelectBoxInner>
+              <SelectedOne>
+                {selectedOne ? selectedOne : 'select fault type'}
+              </SelectedOne>
+            </SelectBoxInner>
+            <SelectButton>
+              <img src={'/images/faults-comment-selector.svg'} />
+            </SelectButton>
+          </SelectBoxWrapper>
 
-        <ButtonLayoutWrapper>
-          <ButtonWrapper>
-            {buttonNames.map((name) => (
-              <CommentButton name={name} />
-            ))}
-          </ButtonWrapper>
-        </ButtonLayoutWrapper>
-      </ContentsWrapper>
-    </Wrapper>
+          <Title>comment</Title>
+          <CommentInput placeholder='Leave your comments here..' />
+
+          <ButtonLayoutWrapper>
+            <ButtonWrapper>
+              {buttonNames.map((name) => (
+                <CommentButton
+                  name={name}
+                  handleButtonClick={handleCommentButtonClick}
+                />
+              ))}
+            </ButtonWrapper>
+          </ButtonLayoutWrapper>
+        </ContentsWrapper>
+      </Wrapper>
+    </InvisibleWrapper>
   );
 };
 export default FaultsComments;
 
-const Wrapper = styled.div`
+const InvisibleWrapper = styled.div`
+  width: 800px;
+  height: 600px;
+  ${flexboxCenter}
   position: absolute;
+`;
 
+const Wrapper = styled.div`
   width: 402px;
   height: 305px;
 
@@ -139,6 +179,7 @@ const CommentInput = styled.textarea`
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 8px;
+  border: none;
 `;
 
 const ButtonLayoutWrapper = styled.div`

@@ -1,24 +1,19 @@
 import { useState } from 'react';
+
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
+
 import ExpandButton from './ExpandButton';
-import Faults from './Faults';
 import FaultsComments from './FaultsComments';
 import FaultsDetails from './FaultsDetails';
+import FaultsView from './FaultsView';
 
-const FaultSwitch = ({ title, number, isFaults, name }) => {
+const FaultSwitch = ({ title, number, isFaults, name, message, comments }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
+  const [indexNumber, setIndexNumber] = useState(null);
   const [displayViewBox, setDisplayViewBox] = useState(false);
-  const initialCommentState = { name: null, type: null, comment: null };
-  const [commentInput, setCommentInput] = useState(initialCommentState);
 
-  const faultsDummyContents = [
-    'SSR2 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
-    'NETWORK FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
-    'FAULT GROUND - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/05/2022',
-    'SSR1 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
-  ];
   const imgSrcNormal =
     name === 'ess'
       ? '/images/fault-ess-normal.svg'
@@ -48,6 +43,7 @@ const FaultSwitch = ({ title, number, isFaults, name }) => {
     if (name === 'comment') {
       // display comment box
       setDisplayCommentBox(true);
+      setIndexNumber(column);
     } else if (name === 'view') {
       // display history box
       setDisplayViewBox(true);
@@ -99,12 +95,12 @@ const FaultSwitch = ({ title, number, isFaults, name }) => {
           <DetailWrapper>
             <DetailInnerWrapper>
               <DetailInnerTop>
-                {faultsDummyContents.map((message, index) => (
+                {message.map((msg, index) => (
                   <FaultsDetails
-                    faultContents={message}
                     key={index}
                     column={index}
                     handleButtonClick={handleButtonClick}
+                    faultContents={msg}
                   />
                 ))}
               </DetailInnerTop>
@@ -112,7 +108,18 @@ const FaultSwitch = ({ title, number, isFaults, name }) => {
           </DetailWrapper>
         )}
       </ItemInnerHole>
-      {displayCommentBox && <FaultsComments />}
+      {displayCommentBox && (
+        <FaultsComments
+          indexNumber={indexNumber}
+          handleClose={setDisplayCommentBox}
+        />
+      )}
+      {displayViewBox && (
+        <FaultsView
+          handleClose={() => setDisplayViewBox(false)}
+          comments={comments}
+        />
+      )}
     </Wrapper>
   );
 };
