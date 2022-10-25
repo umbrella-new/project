@@ -5,7 +5,11 @@ import { flexboxCenter } from '../../styles/commonStyles';
 
 import CommentButton from './CommentButton';
 
-const FaultsComments = () => {
+const FaultsComments = ({
+  setDisplayCommentBox,
+  indexNumber,
+  handleComments,
+}) => {
   const buttonNames = ['clear', 'save'];
 
   const [commentsInput, setCommentsInput] = useState({
@@ -13,6 +17,25 @@ const FaultsComments = () => {
     type: null,
     comments: null,
   });
+
+  const handleCommentButtonClick = (name) => {
+    if (name === 'clear') {
+      // reset input state if it is not null
+      if (commentsInput.comments) {
+        setCommentsInput({
+          name: null,
+          type: null,
+          comments: null,
+        });
+      } else {
+        // close the comment box
+        setDisplayCommentBox(false);
+      }
+    } else {
+      // name === save -> send input state to the parents element with index
+      handleComments(indexNumber, commentsInput);
+    }
+  };
 
   return (
     <Wrapper>
@@ -37,7 +60,10 @@ const FaultsComments = () => {
         <ButtonLayoutWrapper>
           <ButtonWrapper>
             {buttonNames.map((name) => (
-              <CommentButton name={name} />
+              <CommentButton
+                name={name}
+                handleButtonClick={handleCommentButtonClick}
+              />
             ))}
           </ButtonWrapper>
         </ButtonLayoutWrapper>
@@ -139,6 +165,7 @@ const CommentInput = styled.textarea`
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 8px;
+  border: none;
 `;
 
 const ButtonLayoutWrapper = styled.div`

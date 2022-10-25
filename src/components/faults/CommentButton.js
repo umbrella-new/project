@@ -2,9 +2,9 @@ import { AiFillEdit } from 'react-icons/ai';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
-const CommentButton = ({ name, handleCommentButtonClick }) => {
+const CommentButton = ({ name, handleButtonClick }) => {
   return (
-    <Wrapper onClick={() => handleCommentButtonClick(name)}>
+    <Wrapper onClick={() => handleButtonClick(name)}>
       <Inner>
         <Top>
           <Title>{name}</Title>

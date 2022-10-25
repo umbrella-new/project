@@ -9,9 +9,8 @@ import FaultsDetails from './FaultsDetails';
 const FaultSwitch = ({ title, number, isFaults, name }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
+  const [indexNumber, setIndexNumber] = useState(null);
   const [displayViewBox, setDisplayViewBox] = useState(false);
-  const initialCommentState = { name: null, type: null, comment: null };
-  const [commentInput, setCommentInput] = useState(initialCommentState);
 
   const faultsDummyContents = [
     'SSR2 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
@@ -47,6 +46,7 @@ const FaultSwitch = ({ title, number, isFaults, name }) => {
     console.log(name, column);
     if (name === 'comment') {
       // display comment box
+      setIndexNumber(column);
       setDisplayCommentBox(true);
     } else if (name === 'view') {
       // display history box
@@ -112,7 +112,12 @@ const FaultSwitch = ({ title, number, isFaults, name }) => {
           </DetailWrapper>
         )}
       </ItemInnerHole>
-      {displayCommentBox && <FaultsComments />}
+      {displayCommentBox && (
+        <FaultsComments
+          setDisplayCommentBox={setDisplayCommentBox}
+          indexNumber={indexNumber}
+        />
+      )}
     </Wrapper>
   );
 };
