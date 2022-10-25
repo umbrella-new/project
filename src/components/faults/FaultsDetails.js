@@ -5,11 +5,7 @@ import FaultsDetailButtonContainer from './FaultsDetailButtonContainer';
 const FaultsDetails = ({ faultContents, column, handleButtonClick }) => {
   return (
     <Wrapper>
-      <FaultsText>
-        {faultContents
-          ? faultContents
-          : 'SSR2 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022'}
-      </FaultsText>
+      <FaultsText>{faultContents}</FaultsText>
       <ButtonWrapper>
         <FaultsDetailButtonContainer
           handleButtonClick={handleButtonClick}
