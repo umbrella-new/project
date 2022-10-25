@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import {
   setEssTcTemp,
   selectForceAndCommand,
+  setTgsTesTcTemp,
 } from '../../../../../store/slices/forceAndCommandSlice';
 
 function SelectTc({ ess, tgs, essSwitch }) {
@@ -43,26 +44,92 @@ function SelectTc({ ess, tgs, essSwitch }) {
   const tesSwitch = state.isTesSwitch;
 
   // const initialState = useSelector(selectForceAndCommand);
-  // const temp = initialState.essOutSideTemp;
-  // console.log(initialState);
+  // const temp = initialState.tgsTesOutsideTemp;
+  // const o = initialState.essHeaterTemp;
+  // const y = initialState.essEncloseTemp;
+  // console.log(temp);
   const dispatch = useDispatch();
 
-  const [isClicked, setIsClicked] = useState([false, false, false]);
+  const [isClicked, setIsClicked] = useState({
+    essOutsideTemp: false,
+    essHeaterTemp: false,
+    essEncloseTemp: false,
+    tgsTesOutsideTemp: false,
+    burningChamberTemp: false,
+    tgsHeaterTemp: false,
+    tesHeaterTemp: false,
+    tgsTesEncloseTemp: false,
+  });
   const [checked, setChecked] = useState(select[0]);
 
   const handleChecked = (elem) => {
     setChecked(elem);
   };
-  const displayOptions = (num) => {
-    const copyArr = isClicked;
-    copyArr[num] = !copyArr[num];
-    setIsClicked(copyArr);
+  const displayOptions = (data) => {
+    console.log(data);
+
+    if (essSwitch) {
+      if (data === 'essOutsideTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          essOutsideTemp: !prevState[data],
+        }));
+      } else if (data === 'essHeaterTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          essHeaterTemp: !prevState[data],
+        }));
+      } else if (data === 'essEncloseTemp')
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          essEncloseTemp: !prevState[data],
+        }));
+    } else {
+      if (data === 'tgsTesOutsideTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          tgsTesOutsideTemp: !prevState[data],
+        }));
+      } else if (data === 'burningChamberTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          burningChamberTemp: !prevState[data],
+        }));
+      } else if (data === 'tgsHeaterTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          tgsHeaterTemp: !prevState[data],
+        }));
+      } else if (data === 'tesHeaterTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          tesHeaterTemp: !prevState[data],
+        }));
+      } else if (data === 'tgsTesEncloseTemp') {
+        return setIsClicked((prevState) => ({
+          ...isClicked,
+          tgsTesEncloseTemp: !prevState[data],
+        }));
+      }
+    }
   };
 
   const onConfirmCurrentEssHeaterTempHandler = (id) => {
-    dispatch(setEssTcTemp({ id: id, data: checked }));
+    console.log({ id: id, data: checked });
+    essSwitch
+      ? dispatch(setEssTcTemp({ id: id, data: checked }))
+      : dispatch(setTgsTesTcTemp({ id: id, data: checked }));
 
-    displayOptions([false, false, false]);
+    setIsClicked(() => ({
+      essOutsideTemp: false,
+      essHeaterTemp: false,
+      essEncloseTemp: false,
+      tgsTesOutsideTemp: false,
+      burningChamberTemp: false,
+      tgsHeaterTemp: false,
+      tesHeaterTemp: false,
+      tgsTesEncloseTemp: false,
+    }));
   };
 
   return (
@@ -80,7 +147,9 @@ function SelectTc({ ess, tgs, essSwitch }) {
               isClicked={isClicked}
               select={select}
               checked={checked}
-              essOutSideTemp={'essOutSideTemp'}
+              essOutsideTemp={'essOutsideTemp'}
+              tgsTesOutsideTemp={'tgsTesOutsideTemp'}
+              burningChamberTemp={'burningChamberTemp'}
             />
             <CurrentEncloseAndBurningTemp
               data={essSwitch ? essData : tgsData}
@@ -92,11 +161,16 @@ function SelectTc({ ess, tgs, essSwitch }) {
               isClicked={isClicked}
               select={select}
               checked={checked}
+              essHeaterTemp={'essHeaterTemp'}
+              essEncloseTemp={'essEncloseTemp'}
+              tgsHeaterTemp={'tgsHeaterTemp'}
+              tesHeaterTemp={'tesHeaterTemp'}
+              tgsTesEncloseTemp={'tgsTesEncloseTemp'}
             />
           </Wrapper>
-          <WrapperButton>
+          {/* <WrapperButton>
             <ButtonSelect />
-          </WrapperButton>
+          </WrapperButton> */}
         </WrapperTelemetry2>
       </WrapperTelemetry1>
     </WrapperTelemetry>
@@ -172,6 +246,7 @@ const Wrapper = styled.div`
   height: 234px;
   height: auto;
   margin: 2px 0 2px 0;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-evenly;
   align-items: baseline;

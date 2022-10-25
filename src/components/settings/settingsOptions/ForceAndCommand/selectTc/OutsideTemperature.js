@@ -14,16 +14,17 @@ function OutsideTemperature({
   isClicked,
   select,
   checked,
-  essOutSideTemp,
+  essOutsideTemp,
+  tgsTesOutsideTemp,
+  burningChamberTemp,
 }) {
-  console.log('0', isClicked);
   const tempMeasurementSelection = ['internet', 'thermocouple'];
   const whiteTriangle = './images/whiteTriangle.svg';
   const greyTriangle = './images/greyTriangle.svg';
 
   // states
   const [temperatureSelection, setTemperatureSelection] = useState(0);
-  const [activeSelect, setActiveSelect] = useState(true);
+  const [activeSelect, setActiveSelect] = useState(false);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -41,8 +42,10 @@ function OutsideTemperature({
     else return setActiveSelect(!activeSelect);
   };
 
+  console.log('dropdown', isClicked);
+
   return (
-    <div>
+    <Wrapper>
       <SubTitleWrapper>
         <SubTitleWrapper2>
           <SubTitle>{'outside temperature'}</SubTitle>
@@ -76,35 +79,47 @@ function OutsideTemperature({
 
       <SelectionShadowWrapper>
         <SelectionWrapper color={activeSelect}>
-          <SelectionIndentWrapper color={activeSelect}>
-            <Selection color={activeSelect}>select t/c</Selection>
-          </SelectionIndentWrapper>
+          <WrapperTitleAndImg>
+            <SelectionIndentWrapper color={activeSelect}>
+              <Selection color={activeSelect}>select t/c</Selection>
+            </SelectionIndentWrapper>
 
-          <Img
-            src={`${activeSelect ? whiteTriangle : greyTriangle}`}
-            onClick={() => displayOptions(0)}
-          />
+            <Img
+              src={`${activeSelect ? whiteTriangle : greyTriangle}`}
+              onClick={() =>
+                activeSelect && essSwitch
+                  ? displayOptions(essOutsideTemp)
+                  : activeSelect && displayOptions(tgsTesOutsideTemp)
+              }
+            />
+          </WrapperTitleAndImg>
+          {(activeSelect && isClicked.essOutsideTemp) ||
+          (activeSelect && isClicked.tgsTesOutsideTemp) ? (
+            <WrapperSelectAndConfirmButton>
+              <SelectWrapper>
+                {select.map((option) => (
+                  <RadioBox
+                    data={`${option}`}
+                    checked={checked}
+                    onHandler={handleChecked}
+                    key={option}
+                  />
+                ))}
+              </SelectWrapper>
+              <WrapperButton>
+                <ConfirmButton
+                  onConfirm={onConfirmHandler}
+                  essOutsideTemp={essOutsideTemp}
+                  tgsTesOutsideTemp={tgsTesOutsideTemp}
+                />
+              </WrapperButton>
+            </WrapperSelectAndConfirmButton>
+          ) : (
+            ''
+          )}
         </SelectionWrapper>
       </SelectionShadowWrapper>
 
-      {isClicked[0] && (
-        <>
-          <SelectWrapper>
-            {select.map((option) => (
-              <RadioBox
-                data={`${option}`}
-                checked={checked}
-                onHandler={handleChecked}
-                key={option}
-              />
-            ))}
-          </SelectWrapper>
-          <ConfirmButton
-            onConfirm={onConfirmHandler}
-            essOutSideTemp={essOutSideTemp}
-          />
-        </>
-      )}
       {/* burning chamber */}
       {!essSwitch && (
         <SubTitleSelectionWrapper>
@@ -115,16 +130,18 @@ function OutsideTemperature({
           </SubTitleWrapper>
           <SelectionShadowWrapper1>
             <SelectionWrapper1>
-              <SelectionIndentWrapper1>
-                <Selection1>select t/c</Selection1>
-              </SelectionIndentWrapper1>
+              <WrapperTitleAndImg>
+                <SelectionIndentWrapper1>
+                  <Selection1>select t/c</Selection1>
+                </SelectionIndentWrapper1>
 
-              <Img
-                src={'./images/whiteTriangle.svg'}
-                onClick={displayOptions}
-              />
-              {isClicked && (
-                <>
+                <Img
+                  src={'./images/whiteTriangle.svg'}
+                  onClick={() => displayOptions(burningChamberTemp)}
+                />
+              </WrapperTitleAndImg>
+              {isClicked.burningChamberTemp && (
+                <WrapperSelectAndConfirmButton>
                   <SelectWrapper>
                     {select.map((option) => (
                       <RadioBox
@@ -135,18 +152,29 @@ function OutsideTemperature({
                       />
                     ))}
                   </SelectWrapper>
-                  <ConfirmButton onConfirm={onConfirmHandler} />
-                </>
+                  <WrapperButton>
+                    <ConfirmButton
+                      onConfirm={onConfirmHandler}
+                      burningChamberTemp={burningChamberTemp}
+                    />
+                  </WrapperButton>
+                </WrapperSelectAndConfirmButton>
               )}
             </SelectionWrapper1>
           </SelectionShadowWrapper1>
         </SubTitleSelectionWrapper>
       )}
-    </div>
+    </Wrapper>
   );
 }
 
 export default OutsideTemperature;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 const SubTitleWrapper = styled.div`
   width: 252px;
@@ -172,6 +200,7 @@ const SubTitleWrapper2 = styled.div`
 const SubTitle = styled.div`
   font-size: var(--space2);
   text-transform: uppercase;
+  letter-spacing: 1px;
 `;
 
 const ControlContainer = styled.div`
@@ -236,7 +265,7 @@ const Text = styled.p`
 
 const SelectionShadowWrapper = styled.div`
   width: 252px;
-  height: 51px;
+  height: auto;
   margin-top: 4px;
 
   background: #142033 0% 0% no-repeat padding-box;
@@ -247,7 +276,10 @@ const SelectionShadowWrapper = styled.div`
 
 const SelectionWrapper = styled.div`
   width: 248px;
-  height: 47px;
+  height: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
 
   background: transparent
     linear-gradient(
@@ -261,8 +293,16 @@ const SelectionWrapper = styled.div`
   border-radius: 33px;
   opacity: 1;
   ${flexboxCenter}
+
   justify-content: space-around;
+  flex-direction: column;
 `;
+
+const WrapperTitleAndImg = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const SelectionIndentWrapper = styled.div`
   width: 195px;
   height: 38px;
@@ -287,7 +327,7 @@ const Img = styled.img`
 `;
 
 const SubTitleSelectionWrapper = styled.div`
-  margin-top: 21px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -296,7 +336,7 @@ const SubTitleSelectionWrapper = styled.div`
 
 const SelectionShadowWrapper1 = styled.div`
   width: 252px;
-  height: 51px;
+  height: auto;
   margin-top: 4px;
 
   background: #142033 0% 0% no-repeat padding-box;
@@ -308,7 +348,10 @@ const SelectionShadowWrapper1 = styled.div`
 
 const SelectionWrapper1 = styled.div`
   width: 248px;
-  height: 47px;
+  height: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0% 0;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
@@ -317,6 +360,7 @@ const SelectionWrapper1 = styled.div`
   opacity: 1;
   ${flexboxCenter}
   justify-content: space-around;
+  flex-direction: column;
 `;
 const SelectionIndentWrapper1 = styled.div`
   width: 195px;
@@ -335,8 +379,13 @@ const Selection1 = styled.div`
   text-transform: uppercase;
 `;
 
+const WrapperSelectAndConfirmButton = styled.div`
+  margin-top: 2px;
+  margin-bottom: 2px;
+`;
+
 const SelectWrapper = styled.div`
-  width: 82px;
+  width: 239px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
@@ -347,4 +396,9 @@ const SelectWrapper = styled.div`
   flex-direction: column;
   /* space between options and button */
   margin-bottom: 0.2rem;
+`;
+
+const WrapperButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;

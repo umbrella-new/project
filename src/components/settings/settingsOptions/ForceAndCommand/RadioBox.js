@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  width: 80px;
+  width: 239px;
   height: 20px;
   border: 1px solid #233a54;
   border-radius: 16px;
@@ -49,6 +49,7 @@ const Label = styled.span`
   font-size: 8px;
   text-align: center;
   width: 70%;
+  letter-spacing: 0.8px;
   /* border: 1px solid red; */
 `;
 const OptionChecker = styled.div`

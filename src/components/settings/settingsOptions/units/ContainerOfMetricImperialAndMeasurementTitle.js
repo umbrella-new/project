@@ -8,6 +8,10 @@ import {
   setResetAllSettingsButtons,
 } from '../../../../store/slices/settingsOfEssSlice';
 import { useState, useEffect } from 'react';
+import {
+  toggleUnitsBetweenImperialMetric,
+  selectUnitsState,
+} from '../../../../store/slices/unitsSlice';
 
 function ContainerOfMetricImperialAndMeasurementTitle() {
   const measurementsArr = [
@@ -40,9 +44,14 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
 
   const handleClick = (index) => {
     if (index !== metricImperialToggle) {
-      return setMetricImperialToggle(index);
+      return (
+        console.log('hihi'),
+        setMetricImperialToggle(index),
+        dispatch(toggleUnitsBetweenImperialMetric())
+      );
     }
   };
+
   return (
     <Wrapper>
       <Wrapper2 mode={mode}>
