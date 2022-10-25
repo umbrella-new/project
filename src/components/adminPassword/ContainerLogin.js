@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { useDispatch, useSelector } from 'react-redux';
-import { setAdminAccess, selectUserState } from '../../store/slices/userSlice';
-import { useRef } from 'react';
-import { useEffect } from 'react';
-import InputKeyboard from '../keyboard/InputKeyboard';
+import { useState } from "react";
+import styled from "styled-components";
+import { flexboxCenter } from "../../styles/commonStyles";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { setAdminAccess, selectUserState } from "../../store/slices/userSlice";
+import { useRef } from "react";
+import { useEffect } from "react";
+import InputKeyboard from "../keyboard/InputKeyboard";
 
 function ContainerLogin() {
   // state
-  const [passwordType, setPasswordType] = useState('password');
-  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordType, setPasswordType] = useState("password");
+  const [passwordInput, setPasswordInput] = useState("");
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   // redux
@@ -31,11 +31,11 @@ function ContainerLogin() {
   };
   const togglePassword = (e) => {
     e.preventDefault();
-    if (passwordType === 'password') {
-      setPasswordType('text');
+    if (passwordType === "password") {
+      setPasswordType("text");
       return;
     }
-    setPasswordType('password');
+    setPasswordType("password");
   };
 
   const handleSubmit = (e) => {
@@ -44,7 +44,7 @@ function ContainerLogin() {
       dispatch(setAdminAccess(true));
       setShowErrorMessage(false);
     } else {
-      setPasswordInput('');
+      setPasswordInput("");
       setShowErrorMessage(true);
     }
   };
@@ -54,7 +54,7 @@ function ContainerLogin() {
       dispatch(setAdminAccess(true));
       setShowErrorMessage(false);
     } else {
-      setPasswordInput('');
+      setPasswordInput("");
       setShowErrorMessage(true);
     }
   };
@@ -69,7 +69,7 @@ function ContainerLogin() {
               required
             </P>
             <Form onSubmit={handleSubmit}>
-              <Label for='password'>password</Label>
+              <Label>password</Label>
               <ContainerInputButton>
                 <InputWrap>
                   <Input
@@ -81,7 +81,7 @@ function ContainerLogin() {
                     onClick={() => setOpenKeyboard(true)}
                   />
                   <Button onClick={togglePassword}>
-                    {passwordType === 'password' ? (
+                    {passwordType === "password" ? (
                       <AiOutlineEyeInvisible />
                     ) : (
                       <AiOutlineEye />
@@ -96,7 +96,7 @@ function ContainerLogin() {
                         invalid password please try again
                       </WarningMessage>
                     )
-                  : ''}
+                  : ""}
               </Div>
 
               <EnterButton type='submit'>
