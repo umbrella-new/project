@@ -1,7 +1,20 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
+import RadioBox from '../RadioBox';
+import ConfirmButton from '../ConfirmButton';
 
-function CurrentEncloseAndBurningTemp({ data, essSwitch, tesSwitch }) {
+function CurrentEncloseAndBurningTemp({
+  data,
+  essSwitch,
+  tesSwitch,
+  handleChecked,
+  onConfirmHandler,
+  displayOptions,
+  isClicked,
+  select,
+  checked,
+  essOutSideTemp,
+}) {
   return (
     <FlexWrapper>
       {data.map((value, index) => {
@@ -50,14 +63,45 @@ function CurrentEncloseAndBurningTemp({ data, essSwitch, tesSwitch }) {
                   </Selection>
                 </SelectionIndentWrapper>
                 {essSwitch ? (
-                  <Img src={'./images/whiteTriangle.svg'} />
+                  <Img
+                    src={'./images/whiteTriangle.svg'}
+                    onClick={() => displayOptions(1)}
+                  />
                 ) : !tesSwitch && index === 1 ? (
-                  <Img src={'./images/greyTriangle.svg'} />
+                  <Img
+                    src={'./images/greyTriangle.svg'}
+                    onClick={displayOptions}
+                  />
                 ) : (
-                  <Img src={'./images/whiteTriangle.svg'} />
+                  <Img
+                    src={'./images/whiteTriangle.svg'}
+                    onClick={() => displayOptions(2)}
+                  />
                 )}
               </SelectionWrapper>
             </SelectionShadowWrapper>
+
+            {(isClicked[1] && index === 1) ||
+              (isClicked[2] &&
+                index ===
+                  2(
+                    <>
+                      <SelectWrapper>
+                        {select.map((option) => (
+                          <RadioBox
+                            data={`${option}`}
+                            checked={checked}
+                            onHandler={handleChecked}
+                            key={option}
+                          />
+                        ))}
+                      </SelectWrapper>
+                      <ConfirmButton
+                        onConfirm={onConfirmHandler}
+                        essOutSideTemp={essOutSideTemp}
+                      />
+                    </>
+                  ))}
           </SubTitleSelectionWrapper>
         );
       })}
@@ -185,4 +229,18 @@ const Selection = styled.div`
 const Img = styled.img`
   margin-top: 6px;
   margin-right: 4px;
+`;
+
+const SelectWrapper = styled.div`
+  width: 82px;
+
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 11px;
+  opacity: 1;
+
+  ${flexboxCenter}
+  flex-direction: column;
+  /* space between options and button */
+  margin-bottom: 0.2rem;
 `;

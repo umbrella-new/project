@@ -39,7 +39,6 @@ function ContainerOfForceAndCommand() {
   const stateOfEssTgs = useSelector(selectUserState);
   const essSwitch = stateOfEssTgs.isEssSwitch;
   const tesSwitch = stateOfEssTgs.isTesSwitch;
-  console.log('tesSwitch', tesSwitch);
 
   // State buttons of Sys, Ess, Tgs and Tes
   const [toggleSysButtonColor, setToggleSysButtonColor] =

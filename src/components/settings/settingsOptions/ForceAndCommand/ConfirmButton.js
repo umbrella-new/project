@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
-function ConfirmButton() {
+function ConfirmButton({ onConfirm, essOutSideTemp }) {
   return (
     <Wrapper>
-      <Wrapper1 onClick={() => {}}>
+      <Wrapper1
+        onClick={() => {
+          onConfirm(essOutSideTemp);
+        }}
+      >
         <ButtonHole>
           <ButtonTop>
             <ButtonName>confirm</ButtonName>

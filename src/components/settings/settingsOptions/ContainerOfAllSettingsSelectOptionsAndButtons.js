@@ -13,42 +13,14 @@ import {
 import EditCancelApplyButtons from './EditCancelApplyButtons';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
-  // const buttonNames = ['edit', 'cancel', 'apply'];
-
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
-  // const dispatch = useDispatch();
-
-  // const handleClick = (id) => {
-  //   switch (id) {
-  //     case 0:
-  //       dispatch(setSettingsEditButton());
-  //       break;
-  //     case 1:
-  //       dispatch(setSettingsCancelButton());
-  //       break;
-  //     case 2:
-  //       dispatch(setSettingsApplyButton());
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  // };
 
   return (
     <Wrapper mode={mode}>
       <TitleOfSettingsOptions />
       <AllTheSelectionsOfSettingsOptions />
       <EditCancelApplyButtons />
-      {/* <ContainerButtons mode={mode}>
-        {buttonNames.map((name, index) => {
-          return (
-            <div key={index}>
-              <Button id={index} handleClick={handleClick} name={name} />
-            </div>
-          );
-        })}
-      </ContainerButtons> */}
     </Wrapper>
   );
 }
