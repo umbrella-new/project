@@ -1,19 +1,59 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectUserState } from '../../../../store/slices/userSlice';
+function ConfirmButton({
+  onConfirm,
+  essOutsideTemp,
+  essEncloseTemp,
+  essHeaterTemp,
+  tgsTesOutsideTemp,
+  burningChamberTemp,
+  tgsHeaterTemp,
+  tesHeaterTemp,
+  tgsTesEncloseTemp,
+}) {
+  const userState = useSelector(selectUserState);
+  const essSwitch = userState.isEssSwitch;
 
-function ConfirmButton({ onConfirm, essOutSideTemp }) {
   return (
     <Wrapper>
-      <Wrapper1
-        onClick={() => {
-          onConfirm(essOutSideTemp);
-        }}
-      >
-        <ButtonHole>
-          <ButtonTop>
-            <ButtonName>confirm</ButtonName>
-          </ButtonTop>
-        </ButtonHole>
-      </Wrapper1>
+      {essSwitch ? (
+        <Wrapper1
+          onClick={() => {
+            essOutsideTemp
+              ? onConfirm(essOutsideTemp)
+              : essEncloseTemp
+              ? onConfirm(essEncloseTemp)
+              : essHeaterTemp && onConfirm(essHeaterTemp);
+          }}
+        >
+          <ButtonHole>
+            <ButtonTop>
+              <ButtonName>confirm</ButtonName>
+            </ButtonTop>
+          </ButtonHole>
+        </Wrapper1>
+      ) : (
+        <Wrapper1
+          onClick={() => {
+            tgsTesOutsideTemp
+              ? onConfirm(tgsTesOutsideTemp)
+              : burningChamberTemp
+              ? onConfirm(burningChamberTemp)
+              : tgsHeaterTemp
+              ? onConfirm(tgsHeaterTemp)
+              : tesHeaterTemp
+              ? onConfirm(tesHeaterTemp)
+              : tgsTesEncloseTemp && onConfirm(tgsTesEncloseTemp);
+          }}
+        >
+          <ButtonHole>
+            <ButtonTop>
+              <ButtonName>confirm</ButtonName>
+            </ButtonTop>
+          </ButtonHole>
+        </Wrapper1>
+      )}
     </Wrapper>
   );
 }

@@ -6,6 +6,11 @@ const initialState = {
   essHeaterTemp: selectInitialState,
   essEncloseTemp: selectInitialState,
   essOutSideTemp: selectInitialState,
+  tgsTesOutsideTemp: selectInitialState,
+  burningChamberTemp: selectInitialState,
+  tgsHeaterTemp: selectInitialState,
+  tesHeaterTemp: selectInitialState,
+  tgsTesEncloseTemp: selectInitialState,
 };
 
 const forceAndCommandStatusSlice = createSlice({
@@ -15,9 +20,14 @@ const forceAndCommandStatusSlice = createSlice({
     setEssTcTemp: (state, action) => {
       state[action.payload.id].select = action.payload.data;
     },
+
+    setTgsTesTcTemp: (state, action) => {
+      state[action.payload.id].select = action.payload.data;
+    },
   },
 });
 
-export const { setEssTcTemp } = forceAndCommandStatusSlice.actions;
+export const { setEssTcTemp, setTgsTesTcTemp } =
+  forceAndCommandStatusSlice.actions;
 export const selectForceAndCommand = (state) => state.forceAndCommandStatus;
 export default forceAndCommandStatusSlice;

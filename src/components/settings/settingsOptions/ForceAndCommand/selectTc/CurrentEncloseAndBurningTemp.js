@@ -13,7 +13,11 @@ function CurrentEncloseAndBurningTemp({
   isClicked,
   select,
   checked,
-  essOutSideTemp,
+  essEncloseTemp,
+  essHeaterTemp,
+  tgsHeaterTemp,
+  tesHeaterTemp,
+  tgsTesEncloseTemp,
 }) {
   return (
     <FlexWrapper>
@@ -39,6 +43,7 @@ function CurrentEncloseAndBurningTemp({
                 </SubTitle>
               </SubTitleWrapper2>
             </SubTitleWrapper>
+
             <SelectionShadowWrapper
               tesSwitch={tesSwitch}
               essSwitch={essSwitch}
@@ -49,59 +54,117 @@ function CurrentEncloseAndBurningTemp({
                 essSwitch={essSwitch}
                 index={index}
               >
-                <SelectionIndentWrapper
-                  tesSwitch={tesSwitch}
-                  essSwitch={essSwitch}
-                  index={index}
-                >
-                  <Selection
+                <WrapperTitleAndImg>
+                  <SelectionIndentWrapper
                     tesSwitch={tesSwitch}
                     essSwitch={essSwitch}
                     index={index}
                   >
-                    {value.selection}
-                  </Selection>
-                </SelectionIndentWrapper>
-                {essSwitch ? (
-                  <Img
-                    src={'./images/whiteTriangle.svg'}
-                    onClick={() => displayOptions(1)}
-                  />
-                ) : !tesSwitch && index === 1 ? (
-                  <Img
-                    src={'./images/greyTriangle.svg'}
-                    onClick={displayOptions}
-                  />
+                    <Selection
+                      tesSwitch={tesSwitch}
+                      essSwitch={essSwitch}
+                      index={index}
+                    >
+                      {value.selection}
+                    </Selection>
+                  </SelectionIndentWrapper>
+                  {essSwitch ? (
+                    <Img
+                      src={'./images/whiteTriangle.svg'}
+                      onClick={() =>
+                        index === 0
+                          ? displayOptions(essHeaterTemp)
+                          : displayOptions(essEncloseTemp)
+                      }
+                    />
+                  ) : !tesSwitch && index === 1 ? (
+                    <Img
+                      src={'./images/greyTriangle.svg'}
+                      // onClick={() => displayOptions(tesHeaterTemp)}
+                    />
+                  ) : (
+                    <Img
+                      src={'./images/whiteTriangle.svg'}
+                      onClick={() =>
+                        index === 0
+                          ? displayOptions(tgsHeaterTemp)
+                          : index === 1
+                          ? displayOptions(tesHeaterTemp)
+                          : index === 2 && displayOptions(tgsTesEncloseTemp)
+                      }
+                    />
+                  )}
+                </WrapperTitleAndImg>
+                {(isClicked.essHeaterTemp && index === 0) ||
+                (isClicked.tgsHeaterTemp && index === 0) ? (
+                  <WrapperSelectAndConfirmButton>
+                    <SelectWrapper>
+                      {select.map((option) => (
+                        <RadioBox
+                          data={`${option}`}
+                          checked={checked}
+                          onHandler={handleChecked}
+                          key={option}
+                        />
+                      ))}
+                    </SelectWrapper>
+                    <WrapperButton>
+                      <ConfirmButton
+                        onConfirm={onConfirmHandler}
+                        essHeaterTemp={essHeaterTemp}
+                        tgsHeaterTemp={tgsHeaterTemp}
+                      />
+                    </WrapperButton>
+                  </WrapperSelectAndConfirmButton>
                 ) : (
-                  <Img
-                    src={'./images/whiteTriangle.svg'}
-                    onClick={() => displayOptions(2)}
-                  />
+                  ''
+                )}
+                {(isClicked.essEncloseTemp && index === 1) ||
+                (isClicked.tesHeaterTemp && index === 1) ? (
+                  <WrapperSelectAndConfirmButton>
+                    <SelectWrapper>
+                      {select.map((option) => (
+                        <RadioBox
+                          data={`${option}`}
+                          checked={checked}
+                          onHandler={handleChecked}
+                          key={option}
+                        />
+                      ))}
+                    </SelectWrapper>
+                    <WrapperButton>
+                      <ConfirmButton
+                        onConfirm={onConfirmHandler}
+                        essEncloseTemp={essEncloseTemp}
+                        tesHeaterTemp={tesHeaterTemp}
+                      />
+                    </WrapperButton>
+                  </WrapperSelectAndConfirmButton>
+                ) : (
+                  ''
+                )}
+                {isClicked.tgsTesEncloseTemp && index === 2 && (
+                  <WrapperSelectAndConfirmButton>
+                    <SelectWrapper>
+                      {select.map((option) => (
+                        <RadioBox
+                          data={`${option}`}
+                          checked={checked}
+                          onHandler={handleChecked}
+                          key={option}
+                        />
+                      ))}
+                    </SelectWrapper>
+                    <WrapperButton>
+                      <ConfirmButton
+                        onConfirm={onConfirmHandler}
+                        tgsTesEncloseTemp={tgsTesEncloseTemp}
+                      />
+                    </WrapperButton>
+                  </WrapperSelectAndConfirmButton>
                 )}
               </SelectionWrapper>
             </SelectionShadowWrapper>
-
-            {(isClicked[1] && index === 1) ||
-              (isClicked[2] &&
-                index ===
-                  2(
-                    <>
-                      <SelectWrapper>
-                        {select.map((option) => (
-                          <RadioBox
-                            data={`${option}`}
-                            checked={checked}
-                            onHandler={handleChecked}
-                            key={option}
-                          />
-                        ))}
-                      </SelectWrapper>
-                      <ConfirmButton
-                        onConfirm={onConfirmHandler}
-                        essOutSideTemp={essOutSideTemp}
-                      />
-                    </>
-                  ))}
           </SubTitleSelectionWrapper>
         );
       })}
@@ -173,11 +236,17 @@ const SubTitle = styled.div`
       : color === 0
       ? '#83ffff'
       : '#ffff'};
+  letter-spacing: 1px;
+`;
+
+const WrapperTitleAndImg = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const SelectionShadowWrapper = styled.div`
   width: 252px;
-  height: 51px;
+  height: auto;
   margin-top: 4px;
 
   background: #142033;
@@ -189,7 +258,9 @@ const SelectionShadowWrapper = styled.div`
 
 const SelectionWrapper = styled.div`
   width: 248px;
-  height: 47px;
+  height: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
 
   background: ${({ tesSwitch, index }) =>
     tesSwitch
@@ -197,13 +268,16 @@ const SelectionWrapper = styled.div`
       : index === 1
       ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
       : 'transparent linear-gradient(180deg, #233a54 0%, #060d19 100%)'};
-  background: ${({ essSwitch }) => essSwitch && '#233a54'};
+  background: ${({ essSwitch }) =>
+    essSwitch &&
+    'transparent linear-gradient(180deg, #233a54 0%, #060d19 100%)'};
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 33px;
   opacity: 1;
   ${flexboxCenter}
   justify-content: space-around;
+  flex-direction: column;
 `;
 const SelectionIndentWrapper = styled.div`
   width: 195px;
@@ -231,8 +305,12 @@ const Img = styled.img`
   margin-right: 4px;
 `;
 
+const WrapperSelectAndConfirmButton = styled.div`
+  margin-top: 2px;
+`;
+
 const SelectWrapper = styled.div`
-  width: 82px;
+  width: 239px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
@@ -243,4 +321,9 @@ const SelectWrapper = styled.div`
   flex-direction: column;
   /* space between options and button */
   margin-bottom: 0.2rem;
+`;
+
+const WrapperButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
