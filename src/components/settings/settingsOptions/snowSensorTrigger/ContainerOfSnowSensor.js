@@ -38,14 +38,15 @@ function ContainerOfSnowSensor() {
 export default ContainerOfSnowSensor;
 
 const Wrapper = styled.div`
-  width: 598px;
+  width: 596px;
   height: auto;
   ${({ essSwitch }) => essSwitch && 'width: auto'};
   ${flexboxCenter};
+  margin-left: -3px;
 `;
 
 const Wrapper1 = styled.div`
-  width: 598px;
+  width: 596px;
   height: 106px;
   padding-top: 4px;
   padding-bottom: 4px;

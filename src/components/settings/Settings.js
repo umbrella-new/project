@@ -27,6 +27,9 @@ const Settings = () => {
     settingsOptionsSnowFactor,
     settingsOptionsForceAndCommand,
   } = state.allSettingsOptions;
+
+  const flexStart = true;
+
   return (
     <>
       <TitleMainSectionContainer>
@@ -38,18 +41,29 @@ const Settings = () => {
             <ContainerUnitsSettings>
               <TitleOfAllSettings />
             </ContainerUnitsSettings>
-            <WrapperSettingsModeAndSelect>
+            <WrapperSettingsModeAndSelect flexStart={flexStart}>
               <SettingsOptionsAndInterfaceMode />
               {settingsOptionsUnits ? (
-                <ContainerOfMetricImperialAndMeasurementTitle />
+                <WrapperAllSettings>
+                  <ContainerOfMetricImperialAndMeasurementTitle />
+                </WrapperAllSettings>
               ) : settingsOptionsWindFactor ? (
-                <ContainerOfWindFactor />
+                <WrapperAllSettings>
+                  <ContainerOfWindFactor />
+                </WrapperAllSettings>
               ) : settingsOptionsSnowFactor ? (
-                <ContainerOfSnowSensor />
+                <WrapperAllSettings>
+                  {' '}
+                  <ContainerOfSnowSensor />
+                </WrapperAllSettings>
               ) : settingsOptionsForceAndCommand ? (
-                <ContainerOfForceAndCommand />
+                <WrapperAllSettings>
+                  <ContainerOfForceAndCommand />
+                </WrapperAllSettings>
               ) : (
-                <ContainerOfAdmin />
+                <WrapperAllSettings>
+                  <ContainerOfAdmin />
+                </WrapperAllSettings>
               )}
             </WrapperSettingsModeAndSelect>
           </MainSection>
@@ -111,7 +125,13 @@ const ContainerUnitsSettings = styled.div`
 
 const WrapperSettingsModeAndSelect = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: ${({ flexStart }) =>
+    flexStart ? 'flex-start' : 'space-evenly'};
   align-items: flex-start;
   margin-top: 4px;
+  margin-left: 5px;
+`;
+
+const WrapperAllSettings = styled.div`
+  margin-left: 8px;
 `;

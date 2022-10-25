@@ -5,6 +5,13 @@ import ButtonSelect from '../ButtonSelect';
 import CurrentEncloseAndBurningTemp from './CurrentEncloseAndBurningTemp';
 import OutsideTemperature from './OutsideTemperature';
 import { selectUserState } from '../../../../../store/slices/userSlice';
+import { useState } from 'react';
+
+import { useDispatch } from 'react-redux';
+import {
+  setEssTcTemp,
+  selectForceAndCommand,
+} from '../../../../../store/slices/forceAndCommandSlice';
 
 function SelectTc({ ess, tgs, essSwitch }) {
   const essData = [
@@ -18,8 +25,45 @@ function SelectTc({ ess, tgs, essSwitch }) {
     { title: 'enclosure temperature', selection: 'select t/c' },
   ];
 
+  const select = [
+    'tc-01',
+    'tc-02',
+    'tc-03',
+    'tc-04',
+    'tc-05',
+    'tc-06',
+    'tc-07',
+    'tc-08',
+    'tc-09',
+    'tc-10',
+    'tc-11',
+  ];
+
   const state = useSelector(selectUserState);
   const tesSwitch = state.isTesSwitch;
+
+  // const initialState = useSelector(selectForceAndCommand);
+  // const temp = initialState.essOutSideTemp;
+  // console.log(initialState);
+  const dispatch = useDispatch();
+
+  const [isClicked, setIsClicked] = useState([false, false, false]);
+  const [checked, setChecked] = useState(select[0]);
+
+  const handleChecked = (elem) => {
+    setChecked(elem);
+  };
+  const displayOptions = (num) => {
+    const copyArr = isClicked;
+    copyArr[num] = !copyArr[num];
+    setIsClicked(copyArr);
+  };
+
+  const onConfirmCurrentEssHeaterTempHandler = (id) => {
+    dispatch(setEssTcTemp({ id: id, data: checked }));
+
+    displayOptions([false, false, false]);
+  };
 
   return (
     <WrapperTelemetry>
@@ -29,11 +73,25 @@ function SelectTc({ ess, tgs, essSwitch }) {
             <P>select t/c telemetry</P>
           </TitleWrapper>
           <Wrapper>
-            <OutsideTemperature />
+            <OutsideTemperature
+              handleChecked={handleChecked}
+              onConfirmHandler={onConfirmCurrentEssHeaterTempHandler}
+              displayOptions={displayOptions}
+              isClicked={isClicked}
+              select={select}
+              checked={checked}
+              essOutSideTemp={'essOutSideTemp'}
+            />
             <CurrentEncloseAndBurningTemp
               data={essSwitch ? essData : tgsData}
               essSwitch={essSwitch}
               tesSwitch={tesSwitch}
+              handleChecked={handleChecked}
+              onConfirmHandler={onConfirmCurrentEssHeaterTempHandler}
+              displayOptions={displayOptions}
+              isClicked={isClicked}
+              select={select}
+              checked={checked}
             />
           </Wrapper>
           <WrapperButton>

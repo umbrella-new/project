@@ -4,8 +4,19 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../../../../store/slices/userSlice';
+import RadioBox from '../RadioBox';
+import ConfirmButton from '../ConfirmButton';
 
-function OutsideTemperature() {
+function OutsideTemperature({
+  handleChecked,
+  onConfirmHandler,
+  displayOptions,
+  isClicked,
+  select,
+  checked,
+  essOutSideTemp,
+}) {
+  console.log('0', isClicked);
   const tempMeasurementSelection = ['internet', 'thermocouple'];
   const whiteTriangle = './images/whiteTriangle.svg';
   const greyTriangle = './images/greyTriangle.svg';
@@ -69,9 +80,31 @@ function OutsideTemperature() {
             <Selection color={activeSelect}>select t/c</Selection>
           </SelectionIndentWrapper>
 
-          <Img src={`${activeSelect ? whiteTriangle : greyTriangle}`} />
+          <Img
+            src={`${activeSelect ? whiteTriangle : greyTriangle}`}
+            onClick={() => displayOptions(0)}
+          />
         </SelectionWrapper>
       </SelectionShadowWrapper>
+
+      {isClicked[0] && (
+        <>
+          <SelectWrapper>
+            {select.map((option) => (
+              <RadioBox
+                data={`${option}`}
+                checked={checked}
+                onHandler={handleChecked}
+                key={option}
+              />
+            ))}
+          </SelectWrapper>
+          <ConfirmButton
+            onConfirm={onConfirmHandler}
+            essOutSideTemp={essOutSideTemp}
+          />
+        </>
+      )}
       {/* burning chamber */}
       {!essSwitch && (
         <SubTitleSelectionWrapper>
@@ -86,7 +119,25 @@ function OutsideTemperature() {
                 <Selection1>select t/c</Selection1>
               </SelectionIndentWrapper1>
 
-              <Img src={'./images/whiteTriangle.svg'} />
+              <Img
+                src={'./images/whiteTriangle.svg'}
+                onClick={displayOptions}
+              />
+              {isClicked && (
+                <>
+                  <SelectWrapper>
+                    {select.map((option) => (
+                      <RadioBox
+                        data={`${option}`}
+                        checked={checked}
+                        onHandler={handleChecked}
+                        key={option}
+                      />
+                    ))}
+                  </SelectWrapper>
+                  <ConfirmButton onConfirm={onConfirmHandler} />
+                </>
+              )}
             </SelectionWrapper1>
           </SelectionShadowWrapper1>
         </SubTitleSelectionWrapper>
@@ -282,4 +333,18 @@ const SelectionIndentWrapper1 = styled.div`
 const Selection1 = styled.div`
   font-size: var(--font-size7);
   text-transform: uppercase;
+`;
+
+const SelectWrapper = styled.div`
+  width: 82px;
+
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 11px;
+  opacity: 1;
+
+  ${flexboxCenter}
+  flex-direction: column;
+  /* space between options and button */
+  margin-bottom: 0.2rem;
 `;

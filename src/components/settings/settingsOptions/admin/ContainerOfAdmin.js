@@ -282,7 +282,7 @@ function ContainerOfAdmin() {
 export default ContainerOfAdmin;
 
 const Wrapper = styled.div`
-  width: 594px;
+  width: 592px;
   height: auto;
   margin-bottom: 6px;
 
@@ -294,7 +294,7 @@ const Wrapper = styled.div`
 `;
 
 const Wrapper2 = styled.div`
-  width: 590px;
+  width: 588px;
   height: auto;
   margin-bottom: 2px;
 

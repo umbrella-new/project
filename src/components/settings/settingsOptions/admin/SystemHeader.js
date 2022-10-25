@@ -28,7 +28,7 @@ function SystemHeader({
         <Img
           src={
             !tesSwitch && index === 1 && !essSwitch
-              ? './images/non-tes-button.svg'
+              ? './images/greyTesButton.svg'
               : toggleButtonColor
           }
         />
@@ -139,7 +139,9 @@ const ContainerButton = styled.div`
   width: 66px;
   height: 24px;
 
-  background: #1b2b44 0% 0% no-repeat padding-box;
+  background: ${({ tesSwitchFalse }) =>
+    tesSwitchFalse ? '#3B3B3B' : '#1b2b44'};
+
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 19px;
   opacity: 1;
