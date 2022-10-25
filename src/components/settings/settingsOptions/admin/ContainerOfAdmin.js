@@ -133,39 +133,6 @@ function ContainerOfAdmin() {
     } else setToggleEnableDisableSwitch(enableSwitch);
   };
 
-  // <EssWrapper>
-  //                       <SystemHeader
-  //                         name={'electrical switch system'}
-  //                         expandOrClose={'expand'}
-  //                         toggleButtonColor={essButton}
-  //                       />
-  //                     </EssWrapper>
-  //                     <Wrapper4>
-  //                       <SysWrapper>
-  //                         <SystemHeader
-  //                           name={'system commands'}
-  //                           handleCloseExpandButton={handleEssCloseExpandButton}
-  //                           toggleButtonColor={
-  //                             adminAccess ? toggleSysButton : sysButton
-  //                           }
-  //                           expandOrClose={
-  //                             adminAccess ? essExpandOrClose : 'expand'
-  //                           }
-  //                         />
-  //                       </SysWrapper>
-  //                       {adminAccess || essExpandOrClose === 'close' ? (
-  //                         <Wrapper5>
-  //                           <ControlWrapper>
-  //                             <Control />
-  //                           </ControlWrapper>
-  //                         </Wrapper5>
-  //                       ) : (
-  //                         <LoginWrapper>
-  //                           <ContainerLogin />
-  //                         </LoginWrapper>
-  //                       )}
-  //                     </Wrapper4>
-
   return (
     <Wrapper>
       <Wrapper2>
