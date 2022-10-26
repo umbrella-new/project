@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
+
 import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {

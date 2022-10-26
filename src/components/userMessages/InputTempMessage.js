@@ -15,7 +15,9 @@ const InputTempMessage = ({ onClose, title, message }) => {
           <MessageWrapper>
             <Message>{message}</Message>
             <Message>
-              <u>please input your temperature</u>
+              {title === 'default temperature' || (
+                <u>please input your temperature</u>
+              )}
             </Message>
           </MessageWrapper>
           <ButtonWrapper>
