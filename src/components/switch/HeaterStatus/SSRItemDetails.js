@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import styled, { css } from "styled-components";
-import { selectSSRState } from "../../../store/slices/heaterStatusSlice";
-import { selectDescription } from "../../../store/slices/ssrDescriptionSlice";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import styled, { css } from 'styled-components';
+import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
+import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
+import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
   flexboxCenter,
   ItemBackground,
   ItemBackgroundDisable,
-} from "../../../styles/commonStyles";
+} from '../../../styles/commonStyles';
 
-import SettingButton from "./SettingButton";
+import SettingButton from './SettingButton';
 
 const SSRItemDetails = ({
   isEnable,
@@ -22,12 +23,14 @@ const SSRItemDetails = ({
   setIsSettingOpen,
   handleButtonClick,
   openPasswordBox,
+  overAmp,
 }) => {
   const descriptionState = useSelector(selectDescription);
   const { specsStr, descriptionOptions } = descriptionState;
   const [description, setDescription] = useState([]);
 
-  const [isAcceptableAmp, setAcceptableAmp] = useState([]);
+  const unitsStates = useSelector(selectUnitsState);
+  const { unitsMeasurement } = unitsStates;
 
   const dispatch = useDispatch();
   // For mapping
@@ -40,6 +43,7 @@ const SSRItemDetails = ({
       (spec) =>
         `${spec.partNumber}-${spec.current}/${spec.wattage}/${spec.voltage}/${spec.lengths}`
     );
+
     // 2. Find Index using indexOF
     const descriptionIndex = specsStrArr.map((spec) => specsStr.indexOf(spec));
     // 3. Set description state
@@ -51,9 +55,11 @@ const SSRItemDetails = ({
     // Check the current with currentCurrent
   }, [specs]);
 
+  // console.log(specs);
+
   return (
     <Wrapper>
-      <ContentWrapper isEnable={isEnable} isFault={isFault}>
+      <ContentWrapper isEnable={isEnable} isFault={isFault} overAmp={overAmp}>
         {specs.map((spec, index) => (
           <ItemWrapper column={index} hiddenNumber={specs.length} key={index}>
             <ItemCurrentWrapper>
@@ -86,7 +92,11 @@ const SSRItemDetails = ({
                   {description[index] && description[index]}
                   <br></br>
                   {description[index] &&
-                    `${spec.current}A / ${spec.wattage}W / ${spec.voltage}v / ${spec.lengths}l`}
+                    `${spec.current} A / ${spec.wattage} W / ${
+                      spec.voltage
+                    } v / ${spec.lengths} m - ${Math.round(
+                      spec.lengths * 3.28048
+                    )} ft`}
                 </ItemData>
               </ItemDescription>
 
@@ -143,7 +153,8 @@ const ContentWrapper = styled.ul`
           opacity: 1;
         `}
 
-  border: ${(p) => (p.isFault ? "1px solid red" : "")};
+  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+  border: ${(p) => p.overAmp && `1px solid #FF7800`};
 `;
 
 const ItemWrapper = styled.div`
@@ -242,7 +253,7 @@ const ItemData = styled.span`
       font-size: 6px;
     `}
 
-  color: ${(p) => p.isDefault && "#95ff45"};
+  color: ${(p) => p.isDefault && '#95ff45'};
   color: ${(p) => p.isEnable || `#808080;`};
 `;
 
