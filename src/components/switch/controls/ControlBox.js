@@ -24,6 +24,7 @@ import WindFactor from './../controls/windFactor/WindFactor';
 import ConflictMessage from '../../userMessages/ConflictMessage';
 
 import InputKeyboard from '../../keyboard/InputKeyboard';
+import { selectFaults } from '../../../store/slices/faultsSlice';
 
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -31,6 +32,9 @@ const ControlBox = () => {
 
   const state = useSelector(selectEssSwitch);
   const { displayConflictMessage } = state;
+
+  const faultsState = useSelector(selectFaults);
+  const { isFaults } = faultsState.ess;
 
   const tgsState = useSelector(selectTgsSwitch);
   const {
@@ -77,7 +81,13 @@ const ControlBox = () => {
 
   return (
     <Wrapper>
-      <BackgroundImg src={'/images/controller-background.svg'} />
+      <BackgroundImg
+        src={
+          isFaults
+            ? '/images/controller-background-faults.svg'
+            : '/images/controller-background.svg'
+        }
+      />
 
       <PositionAbsolute>
         <Title>

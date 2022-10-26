@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
 
 // Styling
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Context } from '../../../context/Context';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
@@ -39,7 +39,11 @@ const HeaterStatus = () => {
   };
 
   return (
-    <Wrapper isExpanded={state.isExpanded} onClick={handleClick}>
+    <Wrapper
+      isExpanded={state.isExpanded}
+      onClick={handleClick}
+      isFaults={isFaults}
+    >
       <Header>
         <TitleAndButtonWrapper>
           <Title>heater status</Title>
@@ -115,6 +119,12 @@ const Wrapper = styled.div`
   /* Margin-top for fitting the bottom line of the SVG background image */
   margin-top: 0.6rem;
   padding: 0.3rem 0;
+
+  ${(p) =>
+    p.isFaults &&
+    css`
+      border: 1px solid red;
+    `}
 `;
 
 const Header = styled.div`
