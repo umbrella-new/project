@@ -100,9 +100,11 @@ const AdminSSRItemDetails = ({
 
   const [inputId, setInputId] = useState(initialInputId);
   const [description, setDescription] = useState(['', '', '']);
-  // ******************* to deal with input value conditioally *********************
+
+  // ******************* to deal with input value conditionally *********************
   const [isEditable, setIsEditable] = useState(true);
-  // ******************* to deal with input value conditioally *********************
+  // ******************* to deal with input value conditionally *********************
+
   const dispatch = useDispatch();
 
   const unitsStates = useSelector(selectUnitsState);
@@ -123,10 +125,13 @@ const AdminSSRItemDetails = ({
             Number(inputDetails[0].lengths) / 3.28084
           ).toFixed(1)}`;
       // 2. Find Index using indexOF
-      console.log(specsString);
+
       const descriptionIndex = specsStr.indexOf(specsString);
       // 3. Set description state
-      const copyArr = [descriptionOptions[descriptionIndex], '', ''];
+      const copyArr =
+        descriptionIndex === -1
+          ? ['', '', '']
+          : [descriptionOptions[descriptionIndex], '', ''];
       setDescription(copyArr);
     }
   }, [
@@ -313,12 +318,16 @@ const AdminSSRItemDetails = ({
               dispatch(
                 handleSSRDetails({
                   data: [
-                    inputDetails[0].partNumber,
-                    inputDetails[0].current,
-                    inputDetails[0].wattage,
-                    inputDetails[0].voltage,
-                    (Number(inputDetails[0].lengths) / 3.28084).toFixed(1),
-                    inputDetails[0].currentCurrent,
+                    {
+                      partNumber: inputDetails[0].partNumber,
+                      current: inputDetails[0].current,
+                      wattage: inputDetails[0].wattage,
+                      voltage: inputDetails[0].voltage,
+                      lengths: (
+                        Number(inputDetails[0].lengths) / 3.28084
+                      ).toFixed(1),
+                      currentCurrent: inputDetails[0].currentCurrent,
+                    },
                   ],
                   id: `ssr${id}`,
                 })
@@ -328,7 +337,28 @@ const AdminSSRItemDetails = ({
             case 2: {
               dispatch(
                 handleSSRDetails({
-                  data: [inputDetails[0], inputDetails[1]],
+                  data: [
+                    {
+                      partNumber: inputDetails[0].partNumber,
+                      current: inputDetails[0].current,
+                      wattage: inputDetails[0].wattage,
+                      voltage: inputDetails[0].voltage,
+                      lengths: (
+                        Number(inputDetails[0].lengths) / 3.28084
+                      ).toFixed(1),
+                      currentCurrent: inputDetails[0].currentCurrent,
+                    },
+                    {
+                      partNumber: inputDetails[1].partNumber,
+                      current: inputDetails[1].current,
+                      wattage: inputDetails[1].wattage,
+                      voltage: inputDetails[1].voltage,
+                      lengths: (
+                        Number(inputDetails[1].lengths) / 3.28084
+                      ).toFixed(1),
+                      currentCurrent: inputDetails[1].currentCurrent,
+                    },
+                  ],
                   id: `ssr${id}`,
                 })
               );
@@ -337,7 +367,38 @@ const AdminSSRItemDetails = ({
             default: {
               dispatch(
                 handleSSRDetails({
-                  data: inputDetails,
+                  data: [
+                    {
+                      partNumber: inputDetails[0].partNumber,
+                      current: inputDetails[0].current,
+                      wattage: inputDetails[0].wattage,
+                      voltage: inputDetails[0].voltage,
+                      lengths: (
+                        Number(inputDetails[0].lengths) / 3.28084
+                      ).toFixed(1),
+                      currentCurrent: inputDetails[0].currentCurrent,
+                    },
+                    {
+                      partNumber: inputDetails[1].partNumber,
+                      current: inputDetails[1].current,
+                      wattage: inputDetails[1].wattage,
+                      voltage: inputDetails[1].voltage,
+                      lengths: (
+                        Number(inputDetails[1].lengths) / 3.28084
+                      ).toFixed(1),
+                      currentCurrent: inputDetails[1].currentCurrent,
+                    },
+                    {
+                      partNumber: inputDetails[2].partNumber,
+                      current: inputDetails[2].current,
+                      wattage: inputDetails[2].wattage,
+                      voltage: inputDetails[2].voltage,
+                      lengths: (
+                        Number(inputDetails[2].lengths) / 3.28084
+                      ).toFixed(1),
+                      currentCurrent: inputDetails[2].currentCurrent,
+                    },
+                  ],
                   id: `ssr${id}`,
                 })
               );
@@ -509,7 +570,9 @@ const AdminSSRItemDetails = ({
               <DescriptionAndButtonWrapper>
                 <ItemDescription isEnable={isEnable}>
                   <ItemDataDescription isDescription={true} isEnable={isEnable}>
-                    {description[index] && description[index]}
+                    {description[index]
+                      ? description[index]
+                      : 'element not found'}
                     {description[index] &&
                       ` / ${inputDetails[index].current} a / ${inputDetails[index].wattage} w / ${inputDetails[index].voltage} v / ${inputDetails[index].lengths}`}
                   </ItemDataDescription>

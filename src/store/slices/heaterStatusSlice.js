@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { act } from 'react-dom/test-utils';
 
 const ssrInitialState = {
   select: 'tc-01',
@@ -164,7 +163,8 @@ const heaterStatusSlice = createSlice({
       state[action.payload.id].switchName = action.payload.name;
     },
     handleSSRDetails: (state, action) => {
-      state[action.payload.id].specs = action.payload.data;
+      console.log(action.payload.data);
+      // state[action.payload.id].specs = action.payload.data;
     },
   },
 });
