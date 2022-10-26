@@ -29,8 +29,11 @@ function OutsideTemperature({
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+
   const stateOfEssTgs = useSelector(selectUserState);
   const essSwitch = stateOfEssTgs.isEssSwitch;
+
+  const editState = state.buttonsOfSettings.settingsEditButton;
 
   // functions
   const handleToggle = (index) => {
@@ -41,8 +44,6 @@ function OutsideTemperature({
     if (index === 0) return setActiveSelect(!activeSelect);
     else return setActiveSelect(!activeSelect);
   };
-
-  console.log('dropdown', isClicked);
 
   return (
     <Wrapper>
@@ -58,8 +59,8 @@ function OutsideTemperature({
               <ContainerOfCircles>
                 <OutsideRingGreenCircle
                   onClick={() => {
-                    handleToggle(index);
-                    handleSelect(index);
+                    editState && handleToggle(index);
+                    editState && handleSelect(index);
                   }}
                   mode={mode}
                 >
@@ -137,7 +138,9 @@ function OutsideTemperature({
 
                 <Img
                   src={'./images/whiteTriangle.svg'}
-                  onClick={() => displayOptions(burningChamberTemp)}
+                  onClick={() =>
+                    editState && displayOptions(burningChamberTemp)
+                  }
                 />
               </WrapperTitleAndImg>
               {isClicked.burningChamberTemp && (

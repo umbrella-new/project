@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 
 function SelectBox({
@@ -11,6 +13,10 @@ function SelectBox({
   propIndex,
   essSwitch,
 }) {
+  // redux
+  const state = useSelector(selectSettingsOfEss);
+  const editState = state.buttonsOfSettings.settingsEditButton;
+
   return (
     <div>
       {essSwitch
@@ -21,7 +27,7 @@ function SelectBox({
                   <ContainerImages>
                     <OutsideRingGreenCircle
                       onClick={() => {
-                        handleToggle(index);
+                        editState && handleToggle(index);
                       }}
                       mode={mode}
                     >
@@ -46,7 +52,7 @@ function SelectBox({
                   <ContainerImages>
                     <OutsideRingGreenCircle
                       onClick={() => {
-                        handleToggle(index);
+                        editState && handleToggle(index);
                       }}
                       mode={mode}
                     >
@@ -70,7 +76,7 @@ function SelectBox({
                   <ContainerImages>
                     <OutsideRingGreenCircle
                       onClick={() => {
-                        handleToggle(index);
+                        editState && handleToggle(index);
                       }}
                       mode={mode}
                     >

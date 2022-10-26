@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch }) {
+function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch, editState }) {
+  console.log('editState', editState);
+
   return (
     <>
       {essSwitch ? (
@@ -14,8 +16,13 @@ function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch }) {
             <ValueContainer>
               <SmallContainer essSwitch={essSwitch}>
                 <Temperature>
-                  <Input type='number' placeholder='enter temperature'></Input>°
-                  c
+                  {editState && (
+                    <Input
+                      type='number'
+                      placeholder='enter temperature'
+                    ></Input>
+                  )}
+                  ° c
                 </Temperature>
               </SmallContainer>
             </ValueContainer>
@@ -38,12 +45,22 @@ function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch }) {
                   <ValueContainer index={index} tesSwitch={tesSwitch}>
                     <SmallContainer index={index} tesSwitch={tesSwitch}>
                       <Temperature>
-                        <Input
-                          type='number'
-                          placeholder='enter temperature'
-                          index={index}
-                          tesSwitch={tesSwitch}
-                        ></Input>
+                        {editState && index === 0 && !tesSwitch && (
+                          <Input
+                            type='number'
+                            placeholder='enter temperature'
+                            index={index}
+                            tesSwitch={tesSwitch}
+                          ></Input>
+                        )}
+                        {editState && tesSwitch && (
+                          <Input
+                            type='number'
+                            placeholder='enter temperature'
+                            index={index}
+                            tesSwitch={tesSwitch}
+                          ></Input>
+                        )}
                         ° c
                       </Temperature>
                     </SmallContainer>

@@ -16,12 +16,6 @@ function SystemHeader({
 }) {
   const tesSwitchFalse = !tesSwitch && index === 1 && !essSwitch;
 
-  // return adminAccess && essSwitch
-  // ? (handleCloseExpandButton(index), handleSelect(index))
-  // : !tesSwitch && index === 1
-  // ? ''
-  // : (handleCloseExpandButton(index), handleSelect(index));
-
   return (
     <Wrapper tesSwitchFalse={tesSwitchFalse}>
       <ButtonHole>

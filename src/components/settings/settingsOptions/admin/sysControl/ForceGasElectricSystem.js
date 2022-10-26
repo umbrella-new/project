@@ -1,10 +1,15 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 
 function ForceGasElectricSystem({
   handleRightSwitch,
   toggleRightEnableDisable,
 }) {
+  const state = useSelector(selectSettingsOfEss);
+  const editState = state.buttonsOfSettings.settingsEditButton;
+
   return (
     <WrapperRightSwitch>
       <WrapperRightSwitch2>
@@ -15,7 +20,7 @@ function ForceGasElectricSystem({
         </WrapperForce>
         <ImageWrapper
           onClick={() => {
-            handleRightSwitch();
+            editState && handleRightSwitch();
           }}
         >
           <Img src={toggleRightEnableDisable} />
