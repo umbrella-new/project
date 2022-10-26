@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import {
+  handlePasswordPropagation,
   selectUserState,
   setAdminAccess,
 } from '../../../store/slices/userSlice';
@@ -25,9 +26,14 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   const [openPasswordBox, setOpenPasswordBox] = useState(false);
   const unitsState = useSelector(selectUnitsState);
   const { unitsMeasurement } = unitsState;
-
   // Compare current and currentCurrent
   const [isOverAmp, setIsOverAmp] = useState(false);
+
+  useEffect(() => {
+    openPasswordBox
+      ? dispatch(handlePasswordPropagation(true))
+      : dispatch(handlePasswordPropagation(false));
+  }, [openPasswordBox]);
 
   const { specs } = data;
   const dispatch = useDispatch();
@@ -54,6 +60,8 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
 
   // isEnable is for styling  [true:red border]
   const isFault = data.buttonStatus === 'flt' ? true : false;
+  const passwordBoxState = useSelector(selectUserState);
+  const { isPasswordOpen } = passwordBoxState;
 
   const handleButtonClick = (id) => {
     if (id === 1) {
@@ -64,10 +72,11 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
         // no admin ?
         if (openPasswordBox) {
           // 1. close password box
+
           setOpenPasswordBox(false);
         } else {
           // 2. Login process => Display Password require box
-          setOpenPasswordBox(true);
+          isPasswordOpen || setOpenPasswordBox(true);
         }
       }
     } else {
