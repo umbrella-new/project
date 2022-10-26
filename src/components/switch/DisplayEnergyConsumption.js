@@ -19,12 +19,18 @@ const DisplayEnergyConsumption = () => {
     ? gsState.energyConsumption
     : ssState.energyConsumption;
 
+  const title = userState.isEssSwitch
+    ? 'energy'
+    : location.pathname === '/'
+    ? 'gas'
+    : 'energy';
+
   return (
     <Wrapper>
       <LogoAndTitle>
         <EnergyLogo src={'/images/energy-consumption-logo.svg'} />
         <EnergyTitle>
-          energy <br></br>consumption
+          {title} <br></br>consumption
         </EnergyTitle>
       </LogoAndTitle>
       <EnergyConsumption>

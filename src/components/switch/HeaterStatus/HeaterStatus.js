@@ -13,9 +13,12 @@ import ApplyButton from '../controls/ApplyButton';
 import SSRButton from './SSRButton';
 import SSRDetail from './SSRDetail';
 import ContainerLogin from '../../adminPassword/ContainerLogin';
+import { selectFaults } from '../../../store/slices/faultsSlice';
 
 const HeaterStatus = () => {
   const ssrState = useSelector(selectSSRState);
+  const faultsState = useSelector(selectFaults);
+  const { isFaults } = faultsState.ess;
 
   const { dispatch, state } = useContext(Context);
   const [displayAdminLogin, setDisplayAdminLogin] = useState(false);

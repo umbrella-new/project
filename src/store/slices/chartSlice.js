@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  gpState: false,
-  ebpState: true,
+  gpState: true,
+  ebpState: false,
   wifiState: true,
   alarmState: false,
 };
 
 const chartSlice = createSlice({
-  name: "chart",
+  name: 'chart',
   initialState,
   reducers: {},
 });

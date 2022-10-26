@@ -1,12 +1,26 @@
-import { useSelector } from "react-redux";
-import styled from "styled-components";
-import { selectChart } from "../../../store/slices/chartSlice";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import { selectChart } from '../../../store/slices/chartSlice';
+import { selectFaults } from '../../../store/slices/faultsSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 function ChartTitles() {
   const state = useSelector(selectChart);
-  const { gpState, ebpState, wifiState, alarmState } = state;
+  const { gpState, ebpState, wifiState } = state;
+  const faultsState = useSelector(selectFaults);
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  const location = useLocation();
 
+  const essFaults = faultsState.ess.isFaults;
+  const tgsFaults = faultsState.tgs.isFaults;
+  const alarmState = isEssSwitch
+    ? essFaults
+    : location.pathname === '/'
+    ? tgsFaults
+    : essFaults;
   return (
     <Wrapper>
       <Title>SWITCH GENERATED TELEMETRY </Title>
@@ -17,8 +31,8 @@ function ChartTitles() {
           <BatteryImage
             src={
               gpState
-                ? "/images/battery-activated.svg"
-                : "/images/battery-inactivated.svg"
+                ? '/images/battery-activated.svg'
+                : '/images/battery-inactivated.svg'
             }
           />
         </GpEbpWrapper>
@@ -28,8 +42,8 @@ function ChartTitles() {
           <BatteryImage
             src={
               ebpState
-                ? "/images/battery-activated-orange.svg"
-                : "/images/battery-inactivated.svg"
+                ? '/images/battery-activated-orange.svg'
+                : '/images/battery-inactivated.svg'
             }
           />
         </GpEbpWrapper>
@@ -38,8 +52,8 @@ function ChartTitles() {
           <Img
             src={
               wifiState
-                ? "/images/wifi-activated.svg"
-                : "/images/wifi-inactivated.svg"
+                ? '/images/wifi-activated.svg'
+                : '/images/wifi-inactivated.svg'
             }
           />
         </WifiAlertIconsWrapper>
@@ -47,8 +61,8 @@ function ChartTitles() {
           <Img
             src={
               alarmState
-                ? "/images/alarm-activated.svg"
-                : "/images/alarm-inactivated.svg"
+                ? '/images/alarm-activated.svg'
+                : '/images/alarm-inactivated.svg'
             }
           />
         </WifiAlertIconsWrapper>
@@ -123,12 +137,12 @@ const GpEbpWrapper = styled.li`
 `;
 
 const ItemTitle = styled.span`
-  color: ${(p) => (p.isActivated ? "#95ff45" : `#808080`)};
+  color: ${(p) => (p.isActivated ? '#95ff45' : `#808080`)};
   font-size: 11px;
 `;
 
 const ItemEbpTitle = styled.span`
-  color: ${(p) => (p.isActivated ? "#FF7800" : `#808080`)};
+  color: ${(p) => (p.isActivated ? '#FF7800' : `#808080`)};
   font-size: 11px;
 `;
 

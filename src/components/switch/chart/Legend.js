@@ -7,7 +7,7 @@ function Legend() {
       <ContentsWrapper>
         <ContentsInnerWrapper>
           <TitleWrapper>
-            <Title>Legend:</Title>
+            <Title>LEGEND :</Title>
           </TitleWrapper>
 
           <ItemWrapper>

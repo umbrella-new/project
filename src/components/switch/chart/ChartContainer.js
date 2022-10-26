@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 import Chart from './Chart';
@@ -12,7 +12,7 @@ function ChartContainer() {
     <Wrapper>
       <BackgroundWrapper>
         <FileOptionTitleWrapper>
-          <FileTitle>video monitoring</FileTitle>
+          <FileTitle inActive={true}>video monitoring</FileTitle>
           <FileTitle>graph</FileTitle>
         </FileOptionTitleWrapper>
         <SvgImg src={'/images/chart-background.svg'} />
