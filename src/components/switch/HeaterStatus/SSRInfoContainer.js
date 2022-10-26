@@ -1,40 +1,55 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
+import { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled, { css } from "styled-components";
 import {
   selectUserState,
   setAdminAccess,
-} from '../../../store/slices/userSlice';
+} from "../../../store/slices/userSlice";
 import {
   flexboxCenter,
   ItemBackground,
   ItemBackgroundDisable,
-} from '../../../styles/commonStyles';
-import ContainerLogin from '../../adminPassword/ContainerLogin';
-import AdminSSRItemDetails from './AdminSSRItemDetails';
-import DescriptionButton from './SSRDetailAddButton';
-import SettingButton from './SettingButton';
-import SSRItemDetails from './SSRItemDetails';
-import SSRInfoDetailItems from './SSRItemDetails';
+} from "../../../styles/commonStyles";
+import ContainerLogin from "../../adminPassword/ContainerLogin";
+import AdminSSRItemDetails from "./AdminSSRItemDetails";
+import DescriptionButton from "./SSRDetailAddButton";
+import SettingButton from "./SettingButton";
+import SSRItemDetails from "./SSRItemDetails";
+import SSRInfoDetailItems from "./SSRItemDetails";
 
 const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   const userState = useSelector(selectUserState);
   const { isAdministrator } = userState;
   const [openPasswordBox, setOpenPasswordBox] = useState(false);
+  // Compare current and currentCurrent
+  const [isOverAmp, setIsOverAmp] = useState(false);
+
   const { specs } = data;
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (isAdministrator) {
       setOpenPasswordBox(false);
     }
   }, [isAdministrator]);
 
+  // check current amp
+  useEffect(() => {
+    data.specs.filter(
+      (spec) =>
+        spec.currentCurrent > spec.current + spec.current * 0.2 ||
+        (spec.currentCurrent < spec.current - spec.current * 0.2 &&
+          setIsOverAmp(true))
+    );
+  }, [data]);
+
+  // add styling by using isOverAmp state
   const isEnable =
-    data.buttonStatus === 'flt' ? false : data.buttonStatus ? true : false;
+    data.buttonStatus === "flt" ? false : data.buttonStatus ? true : false;
 
   // isEnable is for styling  [true:red border]
-  const isFault = data.buttonStatus === 'flt' ? true : false;
+  const isFault = data.buttonStatus === "flt" ? true : false;
 
   const handleButtonClick = (id) => {
     if (id === 1) {
@@ -205,7 +220,7 @@ const ItemWrapper = styled.ul`
   justify-content: space-between;
   padding: 0 0.1rem;
 
-  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+  border: ${(p) => (p.isFault ? "1px solid red" : "")};
 `;
 
 const ItemCurrentWrapper = styled.div`
@@ -287,7 +302,7 @@ const ItemData = styled.span`
       font-size: 6px;
     `}
 
-  color: ${(p) => p.isDefault && '#95ff45'};
+  color: ${(p) => p.isDefault && "#95ff45"};
   color: ${(p) => p.isEnable || `#808080;`};
 `;
 

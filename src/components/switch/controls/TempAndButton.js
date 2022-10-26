@@ -75,7 +75,7 @@ const TempAndButton = ({
             }
           }
         } else {
-          if (temp > 248) {
+          if (temp > 120) {
             setOverHeat(true);
             setAlertMessage(true);
             inputRef.current.value = "";
@@ -107,7 +107,7 @@ const TempAndButton = ({
             }
           }
         } else {
-          if (temp > 248) {
+          if (temp > 120) {
             setOverHeat(true);
             setAlertMessage(true);
             inputRef.current.value = "";
@@ -141,7 +141,8 @@ const TempAndButton = ({
   const handleVirtualKeyboardInput = (input) => {
     const temp = Number(input);
     if (unitsMeasurement) {
-      if (temp > 248 * 18 + 32) {
+      if (temp > 248) {
+        console.log(temp);
         setOverHeat(true);
         setAlertMessage(true);
         setOpenKeyPad(false);
@@ -180,7 +181,7 @@ const TempAndButton = ({
   const handleMessage = () => {
     if ((title = "schedule")) {
       return overHeat
-        ? "Maximum temperature is 120\u00b0F (248\u00b0C)"
+        ? "Maximum temperature is 120\u00b0C (248\u00b0F)"
         : "in order to finalize your heating schedule program,";
     } else {
       return overHeat
