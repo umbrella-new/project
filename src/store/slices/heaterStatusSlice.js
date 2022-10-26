@@ -1,8 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
+import { createSlice } from '@reduxjs/toolkit';
 
 const ssrInitialState = {
-  select: "tc-01",
+  select: 'tc-01',
   buttonStatus: true,
   switchName: null,
   description: [null, null, null],
@@ -10,16 +9,16 @@ const ssrInitialState = {
 };
 
 const heaterStatusSlice = createSlice({
-  name: "ssrState",
+  name: 'ssrState',
   initialState: {
     ssr1: {
       ...ssrInitialState,
       currentCurrent: 2.95,
       specs: [
         {
-          partNumber: "TRSC-7L-2S-A48-P1",
+          partNumber: 'TRSC-7L-2S-A48-P1',
           current: 2.95,
-          wattage: 1.4,
+          wattage: 1400,
           voltage: 480,
           lengths: 2.1,
           currentCurrent: 2.2,
@@ -32,9 +31,9 @@ const heaterStatusSlice = createSlice({
       currentCurrent: 0,
       specs: [
         {
-          partNumber: "TRSC-10L-2S-A48-P1",
+          partNumber: 'TRSC-10L-2S-A48-P1',
           current: 4.2,
-          wattage: 2.0,
+          wattage: 2000,
           voltage: 480,
           lengths: 3,
           currentCurrent: 4.1,
@@ -42,15 +41,15 @@ const heaterStatusSlice = createSlice({
         },
       ],
 
-      buttonStatus: "flt",
+      buttonStatus: 'flt',
     },
     ssr3: {
       ...ssrInitialState,
       specs: [
         {
-          partNumber: "TRSC-11L-2S-A48-P1",
+          partNumber: 'TRSC-11L-2S-A48-P1',
           current: 4.6,
-          wattage: 2.2,
+          wattage: 2200,
           voltage: 480,
           lengths: 3.3,
           currentCurrent: 8,
@@ -62,9 +61,9 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          partNumber: "TRS-16L-2S-A48-P1",
+          partNumber: 'TRS-16L-2S-A48-P1',
           current: 6.7,
-          wattage: 3.2,
+          wattage: 3200,
           voltage: 480,
           lengths: 4.9,
           currentCurrent: 6.1,
@@ -77,9 +76,9 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          partNumber: "TRS-20L-2S-A48-P1",
+          partNumber: 'TRS-20L-2S-A48-P1',
           current: 8.4,
-          wattage: 4.0,
+          wattage: 4000,
           voltage: 480,
           lengths: 6,
           currentCurrent: 8,
@@ -91,9 +90,9 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          partNumber: "T-FLEX-24L-2S-A48-P1",
+          partNumber: 'T-FLEX-24L-2S-A48-P1',
           current: 10,
-          wattage: 4.8,
+          wattage: 4800,
           voltage: 480,
           lengths: 7.3,
           currentCurrent: 9,
@@ -105,9 +104,9 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          partNumber: "TRS-16L-2S-A48-P1",
+          partNumber: 'TRS-16L-2S-A48-P1',
           current: 13.4,
-          wattage: 3.2,
+          wattage: 3200,
           voltage: 240,
           lengths: 4.9,
           currentCurrent: 13,
@@ -119,9 +118,9 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
-          partNumber: "TRSC-8L-2S-A48-P1",
+          partNumber: 'TRSC-8L-2S-A48-P1',
           current: 3.4,
-          wattage: 1.6,
+          wattage: 1600,
           voltage: 480,
           lengths: 2.44,
           currentCurrent: 3,
@@ -164,7 +163,8 @@ const heaterStatusSlice = createSlice({
       state[action.payload.id].switchName = action.payload.name;
     },
     handleSSRDetails: (state, action) => {
-      state[action.payload.id].specs = action.payload.data;
+      console.log(action.payload.data);
+      // state[action.payload.id].specs = action.payload.data;
     },
   },
 });
