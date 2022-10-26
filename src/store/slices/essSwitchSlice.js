@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isEsSwitchActivated: false,
@@ -30,7 +30,7 @@ const initialState = {
 };
 
 const essSwitchSlice = createSlice({
-  name: 'essSwitch',
+  name: "essSwitch",
   initialState,
   reducers: {
     expand: (state) => {

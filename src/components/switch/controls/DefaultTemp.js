@@ -1,7 +1,11 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import { selectUnitsState } from "../../../store/slices/unitsSlice";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
 const DefaultTemp = ({ defaultTemp }) => {
+  const unitsState = useSelector(selectUnitsState);
+  const { unitsMeasurement } = unitsState;
   return (
     <Wrapper>
       <InnerLayer>
@@ -9,7 +13,11 @@ const DefaultTemp = ({ defaultTemp }) => {
           default<br></br> temp.
         </Title>
         <Divider />
-        <DefaultDegree>{defaultTemp}&deg;C</DefaultDegree>
+        {unitsMeasurement ? (
+          <DefaultDegree>{Number(defaultTemp) * 1.8 + 32}&deg;F</DefaultDegree>
+        ) : (
+          <DefaultDegree>{defaultTemp}&deg;C</DefaultDegree>
+        )}
       </InnerLayer>
     </Wrapper>
   );

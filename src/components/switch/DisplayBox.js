@@ -1,15 +1,19 @@
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { selectUserState } from '../../store/slices/userSlice';
-import { flexboxCenter } from '../../styles/commonStyles';
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { selectUnitsState } from "../../store/slices/unitsSlice";
+import { selectUserState } from "../../store/slices/userSlice";
+import { flexboxCenter } from "../../styles/commonStyles";
 
 const DisplayBox = ({ currData, label, unit }) => {
+  const unitsState = useSelector(selectUnitsState);
+  const { unitsMeasurement } = unitsState;
+
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   const location = useLocation();
 
-  const labelArr = label.split(' ');
+  const labelArr = label.split(" ");
   const displayLabel1 = labelArr[0];
   const displayLabel2 =
     labelArr.length > 2 ? `${labelArr[1]} ${labelArr[2]}` : labelArr[1];
@@ -22,9 +26,9 @@ const DisplayBox = ({ currData, label, unit }) => {
             <DisplayData>{currData}</DisplayData>
             {isEssSwitch ? (
               <DisplayUnit>{unit}</DisplayUnit>
-            ) : location.pathname !== '/' ? (
+            ) : location.pathname !== "/" ? (
               <DisplayUnit>{unit}</DisplayUnit>
-            ) : label === 'energy consumption' ? (
+            ) : label === "energy consumption" ? (
               <DisplayUnit>
                 M<Sup>3</Sup>
               </DisplayUnit>
@@ -35,7 +39,9 @@ const DisplayBox = ({ currData, label, unit }) => {
         ) : (
           <DisplayDataWrapper>
             <DisplayData>{currData}</DisplayData>
-            <DisplayUnit>&deg;C</DisplayUnit>
+            <DisplayUnit>
+              {unitsMeasurement ? `\u00b0F` : `\u00b0C`}
+            </DisplayUnit>
           </DisplayDataWrapper>
         )}
 

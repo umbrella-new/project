@@ -1,24 +1,20 @@
-import { current } from '@reduxjs/toolkit';
-import { useEffect, useState } from 'react';
-import { AiOutlineConsoleSql } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import styled, { css } from 'styled-components';
-import {
-  handleSSRDetails,
-  selectSSRState,
-} from '../../../store/slices/heaterStatusSlice';
-import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import styled, { css } from "styled-components";
+
+import { handleSSRDetails } from "../../../store/slices/heaterStatusSlice";
+import { selectDescription } from "../../../store/slices/ssrDescriptionSlice";
 import {
   flexboxCenter,
   ItemBackground,
   ItemBackgroundDisable,
-} from '../../../styles/commonStyles';
-import InputKeyboard from '../../keyboard/InputKeyboard';
-import InputKeyPad from '../../keyboard/InputKeyPad';
+} from "../../../styles/commonStyles";
 
-import SettingButton from './SettingButton';
-import SSRDetailButtonContainer from './SSRDetailButtonContainer';
+import InputKeyboard from "../../keyboard/InputKeyboard";
+import InputKeyPad from "../../keyboard/InputKeyPad";
+import SettingButton from "./SettingButton";
+import SSRDetailButtonContainer from "./SSRDetailButtonContainer";
 
 const AdminSSRItemDetails = ({
   isEnable,
@@ -68,27 +64,27 @@ const AdminSSRItemDetails = ({
 
   const initialInputState = [
     {
-      partNumber: '',
-      current: '',
-      wattage: '',
-      voltage: '',
-      lengths: '',
+      partNumber: "",
+      current: "",
+      wattage: "",
+      voltage: "",
+      lengths: "",
       currentCurrent: 10,
     },
     {
-      partNumber: '',
-      current: '',
-      wattage: '',
-      voltage: '',
-      lengths: '',
+      partNumber: "",
+      current: "",
+      wattage: "",
+      voltage: "",
+      lengths: "",
       currentCurrent: 10,
     },
     {
-      partNumber: '',
-      current: '',
-      wattage: '',
-      voltage: '',
-      lengths: '',
+      partNumber: "",
+      current: "",
+      wattage: "",
+      voltage: "",
+      lengths: "",
       currentCurrent: 10,
     },
   ];
@@ -102,7 +98,7 @@ const AdminSSRItemDetails = ({
   const [hiddenNumber, setHiddenNumber] = useState(1);
 
   const [inputId, setInputId] = useState(initialInputId);
-  const [description, setDescription] = useState(['', '', '']);
+  const [description, setDescription] = useState(["", "", ""]);
   // ******************* to deal with input value conditioally *********************
   const [isEditable, setIsEditable] = useState(true);
   // ******************* to deal with input value conditioally *********************
@@ -110,7 +106,7 @@ const AdminSSRItemDetails = ({
 
   useEffect(() => {
     if (
-      inputDetails[0].partNumber !== '' &&
+      inputDetails[0].partNumber !== "" &&
       inputDetails[0].voltage > 0 &&
       inputDetails[0].lengths > 0
     ) {
@@ -119,7 +115,7 @@ const AdminSSRItemDetails = ({
       // 2. Find Index using indexOF
       const descriptionIndex = specsStr.indexOf(specsString);
       // 3. Set description state
-      const copyArr = [descriptionOptions[descriptionIndex], '', ''];
+      const copyArr = [descriptionOptions[descriptionIndex], "", ""];
       setDescription(copyArr);
     }
   }, [
@@ -132,13 +128,13 @@ const AdminSSRItemDetails = ({
 
   useEffect(() => {
     if (
-      inputDetails[1].partNumber !== '' &&
+      inputDetails[1].partNumber !== "" &&
       inputDetails[1].current > 0 &&
       inputDetails[1].wattage > 0 &&
       inputDetails[1].voltage > 0 &&
       inputDetails[1].lengths > 0
     ) {
-      console.log('index 0');
+      console.log("index 0");
       // 1. Make the specs as a string
       const specsString = `${inputDetails[1].partNumber}-${inputDetails[1].current}/${inputDetails[1].wattage}/${inputDetails[1].voltage}/${inputDetails[1].lengths}`;
       // 2. Find Index using indexOF
@@ -147,7 +143,7 @@ const AdminSSRItemDetails = ({
       const copyArr = [
         description[0],
         descriptionOptions[descriptionIndex],
-        '',
+        "",
       ];
       setDescription(copyArr);
     }
@@ -161,7 +157,7 @@ const AdminSSRItemDetails = ({
 
   useEffect(() => {
     if (
-      inputDetails[2].partNumber !== '' &&
+      inputDetails[2].partNumber !== "" &&
       inputDetails[2].current > 0 &&
       inputDetails[2].wattage > 0 &&
       inputDetails[2].voltage > 0 &&
@@ -189,7 +185,7 @@ const AdminSSRItemDetails = ({
   ]);
 
   const handleClick = (name) => {
-    if (name === 'add') {
+    if (name === "add") {
       switch (hiddenNumber) {
         case 1: {
           setHiddenNumber(2);
@@ -203,7 +199,7 @@ const AdminSSRItemDetails = ({
           return;
         }
       }
-    } else if (name === 'clear') {
+    } else if (name === "clear") {
       // Logic for Delete the column
       switch (hiddenNumber) {
         case 3: {
@@ -214,11 +210,11 @@ const AdminSSRItemDetails = ({
             inputDetails[0],
             inputDetails[1],
             {
-              partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
+              partNumber: "",
+              current: "",
+              wattage: "",
+              voltage: "",
+              lengths: "",
             },
           ]);
           setDescription([description[0], description[1]]);
@@ -229,18 +225,18 @@ const AdminSSRItemDetails = ({
           setInputDetails([
             inputDetails[0],
             {
-              partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
+              partNumber: "",
+              current: "",
+              wattage: "",
+              voltage: "",
+              lengths: "",
             },
             {
-              partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
+              partNumber: "",
+              current: "",
+              wattage: "",
+              voltage: "",
+              lengths: "",
             },
           ]);
           setDescription([description[0]]);
@@ -251,25 +247,25 @@ const AdminSSRItemDetails = ({
           // Reset input state
           setInputDetails([
             {
-              partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
+              partNumber: "",
+              current: "",
+              wattage: "",
+              voltage: "",
+              lengths: "",
             },
             {
-              partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
+              partNumber: "",
+              current: "",
+              wattage: "",
+              voltage: "",
+              lengths: "",
             },
             {
-              partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
+              partNumber: "",
+              current: "",
+              wattage: "",
+              voltage: "",
+              lengths: "",
             },
           ]);
           setDescription([]);
@@ -279,7 +275,7 @@ const AdminSSRItemDetails = ({
           return;
         }
       }
-    } else if (name === 'apply') {
+    } else if (name === "apply") {
       // name === 'apply' do Dispatch
       if (inputDetails[0].current > 0) {
         switch (hiddenNumber) {
@@ -318,7 +314,7 @@ const AdminSSRItemDetails = ({
 
   // Activate keypad with input ID
   const handleActivateKeypad = (index, name) => {
-    if (name === 'partNumber') {
+    if (name === "partNumber") {
       // 1. set index and name
       setInputId([index, name]);
       // 2. Activate Keyboard
@@ -343,7 +339,7 @@ const AdminSSRItemDetails = ({
     // 1. Copy current inputDetails state
     const newInput = [...inputDetails];
     // 2. update new Input into requested index and name
-    if (name === 'partNumber') {
+    if (name === "partNumber") {
       newInput[index][name] = input.toUpperCase();
     } else {
       newInput[index][name] = input;
@@ -364,9 +360,9 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='Input part number'
                   onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'partNumber')
+                    isEditable && handleActivateKeypad(index, "partNumber")
                   }
-                  onChange={() => handleSetInput(index, 'partNumber')}
+                  onChange={() => handleSetInput(index, "partNumber")}
                   // value={isEditable ? 'input part number' : element.partNumber}
                 />
               </ItemPartNumber>
@@ -376,9 +372,9 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='Input Current'
                   onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'current')
+                    isEditable && handleActivateKeypad(index, "current")
                   }
-                  onChange={() => handleSetInput(index, 'current')}
+                  onChange={() => handleSetInput(index, "current")}
                   // value={isEditable ? 'input current' : element.current}
                 />
               </ItemCurrent>
@@ -389,10 +385,10 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='Input Wattage'
                   onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'wattage')
+                    isEditable && handleActivateKeypad(index, "wattage")
                   }
-                  onChange={() => handleSetInput(index, 'wattage')}
-                  value={isEditable ? 'input wattage' : element.wattage}
+                  onChange={() => handleSetInput(index, "wattage")}
+                  value={isEditable ? "input wattage" : element.wattage}
                 />
               </ItemWattage>
 
@@ -402,10 +398,10 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='input voltage'
                   onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'voltage')
+                    isEditable && handleActivateKeypad(index, "voltage")
                   }
-                  onChange={() => isEnable && handleSetInput(index, 'voltage')}
-                  value={isEditable ? 'input volatage' : element.voltage}
+                  onChange={() => isEnable && handleSetInput(index, "voltage")}
+                  value={isEditable ? "input volatage" : element.voltage}
                 />
               </ItemVoltage>
 
@@ -415,10 +411,10 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='input length'
                   onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'lengths')
+                    isEditable && handleActivateKeypad(index, "lengths")
                   }
-                  onChange={() => isEnable && handleSetInput(index, 'lengths')}
-                  value={isEditable ? 'input length' : element.lengths}
+                  onChange={() => isEnable && handleSetInput(index, "lengths")}
+                  value={isEditable ? "input length" : element.lengths}
                 />
               </ItemLength>
 
@@ -510,7 +506,7 @@ const ContentWrapper = styled.ul`
       opacity: 1;
     `}
 
-  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+  border: ${(p) => (p.isFault ? "1px solid red" : "")};
 `;
 
 const ItemWrapper = styled.div`
