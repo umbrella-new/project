@@ -1,4 +1,8 @@
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { selectFaults } from '../../../store/slices/faultsSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 import Chart from './Chart';
@@ -8,6 +12,20 @@ import DisplayStatus from './DisplayStatus';
 import Legend from './Legend';
 
 function ChartContainer() {
+  const faultsState = useSelector(selectFaults);
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  const location = useLocation();
+
+  const essFault = faultsState.ess.isFaults;
+  const tgsFault = faultsState.tgs.isFaults;
+
+  const isFaults = isEssSwitch
+    ? essFault
+    : location.pathname === '/'
+    ? tgsFault
+    : essFault;
+
   return (
     <Wrapper>
       <BackgroundWrapper>
@@ -15,7 +33,13 @@ function ChartContainer() {
           <FileTitle inActive={true}>video monitoring</FileTitle>
           <FileTitle>graph</FileTitle>
         </FileOptionTitleWrapper>
-        <SvgImg src={'/images/chart-background.svg'} />
+        <SvgImg
+          src={
+            isFaults
+              ? '/images/chart-background-faults.svg'
+              : '/images/chart-background-noFaults.svg'
+          }
+        />
       </BackgroundWrapper>
 
       <PositionAbsolute>
