@@ -1,7 +1,13 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 
 function Thermocouple({ handleLeftSwitch, toggleLeftEnableDisable }) {
+  // redux
+  const state = useSelector(selectSettingsOfEss);
+  const editState = state.buttonsOfSettings.settingsEditButton;
+
   return (
     <WrapperLeftSwitch>
       <WrapperLeftSwitch2>
@@ -17,7 +23,7 @@ function Thermocouple({ handleLeftSwitch, toggleLeftEnableDisable }) {
         </NoThermocoupleWrapper>
         <ImageWrapper
           onClick={() => {
-            handleLeftSwitch();
+            editState && handleLeftSwitch();
           }}
         >
           <Img src={toggleLeftEnableDisable} />

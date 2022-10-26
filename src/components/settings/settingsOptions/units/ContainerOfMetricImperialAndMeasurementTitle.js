@@ -32,20 +32,25 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
       backgroundColor: '360',
     },
   ];
-
+  // state
   const [metricImperialToggle, setMetricImperialToggle] = useState(0);
+  // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
+  const unitsState = useSelector(selectUnitsState);
+  const unitsMeasurement = unitsState.unitsMeasurement;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
+    if (unitsMeasurement === true) {
+      setMetricImperialToggle(1);
+    } else setMetricImperialToggle(0);
   }, []);
 
   const handleClick = (index) => {
     if (index !== metricImperialToggle) {
       return (
-        console.log('hihi'),
         setMetricImperialToggle(index),
         dispatch(toggleUnitsBetweenImperialMetric())
       );

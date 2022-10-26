@@ -7,6 +7,7 @@ function SelectGasType({ gasType, gasSelection, handleSelect, handleToggle }) {
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+  const editState = state.buttonsOfSettings.settingsEditButton;
 
   return (
     <Wrapper>
@@ -18,8 +19,8 @@ function SelectGasType({ gasType, gasSelection, handleSelect, handleToggle }) {
                 <ContainerOfCircles>
                   <OutsideRingGreenCircle
                     onClick={() => {
-                      handleToggle(index);
-                      handleSelect(index);
+                      editState && handleToggle(index);
+                      editState && handleSelect(index);
                     }}
                     mode={mode}
                   >

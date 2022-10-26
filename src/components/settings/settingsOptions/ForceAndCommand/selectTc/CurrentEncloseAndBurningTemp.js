@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import RadioBox from '../RadioBox';
 import ConfirmButton from '../ConfirmButton';
+import { useSelector } from 'react-redux';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 
 function CurrentEncloseAndBurningTemp({
   data,
@@ -19,6 +21,10 @@ function CurrentEncloseAndBurningTemp({
   tesHeaterTemp,
   tgsTesEncloseTemp,
 }) {
+  // redux
+  const state = useSelector(selectSettingsOfEss);
+  const editState = state.buttonsOfSettings.settingsEditButton;
+
   return (
     <FlexWrapper>
       {data.map((value, index) => {
@@ -72,9 +78,10 @@ function CurrentEncloseAndBurningTemp({
                     <Img
                       src={'./images/whiteTriangle.svg'}
                       onClick={() =>
-                        index === 0
+                        editState &&
+                        (index === 0
                           ? displayOptions(essHeaterTemp)
-                          : displayOptions(essEncloseTemp)
+                          : displayOptions(essEncloseTemp))
                       }
                     />
                   ) : !tesSwitch && index === 1 ? (
@@ -86,11 +93,12 @@ function CurrentEncloseAndBurningTemp({
                     <Img
                       src={'./images/whiteTriangle.svg'}
                       onClick={() =>
-                        index === 0
+                        editState &&
+                        (index === 0
                           ? displayOptions(tgsHeaterTemp)
                           : index === 1
                           ? displayOptions(tesHeaterTemp)
-                          : index === 2 && displayOptions(tgsTesEncloseTemp)
+                          : index === 2 && displayOptions(tgsTesEncloseTemp))
                       }
                     />
                   )}

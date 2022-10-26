@@ -5,6 +5,7 @@ import { flexboxCenter } from '../../../../styles/commonStyles';
 import SnowFactor from './SnowFactor';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../../../store/slices/userSlice';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
@@ -16,6 +17,8 @@ function ContainerOfSnowSensor() {
   const state = useSelector(selectUserState);
   const tesSwitch = state.isTesSwitch;
   const essSwitch = state.isEssSwitch;
+  const editSlice = useSelector(selectSettingsOfEss);
+  const editState = editSlice.buttonsOfSettings.settingsEditButton;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
@@ -29,6 +32,7 @@ function ContainerOfSnowSensor() {
           temp={temp}
           tesSwitch={tesSwitch}
           essSwitch={essSwitch}
+          editState={editState}
         />
       </Wrapper1>
     </Wrapper>

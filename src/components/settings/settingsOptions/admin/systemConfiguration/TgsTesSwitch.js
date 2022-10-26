@@ -13,6 +13,7 @@ function TgsTesSwitch() {
 
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+  const editState = state.buttonsOfSettings.settingsEditButton;
 
   const [options, setOptions] = useState(null);
 
@@ -36,7 +37,7 @@ function TgsTesSwitch() {
                     <ContainerOfCircles>
                       <OutsideRingGreenCircle
                         onClick={() => {
-                          handleSelect(index);
+                          editState && handleSelect(index);
                         }}
                         mode={mode}
                       >

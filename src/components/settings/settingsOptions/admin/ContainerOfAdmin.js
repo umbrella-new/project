@@ -13,7 +13,7 @@ import {
 import ContainerValveSettings from './valvetSettings/ContainerValvetSettings';
 import Thermocouple from './sysControl/Thermocouple';
 import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
-import TgsTesSwitch from './tgsTesSwitch/TgsTesSwitch';
+import TgsTesSwitch from './systemConfiguration/TgsTesSwitch';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';

@@ -2,16 +2,44 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import ValveSettings from './ValveSettings';
 import SelectGasType from '../selectGasType/ContainerSelectGasType';
+import { useState } from 'react';
+import InputValveSettingsMessage from './InputValveSettingsMessage';
 
 function ContainerValveSettings() {
+  const title = 'warning';
+  const message = 'please input a number between 0 and 100';
+
+  const initialState = { first: '', second: '', third: '' };
+  const [inputValue, setInputValue] = useState(initialState);
+  const [warningMessage, setWarningMessage] = useState(false);
+
+  const onClose = () => {
+    setInputValue(initialState);
+    setWarningMessage(false);
+  };
+
   return (
     <Wrapper>
       <WrapperValveSettings>
-        <ValveSettings />
+        <ValveSettings
+          setWarningMessage={setWarningMessage}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          initialState={initialState}
+        />
       </WrapperValveSettings>
       <WrapperSelectGasType>
         <SelectGasType />
       </WrapperSelectGasType>
+      {warningMessage && (
+        <WrapperMessage>
+          <InputValveSettingsMessage
+            title={title}
+            onClose={onClose}
+            message={message}
+          />
+        </WrapperMessage>
+      )}
     </Wrapper>
   );
 }
@@ -41,3 +69,5 @@ const WrapperValveSettings = styled.div`
 const WrapperSelectGasType = styled.div`
   margin-left: 3px;
 `;
+
+const WrapperMessage = styled.div``;

@@ -1,13 +1,40 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
+import { useState, useRef } from 'react';
 import ValveConfirmButton from './ValveConfirmButton';
+import { useSelector } from 'react-redux';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 
-function ValveSettings() {
+function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const data = [
-    { title: 'start position:', number: '30' },
-    { title: 'min position:', number: '05' },
-    { title: 'max position:', number: '100' },
+    { title: 'start position:' },
+    { title: 'min position:' },
+    { title: 'max position:' },
   ];
+
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const editState = state.buttonsOfSettings.settingsEditButton;
+
+  const handleInputs = (e, index) => {
+    e.stopPropagation();
+    const value = Number(e.target.value);
+
+    if (value >= 0 && value <= 100) {
+      if (index === 0) {
+        return setInputValue(() => ({ ...inputValue, first: value }));
+      } else if (index === 1) {
+        return setInputValue(() => ({ ...inputValue, second: value }));
+      } else return setInputValue(() => ({ ...inputValue, third: value }));
+    } else {
+      setWarningMessage(true);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    return inputValue;
+  };
 
   return (
     <WrapperTitleAndSettings>
@@ -24,22 +51,36 @@ function ValveSettings() {
             <WrapperData2>
               <WrapperData3>
                 <SmallTitle>gas value position</SmallTitle>
-                <WrapperIndent>
-                  {data.map((value, index) => {
-                    return (
-                      <MapDiv key={index}>
-                        <DataSubtitle>{value.title}</DataSubtitle>
-                        <DataContainer>
-                          <DataIndent>
-                            <DataNumber>{value.number}</DataNumber>
-                          </DataIndent>
-                          <PercentageSign>%</PercentageSign>
-                        </DataContainer>
-                      </MapDiv>
-                    );
-                  })}
-                </WrapperIndent>
-                <ValveConfirmButton />
+                <Form onSubmit={editState && handleSubmit}>
+                  <WrapperIndent>
+                    {data.map((value, index) => {
+                      return (
+                        <MapDiv key={index}>
+                          <DataSubtitle>{value.title}</DataSubtitle>
+                          <DataContainer>
+                            <DataIndent>
+                              <DataInput
+                                type='number'
+                                value={
+                                  index === 0
+                                    ? inputValue.first
+                                    : index === 1
+                                    ? inputValue.second
+                                    : inputValue.third
+                                }
+                                onChange={(e) => {
+                                  editState && handleInputs(e, index);
+                                }}
+                              ></DataInput>
+                            </DataIndent>
+                            <PercentageSign>%</PercentageSign>
+                          </DataContainer>
+                        </MapDiv>
+                      );
+                    })}
+                  </WrapperIndent>
+                  <ValveConfirmButton type='submit' />
+                </Form>
               </WrapperData3>
             </WrapperData2>
           </WrapperData>
@@ -180,6 +221,11 @@ const SmallTitle = styled.p`
   opacity: 1;
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: row;
+`;
+
 const WrapperIndent = styled.div`
   width: 358px;
   height: 30px;
@@ -225,18 +271,27 @@ const DataIndent = styled.div`
   width: 33px;
   height: 20px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: #233a54;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 18px 6px 6px 18px;
   opacity: 1;
   ${flexboxCenter}
 `;
 
-const DataNumber = styled.p`
+const DataInput = styled.input`
+  width: 29px;
+  height: 18px;
+  border-radius: 15px;
   font-size: var(--space1);
   letter-spacing: 1px;
-  color: #ffffff;
+  background-color: transparent;
   opacity: 1;
+
+  &::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const PercentageSign = styled.p`
