@@ -1,12 +1,12 @@
-import { useRef, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
   activateTgsSwitchStatus,
   activateTgsConflictMessage,
-} from '../../../../store/slices/tgsSwitchSlice';
+} from "../../../../store/slices/tgsSwitchSlice";
 
 import {
   activeInput,
@@ -14,10 +14,11 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from '../../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
-import InputKeyPad from '../../../keyboard/InputKeyPad';
-import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
+} from "../../../../styles/commonStyles";
+import styled, { css } from "styled-components";
+import InputKeyPad from "../../../keyboard/InputKeyPad";
+import { selectEssSwitch } from "../../../../store/slices/essSwitchSlice";
+import { selectUnitsState } from "../../../../store/slices/unitsSlice";
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
@@ -26,6 +27,8 @@ const TgsInstantHeat = () => {
   const { fanOnly } = state;
   const inputRef = useRef();
 
+  const unitState = useSelector(selectUnitsState);
+  const { unitsMeasurement } = unitState;
   // Check es switch
   const esState = useSelector(selectEssSwitch);
   const { isEsSwitchActivated } = esState;
@@ -38,8 +41,14 @@ const TgsInstantHeat = () => {
   }, [instantButtonToggler]);
 
   useEffect(() => {
-    if (instantHeatTemp > 0) {
-      inputRef.current.value = `${instantHeatTemp}\u00b0C`;
+    if (unitsMeasurement) {
+      if (instantHeatTemp > 0) {
+        inputRef.current.value = `${Number(instantHeatTemp) * 1.8 + 32}\u00b0F`;
+      }
+    } else {
+      if (instantHeatTemp > 0) {
+        inputRef.current.value = `${instantHeatTemp}\u00b0C`;
+      }
     }
   }, []);
 
@@ -48,16 +57,30 @@ const TgsInstantHeat = () => {
     if (!isEsSwitchActivated) {
       const temp = Number(inputRef.current.value);
       setOpenKeyPad(false);
-      if (temp !== 0) {
-        if (!instantButtonToggler) {
-          dispatch(tgsInstantHeat(temp));
-          inputRef.current.value = `${temp}\u00b0C`;
+      if (unitsMeasurement) {
+        if (temp !== 0) {
+          if (!instantButtonToggler) {
+            dispatch(tgsInstantHeat(temp - 32 / 1.8));
+            inputRef.current.value = `${temp}\u00b0F`;
+          } else {
+            dispatch(tgsInstantHeat(0));
+            inputRef.current.value = ``;
+          }
         } else {
-          dispatch(tgsInstantHeat(0));
-          inputRef.current.value = ``;
+          return;
         }
       } else {
-        return;
+        if (temp !== 0) {
+          if (!instantButtonToggler) {
+            dispatch(tgsInstantHeat(temp));
+            inputRef.current.value = `${temp}\u00b0C`;
+          } else {
+            dispatch(tgsInstantHeat(0));
+            inputRef.current.value = ``;
+          }
+        } else {
+          return;
+        }
       }
     } else {
       // Activate Conflict Message Box
@@ -69,18 +92,32 @@ const TgsInstantHeat = () => {
   const handleVirtualKeyboardInput = (input) => {
     if (!isEsSwitchActivated) {
       const temp = Number(input);
-
-      if (temp !== 0) {
-        if (!instantButtonToggler) {
-          dispatch(tgsInstantHeat(temp));
-          inputRef.current.value = `${temp}\u00b0C`;
-          handleKeypadClosed();
+      if (unitsMeasurement) {
+        if (temp !== 0) {
+          if (!instantButtonToggler) {
+            dispatch(tgsInstantHeat((temp - 32) / 1.8));
+            inputRef.current.value = `${temp}\u00b0F`;
+            handleKeypadClosed();
+          } else {
+            dispatch(tgsInstantHeat(0));
+            inputRef.current.value = ``;
+          }
         } else {
-          dispatch(tgsInstantHeat(0));
-          inputRef.current.value = ``;
+          return;
         }
       } else {
-        return;
+        if (temp !== 0) {
+          if (!instantButtonToggler) {
+            dispatch(tgsInstantHeat(temp));
+            inputRef.current.value = `${temp}\u00b0C`;
+            handleKeypadClosed();
+          } else {
+            dispatch(tgsInstantHeat(0));
+            inputRef.current.value = ``;
+          }
+        } else {
+          return;
+        }
       }
     } else {
       setOpenKeyPad(false);
@@ -107,6 +144,8 @@ const TgsInstantHeat = () => {
     instantButtonToggler || dispatch(fanOnlyToggler());
   };
 
+  const unit = unitsMeasurement ? `\u00b0F` : `\u00b0C`;
+
   return (
     <Wrapper toggler={instantButtonToggler}>
       <ContentWrapper toggler={instantButtonToggler} onSubmit={handleOnSubmit}>
@@ -114,7 +153,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -134,7 +173,7 @@ const TgsInstantHeat = () => {
 
           <InputDegree
             isActivated={instantButtonToggler}
-            placeholder='0&deg;C'
+            placeholder={unit}
             type='text'
             ref={inputRef}
             disabled={instantButtonToggler}
@@ -147,7 +186,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={'/images/fan-only-icon.svg'} />
+                <ButtonImage src={"/images/fan-only-icon.svg"} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -285,7 +324,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 

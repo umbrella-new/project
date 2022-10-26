@@ -1,13 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState, useEffect } from "react";
 
 import {
   activateEsConflictMessage,
   instantHeat,
   selectEssSwitch,
-} from '../../../../store/slices/essSwitchSlice';
+} from "../../../../store/slices/essSwitchSlice";
 
-import { activateKeyboard } from '../../../../store/slices/userSlice';
+import userSlice, {
+  activateKeyboard,
+} from "../../../../store/slices/userSlice";
 
 import {
   activeInput,
@@ -15,18 +17,21 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from '../../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
-import { selectUserState } from '../../../../store/slices/userSlice';
-import InputKeyPad from '../../../keyboard/InputKeyPad';
+} from "../../../../styles/commonStyles";
+import styled, { css } from "styled-components";
+import { selectUserState } from "../../../../store/slices/userSlice";
+import InputKeyPad from "../../../keyboard/InputKeyPad";
 import {
   activateTgsSwitchStatus,
   selectTgsSwitch,
-} from '../../../../store/slices/tgsSwitchSlice';
+} from "../../../../store/slices/tgsSwitchSlice";
+import { selectUnitsState } from "../../../../store/slices/unitsSlice";
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
-  const userState = useSelector(selectUserState);
+  const unitsState = useSelector(selectUnitsState);
+  const { unitsMeasurement } = unitsState;
+
   const dispatch = useDispatch();
   const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
   const tgsState = useSelector(selectTgsSwitch);
@@ -40,9 +45,14 @@ const InstantHeat = () => {
   }, [instantButtonToggler]);
 
   const inputRef = useRef();
+
   useEffect(() => {
     if (instantHeatTemp > 0) {
-      inputRef.current.value = `${instantHeatTemp}\u00b0C`;
+      unitsMeasurement
+        ? (inputRef.current.value = `${
+            Number(instantHeatTemp) * 1.8 + 32
+          }\u00b0F`)
+        : (inputRef.current.value = `${instantHeatTemp}\u00b0C`);
     }
   }, []);
 
@@ -53,10 +63,15 @@ const InstantHeat = () => {
       setOpenKeyPad(false);
       if (temp !== 0) {
         if (!instantButtonToggler) {
-          dispatch(instantHeat(temp));
-          inputRef.current.value = `${temp}\u00b0C`;
+          unitsMeasurement
+            ? dispatch(instantHeat((temp - 32) / 1.8))
+            : dispatch(instantHeat(temp));
+          unitsMeasurement
+            ? (inputRef.current.value = `${temp}\u00b0F`)
+            : (inputRef.current.value = `${temp}\u00b0C`);
         } else {
           dispatch(instantHeat(0));
+
           inputRef.current.value = ``;
         }
       } else {
@@ -73,12 +88,15 @@ const InstantHeat = () => {
     if (!isTgsSwitchActivated) {
       if (temp !== 0) {
         if (!instantButtonToggler) {
-          dispatch(instantHeat(temp));
-          inputRef.current.value = `${temp}\u00b0C`;
-          handleKeypadClosed();
+          unitsMeasurement
+            ? dispatch(instantHeat((temp - 32) / 1.8))
+            : dispatch(instantHeat(temp));
+          unitsMeasurement
+            ? (inputRef.current.value = `${temp}\u00b0F`)
+            : (inputRef.current.value = `${temp}\u00b0C`);
         } else {
-          console.log('here');
           dispatch(instantHeat(0));
+
           inputRef.current.value = ``;
         }
       } else {
@@ -105,6 +123,8 @@ const InstantHeat = () => {
     setOpenKeyPad(false);
   };
 
+  const unit = unitsMeasurement ? `\u00b0F` : `\u00b0C`;
+
   return (
     <Wrapper isActivated={instantButtonToggler}>
       <InnerWrapper
@@ -119,7 +139,7 @@ const InstantHeat = () => {
             <Label>instant heat</Label>
             <InputDegree
               isActivated={instantButtonToggler}
-              placeholder='0&deg;C'
+              placeholder={unit}
               type='text'
               ref={inputRef}
               disabled={instantButtonToggler}
@@ -130,7 +150,7 @@ const InstantHeat = () => {
         <ActiveButton isActivated={instantButtonToggler}>
           <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
             <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
-              <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+              <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
         </ActiveButton>
@@ -257,7 +277,7 @@ const InputDegree = styled.input`
   height: 20px;
   width: 58px;
   border-radius: 20px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   box-shadow: 0 0 3px black;
   margin-right: 5.06px;
   font-size: 10px;

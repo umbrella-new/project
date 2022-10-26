@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import styled, { css } from 'styled-components';
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import styled, { css } from "styled-components";
+import { selectUnitsState } from "../../../store/slices/unitsSlice";
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -7,9 +9,9 @@ import {
   activeLayer1,
   activeInput,
   ButtonReady,
-} from '../../../styles/commonStyles';
-import InputKeyPad from '../../keyboard/InputKeyPad';
-import InputTempMessage from '../../userMessages/InputTempMessage';
+} from "../../../styles/commonStyles";
+import InputKeyPad from "../../keyboard/InputKeyPad";
+import InputTempMessage from "../../userMessages/InputTempMessage";
 
 const TempAndButton = ({
   isEnable,
@@ -27,11 +29,23 @@ const TempAndButton = ({
   const [alertMessage, setAlertMessage] = useState(false);
   const [overHeat, setOverHeat] = useState(false);
 
+  const unitsState = useSelector(selectUnitsState);
+  const { unitsMeasurement } = unitsState;
+
   useEffect(() => {
-    if (currTemp > 0) {
-      inputRef.current.value = `${currTemp}\u00b0C`;
-      if (!isEnable) {
-        inputRef.current.value = ``;
+    if (unitsMeasurement) {
+      if (currTemp > 0) {
+        inputRef.current.value = `${Number(currTemp) * 1.8 + 32}\u00b0F`;
+        if (!isEnable) {
+          inputRef.current.value = ``;
+        }
+      }
+    } else {
+      if (currTemp > 0) {
+        inputRef.current.value = `${currTemp}\u00b0C`;
+        if (!isEnable) {
+          inputRef.current.value = ``;
+        }
       }
     }
   });
@@ -43,35 +57,68 @@ const TempAndButton = ({
     inputRef.current.value.length === 0 && setAlertMessage(true);
 
     const temp = Number(inputRef.current.value);
-    if (title === 'scheduler') {
+    if (title === "scheduler") {
       if (temp !== 0) {
-        if (temp > 248) {
-          setOverHeat(true);
-          setAlertMessage(true);
-          inputRef.current.value = '';
-        } else {
-          if (!isReady) {
-            buttonHandler(temp);
-            inputRef.current.value = `${temp}\u00b0C`;
+        if (unitsMeasurement) {
+          // make it clear!
+          if (temp > 248) {
+            setOverHeat(true);
+            setAlertMessage(true);
+            inputRef.current.value = "";
           } else {
-            buttonHandler(0);
-            inputRef.current.value = '';
+            if (!isReady) {
+              buttonHandler((temp - 32) / 1.8);
+              inputRef.current.value = `${temp}\u00b0F`;
+            } else {
+              buttonHandler(0);
+              inputRef.current.value = "";
+            }
+          }
+        } else {
+          if (temp > 120) {
+            setOverHeat(true);
+            setAlertMessage(true);
+            inputRef.current.value = "";
+          } else {
+            if (!isReady) {
+              buttonHandler(temp);
+              inputRef.current.value = `${temp}\u00b0C`;
+            } else {
+              buttonHandler(0);
+              inputRef.current.value = "";
+            }
           }
         }
       }
     } else {
       if (temp !== 0) {
-        if (temp > 248) {
-          setOverHeat(true);
-          setAlertMessage(true);
-          inputRef.current.value = '';
-        } else {
-          if (!isActivated) {
-            buttonHandler(temp);
-            inputRef.current.value = `${temp}\u00b0C`;
+        if (unitsMeasurement) {
+          if (temp > 248) {
+            setOverHeat(true);
+            setAlertMessage(true);
+            inputRef.current.value = "";
           } else {
-            buttonHandler(0);
-            inputRef.current.value = '';
+            if (!isActivated) {
+              buttonHandler((temp - 32) / 1.8);
+              inputRef.current.value = `${temp}\u00b0F`;
+            } else {
+              buttonHandler(0);
+              inputRef.current.value = "";
+            }
+          }
+        } else {
+          if (temp > 120) {
+            setOverHeat(true);
+            setAlertMessage(true);
+            inputRef.current.value = "";
+          } else {
+            if (!isActivated) {
+              buttonHandler(temp);
+              inputRef.current.value = `${temp}\u00b0C`;
+            } else {
+              buttonHandler(0);
+              inputRef.current.value = "";
+            }
           }
         }
       }
@@ -80,8 +127,8 @@ const TempAndButton = ({
 
   const handleCheck = () => {
     if (!isAble) {
-      alert('Please Set Schedule First');
-      inputRef.current.value = '';
+      alert("Please Set Schedule First");
+      inputRef.current.value = "";
     }
   };
 
@@ -93,14 +140,29 @@ const TempAndButton = ({
   // Virtual keyboard input handler
   const handleVirtualKeyboardInput = (input) => {
     const temp = Number(input);
-    if (temp > 248) {
-      setOverHeat(true);
-      setAlertMessage(true);
-      setOpenKeyPad(false);
-      inputRef.current.value = '';
+    if (unitsMeasurement) {
+      if (temp > 248) {
+        console.log(temp);
+        setOverHeat(true);
+        setAlertMessage(true);
+        setOpenKeyPad(false);
+        inputRef.current.value = "";
+      } else {
+        buttonHandler(temp / 18 - 32);
+        setOpenKeyPad(false);
+        inputRef.current.value = `${temp}\u00b0F`;
+      }
     } else {
-      buttonHandler(temp);
-      setOpenKeyPad(false);
+      if (temp > 248) {
+        setOverHeat(true);
+        setAlertMessage(true);
+        setOpenKeyPad(false);
+        inputRef.current.value = "";
+      } else {
+        buttonHandler(temp);
+        setOpenKeyPad(false);
+        inputRef.current.value = `${temp}\u00b0C`;
+      }
     }
   };
 
@@ -112,22 +174,23 @@ const TempAndButton = ({
   };
 
   const messageBoxTitle =
-    title === 'scheduler'
-      ? 'heating schedule program'
-      : 'optional constant temp';
+    title === "scheduler"
+      ? "heating schedule program"
+      : "optional constant temp";
 
   const handleMessage = () => {
-    if ((title = 'schedule')) {
+    if ((title = "schedule")) {
       return overHeat
-        ? 'Maximum temperature is 120\u00b0F (248\u00b0C)'
-        : 'in order to finalize your heating schedule program,';
+        ? "Maximum temperature is 120\u00b0C (248\u00b0F)"
+        : "in order to finalize your heating schedule program,";
     } else {
       return overHeat
-        ? 'Maximum temperature is 120\u00b0F (248\u00b0C)'
-        : 'in order to finalize your optional constant temp program,';
+        ? "Maximum temperature is 120\u00b0F (248\u00b0C)"
+        : "in order to finalize your optional constant temp program,";
     }
   };
   const message = handleMessage();
+  const unit = unitsMeasurement ? `\u00b0F` : `\u00b0C`;
 
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
@@ -138,7 +201,7 @@ const TempAndButton = ({
             ref={inputRef}
             isEnable={isEnable}
             type='text'
-            placeholder='0&deg;C'
+            placeholder={unit}
             disabled={!isEnable}
             onChange={handleCheck}
             disabled={isReady || isActivated || !isEnable}
@@ -159,7 +222,7 @@ const TempAndButton = ({
             isReady={isReady}
           >
             <ButtonName isEnable={isEnable}>
-              {isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
+              {isReady ? "ready" : isActivated ? "activated" : "apply"}
             </ButtonName>
           </ButtonTop>
         </ButtonHole>
@@ -230,7 +293,7 @@ const Label = styled.label`
   font-size: 8px;
   text-transform: uppercase;
   text-align: center;
-  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 `;
 
 const InputWrapper = styled.div`
@@ -275,14 +338,14 @@ const InputDegree = styled.input`
         `}
 
   ::placeholder {
-    color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+    color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
     text-align: center;
     font-size: 10px;
   }
 `;
 
 const ButtonWrapper = styled.button`
-  cursor: ${(p) => (p.isEnable ? `pointer` : 'default')};
+  cursor: ${(p) => (p.isEnable ? `pointer` : "default")};
   height: 30px;
   width: 126px;
   border-radius: 25px;
@@ -391,9 +454,9 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
   text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   text-align: center;
-  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 `;
 
 const KeyPadWrapper = styled.div`

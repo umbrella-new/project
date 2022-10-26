@@ -1,13 +1,13 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { selectUserState } from '../../../store/slices/userSlice';
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { selectUserState } from "../../../store/slices/userSlice";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import ToggleSWitch from './ToggleSwitch';
-import Select from './Select';
-import SSRInfoContainer from './SSRInfoContainer';
-import SwitchNameSelector from './SwitchNameSelector';
+import ToggleSWitch from "./ToggleSwitch";
+import Select from "./Select";
+import SSRInfoContainer from "./SSRInfoContainer";
+import SwitchNameSelector from "./SwitchNameSelector";
 
 const SSRDetail = ({ data, id }) => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
