@@ -83,7 +83,13 @@ const SSRItemDetails = ({
             </ItemVoltage>
 
             <ItemLength isEnable={isEnable}>
-              <ItemData isEnable={isEnable}>{spec.lengths}</ItemData>
+              {unitsMeasurement ? (
+                <ItemData isEnable={isEnable}>
+                  {Math.round(Number(spec.lengths) * 3.28084)}
+                </ItemData>
+              ) : (
+                <ItemData isEnable={isEnable}>{spec.lengths}</ItemData>
+              )}
             </ItemLength>
 
             <DescriptionAndButtonWrapper>
