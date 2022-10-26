@@ -6,10 +6,13 @@ import DateAndWeather from './DateAndWeather';
 
 const Header = () => {
   const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
 
   const switchName = userState.switchName
     ? userState.switchName
-    : `WE-COVE-02 #10 S.T.-ESS`;
+    : isEssSwitch
+    ? `WE-COVE-02 #10 S.T.-ESS`
+    : `WE-COVE-02 #10 S.T.-TGS-TES`;
   const machineId = userState.userId ? userState.userId : `10000000000023442`;
 
   return (
