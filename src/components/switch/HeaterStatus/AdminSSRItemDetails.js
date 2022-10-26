@@ -110,8 +110,6 @@ const AdminSSRItemDetails = ({
   const unitsStates = useSelector(selectUnitsState);
   const { unitsMeasurement } = unitsStates;
 
-  useEffect(() => {}, [inputDetails]);
-
   useEffect(() => {
     if (
       inputDetails[0].partNumber !== '' &&

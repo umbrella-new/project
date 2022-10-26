@@ -147,7 +147,10 @@ const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
 
       {openPasswordBox && (
         <PasswordWrapper>
-          <ContainerLogin />
+          <ContainerLogin
+            setIsSettingOpen={setIsSettingOpen}
+            isReadyToClose={true}
+          />
         </PasswordWrapper>
       )}
     </Wrapper>

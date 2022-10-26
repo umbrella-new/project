@@ -1,13 +1,24 @@
-import { useSelector } from "react-redux";
-import styled from "styled-components";
-import { selectUnitsState } from "../../../store/slices/unitsSlice";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { selectUnitsState } from '../../../store/slices/unitsSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
+import InputTempMessage from '../../userMessages/InputTempMessage';
 
 const DefaultTemp = ({ defaultTemp }) => {
   const unitsState = useSelector(selectUnitsState);
   const { unitsMeasurement } = unitsState;
+  const [displayMessage, setDisplayMessage] = useState(false);
+
+  console.log(displayMessage);
+
+  const handleClose = (event) => {
+    event.stopPropagation();
+    setDisplayMessage(false);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClick={() => setDisplayMessage(true)}>
       <InnerLayer>
         <Title>
           default<br></br> temp.
@@ -19,6 +30,13 @@ const DefaultTemp = ({ defaultTemp }) => {
           <DefaultDegree>{defaultTemp}&deg;C</DefaultDegree>
         )}
       </InnerLayer>
+      {displayMessage && (
+        <InputTempMessage
+          onClose={handleClose}
+          title='default temperature'
+          message='In order to change default temperature, you need to go the SETTING PAGE'
+        />
+      )}
     </Wrapper>
   );
 };
