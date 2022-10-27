@@ -1,11 +1,10 @@
 // APIs
-import { useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
 
 // Styling
 import styled, { css } from 'styled-components';
-import { Context } from '../../../context/Context';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 // Components
@@ -14,13 +13,20 @@ import SSRButton from './SSRButton';
 import SSRDetail from './SSRDetail';
 import ContainerLogin from '../../adminPassword/ContainerLogin';
 import { selectFaults } from '../../../store/slices/faultsSlice';
+import {
+  handleDisplaySSRDetails,
+  selectUserState,
+} from '../../../store/slices/userSlice';
 
 const HeaterStatus = () => {
   const ssrState = useSelector(selectSSRState);
   const faultsState = useSelector(selectFaults);
+  const userState = useSelector(selectUserState);
+  const { isExpanded } = userState;
   const { isFaults } = faultsState.ess;
 
-  const { dispatch, state } = useContext(Context);
+  const dispatch = useDispatch();
+
   const [displayAdminLogin, setDisplayAdminLogin] = useState(false);
 
   const ssrStateArr = Object.values(ssrState);
@@ -31,7 +37,8 @@ const HeaterStatus = () => {
   const ssrGroupTwo = statusArr.slice(4);
 
   const onExpand = () => {
-    dispatch({ type: 'expand' });
+    dispatch(handleDisplaySSRDetails());
+    // dispatch({ type: 'expand' });
   };
 
   const handleClick = () => {
@@ -39,11 +46,7 @@ const HeaterStatus = () => {
   };
 
   return (
-    <Wrapper
-      isExpanded={state.isExpanded}
-      onClick={handleClick}
-      isFaults={isFaults}
-    >
+    <Wrapper isExpanded={isExpanded} onClick={handleClick} isFaults={isFaults}>
       <Header>
         <TitleAndButtonWrapper>
           <Title>heater status</Title>
@@ -69,7 +72,7 @@ const HeaterStatus = () => {
           <ContainerLogin />
         </LoginWrapper>
       )}
-      {state.isExpanded && (
+      {isExpanded && (
         <DetailWrapper>
           {ssrStateArr.map((data, index) => (
             // id is the ssr switch number
@@ -79,7 +82,7 @@ const HeaterStatus = () => {
       )}
       <ApplyButtonWrapper>
         <ApplyButton
-          name={state.isExpanded ? 'close' : 'expand'}
+          name={isExpanded ? 'close' : 'expand'}
           buttonHandler={onExpand}
           isEnable={true}
         />

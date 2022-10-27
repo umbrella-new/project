@@ -19,13 +19,16 @@ import SettingButton from './SettingButton';
 import SSRItemDetails from './SSRItemDetails';
 import SSRInfoDetailItems from './SSRItemDetails';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 const SSRInfoContainer = ({ data, id, isSettingOpen, setIsSettingOpen }) => {
   const userState = useSelector(selectUserState);
   const { isAdministrator } = userState;
   const [openPasswordBox, setOpenPasswordBox] = useState(false);
-  const unitsState = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsState;
+
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
+
   // Compare current and currentCurrent
   const [isOverAmp, setIsOverAmp] = useState(false);
 

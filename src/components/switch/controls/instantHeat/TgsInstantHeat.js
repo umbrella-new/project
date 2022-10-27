@@ -1,12 +1,12 @@
-import { useRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
   activateTgsSwitchStatus,
   activateTgsConflictMessage,
-} from "../../../../store/slices/tgsSwitchSlice";
+} from '../../../../store/slices/tgsSwitchSlice';
 
 import {
   activeInput,
@@ -14,11 +14,12 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
-import InputKeyPad from "../../../keyboard/InputKeyPad";
-import { selectEssSwitch } from "../../../../store/slices/essSwitchSlice";
-import { selectUnitsState } from "../../../../store/slices/unitsSlice";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+import InputKeyPad from '../../../keyboard/InputKeyPad';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
+import { selectUnitsState } from '../../../../store/slices/unitsSlice';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
@@ -27,8 +28,8 @@ const TgsInstantHeat = () => {
   const { fanOnly } = state;
   const inputRef = useRef();
 
-  const unitState = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitState;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
   // Check es switch
   const esState = useSelector(selectEssSwitch);
   const { isEsSwitchActivated } = esState;
@@ -153,7 +154,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -186,7 +187,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={"/images/fan-only-icon.svg"} />
+                <ButtonImage src={'/images/fan-only-icon.svg'} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -324,7 +325,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 

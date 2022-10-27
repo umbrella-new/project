@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import InputTempMessage from '../../userMessages/InputTempMessage';
 
 const DefaultTemp = ({ defaultTemp }) => {
-  const unitsState = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsState;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
   const [displayMessage, setDisplayMessage] = useState(false);
 
   console.log(displayMessage);

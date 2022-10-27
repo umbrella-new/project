@@ -7,6 +7,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isEssSwitch: true,
   isTesSwitch: false,
+  isExpanded: false,
   isPasswordOpen: false,
   isAdministrator: false,
   adminPassword: 'ATEF61',
@@ -38,10 +39,17 @@ const userSlice = createSlice({
     handlePasswordPropagation: (state, action) => {
       state.isPasswordOpen = action.payload;
     },
+    handleDisplaySSRDetails: (state) => {
+      state.isExpanded = !state.isExpanded;
+    },
   },
 });
 
 export default userSlice;
 export const selectUserState = (state) => state.user;
-export const { activateKeyboard, setAdminAccess, handlePasswordPropagation } =
-  userSlice.actions;
+export const {
+  activateKeyboard,
+  setAdminAccess,
+  handlePasswordPropagation,
+  handleDisplaySSRDetails,
+} = userSlice.actions;

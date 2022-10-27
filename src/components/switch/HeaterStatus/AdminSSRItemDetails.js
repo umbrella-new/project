@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 
 import { handleSSRDetails } from '../../../store/slices/heaterStatusSlice';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
@@ -109,8 +110,8 @@ const AdminSSRItemDetails = ({
 
   const dispatch = useDispatch();
 
-  const unitsStates = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsStates;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   useEffect(() => {
     if (
