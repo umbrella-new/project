@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
-
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
@@ -29,8 +29,8 @@ const SSRItemDetails = ({
   const { specsStr, descriptionOptions } = descriptionState;
   const [description, setDescription] = useState([]);
 
-  const unitsStates = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsStates;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const dispatch = useDispatch();
   // For mapping

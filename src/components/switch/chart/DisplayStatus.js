@@ -1,20 +1,21 @@
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { selectUserState } from "../../../store/slices/userSlice";
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { selectUserState } from '../../../store/slices/userSlice';
 
-import styled from "styled-components";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
-import DisplayBox from "./../DisplayBox";
-import { selectUnitsState } from "../../../store/slices/unitsSlice";
+import DisplayBox from './../DisplayBox';
+
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 const DisplayStatus = () => {
   // Add conditional statement to assignment values
-  const unitsState = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsState;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const a = 350;
-  const b = "___";
+  const b = '___';
   const energyConsumption = `${a} `;
   const enclosureTemp = b;
   const outsideTemp = b;
@@ -30,7 +31,7 @@ const DisplayStatus = () => {
         <ContentsInnerWrapper>
           <DisplayBox
             currData={energyConsumption}
-            unit={"Kw/H"}
+            unit={'Kw/H'}
             name='energyConsumption'
             label='energy consumption'
           />

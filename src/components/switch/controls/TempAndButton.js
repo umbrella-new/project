@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
   flexboxCenter,
@@ -29,9 +30,8 @@ const TempAndButton = ({
   const [alertMessage, setAlertMessage] = useState(false);
   const [overHeat, setOverHeat] = useState(false);
 
-  const unitsState = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsState;
-
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
   useEffect(() => {
     if (unitsMeasurement) {
       if (currTemp > 0) {

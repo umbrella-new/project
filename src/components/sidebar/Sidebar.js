@@ -9,7 +9,6 @@ import { flexboxCenter } from '../../styles/commonStyles';
 import SidebarButton from './SidebarButton';
 
 const Sidebar = () => {
-  // const { state } = useContext(Context);
   const faultsState = useSelector(selectFaults);
   const { faults } = faultsState;
   const userState = useSelector(selectUserState);

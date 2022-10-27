@@ -1,13 +1,9 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
-import { Context } from '../../../../context/Context';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 import DisplayBox from '../../DisplayBox';
 
 const DisplayTemperatureStates = ({ state }) => {
-  // console.log(state.instantHeat.instantHeatTemp);
-
   const g = '___';
   const setTemp =
     state.instantHeat.instantHeatTemp === null

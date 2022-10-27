@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
-import SelectButton from './SelectButton';
-import RadioBox from './RadioBox';
-import { useContext } from 'react';
-import { HeaterStatusContext } from '../../../context/HeaterStatusContext';
 import { useDispatch } from 'react-redux';
 import { selector } from '../../../store/slices/heaterStatusSlice';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
+
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
+
+import RadioBox from './RadioBox';
 import ConfirmButton from './ConfirmButton';
 
 const Select = ({ data, id }) => {
   const dispatch = useDispatch();
-  const { options } = useContext(HeaterStatusContext);
-  const { select } = options && options;
+
+  const state = useSelector(selectEssSwitch);
+  const { select } = state;
 
   const [isClicked, setIsClicked] = useState(false);
   const [checked, setChecked] = useState(select[0]);

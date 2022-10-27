@@ -1,10 +1,8 @@
-import ContextProvider from './context/Context';
-
 import GlobalStyle from './styles/GlobalStyles';
 import styled from 'styled-components';
 import MainPage from './MainPage';
 import { flexboxCenter } from './styles/commonStyles';
-import HeaterStatusProvider from './context/HeaterStatusContext';
+
 import { Provider } from 'react-redux';
 import store from './store/store';
 
@@ -13,11 +11,7 @@ function App() {
     <Wrapper>
       <GlobalStyle />
       <Provider store={store}>
-        <ContextProvider>
-          <HeaterStatusProvider>
-            <MainPage />
-          </HeaterStatusProvider>
-        </ContextProvider>
+        <MainPage />
       </Provider>
     </Wrapper>
   );
