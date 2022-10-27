@@ -11,14 +11,11 @@ import {
   setSettingsOptionsAdmin,
 } from '../../../store/slices/settingsOfEssSlice';
 
-function AllTheSelectionsOfSettingsOptions() {
-  const settingsData = [
-    'units',
-    'wind factor trigger',
-    'snow sensor trigger',
-    'force & command',
-    'admin.',
-  ];
+function AllTheSelectionsOfSettingsOptions({
+  settingsData,
+
+  setSettingsState,
+}) {
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
@@ -62,7 +59,12 @@ function AllTheSelectionsOfSettingsOptions() {
                 onClick={() => handleSelect(index)}
                 color={options === index ? true : false}
               ></SelectBox>
-              <ContainerOfEachOptions>
+              <ContainerOfEachOptions
+                onClick={() => {
+                  setSettingsState(data);
+                  handleSelect(index);
+                }}
+              >
                 <P>{data}</P>
               </ContainerOfEachOptions>
             </ContainerOfEachSelectMeasurement>

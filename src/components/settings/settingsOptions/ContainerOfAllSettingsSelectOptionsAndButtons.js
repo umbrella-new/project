@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useContext, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import TitleOfSettingsOptions from './TitleOfSettingsOptions';
@@ -8,26 +9,312 @@ import {
   selectSettingsOfEss,
   setSettingsEditButton,
   setSettingsCancelButton,
-  setSettingsApplyButton,
+  setSettingsApplyUnitsButton,
+  setSettingsApplyWindFactorTriggerButton,
+  setSettingsApplySnowSensorTriggerButton,
+  setSettingsApplyForceCommandButton,
+  setSettingsApplyAdminButton,
 } from '../../../store/slices/settingsOfEssSlice';
+import {
+  setTgsSettingsEditButton,
+  setTgsSettingsCancelButton,
+  setTgsSettingsApplyButton,
+} from '../../../store/slices/settingsOfTgsSlice';
+import {
+  setTgsTesSettingsEditButton,
+  setTgsTesSettingsCancelButton,
+  setTgsTesSettingsApplyButton,
+} from '../../../store/slices/settingsOfTgsTesSlice';
 import EditCancelApplyButtons from './EditCancelApplyButtons';
+import { selectUserState } from '../../../store/slices/userSlice';
+import { SettingsContext } from '../../../context/ContextOfSettings';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
+  const settingsData = [
+    'units',
+    'wind factor trigger',
+    'snow sensor trigger',
+    'force & command',
+    'admin.',
+  ];
+  // useContext
+  const { settingState } = useContext(SettingsContext);
+  // useState
+  const buttonsName = ['edit', 'cancel', 'apply'];
+  const [settingsState, setSettingsState] = useState('units');
   // redux
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
-  const applyState = state.buttonsOfSettings.settingsApplyButton;
+  const essTesState = useSelector(selectUserState);
+  const essState = essTesState.isEssSwitch;
+  const tesState = essTesState.isTesSwitch;
 
-  const handleApply = () => {
-    return dispatch(setSettingsApplyButton());
+  // return dispatch(setSettingsApplyButton());
+
+  const handleEssEditCancelApplyButtons = (buttonId) => {
+    switch (settingsState) {
+      case 'units':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'wind factor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyWindFactorTriggerButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'snow sensor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplySnowSensorTriggerButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'force & command':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyForceCommandButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'admin.':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyAdminButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleTgsTesEditCancelApplyButtons = (buttonId) => {
+    switch (settingsState) {
+      case 'units':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsTesSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsTesSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsTesSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'wind factor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsTesSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsTesSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsTesSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'snow sensor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsTesSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsTesSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsTesSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'force & command':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsTesSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsTesSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsTesSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'admin.':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsTesSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsTesSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsTesSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleTgsEditCancelApplyButtons = (buttonId) => {
+    switch (settingsState) {
+      case 'units':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'wind factor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'snow sensor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'force & command':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'admin.':
+        switch (buttonId) {
+          case 0:
+            dispatch(setTgsSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setTgsSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setTgsSettingsApplyButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <Wrapper mode={mode}>
       <TitleOfSettingsOptions />
-      <AllTheSelectionsOfSettingsOptions />
-      <EditCancelApplyButtons handleApply={handleApply} />
+      <AllTheSelectionsOfSettingsOptions
+        settingsData={settingsData}
+        setSettingsState={setSettingsState}
+      />
+      <EditCancelApplyButtons
+        handleClick={
+          essState
+            ? handleEssEditCancelApplyButtons
+            : tesState
+            ? handleTgsTesEditCancelApplyButtons
+            : handleTgsEditCancelApplyButtons
+        }
+        buttonsName={buttonsName}
+      />
     </Wrapper>
   );
 }

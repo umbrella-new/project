@@ -9,6 +9,8 @@ import faultsSlice from './slices/faultsSlice';
 import forceAndCommandStatusSlice from './slices/forceAndCommandSlice';
 import ssrDescriptionSlice from './slices/ssrDescriptionSlice';
 import unitsSlice from './slices/unitsSlice';
+import settingsOfTgsTesSlice from './slices/settingsOfTgsTesSlice';
+import settingsOfTgsSlice from './slices/settingsOfTgsSlice';
 
 const store = configureStore({
   reducer: {
@@ -22,6 +24,8 @@ const store = configureStore({
     forceAndCommandStatus: forceAndCommandStatusSlice.reducer,
     ssrDescription: ssrDescriptionSlice.reducer,
     unitsSettings: unitsSlice.reducer,
+    settingsOfTgsTes: settingsOfTgsTesSlice.reducer,
+    settingsOfTgs: settingsOfTgsSlice.reducer,
   },
 });
 

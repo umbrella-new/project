@@ -12,8 +12,9 @@ const initialState = {
   buttonsOfSettings: {
     settingsEditButton: false,
     settingsCancelButton: false,
-    settingsApplyButton: false,
+    unitsMeasurement: false,
   },
+  unitsMeasurement: false,
 };
 
 export const settingsOfEssSlice = createSlice({
@@ -60,15 +61,37 @@ export const settingsOfEssSlice = createSlice({
     },
     setSettingsEditButton: (state) => {
       state.buttonsOfSettings.settingsEditButton = true;
-      state.buttonsOfSettings.settingsCancelButton = false;
-      state.buttonsOfSettings.settingsApplyButton = false;
+      // state.buttonsOfSettings.settingsCancelButton = false;
+      // state.buttonsOfSettings.settingsApplyButton = false;
     },
     setSettingsCancelButton: (state) => {
       state.buttonsOfSettings.settingsCancelButton = true;
       state.buttonsOfSettings.settingsApplyButton = false;
       state.buttonsOfSettings.settingsEditButton = false;
     },
-    setSettingsApplyButton: (state) => {
+    setSettingsApplyUnitsButton: (state, action) => {
+      state.buttonsOfSettings.unitsMeasurement = action.payload;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+      //toggle Select Units between imperial or metric
+      // state.unitsMeasurement = !state.unitsMeasurement;
+    },
+    setSettingsApplyWindFactorTriggerButton: (state) => {
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setSettingsApplySnowSensorTriggerButton: (state) => {
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setSettingsApplyForceCommandButton: (state) => {
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setSettingsApplyAdminButton: (state) => {
       state.buttonsOfSettings.settingsApplyButton = true;
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
@@ -88,12 +111,16 @@ export const {
   setSettingsOptionsSnowFactor,
   setSettingsOptionsForceAndCommand,
   setSettingsOptionsAdmin,
-  setSettingsEditButton,
-  setSettingsCancelButton,
-  setSettingsApplyButton,
   setResetAllSettingsButtons,
   setEssButtonExpandAndClose,
   setSysButtonExpandAndClose,
+  setSettingsEditButton,
+  setSettingsCancelButton,
+  setSettingsApplyUnitsButton,
+  setSettingsApplyWindFactorTriggerButton,
+  setSettingsApplySnowSensorTriggerButton,
+  setSettingsApplyForceCommandButton,
+  setSettingsApplyAdminButton,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

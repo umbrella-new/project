@@ -17,6 +17,7 @@ import ContainerOfSnowSensor from './settingsOptions/snowSensorTrigger/Container
 import ContainerOfForceAndCommand from './settingsOptions/ForceAndCommand/ContainerOfForceAndCommand';
 import ContainerOfAdmin from './settingsOptions/admin/ContainerOfAdmin';
 import TitleOfSelectUnitsOfMeasurement from './settingsOptions/units/TitleOfSelectUnitsOfMeasurement';
+import SettingsProvider from '../../context/ContextOfSettings';
 
 const Settings = () => {
   const state = useSelector(selectSettingsOfEss);
@@ -32,43 +33,45 @@ const Settings = () => {
 
   return (
     <>
-      <TitleMainSectionContainer>
-        <TitleContainer>
-          <Titles name='settings' />
-        </TitleContainer>
-        <MainSectionContainer>
-          <MainSection mode={mode}>
-            <ContainerUnitsSettings>
-              <TitleOfAllSettings />
-            </ContainerUnitsSettings>
-            <WrapperSettingsModeAndSelect flexStart={flexStart}>
-              <SettingsOptionsAndInterfaceMode />
-              {settingsOptionsUnits ? (
-                <WrapperAllSettings>
-                  <ContainerOfMetricImperialAndMeasurementTitle />
-                </WrapperAllSettings>
-              ) : settingsOptionsWindFactor ? (
-                <WrapperAllSettings>
-                  <ContainerOfWindFactor />
-                </WrapperAllSettings>
-              ) : settingsOptionsSnowFactor ? (
-                <WrapperAllSettings>
-                  {' '}
-                  <ContainerOfSnowSensor />
-                </WrapperAllSettings>
-              ) : settingsOptionsForceAndCommand ? (
-                <WrapperAllSettings>
-                  <ContainerOfForceAndCommand />
-                </WrapperAllSettings>
-              ) : (
-                <WrapperAllSettings>
-                  <ContainerOfAdmin />
-                </WrapperAllSettings>
-              )}
-            </WrapperSettingsModeAndSelect>
-          </MainSection>
-        </MainSectionContainer>
-      </TitleMainSectionContainer>
+      <SettingsProvider>
+        <TitleMainSectionContainer>
+          <TitleContainer>
+            <Titles name='settings' />
+          </TitleContainer>
+          <MainSectionContainer>
+            <MainSection mode={mode}>
+              <ContainerUnitsSettings>
+                <TitleOfAllSettings />
+              </ContainerUnitsSettings>
+              <WrapperSettingsModeAndSelect flexStart={flexStart}>
+                <SettingsOptionsAndInterfaceMode />
+                {settingsOptionsUnits ? (
+                  <WrapperAllSettings>
+                    <ContainerOfMetricImperialAndMeasurementTitle />
+                  </WrapperAllSettings>
+                ) : settingsOptionsWindFactor ? (
+                  <WrapperAllSettings>
+                    <ContainerOfWindFactor />
+                  </WrapperAllSettings>
+                ) : settingsOptionsSnowFactor ? (
+                  <WrapperAllSettings>
+                    {' '}
+                    <ContainerOfSnowSensor />
+                  </WrapperAllSettings>
+                ) : settingsOptionsForceAndCommand ? (
+                  <WrapperAllSettings>
+                    <ContainerOfForceAndCommand />
+                  </WrapperAllSettings>
+                ) : (
+                  <WrapperAllSettings>
+                    <ContainerOfAdmin />
+                  </WrapperAllSettings>
+                )}
+              </WrapperSettingsModeAndSelect>
+            </MainSection>
+          </MainSectionContainer>
+        </TitleMainSectionContainer>
+      </SettingsProvider>
     </>
   );
 };

@@ -12,6 +12,8 @@ import {
   toggleUnitsBetweenImperialMetric,
   selectUnitsState,
 } from '../../../../store/slices/unitsSlice';
+import { useContext } from 'react';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
 
 function ContainerOfMetricImperialAndMeasurementTitle() {
   const measurementsArr = [
@@ -34,6 +36,10 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   ];
   // state
   const [metricImperialToggle, setMetricImperialToggle] = useState(0);
+
+  // useContext
+  const { settingState, settingDispatch } = useContext(SettingsContext);
+
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
@@ -53,7 +59,8 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     if (index !== metricImperialToggle) {
       return (
         setMetricImperialToggle(index),
-        dispatch(toggleUnitsBetweenImperialMetric())
+        // dispatch(toggleUnitsBetweenImperialMetric())
+        settingDispatch({ type: 'units' })
       );
     }
   };
