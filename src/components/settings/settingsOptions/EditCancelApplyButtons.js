@@ -8,32 +8,32 @@ import {
 } from '../../../store/slices/settingsOfEssSlice';
 import Button from './Button';
 
-function EditCancelApplyButtons() {
-  const buttonNames = ['edit', 'cancel', 'apply'];
+function EditCancelApplyButtons({ handleClick, buttonsName }) {
+  // const buttonNames = ['edit', 'cancel', 'apply'];
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
   // function
-  const handleClick = (id) => {
-    switch (id) {
-      case 0:
-        dispatch(setSettingsEditButton());
-        break;
-      case 1:
-        dispatch(setSettingsCancelButton());
-        break;
-      case 2:
-        dispatch(setSettingsApplyButton());
-        break;
-      default:
-        return;
-    }
-  };
+  // const handleClick = (id) => {
+  //   switch (id) {
+  //     case 0:
+  //       dispatch(setSettingsEditButton());
+  //       break;
+  //     case 1:
+  //       dispatch(setSettingsCancelButton());
+  //       break;
+  //     case 2:
+  //       dispatch(setSettingsApplyButton());
+  //       break;
+  //     default:
+  //       return;
+  //   }
+  // };
 
   return (
     <ContainerButtons mode={mode}>
-      {buttonNames.map((name, index) => {
+      {buttonsName.map((name, index) => {
         return (
           <div key={index}>
             <Button id={index} handleClick={handleClick} name={name} />
