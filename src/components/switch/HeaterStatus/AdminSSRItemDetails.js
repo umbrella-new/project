@@ -480,13 +480,18 @@ const AdminSSRItemDetails = ({
     // 2. update new Input into requested index and name
     if (name === 'partNumber') {
       newInput[index][name] = input.toUpperCase();
+      // 3. Set state
       setInputDetails(newInput);
     } else {
       newInput[index][name] = input;
+      // 3. Set state
       setInputDetails(newInput);
     }
-    // 3. Set state
   };
+
+  // ********************************auto complete*****************************
+  const [selectedSuggestionIdx, setSelectedSuggestionIdx] = useState(0);
+  // ********************************auto complete*****************************
 
   return (
     <Wrapper>
