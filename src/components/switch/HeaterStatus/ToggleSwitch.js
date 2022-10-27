@@ -21,7 +21,7 @@ const ToggleSWitch = ({ data, id }) => {
   return (
     <Wrapper>
       <Title>
-        ssr{id} <br></br> {switchName ? switchName : 'switch name'}
+        ssr{id} - 20 <br></br> {switchName ? switchName : 'switch name'}
       </Title>
       <SwitchButton
         disabled={status === 'flt' ? true : false}
