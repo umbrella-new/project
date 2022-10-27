@@ -25,6 +25,31 @@ const specsStr = [
   'T-FLEX-26L-2S-A48-P1-11/5200/480/8.0',
 ];
 
+const partNumberSuggestions = [
+  'TRSC-7L-2S-A24-P1',
+  'TRSC-7L-2S-A48-P1',
+  'TRSC-8L-2S-A24-P1',
+  'TRSC-8L-2S-A48-P1',
+  'TRSC-10L-2S-A24-P1',
+  'TRSC-10L-2S-A48-P1',
+  'TRSC-11L-2S-A24-P1',
+  'TRSC-11L-2S-A48-P1',
+  'TRSC-12L-2S-A24-P1',
+  'TRSC-12L-2S-A48-P1',
+  'TRS-16L-2S-A48-P1',
+  'TRS-16L-2S-A48-P1',
+  'TRS-20L-2S-A24-P1',
+  'TRS-20L-2S-A48-P1',
+  'T-FLEX-16L-2S-A24-P1',
+  'T-FLEX-16L-2S-A48-P1',
+  'T-FLEX-20L-2S-A24-P1',
+  'T-FLEX-20L-2S-A48-P1',
+  'T-FLEX-24L-2S-A24-P1',
+  'T-FLEX-24L-2S-A48-P1',
+  'T-FLEX-26L-2S-A24-P1',
+  'T-FLEX-26L-2S-A48-P1',
+];
+
 const descriptionOptions = [
   'RS-CRIB RAIL HEATER - TRSC-7L-2S-A24-P1',
   'RS-CRIB RAIL HEATER - TRSC-7L-2S-A48-P1',
@@ -52,7 +77,7 @@ const descriptionOptions = [
 
 const ssrDescriptionSlice = createSlice({
   name: 'ssrDescription',
-  initialState: { descriptionOptions, specsStr },
+  initialState: { descriptionOptions, specsStr, partNumberSuggestions },
   reducers: {},
 });
 
