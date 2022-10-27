@@ -14,6 +14,7 @@ import {
 
 import InputKeyboard from '../../keyboard/InputKeyboard';
 import InputKeyPad from '../../keyboard/InputKeyPad';
+import PartNumberSuggestion from './PartNumberSuggestion';
 import SettingButton from './SettingButton';
 import SSRDetailButtonContainer from './SSRDetailButtonContainer';
 
@@ -28,7 +29,8 @@ const AdminSSRItemDetails = ({
   id,
 }) => {
   const descriptionState = useSelector(selectDescription);
-  const { specsStr, descriptionOptions } = descriptionState;
+  const { specsStr, descriptionOptions, partNumberSuggestions } =
+    descriptionState;
   const { specs } = data;
   // const initialInputState =
   //   specs.length === 1
@@ -467,6 +469,7 @@ const AdminSSRItemDetails = ({
     if (name === 'partNumber') {
       newInput[index][name] = input.toUpperCase();
       setInputDetails(newInput);
+      setInputPartNumber(input.toUpperCase());
     } else {
       newInput[index][name] = input;
       setInputDetails(newInput);
@@ -480,6 +483,7 @@ const AdminSSRItemDetails = ({
     // 2. update new Input into requested index and name
     if (name === 'partNumber') {
       newInput[index][name] = input.toUpperCase();
+      setInputPartNumber(input.toUpperCase());
       // 3. Set state
       setInputDetails(newInput);
     } else {
@@ -491,7 +495,55 @@ const AdminSSRItemDetails = ({
 
   // ********************************auto complete*****************************
   const [selectedSuggestionIdx, setSelectedSuggestionIdx] = useState(0);
+  const [inputPartNumber, setInputPartNumber] = useState('');
+
+  let filteredSuggestions = partNumberSuggestions.filter((suggestion) =>
+    suggestion.includes(inputPartNumber)
+  );
+
+  let displaySuggestions =
+    filteredSuggestions.length >= 1 && inputPartNumber.length >= 2;
+
+  const handleSelect = (suggestion) => {
+    const newInput = [...inputDetails];
+    // newInput[index].partNumber = suggestion;
+    setInputDetails(newInput);
+  };
+
+  const handleKeyDown = (event) => {
+    switch (event.key) {
+      case 'Escape': {
+        setInputPartNumber('');
+        break;
+      }
+      case 'Enter': {
+        handleSelect(filteredSuggestions[selectedSuggestionIdx]);
+        setInputPartNumber('');
+        setSelectedSuggestionIdx(-1);
+        break;
+      }
+      case 'ArrowUp': {
+        selectedSuggestionIdx <= -1
+          ? setSelectedSuggestionIdx(-1)
+          : setSelectedSuggestionIdx(selectedSuggestionIdx - 1);
+        break;
+      }
+      case 'ArrowDown': {
+        selectedSuggestionIdx >= filteredSuggestions.length
+          ? setSelectedSuggestionIdx(filteredSuggestions.length - 1)
+          : setSelectedSuggestionIdx(selectedSuggestionIdx + 1);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  };
+
   // ********************************auto complete*****************************
+  // console.log('input partNumber', inputPartNumber);
+  // console.log('suggestions', filteredSuggestions);
+  // console.log('is ready to render', displaySuggestions);
 
   return (
     <Wrapper>
@@ -503,16 +555,43 @@ const AdminSSRItemDetails = ({
                 <ItemPartNumberInput
                   type='text'
                   isEnable={isEnable}
-                  placeholder='Input part number'
-                  onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'partNumber')
-                  }
-                  onChange={(event) =>
-                    handleSetInput(index, 'partNumber', event.target.value)
-                  }
+                  placeholder='Input P / N'
+                  onClick={() => {
+                    isEditable && handleActivateKeypad(index, 'partNumber');
+                    // isEditable && handleSetInput(index, 'partNumber', '');
+                  }}
+                  onChange={(event) => {
+                    handleSetInput(index, 'partNumber', event.target.value);
+                    setSelectedSuggestionIdx(-1);
+                  }}
+                  onKeyDown={handleKeyDown}
                   value={element.partNumber}
                 />
               </ItemPartNumber>
+              {displaySuggestions && (
+                <AutoCompleteWrapper
+                  column={index}
+                  onMouseMove={() => setSelectedSuggestionIdx(-1)}
+                >
+                  {filteredSuggestions.map((suggestion, index) => {
+                    let isSelected =
+                      filteredSuggestions.indexOf(suggestion) ===
+                      selectedSuggestionIdx
+                        ? true
+                        : false;
+
+                    return (
+                      <PartNumberSuggestion
+                        key={index}
+                        matchedSuggestion={suggestion}
+                        isSelected={isSelected}
+                        handleSelect={handleSelect}
+                      />
+                    );
+                  })}
+                </AutoCompleteWrapper>
+              )}
+
               <ItemCurrent isEnable={isEnable}>
                 <ItemDataInput
                   type='text'
@@ -766,15 +845,19 @@ const ItemDescription = styled.li`
 `;
 
 const ItemPartNumberInput = styled.input`
-  font-size: 6px;
-  text-align: center;
+  font-size: 8px;
+  text-align: left;
   text-transform: uppercase;
+  letter-spacing: 0.2px;
+  padding-left: 0.05rem;
   width: 90px;
   vertical-align: middle;
 
   background-color: transparent;
   &::placeholder {
     color: #fff;
+    text-align: center;
+    letter-spacing: 1px;
   }
 `;
 
@@ -843,15 +926,31 @@ const KeyboardWrapper = styled.div`
     p.positionTop === 1
       ? css`
           top: 3rem;
-          right: 6rem;
+          right: 0rem;
         `
       : p.positionTop === 2
       ? css`
           top: 4.5rem;
-          right: 6rem;
+          right: 0rem;
         `
       : css`
           top: 5.7rem;
-          right: 6rem;
+          right: 0rem;
         `}
+`;
+
+const AutoCompleteWrapper = styled.ul`
+  width: 100px;
+  padding: 0.2rem;
+  text-align: left;
+
+  position: absolute;
+  top: 2.7rem;
+  left: -0.2rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid rgb(223, 225, 229);
+  box-shadow: 0 4px 6px rgb(23 33 36 / 28%);
 `;
