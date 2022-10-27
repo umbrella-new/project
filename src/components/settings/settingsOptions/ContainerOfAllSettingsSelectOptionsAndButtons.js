@@ -13,14 +13,21 @@ import {
 import EditCancelApplyButtons from './EditCancelApplyButtons';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
+  // redux
+  const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+  const applyState = state.buttonsOfSettings.settingsApplyButton;
+
+  const handleApply = () => {
+    return dispatch(setSettingsApplyButton());
+  };
 
   return (
     <Wrapper mode={mode}>
       <TitleOfSettingsOptions />
       <AllTheSelectionsOfSettingsOptions />
-      <EditCancelApplyButtons />
+      <EditCancelApplyButtons handleApply={handleApply} />
     </Wrapper>
   );
 }
