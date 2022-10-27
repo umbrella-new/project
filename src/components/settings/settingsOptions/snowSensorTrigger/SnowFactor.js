@@ -1,8 +1,15 @@
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch, editState }) {
-  console.log('editState', editState);
+function SnowFactor({
+  tgsTes,
+  ess,
+  tesSwitch,
+  essSwitch,
+  editState,
+  snowSensorRef,
+}) {
+  console.log('snowSensorRef', snowSensorRef.current.value);
 
   return (
     <>
@@ -10,7 +17,7 @@ function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch, editState }) {
         <FlexWrapper>
           <WrapperTgsTesSnowSensor>
             <TitleContainer>
-              <Title>ess-snow sensor trigger</Title>
+              <Title>{ess}</Title>
             </TitleContainer>
 
             <ValueContainer>
@@ -20,6 +27,7 @@ function SnowFactor({ tgsTes, ess, temp, tesSwitch, essSwitch, editState }) {
                     <Input
                       type='number'
                       placeholder='enter temperature'
+                      ref={snowSensorRef}
                     ></Input>
                   )}
                   ° c

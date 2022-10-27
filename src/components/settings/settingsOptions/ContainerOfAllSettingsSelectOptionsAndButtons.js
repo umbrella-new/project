@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import TitleOfSettingsOptions from './TitleOfSettingsOptions';
 import AllTheSelectionsOfSettingsOptions from './AllTheSelectionsOfSettingsOptions';
-import Button from './Button';
 import {
   selectSettingsOfEss,
   setSettingsEditButton,
@@ -28,6 +27,7 @@ import {
 import EditCancelApplyButtons from './EditCancelApplyButtons';
 import { selectUserState } from '../../../store/slices/userSlice';
 import { SettingsContext } from '../../../context/ContextOfSettings';
+import { handleSnowSensorDefaultTemp } from '../../../store/slices/essSwitchSlice';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const settingsData = [
@@ -38,7 +38,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     'admin.',
   ];
   // useContext
-  const { settingState } = useContext(SettingsContext);
+  const { settingState, essSnowSensorInput } = useContext(SettingsContext);
   // useState
   const buttonsName = ['edit', 'cancel', 'apply'];
   const [settingsState, setSettingsState] = useState('units');
@@ -49,8 +49,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const essTesState = useSelector(selectUserState);
   const essState = essTesState.isEssSwitch;
   const tesState = essTesState.isTesSwitch;
-
-  // return dispatch(setSettingsApplyButton());
 
   const handleEssEditCancelApplyButtons = (buttonId) => {
     switch (settingsState) {
@@ -69,21 +67,21 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             return;
         }
         break;
-      case 'wind factor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(setSettingsApplyWindFactorTriggerButton());
-            break;
-          default:
-            return;
-        }
-        break;
+      // case 'wind factor trigger':
+      //   switch (buttonId) {
+      //     case 0:
+      //       dispatch(setSettingsEditButton());
+      //       break;
+      //     case 1:
+      //       dispatch(setSettingsCancelButton());
+      //       break;
+      //     case 2:
+      //       dispatch(setSettingsApplyWindFactorTriggerButton());
+      //       break;
+      //     default:
+      //       return;
+      //   }
+      //   break;
       case 'snow sensor trigger':
         switch (buttonId) {
           case 0:
@@ -94,6 +92,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 2:
             dispatch(setSettingsApplySnowSensorTriggerButton());
+            dispatch(handleSnowSensorDefaultTemp(essSnowSensorInput));
             break;
           default:
             return;

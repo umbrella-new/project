@@ -1,16 +1,22 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import SnowFactor from './SnowFactor';
 import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../../../store/slices/userSlice';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
+import { useContext } from 'react';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
   const ess = ['ess-snow sensor trigger'];
   const temp = ['350'];
+
+  // useContext
+
+  const { essSnowSensorInput } = useContext(SettingsContext);
 
   // redux
   const dispatch = useDispatch();
@@ -33,6 +39,7 @@ function ContainerOfSnowSensor() {
           tesSwitch={tesSwitch}
           essSwitch={essSwitch}
           editState={editState}
+          snowSensorRef={essSnowSensorInput}
         />
       </Wrapper1>
     </Wrapper>
