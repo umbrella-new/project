@@ -25,7 +25,7 @@ function TitleOfAllSettings() {
               ? 'snow sensor trigger'
               : settingsOptionsForceAndCommand
               ? 'force & command'
-              : 'admin.'}
+              : 'administration settings'}
           </Span>
         </SettingTitle>
         <ContainerOptions>
@@ -38,7 +38,7 @@ function TitleOfAllSettings() {
               ? 'snow sensor trigger'
               : settingsOptionsForceAndCommand
               ? 'force & command'
-              : 'admin.'}
+              : 'administration settings'}
             <Dots>
               .................................................................................................
             </Dots>

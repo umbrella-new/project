@@ -40,6 +40,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   const dispatch = useDispatch();
   const unitsState = useSelector(selectUnitsState);
   const unitsMeasurement = unitsState.unitsMeasurement;
+  const applyState = state.buttonsOfSettings.settingsApplyButton;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
