@@ -16,7 +16,8 @@ function ContainerOfSnowSensor() {
 
   // useContext
 
-  const { essSnowSensorInput } = useContext(SettingsContext);
+  const { essSnowSensorInput, tgsSnowSensorInput, tesSnowSensorInput } =
+    useContext(SettingsContext);
 
   // redux
   const dispatch = useDispatch();
@@ -39,7 +40,10 @@ function ContainerOfSnowSensor() {
           tesSwitch={tesSwitch}
           essSwitch={essSwitch}
           editState={editState}
-          snowSensorRef={essSnowSensorInput}
+          snowSensorRef={
+            essSwitch ? essSnowSensorInput : !tesSwitch && tgsSnowSensorInput
+          }
+          tesSnowSensorRef={tesSnowSensorInput}
         />
       </Wrapper1>
     </Wrapper>

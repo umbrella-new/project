@@ -13,22 +13,30 @@ import {
   setSettingsApplySnowSensorTriggerButton,
   setSettingsApplyForceCommandButton,
   setSettingsApplyAdminButton,
+  setEditButtonToFalse,
 } from '../../../store/slices/settingsOfEssSlice';
 import {
   setTgsSettingsEditButton,
   setTgsSettingsCancelButton,
-  setTgsSettingsApplyButton,
+  setTgsSettingsApplyUnitsButton,
+  setTgsSettingsApplySnowSensorButton,
+  setTgsSettingsApplyForceAndCommandButton,
+  setTgsSettingsApplyAdminButton,
 } from '../../../store/slices/settingsOfTgsSlice';
 import {
   setTgsTesSettingsEditButton,
   setTgsTesSettingsCancelButton,
-  setTgsTesSettingsApplyButton,
+  setTgsTesSettingsApplyUnitsButton,
+  setTgsTesSettingsApplySnowSensorButton,
+  setTgsTesSettingsApplyForceAndCommandButton,
+  setTgsTesSettingsApplyAdminButton,
 } from '../../../store/slices/settingsOfTgsTesSlice';
 import EditCancelApplyButtons from './EditCancelApplyButtons';
 import { selectUserState } from '../../../store/slices/userSlice';
 import { SettingsContext } from '../../../context/ContextOfSettings';
 import { handleSnowSensorDefaultTemp } from '../../../store/slices/essSwitchSlice';
 import { selectForceAndCommand } from '../../../store/slices/forceAndCommandSlice';
+import { handleTgsSnowSensorDefaultTemp } from '../../../store/slices/tgsSwitchSlice';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const settingsData = [
@@ -39,7 +47,12 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     'admin.',
   ];
   // useContext
-  const { settingState, essSnowSensorInput } = useContext(SettingsContext);
+  const {
+    settingState,
+    essSnowSensorInput,
+    tgsSnowSensorInput,
+    tesSnowSensorInput,
+  } = useContext(SettingsContext);
 
   // useState
   const buttonsName = ['edit', 'cancel', 'apply'];
@@ -56,6 +69,11 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const essHeaterTemp = forceCommandState.essHeaterTemp;
   const essEncloseTemp = forceCommandState.essEncloseTemp;
   const essOutsideTemp = forceCommandState.essOutsideTemp;
+  const tgsTesOutsideTemp = forceCommandState.tgsTesOutsideTemp;
+  const burningChamberTemp = forceCommandState.burningChamberTemp;
+  const tgsHeaterTemp = forceCommandState.tgsHeaterTemp;
+  const tgsTesEncloseTemp = forceCommandState.tgsTesEncloseTemp;
+  const tesHeaterTemp = forceCommandState.tesHeaterTemp;
 
   const handleEssEditCancelApplyButtons = (buttonId) => {
     switch (settingsState) {
@@ -68,6 +86,10 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
+            console.log(
+              'settingState.essSelectUnits',
+              settingState.essSelectUnits
+            );
             dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
             break;
           default:
@@ -155,43 +177,52 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'units':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsTesSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplyButton());
+            // dispatch(
+            //   setTgsTesSettingsApplyUnitsButton(settingState.essSelectUnits)
+            // );
+            console.log(
+              'settingState.essSelectUnits',
+              settingState.essSelectUnits
+            );
+            dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
+            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
         }
         break;
-      case 'wind factor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setTgsTesSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setTgsTesSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(setTgsTesSettingsApplyButton());
-            break;
-          default:
-            return;
-        }
-        break;
+      // case 'wind factor trigger':
+      //   switch (buttonId) {
+      //     case 0:
+      //       dispatch(setTgsTesSettingsEditButton());
+      //       break;
+      //     case 1:
+      //       dispatch(setTgsTesSettingsCancelButton());
+      //       break;
+      //     case 2:
+      //       dispatch(setTgsTesSettingsApplyButton());
+      //       break;
+      //     default:
+      //       return;
+      //   }
+      //   break;
       case 'snow sensor trigger':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsTesSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplyButton());
+            dispatch(setTgsTesSettingsApplySnowSensorButton());
+            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
@@ -200,13 +231,14 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'force & command':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsTesSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplyButton());
+            dispatch(setTgsTesSettingsApplyForceAndCommandButton());
+            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
@@ -215,13 +247,15 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'admin.':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsTesSettingsEditButton());
+            // dispatch(setTgsTesSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplyButton());
+            dispatch(setTgsTesSettingsApplyAdminButton());
+            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
@@ -237,43 +271,53 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'units':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsSettingsEditButton());
+            // dispatch(setTgsSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsSettingsApplyButton());
+            // dispatch(
+            //   setTgsSettingsApplyUnitsButton(settingState.essSelectUnits)
+            // );
+            dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
+            dispatch(setEditButtonToFalse());
+
             break;
           default:
             return;
         }
         break;
-      case 'wind factor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setTgsSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setTgsSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(setTgsSettingsApplyButton());
-            break;
-          default:
-            return;
-        }
-        break;
+      // case 'wind factor trigger':
+      //   switch (buttonId) {
+      //     case 0:
+      //       dispatch(setTgsSettingsEditButton());
+      //       break;
+      //     case 1:
+      //       dispatch(setTgsSettingsCancelButton());
+      //       break;
+      //     case 2:
+      //       dispatch(setTgsSettingsApplySnowFactorButton());
+      //       break;
+      //     default:
+      //       return;
+      //   }
+      //   break;
       case 'snow sensor trigger':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsSettingsApplyButton());
+            dispatch(setTgsSettingsApplySnowSensorButton());
+            dispatch(
+              handleTgsSnowSensorDefaultTemp(tgsSnowSensorInput.current.value)
+            );
+            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
@@ -282,14 +326,23 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'force & command':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsSettingsApplyButton());
+            dispatch(
+              setTgsSettingsApplyForceAndCommandButton({
+                tgsTesOutsideTemp,
+                burningChamberTemp,
+                tgsHeaterTemp,
+                tgsTesEncloseTemp,
+              })
+            );
+            dispatch(setEditButtonToFalse());
             break;
+
           default:
             return;
         }
@@ -297,13 +350,14 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'admin.':
         switch (buttonId) {
           case 0:
-            dispatch(setTgsSettingsEditButton());
+            dispatch(setSettingsEditButton());
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsSettingsApplyButton());
+            dispatch(setTgsSettingsApplyAdminButton());
+            dispatch(setEditButtonToFalse());
             break;
           default:
             return;

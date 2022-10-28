@@ -69,14 +69,18 @@ export const settingsOfEssSlice = createSlice({
       // state.buttonsOfSettings.settingsCancelButton = false;
       // state.buttonsOfSettings.settingsApplyButton = false;
     },
+    setEditButtonToFalse: (state) => {
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
     setSettingsCancelButton: (state) => {
       state.buttonsOfSettings.settingsCancelButton = true;
-
       state.buttonsOfSettings.settingsEditButton = false;
     },
 
     // Buttons of Select options
     setSettingsApplyUnitsButton: (state, action) => {
+      console.log('action.payload', action.payload);
       state.buttonsOfSettings.unitsMeasurement = action.payload;
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
@@ -90,6 +94,7 @@ export const settingsOfEssSlice = createSlice({
       state.buttonsOfSettings.settingsCancelButton = false;
     },
     setSettingsApplyForceCommandButton: (state, action) => {
+      // todo ess select arts
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
       state.selectTelemetry.essHeaterTemp = action.payload.essHeaterTemp;
@@ -124,6 +129,7 @@ export const {
   setSettingsApplySnowSensorTriggerButton,
   setSettingsApplyForceCommandButton,
   setSettingsApplyAdminButton,
+  setEditButtonToFalse,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

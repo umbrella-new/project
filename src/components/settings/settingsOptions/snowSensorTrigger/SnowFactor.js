@@ -9,7 +9,8 @@ function SnowFactor({
   essSwitch,
   editState,
   snowSensorRef,
-  newInput,
+
+  tesSnowSensorRef,
 }) {
   return (
     <>
@@ -59,6 +60,7 @@ function SnowFactor({
                             placeholder='enter temperature'
                             index={index}
                             tesSwitch={tesSwitch}
+                            ref={snowSensorRef}
                           ></Input>
                         )}
                         {editState && tesSwitch && (
@@ -67,6 +69,7 @@ function SnowFactor({
                             placeholder='enter temperature'
                             index={index}
                             tesSwitch={tesSwitch}
+                            ref={index === 0 ? snowSensorRef : tesSnowSensorRef}
                           ></Input>
                         )}
                         ° c
