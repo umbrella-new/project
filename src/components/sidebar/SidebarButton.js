@@ -5,12 +5,8 @@ const SidebarButton = ({ src, onClickHandler, id, link, isTesSwitch }) => {
   const isAble = id !== 'tes' ? true : isTesSwitch ? true : false;
 
   return (
-    <WrapperLink
-      to={isAble && link}
-      onClick={() => onClickHandler(id)}
-      isAble={isAble}
-    >
-      <ButtonImage src={src} />
+    <WrapperLink to={isAble && link} onClick={() => onClickHandler(id)}>
+      <ButtonImage src={src} disable={isAble} />
     </WrapperLink>
   );
 };
@@ -29,10 +25,8 @@ const WrapperLink = styled(NavLink)`
   transition: all 100ms ease-in;
   &:hover {
     ${(p) =>
-      p.isAble &&
       css`
         transform: scale(102%);
-
         img:last-child {
           filter: invert(5%);
         }
