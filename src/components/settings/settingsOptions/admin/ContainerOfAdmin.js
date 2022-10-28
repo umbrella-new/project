@@ -14,6 +14,7 @@ import ContainerValveSettings from './valvetSettings/ContainerValvetSettings';
 import Thermocouple from './sysControl/Thermocouple';
 import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
 import TgsTesSwitch from './systemConfiguration/TgsTesSwitch';
+import AddElementToBank from './AddElementToBank';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -157,12 +158,20 @@ function ContainerOfAdmin() {
                       </EssWrapper>
                       {adminAccess && index === 0 && options === index && (
                         <WrapperThermocouple>
-                          <WrapperThermocouple2>
-                            <Thermocouple
-                              toggleLeftEnableDisable={toggleThermocoupleSwitch}
-                              handleLeftSwitch={handleThermocoupleSwitch}
-                            />
-                          </WrapperThermocouple2>
+                          <SectionWrapper>
+                            <WrapperThermocouple2>
+                              <Thermocouple
+                                toggleLeftEnableDisable={
+                                  toggleThermocoupleSwitch
+                                }
+                                handleLeftSwitch={handleThermocoupleSwitch}
+                              />
+                            </WrapperThermocouple2>
+                          </SectionWrapper>
+
+                          <SectionWrapper>
+                            <AddElementToBank />
+                          </SectionWrapper>
                         </WrapperThermocouple>
                       )}
                       {adminAccess && options === index && index === 1 ? (
@@ -209,12 +218,19 @@ function ContainerOfAdmin() {
                       adminAccess &&
                       options === index && (
                         <WrapperThermocouple>
-                          <WrapperThermocouple2>
-                            <Thermocouple
-                              toggleLeftEnableDisable={toggleThermocoupleSwitch}
-                              handleLeftSwitch={handleThermocoupleSwitch}
-                            />
-                          </WrapperThermocouple2>
+                          <SectionWrapper>
+                            <WrapperThermocouple2>
+                              <Thermocouple
+                                toggleLeftEnableDisable={
+                                  toggleThermocoupleSwitch
+                                }
+                                handleLeftSwitch={handleThermocoupleSwitch}
+                              />
+                            </WrapperThermocouple2>
+                          </SectionWrapper>
+                          <SectionWrapper>
+                            <AddElementToBank />
+                          </SectionWrapper>
                         </WrapperThermocouple>
                       )}
                     {!adminAccess && index === 2 && (
@@ -327,13 +343,19 @@ const ValveWrapper = styled.div`
 
 const WrapperThermocouple = styled.div`
   width: 552px;
-  height: 153px;
+
   margin-bottom: 10px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 13px;
   opacity: 1;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+const SectionWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
