@@ -43,11 +43,6 @@ function SelectTc({ ess, tgs, essSwitch }) {
   const state = useSelector(selectUserState);
   const tesSwitch = state.isTesSwitch;
 
-  // const initialState = useSelector(selectForceAndCommand);
-  // const temp = initialState.tgsTesOutsideTemp;
-  // const o = initialState.essHeaterTemp;
-  // const y = initialState.essEncloseTemp;
-  // console.log(temp);
   const dispatch = useDispatch();
 
   const [isClicked, setIsClicked] = useState({

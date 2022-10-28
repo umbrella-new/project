@@ -1,22 +1,16 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useRef } from 'react';
 
 export const SettingsContext = createContext(null);
 
 const SettingsProvider = ({ children }) => {
   const initialState = { essSelectUnits: false };
   // Declaration of useReducer
+  const essSnowSensorInput = useRef(null);
 
   const settingsReducer = (state, action) => {
     switch (action.type) {
       case 'units':
-        return (
-          console.log('hello'),
-          { ...state, essSelectUnits: !state.essSelectUnits }
-        );
-      case 'windFactor':
-        return;
-      case 'snowFactor':
-        return;
+        return { ...state, essSelectUnits: !state.essSelectUnits };
       case 'forceAndCommand':
         return;
       case 'admin':
@@ -37,6 +31,7 @@ const SettingsProvider = ({ children }) => {
       value={{
         settingState,
         settingDispatch,
+        essSnowSensorInput,
       }}
     >
       {children}

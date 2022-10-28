@@ -114,6 +114,7 @@ const essSwitchSlice = createSlice({
       state.displayConflictMessage = false;
     },
     handleSnowSensorDefaultTemp: (state, action) => {
+      console.log(action.payload);
       state.snowSensor.defaultTemp = action.payload;
     },
   },
