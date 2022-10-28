@@ -35,7 +35,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     },
   ];
   // state
-  const [metricImperialToggle, setMetricImperialToggle] = useState(0);
+  const [metricImperialToggle, setMetricImperialToggle] = useState();
 
   // useContext
   const { settingState, settingDispatch } = useContext(SettingsContext);
@@ -45,17 +45,22 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
   const unitsState = useSelector(selectUnitsState);
-  const unitsMeasurement = unitsState.unitsMeasurement;
+  const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
   const applyState = state.buttonsOfSettings.settingsApplyButton;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
-    if (unitsMeasurement === true) {
-      setMetricImperialToggle(1);
-    } else setMetricImperialToggle(0);
+
+    console.log('settingState.essSelectUnits', unitsMeasurement);
+    if (unitsMeasurement === false) {
+      console.log('hello');
+      setMetricImperialToggle(0);
+    } else console.log('hi');
+    setMetricImperialToggle(1);
   }, []);
 
   const handleClick = (index) => {
+    // console.log('settingState', settingState);
     if (index !== metricImperialToggle) {
       return (
         setMetricImperialToggle(index),

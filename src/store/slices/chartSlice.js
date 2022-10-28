@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   gpState: true,
   ebpState: false,
+  isEbpAvailbe: false,
   wifiState: true,
   alarmState: false,
 };

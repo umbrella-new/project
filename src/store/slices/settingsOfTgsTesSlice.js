@@ -6,29 +6,45 @@ const initialState = {
     settingsCancelButton: false,
     settingsApplyButton: false,
   },
+  unitsMeasurement: false,
+  tgsTesSelectTelemetry: {
+    tgsHeaterTemp: null,
+    tesHeaterTemp: null,
+    tgsTesEncloseTemp: null,
+    tgsTesOutSideTemp: null,
+    tgsTesBurningChamberTemp: null,
+  },
 };
 
 export const settingsOfTgsTesSlice = createSlice({
   name: 'settingsOfTgsTes',
   initialState,
   reducers: {
-    setTgsTesSettingsEditButton: (state) => {
-      state.buttonsOfSettings.settingsEditButton = true;
-      // state.buttonsOfSettings.settingsCancelButton = false;
-      // state.buttonsOfSettings.settingsApplyButton = false;
-    },
+    // setTgsTesSettingsEditButton: (state) => {
+    //   state.buttonsOfSettings.settingsEditButton = true;
+    // },
     setTgsTesSettingsCancelButton: (state) => {
       state.buttonsOfSettings.settingsCancelButton = true;
-      state.buttonsOfSettings.settingsApplyButton = false;
       state.buttonsOfSettings.settingsEditButton = false;
     },
-    setTgsTesSettingsApplyButton: (state) => {
-      state.buttonsOfSettings.settingsApplyButton = true;
+    setTgsTesSettingsApplyUnitsButton: (state, action) => {
+      state.buttonsOfSettings.unitsMeasurement = action.payload;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setTgsTesSettingsApplySnowSensorButton: (state, action) => {
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setTgsTesSettingsApplyForceAndCommandButton: (state, action) => {
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setTgsTesSettingsApplyAdminButton: (state, action) => {
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
     },
     setTgsTesResetAllSettingsButtons: (state) => {
-      state.buttonsOfSettings.settingsApplyButton = false;
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
     },
@@ -40,6 +56,10 @@ export const {
   setTgsTesSettingsCancelButton,
   setTgsTesSettingsApplyButton,
   setTgsTesResetAllSettingsButtons,
+  setTgsTesSettingsApplyUnitsButton,
+  setTgsTesSettingsApplySnowSensorButton,
+  setTgsTesSettingsApplyForceAndCommandButton,
+  setTgsTesSettingsApplyAdminButton,
 } = settingsOfTgsTesSlice.actions;
 export const selectSettingsOfTgsTes = (state) => state.settingsOfTgsTes;
 export default settingsOfTgsTesSlice;

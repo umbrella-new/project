@@ -4,7 +4,14 @@ const initialState = {
   buttonsOfSettings: {
     settingsEditButton: false,
     settingsCancelButton: false,
-    settingsApplyButton: false,
+  },
+  unitsMeasurement: false,
+
+  tgsSelectTelemetry: {
+    tgsHeaterTemp: null,
+    tgsEncloseTemp: null,
+    tgsOutSideTemp: null,
+    tgsBurningChamberTemp: null,
   },
 };
 
@@ -12,23 +19,40 @@ export const settingsOfTgsSlice = createSlice({
   name: 'settingsOfTgs',
   initialState,
   reducers: {
-    setTgsSettingsEditButton: (state) => {
-      state.buttonsOfSettings.settingsEditButton = true;
-      // state.buttonsOfSettings.settingsCancelButton = false;
-      // state.buttonsOfSettings.settingsApplyButton = false;
-    },
+    // setTgsSettingsEditButton: (state) => {
+    //   state.buttonsOfSettings.settingsEditButton = true;
+    // },
     setTgsSettingsCancelButton: (state) => {
       state.buttonsOfSettings.settingsCancelButton = true;
-      state.buttonsOfSettings.settingsApplyButton = false;
+
       state.buttonsOfSettings.settingsEditButton = false;
     },
-    setTgsSettingsApplyButton: (state) => {
-      state.buttonsOfSettings.settingsApplyButton = true;
+    setTgsSettingsApplyUnitsButton: (state, action) => {
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.unitsMeasurement = action.payload;
+    },
+    setTgsSettingsApplySnowSensorButton: (state) => {
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    setTgsSettingsApplyForceAndCommandButton: (state, action) => {
+      // todo ess select arts
+
+      state.buttonsOfSettings.settingsCancelButton = false;
+      state.tgsSelectTelemetry.tgsOutSideTemp =
+        action.payload.tgsTesOutsideTemp;
+      state.tgsSelectTelemetry.tgsBurningChamberTemp =
+        action.payload.burningChamberTemp;
+      state.tgsSelectTelemetry.tgsHeaterTemp = action.payload.tgsHeaterTemp;
+      state.tgsSelectTelemetry.tgsEncloseTemp =
+        action.payload.tgsTesEncloseTemp;
+    },
+    setTgsSettingsApplyAdminButton: (state) => {
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
     },
     setResetAllTgsSettingsButtons: (state) => {
-      state.buttonsOfSettings.settingsApplyButton = false;
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
     },
@@ -38,7 +62,10 @@ export const settingsOfTgsSlice = createSlice({
 export const {
   setTgsSettingsEditButton,
   setTgsSettingsCancelButton,
-  setTgsSettingsApplyButton,
+  setTgsSettingsApplyUnitsButton,
+  setTgsSettingsApplySnowSensorButton,
+  setTgsSettingsApplyForceAndCommandButton,
+  setTgsSettingsApplyAdminButton,
   setResetAllTgsSettingsButtons,
 } = settingsOfTgsSlice.actions;
 export const SelectSettingsOfTgs = (state) => state.settingsOfTgs;
