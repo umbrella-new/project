@@ -11,8 +11,6 @@ const DefaultTemp = ({ defaultTemp }) => {
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
   const [displayMessage, setDisplayMessage] = useState(false);
 
-  console.log(displayMessage);
-
   const handleClose = (event) => {
     event.stopPropagation();
     setDisplayMessage(false);
