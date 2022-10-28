@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
@@ -8,9 +9,8 @@ function SnowFactor({
   essSwitch,
   editState,
   snowSensorRef,
+  newInput,
 }) {
-  console.log('snowSensorRef', snowSensorRef.current.value);
-
   return (
     <>
       {essSwitch ? (

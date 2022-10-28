@@ -5,15 +5,12 @@ export const SettingsContext = createContext(null);
 const SettingsProvider = ({ children }) => {
   const initialState = { essSelectUnits: false };
   // Declaration of useReducer
-  const essSnowSensorInput = useRef('');
+  const essSnowSensorInput = useRef(null);
 
   const settingsReducer = (state, action) => {
     switch (action.type) {
       case 'units':
-        return (
-          console.log('hello'),
-          { ...state, essSelectUnits: !state.essSelectUnits }
-        );
+        return { ...state, essSelectUnits: !state.essSelectUnits };
       case 'forceAndCommand':
         return;
       case 'admin':

@@ -28,6 +28,7 @@ import EditCancelApplyButtons from './EditCancelApplyButtons';
 import { selectUserState } from '../../../store/slices/userSlice';
 import { SettingsContext } from '../../../context/ContextOfSettings';
 import { handleSnowSensorDefaultTemp } from '../../../store/slices/essSwitchSlice';
+import { selectForceAndCommand } from '../../../store/slices/forceAndCommandSlice';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const settingsData = [
@@ -39,9 +40,11 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   ];
   // useContext
   const { settingState, essSnowSensorInput } = useContext(SettingsContext);
+
   // useState
   const buttonsName = ['edit', 'cancel', 'apply'];
   const [settingsState, setSettingsState] = useState('units');
+
   // redux
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
@@ -49,6 +52,10 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const essTesState = useSelector(selectUserState);
   const essState = essTesState.isEssSwitch;
   const tesState = essTesState.isTesSwitch;
+  const forceCommandState = useSelector(selectForceAndCommand);
+  const essHeaterTemp = forceCommandState.essHeaterTemp;
+  const essEncloseTemp = forceCommandState.essEncloseTemp;
+  const essOutsideTemp = forceCommandState.essOutsideTemp;
 
   const handleEssEditCancelApplyButtons = (buttonId) => {
     switch (settingsState) {
@@ -92,7 +99,10 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 2:
             dispatch(setSettingsApplySnowSensorTriggerButton());
-            dispatch(handleSnowSensorDefaultTemp(essSnowSensorInput));
+            dispatch(
+              handleSnowSensorDefaultTemp(essSnowSensorInput.current.value)
+            );
+
             break;
           default:
             return;
@@ -107,7 +117,14 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyForceCommandButton());
+            // todo finalize the ess select arts dispatch
+            dispatch(
+              setSettingsApplyForceCommandButton({
+                essHeaterTemp,
+                essEncloseTemp,
+                essOutsideTemp,
+              })
+            );
             break;
           default:
             return;

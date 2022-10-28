@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isEsSwitchActivated: false,
@@ -30,7 +30,7 @@ const initialState = {
 };
 
 const essSwitchSlice = createSlice({
-  name: "essSwitch",
+  name: 'essSwitch',
   initialState,
   reducers: {
     expand: (state) => {
@@ -101,6 +101,7 @@ const essSwitchSlice = createSlice({
       state.displayConflictMessage = false;
     },
     handleSnowSensorDefaultTemp: (state, action) => {
+      console.log(action.payload);
       state.snowSensor.defaultTemp = action.payload;
     },
   },

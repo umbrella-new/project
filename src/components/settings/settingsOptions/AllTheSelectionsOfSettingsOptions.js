@@ -56,7 +56,10 @@ function AllTheSelectionsOfSettingsOptions({
             <ContainerOfEachSelectMeasurement key={index}>
               <SelectBox
                 mode={mode}
-                onClick={() => handleSelect(index)}
+                onClick={() => {
+                  handleSelect(index);
+                  setSettingsState(data);
+                }}
                 color={options === index ? true : false}
               ></SelectBox>
               <ContainerOfEachOptions
@@ -64,6 +67,7 @@ function AllTheSelectionsOfSettingsOptions({
                   setSettingsState(data);
                   handleSelect(index);
                 }}
+                color={options === index ? true : false}
               >
                 <P>{data}</P>
               </ContainerOfEachOptions>
@@ -118,7 +122,8 @@ const ContainerOfEachOptions = styled.div`
   height: 22px;
   margin-left: 8px;
   background: #233a54 0% 0% no-repeat padding-box;
-  border: 1.5px solid #46698c;
+  border: ${({ color }) =>
+    color ? '1.5px solid #95ff45' : '1.5px solid #46698c'};
   border-radius: 6px;
   opacity: 1;
   display: flex;
