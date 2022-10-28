@@ -14,24 +14,20 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, column, name }) => {
   };
 
   const handleOnClick = () => {
-    if (column === undefined) {
-      const inputNumber = Number(input);
-      if (inputNumber !== 0) {
-        handleOnSubmit(inputNumber);
+    const inputNumber = Number(input);
+    // 1. no name, no colume
+    if (name !== undefined) {
+      if (column !== undefined) {
+        if (inputNumber !== 0) {
+          handleOnSubmit(column, name, inputNumber);
+        }
       } else {
-        closeKeyPad();
-        return;
+        handleOnSubmit(name, inputNumber);
       }
     } else {
-      const inputNumber = Number(input);
-      if (inputNumber !== 0) {
-        handleOnSubmit(column, name, inputNumber);
-        closeKeyPad();
-      } else {
-        closeKeyPad();
-        return;
-      }
+      handleOnSubmit(inputNumber);
     }
+    closeKeyPad();
   };
 
   return (

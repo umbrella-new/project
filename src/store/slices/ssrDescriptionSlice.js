@@ -78,8 +78,24 @@ const descriptionOptions = [
 const ssrDescriptionSlice = createSlice({
   name: 'ssrDescription',
   initialState: { descriptionOptions, specsStr, partNumberSuggestions },
-  reducers: {},
+  reducers: {
+    handleAddNewElement: (state, action) => {
+      state.descriptionOptions = [
+        ...state.descriptionOptions,
+        `${action.payload.name} - ${action.payload.partNumber}`,
+      ];
+      state.specsStr = [
+        ...state.specsStr,
+        `${action.payload.partNumber}-${action.payload.current}/${action.payload.wattage}/${action.payload.voltage}/${action.payload.lengths}`,
+      ];
+      state.partNumberSuggestions = [
+        ...state.partNumberSuggestions,
+        action.payload.partNumber,
+      ];
+    },
+  },
 });
 
 export default ssrDescriptionSlice;
 export const selectDescription = (state) => state.ssrDescription;
+export const { handleAddNewElement } = ssrDescriptionSlice.actions;

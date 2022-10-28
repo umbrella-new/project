@@ -119,6 +119,7 @@ function ContainerLogin({ setIsSettingOpen, isReadyToClose }) {
           input={passwordInput}
           setInput={setPasswordInput}
           handleSubmit={handleKeyboardSubmit}
+          name='password'
         />
       )}
     </LoginAndKeyboardWrapper>
