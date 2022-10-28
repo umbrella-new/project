@@ -505,20 +505,23 @@ const AdminSSRItemDetails = ({
   let displaySuggestions =
     filteredSuggestions.length >= 1 && inputPartNumber.length >= 2;
 
-  const handleSelect = (suggestion) => {
+  const handleSelect = (index, suggestion) => {
     const newInput = [...inputDetails];
-    // newInput[index].partNumber = suggestion;
+    newInput[index].partNumber = suggestion;
     setInputDetails(newInput);
+    setActivateKeyboard(false);
   };
 
-  const handleKeyDown = (event) => {
+  useEffect(() => {}, [displaySuggestions]);
+
+  const handleKeyDown = (event, index) => {
     switch (event.key) {
       case 'Escape': {
         setInputPartNumber('');
         break;
       }
       case 'Enter': {
-        handleSelect(filteredSuggestions[selectedSuggestionIdx]);
+        handleSelect(index, filteredSuggestions[selectedSuggestionIdx]);
         setInputPartNumber('');
         setSelectedSuggestionIdx(-1);
         break;
@@ -552,44 +555,48 @@ const AdminSSRItemDetails = ({
         {inputDetails.map((element, index) => (
           <>
             <ItemWrapper key={index} column={index} hiddenNumber={hiddenNumber}>
-              <ItemPartNumber>
+              <ItemPartNumber isEnable={isEnable}>
                 <ItemPartNumberInput
                   type='text'
                   isEnable={isEnable}
                   placeholder='Input P / N'
                   onClick={() => {
-                    isEditable && handleActivateKeypad(index, 'partNumber');
+                    isEnable && handleActivateKeypad(index, 'partNumber');
                     // isEditable && handleSetInput(index, 'partNumber', '');
                   }}
                   onChange={(event) => {
-                    handleSetInput(index, 'partNumber', event.target.value);
-                    setSelectedSuggestionIdx(-1);
+                    if (isEditable) {
+                      handleSetInput(index, 'partNumber', event.target.value);
+                      setSelectedSuggestionIdx(-1);
+                    }
                   }}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={(event) => handleKeyDown(event, index)}
                   value={element.partNumber}
                 />
               </ItemPartNumber>
               {displaySuggestions && (
                 <AutoCompleteWrapper
-                  column={index}
                   onMouseMove={() => setSelectedSuggestionIdx(-1)}
                 >
-                  {filteredSuggestions.map((suggestion, index) => {
-                    let isSelected =
-                      filteredSuggestions.indexOf(suggestion) ===
-                      selectedSuggestionIdx
-                        ? true
-                        : false;
+                  <AutoCompleteInnerWrapper>
+                    {filteredSuggestions.map((suggestion, idx) => {
+                      let isSelected =
+                        filteredSuggestions.indexOf(suggestion) ===
+                        selectedSuggestionIdx
+                          ? true
+                          : false;
 
-                    return (
-                      <PartNumberSuggestion
-                        key={index}
-                        matchedSuggestion={suggestion}
-                        isSelected={isSelected}
-                        handleSelect={handleSelect}
-                      />
-                    );
-                  })}
+                      return (
+                        <PartNumberSuggestion
+                          key={idx}
+                          column={index}
+                          matchedSuggestion={suggestion}
+                          isSelected={isSelected}
+                          handleSelect={handleSelect}
+                        />
+                      );
+                    })}
+                  </AutoCompleteInnerWrapper>
                 </AutoCompleteWrapper>
               )}
 
@@ -782,6 +789,14 @@ const ItemPartNumber = styled.li`
   width: 90px;
   height: 20px;
   ${ItemBackground}
+
+  ${flexboxCenter}
+
+   ${(p) =>
+    p.isEnable ||
+    css`
+      ${ItemBackgroundDisable}
+    `}
 `;
 
 const ItemCurrent = styled.li`
@@ -847,18 +862,15 @@ const ItemDescription = styled.li`
 
 const ItemPartNumberInput = styled.input`
   font-size: 8px;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
-  padding-left: 0.05rem;
   width: 90px;
-  vertical-align: middle;
+  letter-spacing: 1px;
 
   background-color: transparent;
   &::placeholder {
     color: #fff;
-    text-align: center;
-    letter-spacing: 1px;
+    color: ${(p) => p.isEnable || `#808080;`};
   }
 `;
 
@@ -871,6 +883,7 @@ const ItemDataInput = styled.input`
   background-color: transparent;
   &::placeholder {
     color: #fff;
+    color: ${(p) => p.isEnable || `#808080;`};
   }
 `;
 
@@ -927,7 +940,7 @@ const KeyboardWrapper = styled.div`
     p.positionTop === 1
       ? css`
           top: 3rem;
-          right: 0rem;
+          right: -0.2rem;
         `
       : p.positionTop === 2
       ? css`
@@ -947,11 +960,21 @@ const AutoCompleteWrapper = styled.ul`
 
   position: absolute;
   top: 2.7rem;
-  left: -0.2rem;
+  left: 0rem;
   z-index: 100;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  border: 1px solid rgb(223, 225, 229);
-  box-shadow: 0 4px 6px rgb(23 33 36 / 28%);
+
+  width: 100px;
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 12px;
+`;
+
+const AutoCompleteInnerWrapper = styled.div`
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 11px;
 `;

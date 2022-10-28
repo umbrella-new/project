@@ -1,18 +1,18 @@
 import styled from 'styled-components';
-import { ItemBackground } from '../../../styles/commonStyles';
+import { flexboxCenter, ItemBackground } from '../../../styles/commonStyles';
 
 const PartNumberSuggestion = ({
   matchedSuggestion,
   isSelected,
   handleSelect,
+  column,
 }) => {
   // let index = matchedSuggestion;
 
   // console.log(matchedSuggestion);
 
-  const handleOnClick = (event) => {
-    console.log(event.target);
-    handleSelect(matchedSuggestion);
+  const handleOnClick = () => {
+    handleSelect(column, matchedSuggestion);
   };
   return (
     <Wrapper isSelected={isSelected} onClick={handleOnClick}>
@@ -36,9 +36,11 @@ const Wrapper = styled.li`
   align-items: center;
   margin-bottom: 0.2rem;
 `;
-const Prediction = styled.span`
+const Prediction = styled.div`
+  height: 15px;
   width: 85px;
-  font-size: 7px;
-  letter-spacing: 0.1px;
+  font-size: 6px;
+  letter-spacing: 0.01px;
   text-align: left;
+  ${flexboxCenter}
 `;
