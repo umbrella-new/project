@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-const SysIdRadioBox = ({ data, isChecked, selectHandler }) => {
+const SysIdRadioBox = ({ data, isChecked, selectHandler, name }) => {
   return (
-    <Wrapper onClick={() => selectHandler(data)}>
+    <Wrapper onClick={() => selectHandler(data)} width={name}>
       <OptionChecker>
         <CheckedCircle isChecked={isChecked === data}></CheckedCircle>
       </OptionChecker>
@@ -19,24 +19,35 @@ const Wrapper = styled.li`
   align-items: center;
 
   width: 252px;
+  ${(p) =>
+    p.width === 'sysId' &&
+    css`
+      width: 118px;
+    `}
   height: 20px;
   border: 1px solid #233a54;
   border-radius: 16px;
 
   padding: 0 0.1rem;
   margin-bottom: 0.2rem;
-  &:first-child {
-    margin-top: 0.05rem;
-  }
-  &:last-child {
-    margin-bottom: 0.05rem;
-  }
   &:hover {
     background: #233a54 0% 0% no-repeat padding-box;
     box-shadow: inset 0px 0px 2px #000000;
 
     opacity: 1;
   }
+
+  ${(p) =>
+    p.width === 'sysId' ||
+    css`
+      &:first-child {
+        margin-top: 0.05rem;
+      }
+      &:last-child {
+        margin-bottom: 0.05rem;
+      }
+    `}
+
   z-index: 100;
 `;
 const Label = styled.span`

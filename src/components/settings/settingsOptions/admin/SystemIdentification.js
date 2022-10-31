@@ -99,6 +99,10 @@ const SystemIdentification = () => {
     if (isEditable) {
       if (selected === 'add ssr rating') {
         // Do something to add more ssr ratings
+        setIsChecked(selected);
+        const copyInput = { ...inputData };
+        copyInput[focusedName] = 'please input additional ssr rating';
+        setInputData(copyInput);
       } else {
         setIsChecked(selected);
         const copyInput = { ...inputData };
@@ -277,12 +281,13 @@ const SystemIdentification = () => {
 
                 {displaySelectBox.ssrRating && (
                   <RadioBoxWrapper>
-                    <RadioBoxContentWrapper>
+                    <RadioBoxContentWrapper wrap='sysId'>
                       {ssrRatingOptions.map((name, index) => (
                         <SysIdRadioBox
                           data={name}
                           isChecked={isChecked}
                           selectHandler={handleSelector}
+                          name='sysId'
                         />
                       ))}
                     </RadioBoxContentWrapper>
@@ -586,6 +591,15 @@ const RadioBoxContentWrapper = styled.ul`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  ${(p) =>
+    p.wrap === 'sysId' &&
+    css`
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 0.1rem;
+    `}
 `;
 
 const KeyboardWrapper = styled.div`
