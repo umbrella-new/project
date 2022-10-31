@@ -15,6 +15,7 @@ import Thermocouple from './sysControl/Thermocouple';
 import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
 import TgsTesSwitch from './systemConfiguration/TgsTesSwitch';
 import AddElementToBank from './AddElementToBank';
+import SystemIdentification from './SystemIdentification';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -228,6 +229,7 @@ function ContainerOfAdmin() {
                               />
                             </WrapperThermocouple2>
                           </SectionWrapper>
+
                           <SectionWrapper>
                             <AddElementToBank />
                           </SectionWrapper>
@@ -240,17 +242,25 @@ function ContainerOfAdmin() {
                     )}
                     {index === 2 && adminAccess && options === index && (
                       <Wrapper5>
-                        <ControlWrapper>
-                          <ForceGasElectricSystem
-                            handleRightSwitch={handleForceGasElectricSwitch}
-                            toggleRightEnableDisable={toggleEnableDisableSwitch}
-                          />
-                          {tesSwitch && (
-                            <WrapperTgsTesSwitch>
-                              <TgsTesSwitch tesSwitch={tesSwitch} />
-                            </WrapperTgsTesSwitch>
-                          )}
-                        </ControlWrapper>
+                        <SectionWrapper>
+                          <ControlWrapper>
+                            <ForceGasElectricSystem
+                              handleRightSwitch={handleForceGasElectricSwitch}
+                              toggleRightEnableDisable={
+                                toggleEnableDisableSwitch
+                              }
+                            />
+                            {tesSwitch && (
+                              <WrapperTgsTesSwitch>
+                                <TgsTesSwitch tesSwitch={tesSwitch} />
+                              </WrapperTgsTesSwitch>
+                            )}
+                          </ControlWrapper>
+                        </SectionWrapper>
+
+                        <SectionWrapper>
+                          <SystemIdentification />
+                        </SectionWrapper>
                       </Wrapper5>
                     )}
                   </Wrapper4>
@@ -357,8 +367,10 @@ const WrapperThermocouple = styled.div`
 
 const SectionWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+
+  width: 100%;
 `;
 
 const WrapperThermocouple2 = styled.div`
@@ -385,15 +397,22 @@ const Wrapper5 = styled.div`
   margin-top: 2px;
   margin-bottom: 20px;
 
-  background: transparent
+  /* background: transparent
     linear-gradient(180deg, rgb(35, 58, 84) 0%, rgb(0, 0, 0) 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   border: 0.5px solid #142033;
-  border-radius: 9px;
-  opacity: 1;
-  ${flexboxCenter};
-  align-items: flex-start;
+  border-radius: 9px; */
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 13px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-bottom: 0.5rem;
 `;
 
 const ControlWrapper = styled.div`
