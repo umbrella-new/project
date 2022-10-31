@@ -484,7 +484,7 @@ const AdminSSRItemDetails = ({
     // 2. update new Input into requested index and name
     if (name === 'partNumber') {
       newInput[index][name] = input.toUpperCase();
-      setInputPartNumber(input.toUpperCase());
+      setInputPartNumber(newInput);
       // 3. Set state
       setInputDetails(newInput);
     } else {
@@ -497,13 +497,23 @@ const AdminSSRItemDetails = ({
   // ********************************auto complete*****************************
   const [selectedSuggestionIdx, setSelectedSuggestionIdx] = useState(0);
   const [inputPartNumber, setInputPartNumber] = useState('');
+  const [displaySuggestions, setDisplaySuggestions] = useState(false);
 
   let filteredSuggestions = partNumberSuggestions.filter((suggestion) =>
     suggestion.includes(inputPartNumber)
   );
 
-  let displaySuggestions =
-    filteredSuggestions.length >= 1 && inputPartNumber.length >= 2;
+  useEffect(() => {
+    filteredSuggestions.length >= 1 && inputPartNumber.length >= 2
+      ? setDisplaySuggestions(true)
+      : setDisplaySuggestions(false);
+  }, [filteredSuggestions, inputPartNumber]);
+
+  console.log('filtered', filteredSuggestions);
+  console.log('inputed', inputPartNumber);
+
+  // let displaySuggestions =
+  //   filteredSuggestions.length >= 1 && inputPartNumber.length >= 2;
 
   const handleSelect = (index, suggestion) => {
     const newInput = [...inputDetails];
@@ -524,6 +534,7 @@ const AdminSSRItemDetails = ({
         handleSelect(index, filteredSuggestions[selectedSuggestionIdx]);
         setInputPartNumber('');
         setSelectedSuggestionIdx(-1);
+        setDisplaySuggestions(false);
         break;
       }
       case 'ArrowUp': {
@@ -593,6 +604,10 @@ const AdminSSRItemDetails = ({
                           matchedSuggestion={suggestion}
                           isSelected={isSelected}
                           handleSelect={handleSelect}
+                          handleClose={() => {
+                            setDisplaySuggestions(false);
+                            setInputPartNumber('');
+                          }}
                         />
                       );
                     })}
@@ -865,7 +880,7 @@ const ItemPartNumberInput = styled.input`
   text-align: center;
   text-transform: uppercase;
   width: 90px;
-  letter-spacing: 1px;
+  letter-spacing: -px;
 
   background-color: transparent;
   &::placeholder {

@@ -6,6 +6,7 @@ const PartNumberSuggestion = ({
   isSelected,
   handleSelect,
   column,
+  handleClose,
 }) => {
   // let index = matchedSuggestion;
 
@@ -13,7 +14,9 @@ const PartNumberSuggestion = ({
 
   const handleOnClick = () => {
     handleSelect(column, matchedSuggestion);
+    handleClose();
   };
+
   return (
     <Wrapper isSelected={isSelected} onClick={handleOnClick}>
       <Prediction>{matchedSuggestion}</Prediction>
