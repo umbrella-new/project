@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+import InputKeyboard from '../../../keyboard/InputKeyboard';
+import InputTempMessage from '../../../userMessages/InputTempMessage';
+import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 import SysIdRadioBox from './SysIdRadioBox';
 
 const SystemIdentification = () => {
   const initialInputState = {
-    locationName: null,
-    switchName: null,
-    heatingSystem: null,
-    application: null,
-    switchSize: null,
-    ssrRating: null,
-    sysId: null,
+    locationName: '',
+    switchName: '',
+    heatingSystem: '',
+    application: '',
+    switchSize: '',
+    ssrRating: '',
+    sysId: '',
   };
 
   const initialSelectBox = {
@@ -25,6 +28,11 @@ const SystemIdentification = () => {
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [displaySelectBox, setDisplaySelectBox] = useState(initialSelectBox);
   const [isChecked, setIsChecked] = useState(null);
+  const [isEditable, setIsEditable] = useState(false);
+  const [activateMessageBox, setActivateMessageBox] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [isReadyToSave, setIsReadytoSave] = useState(false);
+  const [keyboardPosition, setKeyboardPosition] = useState(null);
 
   const heatingSysOptions = [
     'ess - electric switch system',
@@ -46,236 +54,306 @@ const SystemIdentification = () => {
 
   const buttonNames = ['edit system', 'save'];
 
+  useEffect(() => {
+    inputData.locationName !== '' &&
+      inputData.heatingSystem !== '' &&
+      inputData.switchName !== '' &&
+      inputData.application !== '' &&
+      inputData.switchSize !== '' &&
+      inputData.ssrRating !== '' &&
+      inputData.sysId !== '' &&
+      setIsReadytoSave(true);
+  }, [inputData]);
+
   const handleButtonClick = (name) => {
     if (name === 'save') {
-      // do send all input data
-      console.log('save');
+      if (isEditable) {
+        if (isReadyToSave) {
+          setIsEditable(!isEditable);
+          setActivateMessageBox(true);
+        } else {
+          setMessage('please fill in all fields');
+          setActivateMessageBox(true);
+        }
+      } else {
+        setMessage('please activate "edit system" button first');
+        setActivateMessageBox(true);
+      }
     } else {
       // do send all input data
-      console.log('edit');
+      setDisplaySelectBox(initialSelectBox);
+      setIsEditable(!isEditable);
     }
   };
 
   const handleOnChange = (input) => {
-    const copyInput = { ...inputData };
-    copyInput[focusedName] = input;
-    setInputData(copyInput);
+    if (isEditable) {
+      const copyInput = { ...inputData };
+      copyInput[focusedName] = input;
+      setInputData(copyInput);
+    }
   };
 
   // Handler for Select box
   const handleSelector = (selected) => {
-    if (selected === 'add ssr rating') {
-    } else {
-      setIsChecked(selected);
-      const copyInput = { ...inputData };
-      copyInput[focusedName] = selected;
-      setInputData(copyInput);
+    if (isEditable) {
+      if (selected === 'add ssr rating') {
+        // Do something to add more ssr ratings
+      } else {
+        setIsChecked(selected);
+        const copyInput = { ...inputData };
+        copyInput[focusedName] = selected;
+        setInputData(copyInput);
+      }
     }
     setDisplaySelectBox(initialSelectBox);
   };
 
   const handleDisplaySelectBox = (name) => {
-    setFocusedName(name);
-    // To open radio box
-    const currentState = displaySelectBox[name];
-    const copyInput = { ...initialSelectBox };
-    copyInput[name] = !currentState;
-    setDisplaySelectBox(copyInput);
+    if (isEditable) {
+      setFocusedName(name);
+      // To open radio box
+      const currentState = displaySelectBox[name];
+      const copyInput = { ...initialSelectBox };
+      copyInput[name] = !currentState;
+      setDisplaySelectBox(copyInput);
+    }
   };
 
   return (
     <Wrapper>
-      <InnerWrapper>
-        <TitleWrapper>
-          <TitleTop>system identification</TitleTop>
-        </TitleWrapper>
-        {/* input location name and select heating system */}
-        <Section>
-          <ComponentWrapperHole>
-            <ComponentWrapper>
-              <ContentSpan>
-                location <br></br>name :
-              </ContentSpan>
-              <ContentInput
-                type='text'
-                onChange={(event) => handleOnChange(event.target.value)}
-                onClick={() => {
-                  setActivateKeyboard(true);
-                  setFocusedName('locationName');
-                }}
-              />
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-
-          <ComponentWrapperHole
-            displayRadioBox={displaySelectBox.heatingSystem}
-          >
-            <ComponentWrapper displayRadioBox={displaySelectBox.heatingSystem}>
-              <TitleAndButtonWrapper>
-                <DisplaySelectedOne>
-                  {inputData.heatingSystem
-                    ? inputData.heatingSystem
-                    : `select heating system`}
-                </DisplaySelectedOne>
-                <SelectButton
-                  onClick={() => {
-                    // Open select box
-                    handleDisplaySelectBox('heatingSystem');
+      <ContentWrapper>
+        <InnerWrapper>
+          <TitleWrapper>
+            <TitleTop>system identification</TitleTop>
+          </TitleWrapper>
+          {/* input location name and select heating system */}
+          <Section>
+            <ComponentWrapperHole>
+              <ComponentWrapper>
+                <ContentSpan>
+                  location <br></br>name :
+                </ContentSpan>
+                <ContentInput
+                  type='text'
+                  onChange={(event) => {
+                    handleOnChange(event.target.value);
                   }}
+                  onClick={() => {
+                    isEditable && setActivateKeyboard(true);
+                    setKeyboardPosition(1);
+                    setFocusedName('locationName');
+                  }}
+                  value={inputData.locationName}
+                  placeholder='--------'
+                />
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+
+            <ComponentWrapperHole
+              displayRadioBox={displaySelectBox.heatingSystem}
+            >
+              <ComponentWrapper
+                displayRadioBox={displaySelectBox.heatingSystem}
+              >
+                <TitleAndButtonWrapper>
+                  <DisplaySelectedOne>
+                    {inputData.heatingSystem
+                      ? inputData.heatingSystem
+                      : `select heating system`}
+                  </DisplaySelectedOne>
+                  <SelectButton
+                    onClick={() => {
+                      // Open select box
+                      handleDisplaySelectBox('heatingSystem');
+                    }}
+                  >
+                    <img src={'/images/sys-id-select-btn.svg'} />
+                  </SelectButton>
+                </TitleAndButtonWrapper>
+
+                {displaySelectBox.heatingSystem && (
+                  <RadioBoxWrapper>
+                    <RadioBoxContentWrapper>
+                      {heatingSysOptions.map((name, index) => (
+                        <SysIdRadioBox
+                          data={name}
+                          isChecked={isChecked}
+                          selectHandler={handleSelector}
+                        />
+                      ))}
+                    </RadioBoxContentWrapper>
+                  </RadioBoxWrapper>
+                )}
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+          </Section>
+          {/* input switch name and input application */}
+          <Section>
+            <ComponentWrapperHole>
+              <ComponentWrapper>
+                <ContentSpan>
+                  switch <br></br>name :
+                </ContentSpan>
+                <ContentInput
+                  type='text'
+                  onChange={(event) => handleOnChange(event.target.value)}
+                  onClick={() => {
+                    isEditable && setActivateKeyboard(true);
+                    setKeyboardPosition(2);
+                    setFocusedName('switchName');
+                  }}
+                  value={inputData.switchName && inputData.switchName}
+                  placeholder='--------'
+                />
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+
+            <ComponentWrapperHole>
+              <ComponentWrapper>
+                <ContentSpan>application :</ContentSpan>
+                <ContentInput
+                  type='text'
+                  onChange={(event) => handleOnChange(event.target.value)}
+                  onClick={() => {
+                    isEditable && setActivateKeyboard(true);
+                    setKeyboardPosition(2);
+                    setFocusedName('application');
+                  }}
+                  value={inputData.application && inputData.application}
+                  placeholder='--------'
+                />
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+          </Section>
+
+          {/* select switch size and select ssr rating */}
+          <Section>
+            <ComponentWrapperHole displayRadioBox={displaySelectBox.switchSize}>
+              <ComponentWrapper displayRadioBox={displaySelectBox.switchSize}>
+                <TitleAndButtonWrapper>
+                  <DisplaySelectedOne>
+                    {inputData.switchSize
+                      ? inputData.switchSize
+                      : `select switch size`}
+                  </DisplaySelectedOne>
+                  <SelectButton
+                    onClick={() => handleDisplaySelectBox('switchSize')}
+                  >
+                    <img src={'/images/sys-id-select-btn.svg'} />
+                  </SelectButton>
+                </TitleAndButtonWrapper>
+
+                {displaySelectBox.switchSize && (
+                  <RadioBoxWrapper>
+                    <RadioBoxContentWrapper>
+                      {switchSizeOptions.map((name, index) => (
+                        <SysIdRadioBox
+                          data={name}
+                          isChecked={isChecked}
+                          selectHandler={handleSelector}
+                        />
+                      ))}
+                    </RadioBoxContentWrapper>
+                  </RadioBoxWrapper>
+                )}
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+
+            <ComponentWrapperHole displayRadioBox={displaySelectBox.ssrRating}>
+              <ComponentWrapper displayRadioBox={displaySelectBox.ssrRating}>
+                <TitleAndButtonWrapper>
+                  <DisplaySelectedOne>
+                    {inputData.ssrRating
+                      ? inputData.ssrRating
+                      : `select ssr rating`}
+                  </DisplaySelectedOne>
+                  <SelectButton
+                    onClick={() => handleDisplaySelectBox('ssrRating')}
+                  >
+                    <img src={'/images/sys-id-select-btn.svg'} />
+                  </SelectButton>
+                </TitleAndButtonWrapper>
+
+                {displaySelectBox.ssrRating && (
+                  <RadioBoxWrapper>
+                    <RadioBoxContentWrapper>
+                      {ssrRatingOptions.map((name, index) => (
+                        <SysIdRadioBox
+                          data={name}
+                          isChecked={isChecked}
+                          selectHandler={handleSelector}
+                        />
+                      ))}
+                    </RadioBoxContentWrapper>
+                  </RadioBoxWrapper>
+                )}
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+          </Section>
+          {/* input system id */}
+          <Section>
+            <ComponentWrapperHole>
+              <ComponentWrapper>
+                <ContentSpan>system i.d. :</ContentSpan>
+                <ContentInput
+                  type='text'
+                  onChange={(event) => handleOnChange(event.target.value)}
+                  onClick={() => {
+                    isEditable && setActivateKeyboard(true);
+                    setKeyboardPosition(3);
+                    setFocusedName('sysId');
+                  }}
+                  value={inputData.sysId && inputData.sysId}
+                  placeholder='--------'
+                />
+              </ComponentWrapper>
+            </ComponentWrapperHole>
+          </Section>
+
+          <Section>
+            <ButtonGroupWrapper>
+              {buttonNames.map((name) => (
+                <ButtonWrapper
+                  onClick={() => handleButtonClick(name)}
+                  isEditable={isEditable}
                 >
-                  <img src={'/images/sys-id-select-btn.svg'} />
-                </SelectButton>
-              </TitleAndButtonWrapper>
+                  <ButtonHole>
+                    <ButtonTop>{name}</ButtonTop>
+                  </ButtonHole>
+                </ButtonWrapper>
+              ))}
+            </ButtonGroupWrapper>
+          </Section>
+        </InnerWrapper>
 
-              {displaySelectBox.heatingSystem && (
-                <RadioBoxWrapper>
-                  <RadioBoxContentWrapper>
-                    {heatingSysOptions.map((name, index) => (
-                      <SysIdRadioBox
-                        data={name}
-                        isChecked={isChecked}
-                        selectHandler={handleSelector}
-                      />
-                    ))}
-                  </RadioBoxContentWrapper>
-                </RadioBoxWrapper>
-              )}
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-        </Section>
-        {/* input switch name and input application */}
-        <Section>
-          <ComponentWrapperHole>
-            <ComponentWrapper>
-              <ContentSpan>
-                switch <br></br>name :
-              </ContentSpan>
-              <ContentInput
-                type='text'
-                onChange={(event) => handleOnChange(event.target.value)}
-                onClick={() => {
-                  setActivateKeyboard(true);
-                  setFocusedName('switchName');
-                }}
-              />
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-
-          <ComponentWrapperHole>
-            <ComponentWrapper>
-              <ContentSpan>application :</ContentSpan>
-              <ContentInput
-                type='text'
-                onChange={(event) => handleOnChange(event.target.value)}
-                onClick={() => {
-                  setActivateKeyboard(true);
-                  setFocusedName('application');
-                }}
-              />
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-        </Section>
-
-        {/* select switch size and select ssr rating */}
-        <Section>
-          <ComponentWrapperHole displayRadioBox={displaySelectBox.switchSize}>
-            <ComponentWrapper displayRadioBox={displaySelectBox.switchSize}>
-              <TitleAndButtonWrapper>
-                <DisplaySelectedOne>
-                  {inputData.switchSize
-                    ? inputData.switchSize
-                    : `select switch size`}
-                </DisplaySelectedOne>
-                <SelectButton
-                  onClick={() => handleDisplaySelectBox('switchSize')}
-                >
-                  <img src={'/images/sys-id-select-btn.svg'} />
-                </SelectButton>
-              </TitleAndButtonWrapper>
-
-              {displaySelectBox.switchSize && (
-                <RadioBoxWrapper>
-                  <RadioBoxContentWrapper>
-                    {switchSizeOptions.map((name, index) => (
-                      <SysIdRadioBox
-                        data={name}
-                        isChecked={isChecked}
-                        selectHandler={handleSelector}
-                      />
-                    ))}
-                  </RadioBoxContentWrapper>
-                </RadioBoxWrapper>
-              )}
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-
-          <ComponentWrapperHole displayRadioBox={displaySelectBox.ssrRating}>
-            <ComponentWrapper displayRadioBox={displaySelectBox.ssrRating}>
-              <TitleAndButtonWrapper>
-                <DisplaySelectedOne>
-                  {inputData.ssrRating
-                    ? inputData.ssrRating
-                    : `select ssr rating`}
-                </DisplaySelectedOne>
-                <SelectButton
-                  onClick={() => handleDisplaySelectBox('ssrRating')}
-                >
-                  <img src={'/images/sys-id-select-btn.svg'} />
-                </SelectButton>
-              </TitleAndButtonWrapper>
-
-              {displaySelectBox.ssrRating && (
-                <RadioBoxWrapper>
-                  <RadioBoxContentWrapper>
-                    {ssrRatingOptions.map((name, index) => (
-                      <SysIdRadioBox
-                        data={name}
-                        isChecked={isChecked}
-                        selectHandler={handleSelector}
-                      />
-                    ))}
-                  </RadioBoxContentWrapper>
-                </RadioBoxWrapper>
-              )}
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-        </Section>
-        {/* input system id */}
-        <Section>
-          <ComponentWrapperHole>
-            <ComponentWrapper>
-              <ContentSpan>system i.d. :</ContentSpan>
-              <ContentInput
-                type='text'
-                onChange={(event) => handleOnChange(event.target.value)}
-                onClick={() => {
-                  setActivateKeyboard(true);
-                  setFocusedName('sysId');
-                }}
-              />
-            </ComponentWrapper>
-          </ComponentWrapperHole>
-        </Section>
-
-        <Section>
-          <ButtonGroupWrapper>
-            {buttonNames.map((name) => (
-              <ButtonWrapper onClick={() => handleButtonClick(name)}>
-                <ButtonHole>
-                  <ButtonTop>{name}</ButtonTop>
-                </ButtonHole>
-              </ButtonWrapper>
-            ))}
-          </ButtonGroupWrapper>
-        </Section>
-      </InnerWrapper>
+        {activateMessageBox && (
+          <SettingConfirmedMessage
+            onClose={() => setActivateMessageBox(false)}
+            title='system identification'
+            message={message}
+          />
+        )}
+      </ContentWrapper>
+      {activateKeyboard && (
+        <KeyboardWrapper>
+          <PositionAbsoluteBox position={keyboardPosition}>
+            <InputKeyboard
+              closeKeyboard={() => setActivateKeyboard(false)}
+              name={focusedName}
+              handleOnSubmit={(name, input) => handleOnChange(input)}
+            />
+          </PositionAbsoluteBox>
+        </KeyboardWrapper>
+      )}
     </Wrapper>
   );
 };
 
 export default SystemIdentification;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div``;
+const ContentWrapper = styled.div`
   ${flexboxCenter}
 
   width: 548px;
@@ -394,6 +472,10 @@ const ContentInput = styled.input`
   border-radius: 10px;
 
   margin-right: 0.1rem;
+
+  &::placeholder {
+    color: #fff;
+  }
 `;
 
 const DisplaySelectedOne = styled.div`
@@ -450,6 +532,13 @@ const ButtonWrapper = styled.button`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
+  &:first-child {
+    ${(p) =>
+      p.isEditable &&
+      css`
+        border: 1px solid #95ff45;
+      `}
+  }
 
   ${flexboxCenter}
 `;
@@ -497,4 +586,30 @@ const RadioBoxContentWrapper = styled.ul`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const KeyboardWrapper = styled.div`
+  height: 100px;
+  position: relative;
+`;
+
+const PositionAbsoluteBox = styled.div`
+  position: absolute;
+  right: -1rem;
+  ${(p) =>
+    p.position === 1 &&
+    css`
+      top: -8rem;
+    `}
+  ${(p) =>
+    p.position === 2 &&
+    css`
+      top: -6rem;
+    `}
+
+    ${(p) =>
+    p.position === 3 &&
+    css`
+      top: -2rem;
+    `}
 `;

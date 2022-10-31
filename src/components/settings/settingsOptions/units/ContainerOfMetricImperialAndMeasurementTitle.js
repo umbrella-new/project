@@ -51,9 +51,9 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
 
-    console.log('settingState.essSelectUnits', unitsMeasurement);
+    // console.log('settingState.essSelectUnits', unitsMeasurement);
     if (unitsMeasurement === false) {
-      console.log('hello');
+      // console.log('hello');
       setMetricImperialToggle(0);
     } else console.log('hi');
     setMetricImperialToggle(1);

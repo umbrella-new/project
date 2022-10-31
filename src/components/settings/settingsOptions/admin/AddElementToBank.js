@@ -30,9 +30,6 @@ const AddElementToBank = () => {
   const [inputFocus, setInputFocus] = useState('name');
   const dispatch = useDispatch();
 
-  const test = useSelector(selectDescription);
-  console.log(test);
-
   const handleInput = (name, input) => {
     const copyState = { ...inputElement };
     copyState[name] = input;
@@ -489,7 +486,7 @@ const KeyboardWrapper = styled.div`
           height: 100px;
         `
       : css`
-          height: 200px;
+          height: 0px;
         `}
 `;
 
@@ -503,7 +500,7 @@ const PositionAbsoluteBox = styled.div`
         `
       : css`
           position: absolute;
-          top: 10rem;
-          right: 7.1rem;
+          top: -10rem;
+          left: 40%;
         `}
 `;
