@@ -15,6 +15,7 @@ import {
 
 import InputKeyboard from '../../keyboard/InputKeyboard';
 import InputKeyPad from '../../keyboard/InputKeyPad';
+import SettingConfirmedMessage from '../../userMessages/SettingConfirmedMessage';
 import PartNumberSuggestion from './PartNumberSuggestion';
 import SettingButton from './SettingButton';
 import SSRDetailButtonContainer from './SSRDetailButtonContainer';
@@ -107,7 +108,7 @@ const AdminSSRItemDetails = ({
   // ******************* to deal with input value conditionally *********************
   const [isEditable, setIsEditable] = useState(true);
   // ******************* to deal with input value conditionally *********************
-
+  const [activateMessageBox, setActivateMessageBox] = useState(false);
   const dispatch = useDispatch();
 
   const unitsState = useSelector(selectSettingsOfEss);
@@ -418,6 +419,7 @@ const AdminSSRItemDetails = ({
                   id: `ssr${id}`,
                 })
               );
+              setActivateMessageBox(true);
               break;
             }
             case 2: {
@@ -427,6 +429,7 @@ const AdminSSRItemDetails = ({
                   id: `ssr${id}`,
                 })
               );
+              setActivateMessageBox(true);
               break;
             }
             default: {
@@ -436,6 +439,8 @@ const AdminSSRItemDetails = ({
                   id: `ssr${id}`,
                 })
               );
+              setActivateMessageBox(true);
+              break;
             }
           }
         }
@@ -725,6 +730,13 @@ const AdminSSRItemDetails = ({
         handleClick={handleClick}
         isEditable={isEditable}
       />
+      {activateMessageBox && (
+        <SettingConfirmedMessage
+          onClose={() => setActivateMessageBox(false)}
+          title='ssr details settings'
+          message='selections confirmed'
+        />
+      )}
     </Wrapper>
   );
 };
