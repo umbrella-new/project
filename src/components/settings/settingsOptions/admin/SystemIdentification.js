@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import {
+  handleAdditionalSSRRating,
+  selectSystemIdentification,
+} from '../../../../store/slices/settingSystemIdentificationSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import InputKeyboard from '../../../keyboard/InputKeyboard';
 import InputTempMessage from '../../../userMessages/InputTempMessage';
@@ -15,6 +20,7 @@ const SystemIdentification = () => {
     switchSize: '',
     ssrRating: '',
     sysId: '',
+    additionalRating: '',
   };
 
   const initialSelectBox = {
@@ -36,23 +42,10 @@ const SystemIdentification = () => {
   const [displayAdditionalInput, setDisplayingAdditionalInput] =
     useState(false);
 
-  const heatingSysOptions = [
-    'ess - electric switch system',
-    'tgs - typhoon gas system',
-    'tes - typhoon electric system',
-  ];
-  const switchSizeOptions = ['# 10', '# 15', '# 20', '# 50', '# 100'];
-  const ssrRatingOptions = [
-    '10 amps',
-    '15 amps',
-    '20 amps',
-    '30 amps',
-    '40 amps',
-    '50 amps',
-    '70 amps',
-    '100 amps',
-    'add ssr rating',
-  ];
+  const systemIdState = useSelector(selectSystemIdentification);
+  const { heatingSysOptions, switchSizeOptions, ssrRatingOptions } =
+    systemIdState;
+  const dispatch = useDispatch();
 
   const buttonNames = ['edit system', 'save'];
 
@@ -89,11 +82,18 @@ const SystemIdentification = () => {
     }
   };
 
+  // For add more ssr ratings.
+  useEffect(() => {
+    if (Number(inputData.additionalRating) > 100) {
+      dispatch(handleAdditionalSSRRating(`${inputData.additionalRating} amps`));
+    }
+  }, [inputData.additionalRating]);
+
   const handleOnChange = (input) => {
     if (isEditable) {
       const copyInput = { ...inputData };
       if (focusedName === 'additionalRating') {
-        copyInput.ssrRating = `${input} amps`;
+        copyInput[focusedName] = input;
       } else {
         copyInput[focusedName] = input;
       }
@@ -113,6 +113,7 @@ const SystemIdentification = () => {
         setDisplayingAdditionalInput(true);
       } else {
         setIsChecked(selected);
+        setDisplayingAdditionalInput(false);
         const copyInput = { ...inputData };
         copyInput[focusedName] = selected;
         setInputData(copyInput);
@@ -189,6 +190,7 @@ const SystemIdentification = () => {
                     <RadioBoxContentWrapper>
                       {heatingSysOptions.map((name, index) => (
                         <SysIdRadioBox
+                          key={index}
                           data={name}
                           isChecked={isChecked}
                           selectHandler={handleSelector}
@@ -261,6 +263,7 @@ const SystemIdentification = () => {
                     <RadioBoxContentWrapper>
                       {switchSizeOptions.map((name, index) => (
                         <SysIdRadioBox
+                          key={index}
                           data={name}
                           isChecked={isChecked}
                           selectHandler={handleSelector}
@@ -292,6 +295,7 @@ const SystemIdentification = () => {
                     <RadioBoxContentWrapper wrap='sysId'>
                       {ssrRatingOptions.map((name, index) => (
                         <SysIdRadioBox
+                          key={index}
                           data={name}
                           isChecked={isChecked}
                           selectHandler={handleSelector}
@@ -336,7 +340,7 @@ const SystemIdentification = () => {
                       setKeyboardPosition(3);
                       setFocusedName('additionalRating');
                     }}
-                    value={inputData.ssrAdditionalRating}
+                    value={inputData.additionalRating}
                     placeholder='-- amps'
                   />
                 </ComponentWrapper>

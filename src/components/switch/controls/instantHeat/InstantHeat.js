@@ -27,6 +27,7 @@ import {
 } from '../../../../store/slices/tgsSwitchSlice';
 import { selectUnitsState } from '../../../../store/slices/unitsSlice';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
+import InputTempMessage from '../../../userMessages/InputTempMessage';
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -40,6 +41,7 @@ const InstantHeat = () => {
 
   // const { isKeyboardActivated } = userState;
   const [openKeyPad, setOpenKeyPad] = useState(false);
+  const [activateMessageBox, setActivateMessageBox] = useState(false);
 
   useEffect(() => {
     setOpenKeyPad(false);
@@ -76,6 +78,7 @@ const InstantHeat = () => {
           inputRef.current.value = ``;
         }
       } else {
+        setActivateMessageBox(true);
         return;
       }
     } else {
@@ -165,6 +168,13 @@ const InstantHeat = () => {
             closeKeyPad={handleKeypadClosed}
           />
         </KeyPadWrapper>
+      )}
+      {activateMessageBox && (
+        <InputTempMessage
+          onClose={() => setActivateMessageBox(false)}
+          message='in order to finalize your instant heat'
+          title='instant heat'
+        />
       )}
     </Wrapper>
   );

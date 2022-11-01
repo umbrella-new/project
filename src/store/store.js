@@ -11,6 +11,7 @@ import ssrDescriptionSlice from './slices/ssrDescriptionSlice';
 import unitsSlice from './slices/unitsSlice';
 import settingsOfTgsTesSlice from './slices/settingsOfTgsTesSlice';
 import settingsOfTgsSlice from './slices/settingsOfTgsSlice';
+import settingsSystemIdentificationSlice from './slices/settingSystemIdentificationSlice';
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     unitsSettings: unitsSlice.reducer,
     settingsOfTgsTes: settingsOfTgsTesSlice.reducer,
     settingsOfTgs: settingsOfTgsSlice.reducer,
+    systemIdentification: settingsSystemIdentificationSlice.reducer,
   },
 });
 
