@@ -18,7 +18,7 @@ function TgsTesSwitch() {
   const [options, setOptions] = useState(null);
 
   const handleSelect = (index) => index === 1 && setOptions(!options);
-  console.log(options);
+  // console.log(options);
 
   return (
     <Wrapper>
