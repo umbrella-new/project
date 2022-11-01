@@ -484,7 +484,7 @@ const AdminSSRItemDetails = ({
     // 2. update new Input into requested index and name
     if (name === 'partNumber') {
       newInput[index][name] = input.toUpperCase();
-      setInputPartNumber(newInput);
+      setInputPartNumber(input.toUpperCase());
       // 3. Set state
       setInputDetails(newInput);
     } else {
@@ -509,8 +509,8 @@ const AdminSSRItemDetails = ({
       : setDisplaySuggestions(false);
   }, [filteredSuggestions, inputPartNumber]);
 
-  console.log('filtered', filteredSuggestions);
-  console.log('inputed', inputPartNumber);
+  // console.log('filtered', filteredSuggestions);
+  // console.log('inputed', inputPartNumber);
 
   // let displaySuggestions =
   //   filteredSuggestions.length >= 1 && inputPartNumber.length >= 2;
