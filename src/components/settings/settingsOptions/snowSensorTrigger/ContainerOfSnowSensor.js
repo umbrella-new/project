@@ -40,9 +40,7 @@ function ContainerOfSnowSensor() {
           tesSwitch={tesSwitch}
           essSwitch={essSwitch}
           editState={editState}
-          snowSensorRef={
-            essSwitch ? essSnowSensorInput : !tesSwitch && tgsSnowSensorInput
-          }
+          snowSensorRef={essSwitch ? essSnowSensorInput : tgsSnowSensorInput}
           tesSnowSensorRef={tesSnowSensorInput}
         />
       </Wrapper1>

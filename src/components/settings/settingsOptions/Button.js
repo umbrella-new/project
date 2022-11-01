@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-const Button = ({ name, handleClick, id }) => {
+const Button = ({ name, handleClick, id, editState }) => {
   return (
-    <Wrapper onClick={() => handleClick(id)}>
+    <Wrapper onClick={() => handleClick(id)} borderColor={editState} index={id}>
       <ButtonHole>
         <ButtonTop>
           <ButtonName>{name}</ButtonName>
@@ -37,6 +37,8 @@ const Wrapper = styled.button`
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  border: ${({ borderColor, index }) =>
+    borderColor && index === 0 ? '1.5px solid #95ff45' : 'none'};
 `;
 const ButtonHole = styled.div`
   width: 70px;

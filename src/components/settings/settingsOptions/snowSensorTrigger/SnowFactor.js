@@ -63,15 +63,19 @@ function SnowFactor({
                             ref={snowSensorRef}
                           ></Input>
                         )}
-                        {editState && tesSwitch && (
-                          <Input
-                            type='number'
-                            placeholder='enter temperature'
-                            index={index}
-                            tesSwitch={tesSwitch}
-                            ref={index === 0 ? snowSensorRef : tesSnowSensorRef}
-                          ></Input>
-                        )}
+                        {editState &&
+                          tesSwitch &&
+                          (index === 0 || index === 1) && (
+                            <Input
+                              type='number'
+                              placeholder='enter temperature'
+                              index={index}
+                              tesSwitch={tesSwitch}
+                              ref={
+                                index === 0 ? snowSensorRef : tesSnowSensorRef
+                              }
+                            ></Input>
+                          )}
                         ° c
                       </Temperature>
                     </SmallContainer>
