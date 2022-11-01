@@ -6,7 +6,7 @@ import { flexboxCenter } from '../../styles/commonStyles';
 import ExpandButton from './ExpandButton';
 import FaultsComments from './FaultsComments';
 import FaultsDetails from './FaultsDetails';
-import FaultsView from './FaultsView';
+import SelectForce from './SelectForce';
 
 const FaultSwitch = ({
   title,
@@ -52,20 +52,22 @@ const FaultSwitch = ({
       }
     }
   };
+  console.log(displaySelectForceBox);
 
   const handleButtonClick = (switchName, buttonName, column) => {
-    console.log(switchName, buttonName, column);
-    if (switchName)
-      if (name === 'attend') {
-        // display comment box
-        setDisplayCommentBox(true);
-        setIndexNumber(column);
-      } else if (name === 'force') {
-        // display select force
-        setDisplaySelectForceBox(true);
-      } else {
-        // not decided
-      }
+    // console.log(switchName, buttonName, column);
+
+    if (buttonName === 'attend') {
+      // display comment box
+      setDisplayCommentBox(true);
+      setIndexNumber(column);
+    } else if (buttonName === 'force') {
+      // display select force
+      console.log('show me!!');
+      setDisplaySelectForceBox(true);
+    } else {
+      // not decided
+    }
   };
 
   return (
@@ -134,12 +136,7 @@ const FaultSwitch = ({
           handleClose={setDisplayCommentBox}
         />
       )}
-      {displayViewBox && (
-        <FaultsView
-          handleClose={() => setDisplayViewBox(false)}
-          comments={comments}
-        />
-      )}
+      {displaySelectForceBox && <SelectForce title='thermocuople failure' />}
     </Wrapper>
   );
 };
