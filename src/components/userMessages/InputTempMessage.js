@@ -3,7 +3,6 @@ import { flexboxCenter } from '../../styles/commonStyles';
 import MessageButton from './MessageButton';
 
 const InputTempMessage = ({ onClose, title, message }) => {
-  console.log(title, message);
   return (
     <Wrapper>
       <MessageOuter>
