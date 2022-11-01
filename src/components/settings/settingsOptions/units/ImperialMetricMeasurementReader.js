@@ -8,6 +8,7 @@ function ImperialMetricMeasurementReader({
   index,
   metricImperialToggle,
   handleClick,
+  unitsMeasurement,
 }) {
   const { title, temp, energy, measure, gas, backgroundColor } = value;
 
@@ -16,6 +17,9 @@ function ImperialMetricMeasurementReader({
 
   const { settingsEditButton } = state.buttonsOfSettings;
 
+  // console.log('unitsMeasurement', unitsMeasurement);
+  // console.log('index', index);
+  // console.log('metricImperialToggle', metricImperialToggle);
   return (
     <div>
       <Wrapper>

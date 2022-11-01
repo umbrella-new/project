@@ -75,6 +75,7 @@ const descriptionOptions = [
   'FLEXIBLE RAIL HEATER - T-FLEX-26L-2S-A48-P1',
 ];
 
+// This is for admin  TES/ESS-add element to bank
 const ssrDescriptionSlice = createSlice({
   name: 'ssrDescription',
   initialState: { descriptionOptions, specsStr, partNumberSuggestions },
