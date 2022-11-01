@@ -21,6 +21,12 @@ const FaultSwitch = ({
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
   const [indexNumber, setIndexNumber] = useState(null);
   const [displayViewBox, setDisplayViewBox] = useState(false);
+  const [displaySelectForceBox, setDisplaySelectForceBox] = useState(false);
+  const forceSelectOptions = [
+    'max heat',
+    'max heat for 12 hours',
+    'change and replace t/c',
+  ];
 
   const imgSrcNormal = isTesSwitch
     ? name === 'ess'
@@ -47,18 +53,19 @@ const FaultSwitch = ({
     }
   };
 
-  const handleButtonClick = (name, column) => {
-    console.log(name, column);
-    if (name === 'comment') {
-      // display comment box
-      setDisplayCommentBox(true);
-      setIndexNumber(column);
-    } else if (name === 'view') {
-      // display history box
-      setDisplayViewBox(true);
-    } else {
-      // not decided
-    }
+  const handleButtonClick = (switchName, buttonName, column) => {
+    console.log(switchName, buttonName, column);
+    if (switchName)
+      if (name === 'attend') {
+        // display comment box
+        setDisplayCommentBox(true);
+        setIndexNumber(column);
+      } else if (name === 'force') {
+        // display select force
+        setDisplaySelectForceBox(true);
+      } else {
+        // not decided
+      }
   };
 
   return (
@@ -109,6 +116,7 @@ const FaultSwitch = ({
               <DetailInnerTop>
                 {message.map((msg, index) => (
                   <FaultsDetails
+                    name={name}
                     key={index}
                     column={index}
                     handleButtonClick={handleButtonClick}
@@ -245,7 +253,6 @@ const SwitchLogo = styled.div`
 
 const Title = styled.span`
   font-size: 12px;
-  text-transform: uppercase;
 
   margin-right: 6px;
   letter-spacing: 1.2px;
@@ -324,7 +331,6 @@ const FaultsDetailsNumber = styled.span`
 const FaultsDetailsTitle = styled.span`
   text-align: center;
   width: 80%;
-  text-transform: uppercase;
   font-size: 12px;
 
   ${(p) =>

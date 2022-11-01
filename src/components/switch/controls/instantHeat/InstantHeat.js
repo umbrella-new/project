@@ -275,7 +275,6 @@ const LabelAndInputInnerWrapper = styled.div`
 const Label = styled.label`
   font-size: 10px;
   color: #ffffff;
-  text-transform: uppercase;
   height: 12px;
   width: 96px;
   margin-right: 60px;

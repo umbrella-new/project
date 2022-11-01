@@ -43,7 +43,6 @@ const Wrapper = styled.div`
 `;
 const Label = styled.span`
   cursor: pointer;
-  text-transform: uppercase;
   font-size: 6px;
   text-align: center;
   width: 70%;

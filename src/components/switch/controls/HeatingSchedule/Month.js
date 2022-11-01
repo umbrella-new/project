@@ -77,7 +77,6 @@ const WeekdayUnderline = styled.div`
 
 const Weekday = styled.div`
   text-align: center;
-  text-transform: uppercase;
   /* border: 1px solid red; */
 `;
 

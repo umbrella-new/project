@@ -417,7 +417,6 @@ const TitleIcon = styled.img``;
 const Title = styled.span`
   font-size: 16px;
   letter-spacing: 1.6px;
-  text-transform: uppercase;
 `;
 const CalendarWrapper = styled.div`
   height: 273px;
@@ -495,7 +494,6 @@ const GoButton = styled.img`
 `;
 
 const YearTitle = styled.span`
-  text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1.2px;
 `;
@@ -537,7 +535,6 @@ const MonthTop = styled.div`
 `;
 
 const MonthTitle = styled.span`
-  text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.1px;
 `;
@@ -610,7 +607,6 @@ const DateTitle = styled.span`
   letter-spacing: 1.2px;
   color: #fcff01;
   opacity: 1;
-  text-transform: uppercase;
 `;
 
 const DisplayTop = styled.div`
@@ -631,7 +627,6 @@ const Date = styled.span`
   letter-spacing: 0.9px;
   color: #fcff01;
   opacity: 1;
-  text-transform: uppercase;
 `;
 
 const ButtonWrapper = styled.div`

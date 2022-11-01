@@ -28,6 +28,4 @@ const Message = styled.span`
   font-size: 8px;
   color: #ffffff;
   line-height: 90%;
-
-  text-transform: uppercase;
 `;

@@ -94,7 +94,7 @@ const Top = styled.div`
 
 const Title = styled.span`
   font-size: 8px;
-  text-transform: uppercase;
+
   ${(p) =>
     p.isTesSwitch ||
     css`

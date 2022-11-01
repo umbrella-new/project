@@ -890,7 +890,7 @@ const ItemDescription = styled.li`
 const ItemPartNumberInput = styled.input`
   font-size: 8px;
   text-align: center;
-  text-transform: uppercase;
+
   width: 90px;
   letter-spacing: -px;
 
@@ -904,7 +904,7 @@ const ItemPartNumberInput = styled.input`
 const ItemDataInput = styled.input`
   font-size: 8px;
   text-align: center;
-  text-transform: uppercase;
+
   width: 90px;
 
   background-color: transparent;
@@ -917,7 +917,7 @@ const ItemDataInput = styled.input`
 const ItemDataDescription = styled.span`
   font-size: 8px;
   text-align: center;
-  text-transform: uppercase;
+
   width: 90%;
 
   ${(p) =>

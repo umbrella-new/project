@@ -121,7 +121,6 @@ const DisplayLabel = styled.span`
   letter-spacing: 0.8px;
   color: #1b2b44;
   opacity: 1;
-  text-transform: uppercase;
   line-height: 0.9;
 `;
 

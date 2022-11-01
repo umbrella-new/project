@@ -161,12 +161,11 @@ const Title = styled.div`
   color: var(--unnamed-color-ffffff);
   text-align: left;
   font-size: 10px;
-  text-transform: uppercase;
 `;
 
 const AdministratorButton = styled.button`
   cursor: pointer;
-  text-transform: uppercase;
+
   font-size: 8px;
 `;
 const UnderLine = styled.div``;

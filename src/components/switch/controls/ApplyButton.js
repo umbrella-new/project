@@ -151,8 +151,6 @@ const ButtonTop = styled.div`
 const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
-  text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
   text-align: center;
   color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
 `;
