@@ -182,8 +182,6 @@ const ScheduleSetTitleAndButton = styled.div`
 `;
 
 const ScheduleSetTitle = styled.span`
-  text-transform: uppercase;
-
   height: 12px;
   font-size: 8px;
   margin-right: 55px;

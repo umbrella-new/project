@@ -6,7 +6,7 @@ import { flexboxCenter } from '../../styles/commonStyles';
 import ExpandButton from './ExpandButton';
 import FaultsComments from './FaultsComments';
 import FaultsDetails from './FaultsDetails';
-import FaultsView from './FaultsView';
+import SelectForce from './SelectForce';
 
 const FaultSwitch = ({
   title,
@@ -21,6 +21,12 @@ const FaultSwitch = ({
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
   const [indexNumber, setIndexNumber] = useState(null);
   const [displayViewBox, setDisplayViewBox] = useState(false);
+  const [displaySelectForceBox, setDisplaySelectForceBox] = useState(false);
+  const forceSelectOptions = [
+    'max heat',
+    'max heat for 12 hours',
+    'change and replace t/c',
+  ];
 
   const imgSrcNormal = isTesSwitch
     ? name === 'ess'
@@ -46,16 +52,19 @@ const FaultSwitch = ({
       }
     }
   };
+  console.log(displaySelectForceBox);
 
-  const handleButtonClick = (name, column) => {
-    console.log(name, column);
-    if (name === 'comment') {
+  const handleButtonClick = (switchName, buttonName, column) => {
+    // console.log(switchName, buttonName, column);
+
+    if (buttonName === 'attend') {
       // display comment box
       setDisplayCommentBox(true);
       setIndexNumber(column);
-    } else if (name === 'view') {
-      // display history box
-      setDisplayViewBox(true);
+    } else if (buttonName === 'force') {
+      // display select force
+      console.log('show me!!');
+      setDisplaySelectForceBox(true);
     } else {
       // not decided
     }
@@ -65,26 +74,30 @@ const FaultSwitch = ({
     <Wrapper isExpanded={isExpanded}>
       <ItemInnerHole isFaults={isFaults} isExpanded={isExpanded}>
         <MainWrapper>
-          <ItemTop>
+          <ItemTop isTesSwitch={isTesSwitch}>
             <LogoAndTitleWrapper>
-              <SwitchLogo isFaults={isFaults}>
+              <SwitchLogo isFaults={isFaults} isTesSwitch={isTesSwitch}>
                 <img src={isExpanded ? imgSrcActivated : imgSrcNormal} />
               </SwitchLogo>
               <Title isFaults={isFaults}>{title}</Title>
               <Divider isFaults={isFaults} name={name}></Divider>
             </LogoAndTitleWrapper>
             <DisplayAndButtonWrapper>
-              <DisplayFaults>
-                <FaultsDetailsNumber>{number ? number : 0}</FaultsDetailsNumber>
+              <DisplayFaults isTesSwitch={isTesSwitch}>
+                <FaultsDetailsNumber isFaults={isFaults}>
+                  {number ? number : 0}
+                </FaultsDetailsNumber>
                 <FaultsDetailsTitle isFaults={isFaults}>
                   faults
                 </FaultsDetailsTitle>
-                <FaultsLogo isFaults={isFaults}>
+                <FaultsLogo isFaults={isFaults} isTesSwitch={isTesSwitch}>
                   <img
                     src={
-                      isFaults
-                        ? '/images/fault-alarm-fault.svg'
-                        : '/images/fault-alarm-normal.svg'
+                      isTesSwitch
+                        ? isFaults
+                          ? '/images/fault-alarm-fault.svg'
+                          : '/images/fault-alarm-normal.svg'
+                        : `/images/fault-alarm-without-tes.svg`
                     }
                   />
                 </FaultsLogo>
@@ -94,6 +107,7 @@ const FaultSwitch = ({
                 handleOnClick={handleDisplayFaults}
                 isExpanded={isExpanded}
                 name={isExpanded ? 'close' : 'expand'}
+                isTesSwitch={isTesSwitch}
               />
             </DisplayAndButtonWrapper>
           </ItemTop>
@@ -104,6 +118,7 @@ const FaultSwitch = ({
               <DetailInnerTop>
                 {message.map((msg, index) => (
                   <FaultsDetails
+                    name={name}
                     key={index}
                     column={index}
                     handleButtonClick={handleButtonClick}
@@ -121,12 +136,7 @@ const FaultSwitch = ({
           handleClose={setDisplayCommentBox}
         />
       )}
-      {displayViewBox && (
-        <FaultsView
-          handleClose={() => setDisplayViewBox(false)}
-          comments={comments}
-        />
-      )}
+      {displaySelectForceBox && <SelectForce title='thermocuople failure' />}
     </Wrapper>
   );
 };
@@ -195,6 +205,15 @@ const ItemTop = styled.div`
   justify-content: space-between;
 
   padding: 0 0.8rem 0rem 0.3rem;
+
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%)
+        0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 1px 2px #ffffff29, 0px 0px 2px #000000;
+      border: 1px solid #000000;
+    `}
 `;
 
 const LogoAndTitleWrapper = styled.div`
@@ -219,11 +238,18 @@ const SwitchLogo = styled.div`
     css`
       border: 1px solid red;
     `}
+
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: #3b3b3b 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 6px #000000;
+      border: 0.5px solid #000000b0;
+    `}
 `;
 
 const Title = styled.span`
   font-size: 12px;
-  text-transform: uppercase;
 
   margin-right: 6px;
   letter-spacing: 1.2px;
@@ -278,16 +304,30 @@ const DisplayFaults = styled.div`
   justify-content: space-between;
   padding-right: 0.2rem;
   padding-left: 2rem;
+
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: #3b3b3b 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 6px #000000;
+      border: 2px solid #3b3b3b;
+    `}
 `;
 
 const FaultsDetailsNumber = styled.span`
   font-size: 48px;
-  color: #fe0000;
+  ${(p) =>
+    p.isFaults
+      ? css`
+          color: #fe0000;
+        `
+      : css`
+          color: #fff;
+        `}
 `;
 const FaultsDetailsTitle = styled.span`
   text-align: center;
   width: 80%;
-  text-transform: uppercase;
   font-size: 12px;
 
   ${(p) =>
@@ -311,6 +351,14 @@ const FaultsLogo = styled.div`
     p.isFaults &&
     css`
       border: 1px solid red;
+    `}
+
+    ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: #3b3b3b 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 6px #000000;
+      border: 2px solid #3b3b3b;
     `}
 `;
 

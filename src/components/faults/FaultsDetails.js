@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import FaultsDetailButtonContainer from './FaultsDetailButtonContainer';
 
-const FaultsDetails = ({ faultContents, column, handleButtonClick }) => {
+const FaultsDetails = ({ faultContents, column, handleButtonClick, name }) => {
   return (
     <Wrapper>
       <FaultsText>{faultContents}</FaultsText>
@@ -10,6 +10,8 @@ const FaultsDetails = ({ faultContents, column, handleButtonClick }) => {
         <FaultsDetailButtonContainer
           handleButtonClick={handleButtonClick}
           column={column}
+          name={name}
+          faultContents={faultContents}
         />
       </ButtonWrapper>
     </Wrapper>

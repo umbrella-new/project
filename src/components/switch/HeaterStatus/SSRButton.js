@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 const SSRId = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
+
   margin-bottom: 0.3rem;
   text-align: center;
 `;
@@ -73,7 +73,6 @@ const InnerHole = styled.div`
 const Title = styled.span`
   ${flexboxCenter}
   font-size: 10px;
-  text-transform: uppercase;
 
   width: 38px;
   height: 16px;

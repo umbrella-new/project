@@ -319,7 +319,6 @@ const LabelInnerWrapper = styled.div`
 
 const Label = styled.span`
   font-size: 7px;
-  text-transform: uppercase;
   text-align: center;
   line-height: 0.9;
 
@@ -428,7 +427,6 @@ const LabelWrapper = styled.div`
 
 const FanLabel = styled.span`
   font-size: 8px;
-  text-transform: uppercase;
 `;
 
 const KeyPadWrapper = styled.div`

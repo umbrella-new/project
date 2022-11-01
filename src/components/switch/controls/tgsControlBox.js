@@ -13,6 +13,7 @@ import essSwitchSlice, {
   deactivateEsSwitchStatus,
   selectEssSwitch,
 } from '../../../store/slices/essSwitchSlice';
+import { selectFaults } from '../../../store/slices/faultsSlice';
 
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
@@ -33,6 +34,9 @@ const TgsControlBox = () => {
 
   const state = useSelector(selectTgsSwitch);
   const { displayConflictMessage } = state;
+
+  const faultsState = useSelector(selectFaults);
+  const { isFaults } = faultsState.tgs;
 
   const esState = useSelector(selectEssSwitch);
   const {
@@ -75,7 +79,13 @@ const TgsControlBox = () => {
 
   return (
     <Wrapper>
-      <BackgroundImg src={'/images/controller-background.svg'} />
+      <BackgroundImg
+        src={
+          isFaults
+            ? '/images/controller-background-faults.svg'
+            : '/images/controller-background.svg'
+        }
+      />
       <PositionAbsolute>
         <Title>tgs-controls</Title>
         <ControlsList>
@@ -128,7 +138,7 @@ const PositionAbsolute = styled.div`
 
 const Title = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
+
   margin-left: var(--space3);
 `;
 

@@ -89,6 +89,4 @@ const ButtonTop = styled.div`
 
 const ButtonName = styled.span`
   font-size: 14px;
-  text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
 `;

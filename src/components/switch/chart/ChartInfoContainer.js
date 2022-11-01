@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import styled from "styled-components";
-import { selectUserState } from "../../../store/slices/userSlice";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import { selectUserState } from '../../../store/slices/userSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ChartInfoContainer = () => {
   // Sytem title will be chaged by state from store
@@ -10,21 +10,21 @@ const ChartInfoContainer = () => {
   const { isEssSwitch } = userState;
   const location = useLocation();
   const source = isEssSwitch
-    ? "ess"
-    : location.pathname === "/"
-    ? "tgs"
-    : "tes";
+    ? 'ess'
+    : location.pathname === '/'
+    ? 'tgs'
+    : 'tes';
 
   const SYSTEM_TITLE =
-    source === "ess"
-      ? "ess-electric switch system"
-      : source === "tgs"
-      ? "tgs-typhoon gas system"
-      : "tes-typhoon electrical system";
+    source === 'ess'
+      ? 'ess-electric switch system'
+      : source === 'tgs'
+      ? 'tgs-typhoon gas system'
+      : 'tes-typhoon electrical system';
 
-  const GRAPH_GUIDE_TITLE = "HEATER TEMPERATURE Vs TIME";
-  const startTime = "3:50am - 12/25/2021";
-  const endTime = "4:50am - 02/06/2022";
+  const GRAPH_GUIDE_TITLE = 'HEATER TEMPERATURE Vs TIME';
+  const startTime = '3:50am - 12/25/2021';
+  const endTime = '4:50am - 02/06/2022';
   return (
     <Wrapper>
       <InfoTitle source={source}>{SYSTEM_TITLE}</InfoTitle>
@@ -49,13 +49,12 @@ const Wrapper = styled.div`
 
 const InfoTitle = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
   color: ${(p) =>
-    p.source === "ess"
-      ? "#83ffff"
-      : p.source === "tgs"
-      ? "#FF7800"
-      : "#95FF45"};
+    p.source === 'ess'
+      ? '#83ffff'
+      : p.source === 'tgs'
+      ? '#FF7800'
+      : '#95FF45'};
 `;
 const InfoGraph = styled.span`
   color: #ffffff;

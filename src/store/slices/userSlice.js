@@ -5,8 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: true,
-  isTesSwitch: false,
+
   isExpanded: false,
   isPasswordOpen: false,
   isAdministrator: false,

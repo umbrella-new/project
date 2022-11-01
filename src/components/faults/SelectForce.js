@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
-import MessageButton from './MessageButton';
 
-const SettingConfirmedMessage = ({ onClose, title, message }) => {
-  console.log(title, message);
+import MessageButton from '../userMessages/MessageButton';
+
+const SelectForce = ({ title, onClose }) => {
   return (
     <Wrapper>
       <MessageOuter>
@@ -14,10 +14,10 @@ const SettingConfirmedMessage = ({ onClose, title, message }) => {
           </HeaderWrapper>
 
           <MessageWrapper>
-            <Message>{message}</Message>
+            <Message></Message>
           </MessageWrapper>
           <ButtonWrapper>
-            <MessageButton name='ok' buttonHandler={onClose} />
+            <MessageButton name='confirm' buttonHandler={onClose} />
           </ButtonWrapper>
         </MessageInner>
       </MessageOuter>
@@ -25,7 +25,7 @@ const SettingConfirmedMessage = ({ onClose, title, message }) => {
   );
 };
 
-export default SettingConfirmedMessage;
+export default SelectForce;
 
 const Wrapper = styled.div`
   width: 1024px;

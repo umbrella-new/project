@@ -251,7 +251,6 @@ const ItemDescription = styled.li`
 const ItemData = styled.span`
   font-size: 8px;
   text-align: center;
-  text-transform: uppercase;
 
   ${(p) =>
     p.isDescription &&

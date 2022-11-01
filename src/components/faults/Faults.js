@@ -38,7 +38,7 @@ const Faults = () => {
               title='typhoon gas system'
               isFaults={tgs.isFaults}
               number={tgs.message.length}
-              message={ess.message}
+              message={tgs.message}
               comments={tgs.comments}
               isTesSwitch={true}
             />

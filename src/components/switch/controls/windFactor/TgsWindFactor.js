@@ -197,6 +197,4 @@ const ButtonName = styled.span`
   height: 12px;
   display: inline-block;
   font-size: 10px;
-  text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
 `;

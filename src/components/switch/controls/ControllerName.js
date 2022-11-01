@@ -49,7 +49,6 @@ const Title = styled.span`
   height: 12px;
   width: fit-content;
   font-size: 10px;
-  text-transform: uppercase;
   color: ${(p) => (p.isEnable ? '#fff' : '#808080')};
   display: inline-block;
 `;

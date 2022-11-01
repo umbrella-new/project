@@ -1,15 +1,16 @@
-import { useSelector } from "react-redux";
-import styled, { css } from "styled-components";
-import { selectUnitsState } from "../../../store/slices/unitsSlice";
+import { useSelector } from 'react-redux';
+import styled, { css } from 'styled-components';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
+import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
   DisableApplyButtonHole,
-} from "../../../styles/commonStyles";
+} from '../../../styles/commonStyles';
 
 const InputTemp = ({ isEnable, setTemp }) => {
-  const unitsState = useSelector(selectUnitsState);
-  const { unitsMeasurement } = unitsState;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const handleOnChange = (event) => {
     const value = event.target.value;
@@ -26,7 +27,7 @@ const InputTemp = ({ isEnable, setTemp }) => {
         <InputDegree
           isEnable={isEnable}
           type='text'
-          placeholder={unitsMeasurement ? "0&deg;F" : "0&deg;C"}
+          placeholder={unitsMeasurement ? '0&deg;F' : '0&deg;C'}
           onChange={handleOnChange}
         />
       </InputWrapper>
@@ -47,9 +48,8 @@ const Label = styled.label`
   height: 10px;
   width: 66px;
   font-size: 8px;
-  text-transform: uppercase;
   text-align: center;
-  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
 `;
 
 const InputWrapper = styled.div`
@@ -94,7 +94,7 @@ const InputDegree = styled.input`
         `}
 
   ::placeholder {
-    color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
+    color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
     text-align: center;
     font-size: 10px;
   }

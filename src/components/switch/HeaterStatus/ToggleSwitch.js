@@ -41,7 +41,6 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 const Title = styled.span`
-  text-transform: uppercase;
   font-size: 8px;
   color: #fcff01;
   margin-bottom: 0.2rem;

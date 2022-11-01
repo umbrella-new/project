@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
-const ExpandButton = ({ handleOnClick, isExpanded, name }) => {
+const ExpandButton = ({ handleOnClick, isExpanded, name, isTesSwitch }) => {
   return (
-    <WrapperHole onClick={() => handleOnClick(name)}>
-      <OuterWrapper>
-        <InnerHole>
-          <Top>
-            <Title>{name}</Title>
+    <WrapperHole onClick={() => handleOnClick(name)} isTesSwitch={isTesSwitch}>
+      <OuterWrapper isTesSwitch={isTesSwitch}>
+        <InnerHole isTesSwitch={isTesSwitch}>
+          <Top isTesSwitch={isTesSwitch}>
+            <Title isTesSwitch={isTesSwitch}>{name}</Title>
           </Top>
         </InnerHole>
       </OuterWrapper>
@@ -27,6 +26,14 @@ const WrapperHole = styled.button`
   opacity: 1;
 
   ${flexboxCenter}
+
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: #3b3b3b 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 1px #000000;
+      /* cursor: none; */
+    `}
 `;
 const OuterWrapper = styled.div`
   width: 70px;
@@ -40,6 +47,14 @@ const OuterWrapper = styled.div`
   opacity: 1;
 
   ${flexboxCenter}
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%)
+        0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+      border: 0.5px solid #000000;
+    `}
 `;
 const InnerHole = styled.div`
   width: 64px;
@@ -49,6 +64,12 @@ const InnerHole = styled.div`
   border-radius: 20px;
 
   ${flexboxCenter}
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: #3b3b3b 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 1px #000000;
+    `}
 `;
 const Top = styled.div`
   width: 62px;
@@ -61,9 +82,22 @@ const Top = styled.div`
   opacity: 1;
 
   ${flexboxCenter}
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%)
+        0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+      border: 0.5px solid #000000;
+    `}
 `;
 
 const Title = styled.span`
   font-size: 8px;
-  text-transform: uppercase;
+
+  ${(p) =>
+    p.isTesSwitch ||
+    css`
+      color: #707070;
+    `}
 `;

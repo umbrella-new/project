@@ -78,9 +78,7 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   height: 15%;
 `;
-const HeaderTitle = styled.span`
-  text-transform: uppercase;
-`;
+const HeaderTitle = styled.span``;
 
 const Logo = styled.img``;
 
@@ -93,7 +91,6 @@ const MessageWrapper = styled.div`
 const Message = styled.p`
   font-size: 12px;
   text-align: center;
-  text-transform: uppercase;
 `;
 
 const ButtonWrapper = styled.div`

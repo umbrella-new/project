@@ -79,7 +79,6 @@ const TitleWrapper = styled.div`
 
 const Title = styled.span`
   font-size: 8px;
-  text-transform: uppercase;
 `;
 
 const SelectorWrapper = styled.div`
@@ -157,6 +156,6 @@ const SelectWrapper = styled.div`
 const SelectedSwitch = styled.span`
   font-size: 8px;
   width: 100%;
-  text-transform: uppercase;
+
   text-align: center;
 `;
