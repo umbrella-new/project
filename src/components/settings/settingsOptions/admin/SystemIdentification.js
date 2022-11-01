@@ -33,6 +33,8 @@ const SystemIdentification = () => {
   const [message, setMessage] = useState(null);
   const [isReadyToSave, setIsReadytoSave] = useState(false);
   const [keyboardPosition, setKeyboardPosition] = useState(null);
+  const [displayAdditionalInput, setDisplayingAdditionalInput] =
+    useState(false);
 
   const heatingSysOptions = [
     'ess - electric switch system',
@@ -70,6 +72,7 @@ const SystemIdentification = () => {
       if (isEditable) {
         if (isReadyToSave) {
           setIsEditable(!isEditable);
+          setMessage('selection confirmed');
           setActivateMessageBox(true);
         } else {
           setMessage('please fill in all fields');
@@ -89,7 +92,11 @@ const SystemIdentification = () => {
   const handleOnChange = (input) => {
     if (isEditable) {
       const copyInput = { ...inputData };
-      copyInput[focusedName] = input;
+      if (focusedName === 'additionalRating') {
+        copyInput.ssrRating = `${input} amps`;
+      } else {
+        copyInput[focusedName] = input;
+      }
       setInputData(copyInput);
     }
   };
@@ -103,6 +110,7 @@ const SystemIdentification = () => {
         const copyInput = { ...inputData };
         copyInput[focusedName] = 'please input additional ssr rating';
         setInputData(copyInput);
+        setDisplayingAdditionalInput(true);
       } else {
         setIsChecked(selected);
         const copyInput = { ...inputData };
@@ -207,7 +215,7 @@ const SystemIdentification = () => {
                     setKeyboardPosition(2);
                     setFocusedName('switchName');
                   }}
-                  value={inputData.switchName && inputData.switchName}
+                  value={inputData.switchName}
                   placeholder='--------'
                 />
               </ComponentWrapper>
@@ -224,7 +232,7 @@ const SystemIdentification = () => {
                     setKeyboardPosition(2);
                     setFocusedName('application');
                   }}
-                  value={inputData.application && inputData.application}
+                  value={inputData.application}
                   placeholder='--------'
                 />
               </ComponentWrapper>
@@ -314,6 +322,26 @@ const SystemIdentification = () => {
                 />
               </ComponentWrapper>
             </ComponentWrapperHole>
+            {displayAdditionalInput && (
+              <ComponentWrapperHole>
+                <ComponentWrapper>
+                  <ContentSpan>
+                    additional<br></br>ssr rating :
+                  </ContentSpan>
+                  <ContentInput
+                    type='text'
+                    onChange={(event) => handleOnChange(event.target.value)}
+                    onClick={() => {
+                      isEditable && setActivateKeyboard(true);
+                      setKeyboardPosition(3);
+                      setFocusedName('additionalRating');
+                    }}
+                    value={inputData.ssrAdditionalRating}
+                    placeholder='-- amps'
+                  />
+                </ComponentWrapper>
+              </ComponentWrapperHole>
+            )}
           </Section>
 
           <Section>
