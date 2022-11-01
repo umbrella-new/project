@@ -177,9 +177,15 @@ function ContainerOfAdmin() {
                       )}
                       {adminAccess && options === index && index === 1 ? (
                         <Wrapper5>
-                          <ControlWrapper>
-                            <Control />
-                          </ControlWrapper>
+                          <SectionWrapper>
+                            <ControlWrapper>
+                              <Control />
+                            </ControlWrapper>
+                          </SectionWrapper>
+
+                          <SectionWrapper>
+                            <SystemIdentification />
+                          </SectionWrapper>
                         </Wrapper5>
                       ) : (
                         !adminAccess &&

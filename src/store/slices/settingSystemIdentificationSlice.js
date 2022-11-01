@@ -34,7 +34,6 @@ const settingsSystemIdentificationSlice = createSlice({
   initialState,
   reducers: {
     handleAdditionalSSRRating: (state, action) => {
-      console.log(state.ssrRatingOptions.length);
       state.ssrRatingOptions.splice(
         state.ssrRatingOptions.length - 1,
         0,
