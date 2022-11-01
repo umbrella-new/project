@@ -9,7 +9,8 @@ import { selectFaults } from '../../store/slices/faultsSlice';
 
 const Faults = () => {
   const userState = useSelector(selectUserState);
-  const { isEssSwitch } = userState;
+  const { isEssSwitch, isTesSwitch } = userState;
+
   const faultsState = useSelector(selectFaults);
   const { ess, tgs } = faultsState;
 
@@ -28,6 +29,7 @@ const Faults = () => {
             number={ess.message.length}
             message={ess.message}
             comments={ess.comments}
+            isTesSwitch={true}
           />
         ) : (
           <>
@@ -38,9 +40,11 @@ const Faults = () => {
               number={tgs.message.length}
               message={ess.message}
               comments={tgs.comments}
+              isTesSwitch={true}
             />
             <FaultSwitch
               name='tes'
+              isTesSwitch={isTesSwitch}
               title='typhoon electric system'
               isFaults={ess.isFaults}
               number={ess.message.length}
