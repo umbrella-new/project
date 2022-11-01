@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import {
   handleAdditionalSSRRating,
   selectSystemIdentification,
@@ -45,6 +46,9 @@ const SystemIdentification = () => {
   const systemIdState = useSelector(selectSystemIdentification);
   const { heatingSysOptions, switchSizeOptions, ssrRatingOptions } =
     systemIdState;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const { settingsEditButton } = state.buttonsOfSettings;
   const dispatch = useDispatch();
 
   const buttonNames = ['edit system', 'save'];
@@ -59,6 +63,10 @@ const SystemIdentification = () => {
       inputData.sysId !== '' &&
       setIsReadytoSave(true);
   }, [inputData]);
+
+  useEffect(() => {
+    return setIsEditable(false);
+  }, [settingsEditButton]);
 
   const handleButtonClick = (name) => {
     if (name === 'save') {
@@ -352,7 +360,7 @@ const SystemIdentification = () => {
             <ButtonGroupWrapper>
               {buttonNames.map((name) => (
                 <ButtonWrapper
-                  onClick={() => handleButtonClick(name)}
+                  onClick={() => settingsEditButton && handleButtonClick(name)}
                   isEditable={isEditable}
                 >
                   <ButtonHole>

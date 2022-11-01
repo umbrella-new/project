@@ -77,51 +77,107 @@ function ContainerOfAdmin() {
     };
   }, []);
 
-  const handleSelect = (value) => options !== value && setOptions(value);
+  const handleSelect = (value) =>
+    options !== value ? setOptions(value) : setOptions('');
 
-  const handleEssCloseExpandButton = (index) => {
-    switch (index) {
-      case 0: {
-        setToggleEssButton(essButtonActive);
-
-        setToggleSysButton(sysButton);
-        break;
+  useEffect(() => {
+    if (!essSwitch) {
+      switch (options) {
+        case '': {
+          setToggleSysButton(sysButton);
+          setToggleTgsButton(tgsButton);
+          setToggleTesButton(tesButton);
+          break;
+        }
+        case 0: {
+          setToggleSysButton(sysButton);
+          setToggleTgsButton(tgsButtonActive);
+          setToggleTesButton(tesButton);
+          break;
+        }
+        case 1: {
+          setToggleSysButton(sysButton);
+          setToggleTgsButton(tgsButton);
+          setToggleTesButton(tesButtonActive);
+          break;
+        }
+        case 2: {
+          setToggleSysButton(sysButtonActive);
+          setToggleTgsButton(tgsButton);
+          setToggleTesButton(tesButton);
+          break;
+        }
+        default:
+          return;
       }
-      case 1: {
-        setToggleEssButton(essButton);
+    } else {
+      switch (options) {
+        case '': {
+          setToggleEssButton(essButton);
+          setToggleSysButton(sysButton);
+          break;
+        }
+        case 0: {
+          setToggleEssButton(essButtonActive);
 
-        setToggleSysButton(sysButtonActive);
-        break;
+          setToggleSysButton(sysButton);
+          break;
+        }
+        case 1: {
+          setToggleEssButton(essButton);
+
+          setToggleSysButton(sysButtonActive);
+          break;
+        }
+        default:
+          return;
       }
-      default:
-        return;
     }
-  };
+  }, [options]);
 
-  const handleTgsTesExpandCloseButton = (index) => {
-    switch (index) {
-      case 0: {
-        setToggleSysButton(sysButton);
-        setToggleTgsButton(tgsButtonActive);
-        setToggleTesButton(tesButton);
-        break;
-      }
-      case 1: {
-        setToggleSysButton(sysButton);
-        setToggleTgsButton(tgsButton);
-        setToggleTesButton(tesButtonActive);
-        break;
-      }
-      case 2: {
-        setToggleSysButton(sysButtonActive);
-        setToggleTgsButton(tgsButton);
-        setToggleTesButton(tesButton);
-        break;
-      }
-      default:
-        return;
-    }
-  };
+  // const handleEssCloseExpandButton = (index) => {
+  //   switch (index) {
+  //     case 0: {
+  //       setToggleEssButton(essButtonActive);
+
+  //       setToggleSysButton(sysButton);
+  //       break;
+  //     }
+  //     case 1: {
+  //       setToggleEssButton(essButton);
+
+  //       setToggleSysButton(sysButtonActive);
+  //       break;
+  //     }
+  //     default:
+  //       return;
+  //   }
+  // };
+
+  // const handleTgsTesExpandCloseButton = (index) => {
+  //   switch (index) {
+  //     case 0: {
+  //       setToggleSysButton(sysButton);
+  //       setToggleTgsButton(tgsButtonActive);
+  //       setToggleTesButton(tesButton);
+  //       break;
+  //     }
+  //     case 1: {
+  //       setToggleSysButton(sysButton);
+  //       setToggleTgsButton(tgsButton);
+  //       setToggleTesButton(tesButtonActive);
+  //       break;
+  //     }
+  //     case 2: {
+  //       setToggleSysButton(sysButtonActive);
+  //       setToggleTgsButton(tgsButton);
+  //       setToggleTesButton(tesButton);
+  //       break;
+  //     }
+  //     default:
+  //       return;
+  //   }
+  // };
 
   const handleThermocoupleSwitch = () => {
     if (toggleThermocoupleSwitch === enableSwitch) {
@@ -148,7 +204,7 @@ function ContainerOfAdmin() {
                         <SystemHeader
                           name={value.title}
                           toggleButtonColor={value.button}
-                          handleCloseExpandButton={handleEssCloseExpandButton}
+                          // handleCloseExpandButton={handleEssCloseExpandButton}
                           handleSelect={handleSelect}
                           index={index}
                           options={options}
@@ -204,7 +260,7 @@ function ContainerOfAdmin() {
                   <Wrapper4 key={index}>
                     <TgsTesSysWrapper>
                       <SystemHeader
-                        handleCloseExpandButton={handleTgsTesExpandCloseButton}
+                        // handleCloseExpandButton={handleTgsTesExpandCloseButton}
                         handleSelect={handleSelect}
                         name={data.title}
                         toggleButtonColor={data.button}

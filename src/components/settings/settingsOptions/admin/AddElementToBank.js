@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 
@@ -28,7 +28,14 @@ const AddElementToBank = () => {
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState('name');
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const { settingsEditButton } = state.buttonsOfSettings;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return setActivateKeypad(false), setActivateKeyboard(false);
+  }, [settingsEditButton]);
 
   const handleInput = (name, input) => {
     const copyState = { ...inputElement };
@@ -62,21 +69,25 @@ const AddElementToBank = () => {
                   <Span>
                     element<br></br>Name :
                   </Span>
-                  <Input
-                    type='text'
-                    placeholder='---------'
-                    value={inputElement}
-                    onClick={() => {
-                      setInputFocus('name');
-                      setActivateKeyboard(true);
-                      setActivateKeypad(false);
-                    }}
-                    name='name'
-                    onChange={(event) =>
-                      handleInput('name', event.target.value)
-                    }
-                    value={inputElement.name}
-                  />
+                  {settingsEditButton ? (
+                    <Input
+                      type='text'
+                      placeholder='---------'
+                      value={settingsEditButton && inputElement}
+                      onClick={() => {
+                        setInputFocus('name');
+                        setActivateKeyboard(true);
+                        setActivateKeypad(false);
+                      }}
+                      name='name'
+                      onChange={(event) =>
+                        handleInput('name', event.target.value)
+                      }
+                      value={inputElement.name}
+                    />
+                  ) : (
+                    <FakeInput>---------</FakeInput>
+                  )}
                 </ElementNameTop>
               </ElementNameWrapper>
 
@@ -85,22 +96,26 @@ const AddElementToBank = () => {
                   <Span>
                     element<br></br>Part Number :
                   </Span>
-                  <Input
-                    type='text'
-                    placeholder='---------'
-                    value={inputElement}
-                    name='partNumber'
-                    onClick={() => {
-                      setInputFocus('partNumber');
-                      setActivateKeyboard(true);
-                      setActivateKeypad(false);
-                    }}
-                    name='partNumber'
-                    onChange={(event) =>
-                      handleInput('partNumber', event.target.value)
-                    }
-                    value={inputElement.partNumber}
-                  />
+                  {settingsEditButton ? (
+                    <Input
+                      type='text'
+                      placeholder='---------'
+                      value={inputElement}
+                      name='partNumber'
+                      onClick={() => {
+                        setInputFocus('partNumber');
+                        setActivateKeyboard(true);
+                        setActivateKeypad(false);
+                      }}
+                      name='partNumber'
+                      onChange={(event) =>
+                        handleInput('partNumber', event.target.value)
+                      }
+                      value={inputElement.partNumber}
+                    />
+                  ) : (
+                    <FakeInput>---------</FakeInput>
+                  )}
                 </ElementNameTop>
               </ElementNameWrapper>
             </ElementGroupWrapper>
@@ -136,62 +151,78 @@ const AddElementToBank = () => {
                   element <br></br>specification :
                 </Span>
                 <SpecsGroupWrapper>
-                  <Input
-                    type='number'
-                    placeholder='---------'
-                    value={inputElement.current}
-                    closeKeyboard={() => setActivateKeypad(false)}
-                    onChange={(event) =>
-                      handleInput('current', Number(event.target.value))
-                    }
-                    onClick={() => {
-                      setInputFocus('current');
-                      setActivateKeypad(true);
-                      setActivateKeyboard(false);
-                    }}
-                  />
-                  <Input
-                    type='number'
-                    placeholder='---------'
-                    value={inputElement.wattage}
-                    closeKeyboard={() => setActivateKeypad(false)}
-                    onChange={(event) =>
-                      handleInput('wattage', Number(event.target.value))
-                    }
-                    onClick={() => {
-                      setInputFocus('wattage');
-                      setActivateKeypad(true);
-                      setActivateKeyboard(false);
-                    }}
-                  />
-                  <Input
-                    type='number'
-                    placeholder='---------'
-                    value={inputElement.voltage}
-                    closeKeyboard={() => setActivateKeypad(false)}
-                    onChange={(event) =>
-                      handleInput('voltage', Number(event.target.value))
-                    }
-                    onClick={() => {
-                      setInputFocus('voltage');
-                      setActivateKeypad(true);
-                      setActivateKeyboard(false);
-                    }}
-                  />
-                  <Input
-                    type='number'
-                    placeholder='---------'
-                    value={inputElement.lengths}
-                    closeKeyboard={() => setActivateKeypad(false)}
-                    onChange={(event) =>
-                      handleInput('lengths', Number(event.target.value))
-                    }
-                    onClick={() => {
-                      setInputFocus('lengths');
-                      setActivateKeypad(true);
-                      setActivateKeyboard(false);
-                    }}
-                  />
+                  {settingsEditButton ? (
+                    <Input
+                      type='number'
+                      placeholder='---------'
+                      value={inputElement.current}
+                      closeKeyboard={() => setActivateKeypad(false)}
+                      onChange={(event) =>
+                        handleInput('current', Number(event.target.value))
+                      }
+                      onClick={() => {
+                        setInputFocus('current');
+                        setActivateKeypad(true);
+                        setActivateKeyboard(false);
+                      }}
+                    />
+                  ) : (
+                    <FakeInput>---------</FakeInput>
+                  )}
+                  {settingsEditButton ? (
+                    <Input
+                      type='number'
+                      placeholder='---------'
+                      value={inputElement.wattage}
+                      closeKeyboard={() => setActivateKeypad(false)}
+                      onChange={(event) =>
+                        handleInput('wattage', Number(event.target.value))
+                      }
+                      onClick={() => {
+                        setInputFocus('wattage');
+                        setActivateKeypad(true);
+                        setActivateKeyboard(false);
+                      }}
+                    />
+                  ) : (
+                    <FakeInput>---------</FakeInput>
+                  )}
+                  {settingsEditButton ? (
+                    <Input
+                      type='number'
+                      placeholder='---------'
+                      value={inputElement.voltage}
+                      closeKeyboard={() => setActivateKeypad(false)}
+                      onChange={(event) =>
+                        handleInput('voltage', Number(event.target.value))
+                      }
+                      onClick={() => {
+                        setInputFocus('voltage');
+                        setActivateKeypad(true);
+                        setActivateKeyboard(false);
+                      }}
+                    />
+                  ) : (
+                    <FakeInput>---------</FakeInput>
+                  )}
+                  {settingsEditButton ? (
+                    <Input
+                      type='number'
+                      placeholder='---------'
+                      value={inputElement.lengths}
+                      closeKeyboard={() => setActivateKeypad(false)}
+                      onChange={(event) =>
+                        handleInput('lengths', Number(event.target.value))
+                      }
+                      onClick={() => {
+                        setInputFocus('lengths');
+                        setActivateKeypad(true);
+                        setActivateKeyboard(false);
+                      }}
+                    />
+                  ) : (
+                    <FakeInput>---------</FakeInput>
+                  )}
                 </SpecsGroupWrapper>
               </ElementSpecInnerWrapper>
             </ElementSpecWrapper>
@@ -350,7 +381,22 @@ const Input = styled.input`
 
   &::placeholder {
     text-transform: uppercase;
+    color: #999;
   }
+`;
+
+const FakeInput = styled.div`
+  width: 99px;
+  height: 20px;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 2px #000000;
+  border-radius: 12px;
+  font-size: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
 `;
 const DescriptionWrapperHole = styled.div`
   ${flexboxCenter};
