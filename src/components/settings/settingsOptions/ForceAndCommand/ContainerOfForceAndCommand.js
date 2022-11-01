@@ -76,64 +76,139 @@ function ContainerOfForceAndCommand() {
     },
   ];
 
+  const handleSelect = (index) =>
+    options !== index ? setOptions(index) : setOptions('');
+
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
   }, []);
 
-  const handleEssCloseExpandButton = (index) => {
-    switch (index) {
-      case 0: {
-        setToggleEssButtonColor(essButtonActive);
-        setToggleSysButtonColor(sysButton);
-        setToggleTgsButtonColor(tgsButton);
-        setToggleTesButtonColor(tesButton);
-        break;
-      }
+  useEffect(() => {
+    if (!essSwitch) {
+      switch (options) {
+        case '': {
+          setToggleSysButtonColor(sysButton);
+          setToggleTgsButtonColor(tgsButton);
+          setToggleTesButtonColor(tesButton);
+          break;
+        }
+        case 0: {
+          setToggleTgsButtonColor(tgsButtonActive);
+          setToggleTesButtonColor(tesButton);
+          setToggleSysButtonColor(sysButton);
 
-      case 1: {
-        setToggleSysButtonColor(sysButtonActive);
-        setToggleEssButtonColor(essButton);
-        setToggleTgsButtonColor(tgsButton);
-        setToggleTesButtonColor(tesButton);
-        break;
-      }
+          break;
+        }
+        case 1: {
+          setToggleTesButtonColor(tesButtonActive);
+          setToggleSysButtonColor(sysButton);
+          setToggleTgsButtonColor(tgsButton);
+          break;
+        }
 
-      default:
-        return;
+        case 2: {
+          console.log('2');
+          setToggleSysButtonColor(sysButtonActive);
+          setToggleTgsButtonColor(tgsButton);
+          setToggleTesButtonColor(tesButton);
+          break;
+        }
+
+        default:
+          break;
+      }
+    } else {
+      switch (options) {
+        case '': {
+          setToggleEssButtonColor(essButton);
+          setToggleSysButtonColor(sysButton);
+          break;
+        }
+        case 0: {
+          setToggleEssButtonColor(essButtonActive);
+          setToggleSysButtonColor(sysButton);
+
+          break;
+        }
+
+        case 1: {
+          setToggleSysButtonColor(sysButtonActive);
+          setToggleEssButtonColor(essButton);
+
+          break;
+        }
+
+        default:
+          return;
+      }
     }
-  };
+  }, [options]);
 
-  const handleTgsCloseExpandButton = (index) => {
-    switch (index) {
-      case 0: {
-        setToggleTgsButtonColor(tgsButtonActive);
-        setToggleTesButtonColor(tesButton);
-        setToggleSysButtonColor(sysButton);
-        setToggleEssButtonColor(essButton);
-        break;
-      }
-      case 1: {
-        setToggleTesButtonColor(tesButtonActive);
-        setToggleSysButtonColor(sysButton);
-        setToggleEssButtonColor(essButton);
-        setToggleTgsButtonColor(tgsButton);
-        break;
-      }
+  // const handleEssCloseExpandButton = (index) => {
+  //   switch (index) {
+  //     case 0: {
+  //       setToggleEssButtonColor(essButtonActive);
+  //       setToggleSysButtonColor(sysButton);
+  //       // setToggleTgsButtonColor(tgsButton);
+  //       // setToggleTesButtonColor(tesButton);
+  //       break;
+  //     }
 
-      case 2: {
-        setToggleSysButtonColor(sysButtonActive);
-        setToggleEssButtonColor(essButton);
-        setToggleTgsButtonColor(tgsButton);
-        setToggleTesButtonColor(tesButton);
-        break;
-      }
+  //     case 1: {
+  //       setToggleSysButtonColor(sysButtonActive);
+  //       setToggleEssButtonColor(essButton);
+  //       // setToggleTgsButtonColor(tgsButton);
+  //       // setToggleTesButtonColor(tesButton);
+  //       break;
+  //     }
 
-      default:
-        return;
-    }
-  };
+  //     default:
+  //       return;
+  //   }
+  // };
 
-  const handleSelect = (index) => options !== index && setOptions(index);
+  // const handleTgsCloseExpandButton = (options) => {
+  //   // if (index === options) {
+  //   //   setToggleSysButtonColor(sysButton);
+  //   //   setToggleTgsButtonColor(tgsButton);
+  //   //   setToggleTesButtonColor(tesButton);
+  //   // } else if ()
+  //   switch (options) {
+  //     case '': {
+  //       console.log('hello');
+  //       setToggleSysButtonColor(sysButton);
+  //       setToggleTgsButtonColor(tgsButton);
+  //       setToggleTesButtonColor(tesButton);
+  //       break;
+  //     }
+  //     case 0: {
+  //       console.log('0');
+  //       setToggleTgsButtonColor(tgsButtonActive);
+  //       setToggleTesButtonColor(tesButton);
+  //       setToggleSysButtonColor(sysButton);
+
+  //       break;
+  //     }
+  //     case 1: {
+  //       console.log('1');
+  //       setToggleTesButtonColor(tesButtonActive);
+  //       setToggleSysButtonColor(sysButton);
+  //       setToggleTgsButtonColor(tgsButton);
+  //       break;
+  //     }
+
+  //     case 2: {
+  //       console.log('2');
+  //       setToggleSysButtonColor(sysButtonActive);
+  //       setToggleTgsButtonColor(tgsButton);
+  //       setToggleTesButtonColor(tesButton);
+  //       break;
+  //     }
+
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <Wrapper>
@@ -147,7 +222,7 @@ function ContainerOfForceAndCommand() {
                       <SystemHeaderForceAndCommand
                         name={value.title}
                         toggleButtonColor={value.button}
-                        handleCloseExpandButton={handleEssCloseExpandButton}
+                        // handleCloseExpandButton={handleEssCloseExpandButton}
                         handleSelect={handleSelect}
                         index={index}
                         options={options}
@@ -191,7 +266,7 @@ function ContainerOfForceAndCommand() {
                       <SystemHeaderForceAndCommand
                         name={value.title}
                         toggleButtonColor={value.button}
-                        handleCloseExpandButton={handleTgsCloseExpandButton}
+                        // handleCloseExpandButton={handleTgsCloseExpandButton}
                         handleSelect={handleSelect}
                         index={index}
                         options={options}

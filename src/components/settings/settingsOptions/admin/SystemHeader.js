@@ -5,7 +5,7 @@ import ButtonCloseAndExpand from '../ForceAndCommand/ButtonCloseAndExpand';
 
 function SystemHeader({
   toggleButtonColor,
-  handleCloseExpandButton,
+  // handleCloseExpandButton,
   name,
   index,
   handleSelect,
@@ -35,11 +35,10 @@ function SystemHeader({
       <ContainerButton
         onClick={() => {
           return adminAccess && essSwitch
-            ? (handleCloseExpandButton(index), handleSelect(index))
+            ? handleSelect(index)
             : adminAccess && !tesSwitch && index === 1
             ? ''
-            : adminAccess &&
-              (handleCloseExpandButton(index), handleSelect(index));
+            : adminAccess && handleSelect(index);
         }}
         tesSwitchFalse={tesSwitchFalse}
       >
