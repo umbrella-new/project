@@ -51,7 +51,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     settingState,
     essSnowSensorInput,
     tgsSnowSensorInput,
-
+    tesSnowSensorInput,
     selectUnitsState,
   } = useContext(SettingsContext);
 
@@ -85,6 +85,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setSettingsApplyUnitsButton(selectUnitsState));
@@ -115,6 +116,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setSettingsApplySnowSensorTriggerButton());
@@ -134,6 +136,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             // todo finalize the ess select arts dispatch
@@ -156,6 +159,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setSettingsApplyAdminButton());
@@ -178,16 +182,9 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
-            // dispatch(
-            //   setTgsTesSettingsApplyUnitsButton(settingState.essSelectUnits)
-            // );
-            // console.log(
-            //   'settingState.essSelectUnits',
-            //   settingState.essSelectUnits
-            // );
-
             dispatch(setSettingsApplyUnitsButton(selectUnitsState));
             dispatch(setEditButtonToFalse());
             break;
@@ -217,10 +214,17 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setTgsTesSettingsApplySnowSensorButton());
             dispatch(setEditButtonToFalse());
+            dispatch(
+              handleSnowSensorDefaultTemp(tesSnowSensorInput.current.value)
+            );
+            dispatch(
+              handleTgsSnowSensorDefaultTemp(tgsSnowSensorInput.current.value)
+            );
             break;
           default:
             return;
@@ -233,9 +237,18 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplyForceAndCommandButton());
+            dispatch(
+              setTgsSettingsApplyForceAndCommandButton({
+                tgsTesOutsideTemp,
+                burningChamberTemp,
+                tgsHeaterTemp,
+                tesHeaterTemp,
+                tgsTesEncloseTemp,
+              })
+            );
             dispatch(setEditButtonToFalse());
             break;
           default:
@@ -250,6 +263,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsTesSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setTgsTesSettingsApplyAdminButton());
@@ -274,6 +288,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             // dispatch(
@@ -309,6 +324,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setTgsSettingsApplySnowSensorButton());
@@ -328,6 +344,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(
@@ -352,6 +369,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setTgsSettingsCancelButton());
+            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setTgsSettingsApplyAdminButton());
