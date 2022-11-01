@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const DisplayBox = ({ data, label }) => {
   const displayData = data;
   return (
     <Wrapper>
       <InnerLayer>
-        <DisplayData>{displayData ? displayData : "__"}&deg;C</DisplayData>
+        <DisplayData>{displayData ? displayData : '__'}&deg;C</DisplayData>
         <DisplayLabel>
           {label.split()[0]} <br></br> {label.split()[1]}
         </DisplayLabel>
@@ -64,5 +64,4 @@ const DisplayLabel = styled.span`
   letter-spacing: 0.8px;
   color: #1b2b44;
   opacity: 1;
-  text-transform: uppercase;
 `;

@@ -87,7 +87,6 @@ const FileOptionTitleWrapper = styled.div`
 `;
 const FileTitle = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
   cursor: pointer;
   transition: all 200ms ease-in;
   :hover {

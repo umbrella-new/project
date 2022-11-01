@@ -178,6 +178,5 @@ const ButtonTop = styled.div`
 
 const ButtonName = styled.span`
   font-size: 16px;
-  text-transform: uppercase;
   text-align: center;
 `;

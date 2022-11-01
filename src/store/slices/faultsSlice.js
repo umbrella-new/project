@@ -1,27 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  faults: false,
-  faultsTypes: [
-    'ground fault',
-    'ssr fault',
-    'thermocouple failure',
-    'bms fault',
-    'flame failure',
-    'high pressure-low pressure fault',
-  ],
-
+  faults: true,
   ess: {
-    isFaults: false,
+    isFaults: true,
+    // from the backend
+    faultsTypes: [
+      'GROUND FAULT',
+      'SSR FAULT',
+      'THERMOCOUPLE FAILURE',
+      'SSR LOAD EXCEED',
+    ],
     message: [
-      // 'SSR2 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
-      // 'NETWORK FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
-      // 'FAULT GROUND - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/05/2022',
-      // 'SSR1 FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/03/2022',
+      'SSR FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'THERMOCOUPLE FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'SSR LOAD EXCEED - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'GROUND FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
     ],
     comments: [],
   },
-  tgs: { isFaults: false, message: [], comments: [] },
+  tgs: {
+    isFaults: true,
+    faultsTypes: ['TIMEOUT FAULT', 'HP/LP FAULT', 'BMS FAULT'],
+    message: [
+      'TIMEOUT FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'HP/LP FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'BMS FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+    ],
+    comments: [],
+  },
 };
 
 const faultsSlice = createSlice({

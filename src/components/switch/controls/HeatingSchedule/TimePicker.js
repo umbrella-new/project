@@ -230,7 +230,6 @@ const Title = styled.div`
   font-size: 8px;
   text-align: center;
   color: #fff;
-  text-transform: uppercase;
 
   width: 53px;
   height: 14px;
@@ -278,7 +277,6 @@ const Division = styled.button`
   font-size: 14px;
   letter-spacing: 1.4px;
   color: ${(p) => (p.isSelected ? '#ffff' : '#808080')};
-  text-transform: uppercase;
 `;
 
 const WatchWrapper = styled.div`

@@ -90,7 +90,7 @@ const Title = styled.span`
   letter-spacing: 0.8px;
   color: #ffffff;
   opacity: 1;
-  text-transform: uppercase;
+
   line-height: 110%;
 `;
 

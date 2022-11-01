@@ -31,6 +31,7 @@ body {
    License: none (public domain)
 */
 font-family: 'Orbitron', sans-serif;
+text-transform: uppercase;
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -71,6 +72,7 @@ button {
   padding: 0;
 	font-family: 'Orbitron', sans-serif;		
 	color: #fff;
+	text-transform: uppercase;
 }
 input {
 	border: none;
@@ -79,6 +81,7 @@ input {
 	color: #fff;
 	::placeholder {
 		font-family: 'Orbitron', sans-serif;		
+		text-transform: uppercase;
 	}
 }
 ol, ul,li {

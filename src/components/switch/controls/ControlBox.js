@@ -11,6 +11,7 @@ import {
 } from '../../../store/slices/tgsSwitchSlice';
 
 import { selectUserState } from '../../../store/slices/userSlice';
+import { selectFaults } from '../../../store/slices/faultsSlice';
 
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
@@ -24,7 +25,6 @@ import WindFactor from './../controls/windFactor/WindFactor';
 import ConflictMessage from '../../userMessages/ConflictMessage';
 
 import InputKeyboard from '../../keyboard/InputKeyboard';
-import { selectFaults } from '../../../store/slices/faultsSlice';
 
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -145,7 +145,7 @@ const PositionAbsolute = styled.div`
 
 const Title = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
+
   margin-left: var(--space3);
 `;
 

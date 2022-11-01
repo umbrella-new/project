@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import {
-  changeSwitchName,
-  selectSSRState,
-} from '../../../store/slices/heaterStatusSlice';
+import { changeSwitchName } from '../../../store/slices/heaterStatusSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import InputKeyboard from '../../keyboard/InputKeyboard';
 import SwitchNameButton from './SwitchNameButton';
@@ -172,7 +169,6 @@ const TitleTop = styled.div`
   opacity: 1;
   font-size: 8px;
   text-align: center;
-  text-transform: uppercase;
 `;
 const ContentsWrapper = styled.div`
   width: 183px;
@@ -192,7 +188,6 @@ const InputSwitchName = styled.input`
     font-size: 6px;
     vertical-align: middle;
     color: #fff;
-    text-transform: uppercase;
   }
 `;
 const SelectBoxWrapperHole = styled.div`
@@ -250,7 +245,6 @@ const SelectedTitle = styled.div`
 `;
 const Title = styled.span`
   font-size: 6px;
-  text-transform: uppercase;
 `;
 
 const ArrowWrapper = styled.button`
@@ -296,7 +290,6 @@ const ButtonHole = styled.div`
 const ButtonTop = styled.div`
   ${flexboxCenter}
   font-size: 7px;
-  text-transform: uppercase;
 
   width: 38px;
   height: 10px;

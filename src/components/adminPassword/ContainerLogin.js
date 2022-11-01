@@ -183,7 +183,6 @@ const P = styled.p`
   font-size: var(--space0);
   letter-spacing: 1.2px;
   color: #ffffff;
-  text-transform: uppercase;
   opacity: 1;
 `;
 
@@ -201,7 +200,6 @@ const Label = styled.label`
   font-size: var(--space0);
   letter-spacing: 1.2px;
   color: #ffffff;
-  text-transform: uppercase;
   opacity: 1;
 `;
 
@@ -236,7 +234,7 @@ const Input = styled.input`
   opacity: 1;
   &::placeholder {
     font-size: 12px;
-    text-transform: uppercase;
+
     text-align: center;
   }
 `;

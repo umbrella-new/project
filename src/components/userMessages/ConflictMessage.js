@@ -100,9 +100,7 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   height: 8%;
 `;
-const HeaderTitle = styled.span`
-  text-transform: uppercase;
-`;
+const HeaderTitle = styled.span``;
 
 const Logo = styled.img`
   width: 18px;
@@ -124,7 +122,7 @@ const InnerWrapper = styled.div`
 
 const Title = styled.div`
   font-size: 1rem;
-  text-transform: uppercase;
+
   ${(p) =>
     p.id === 1 &&
     css`
@@ -148,7 +146,6 @@ const Strong = styled.span`
 const Message = styled.p`
   font-size: 12px;
   text-align: center;
-  text-transform: uppercase;
 `;
 
 const ButtonWrapper = styled.div`

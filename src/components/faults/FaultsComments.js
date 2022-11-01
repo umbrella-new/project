@@ -126,12 +126,10 @@ const TitleWrapper = styled.div`
 
 const ComponentTitle = styled.span`
   font-size: 12px;
-  text-transform: uppercase;
 `;
 
 const Title = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
 `;
 
 const SelectBoxWrapper = styled.div`
@@ -163,7 +161,6 @@ const SelectBoxInner = styled.div`
 `;
 const SelectedOne = styled.span`
   font-size: 10px;
-  text-transform: uppercase;
 `;
 const SelectButton = styled.button`
   ${flexboxCenter}

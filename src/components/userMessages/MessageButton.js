@@ -60,6 +60,5 @@ const ButtonTop = styled.div`
   ${flexboxCenter}
 `;
 const Title = styled.span`
-  text-transform: uppercase;
   font-size: 8px;
 `;

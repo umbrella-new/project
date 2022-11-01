@@ -71,7 +71,6 @@ const EnergyLogo = styled.img`
   margin-right: 0.2rem;
 `;
 const EnergyTitle = styled.span`
-  text-transform: uppercase;
   font-size: 6px;
   color: #fcff01;
 `;

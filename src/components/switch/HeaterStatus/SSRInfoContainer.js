@@ -183,7 +183,6 @@ const TitleWrapper = styled.div`
 `;
 
 const AdminTitle = styled.span`
-  text-transform: uppercase;
   font-size: 8px;
   &:first-child {
     margin-right: 2.3rem;
@@ -202,7 +201,6 @@ const AdminTitle = styled.span`
   }
 `;
 const Title = styled.span`
-  text-transform: uppercase;
   font-size: 8px;
   &:first-child {
     margin-left: 0.3rem;
@@ -324,7 +322,6 @@ const ItemDescription = styled.li`
 const ItemData = styled.span`
   font-size: 8px;
   text-align: center;
-  text-transform: uppercase;
 
   ${(p) =>
     p.isDescription &&
