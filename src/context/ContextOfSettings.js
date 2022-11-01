@@ -1,15 +1,16 @@
-import { createContext, useReducer, useRef } from 'react';
+import { createContext, useReducer, useRef, useState } from 'react';
 
 export const SettingsContext = createContext();
 
 const SettingsProvider = ({ children }) => {
-  const initialState = { essSelectUnits: false };
+  const initialState = { essSelectUnits: true };
+  const [selectUnitsState, setSelectUnitsState] = useState(true);
   // Declaration of useReducer
   const essSnowSensorInput = useRef(null);
   const tgsSnowSensorInput = useRef(null);
   const tesSnowSensorInput = useRef(null);
 
-  const settingsReducer = (state = initialState, action) => {
+  const settingsReducer = (state, action) => {
     switch (action.type) {
       case 'units':
         return { ...state, essSelectUnits: !state.essSelectUnits };
@@ -36,6 +37,8 @@ const SettingsProvider = ({ children }) => {
         essSnowSensorInput,
         tgsSnowSensorInput,
         tesSnowSensorInput,
+        selectUnitsState,
+        setSelectUnitsState,
       }}
     >
       {children}

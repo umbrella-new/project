@@ -38,13 +38,13 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   const [metricImperialToggle, setMetricImperialToggle] = useState();
 
   // useContext
-  const { settingState, settingDispatch } = useContext(SettingsContext);
+  const { selectUnitsState, setSelectUnitsState } = useContext(SettingsContext);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
-  const unitsState = useSelector(selectUnitsState);
+  // const unitsState = useSelector(selectUnitsState);
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
   const applyState = state.buttonsOfSettings.settingsApplyButton;
 
@@ -53,19 +53,20 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
 
     // console.log('settingState.essSelectUnits', unitsMeasurement);
     if (unitsMeasurement === false) {
-      // console.log('hello');
+      // console.log('metricImperialToggle0', unitsMeasurement);
       setMetricImperialToggle(0);
-    } else console.log('hi');
-    setMetricImperialToggle(1);
+      setSelectUnitsState(false);
+    } else {
+      console.log('metricImperialToggle1', unitsMeasurement);
+      setMetricImperialToggle(1);
+      setSelectUnitsState(true);
+    }
   }, []);
 
   const handleClick = (index) => {
-    // console.log('settingState', settingState);
     if (index !== metricImperialToggle) {
       return (
-        setMetricImperialToggle(index),
-        // dispatch(toggleUnitsBetweenImperialMetric())
-        settingDispatch({ type: 'units' })
+        setSelectUnitsState(!selectUnitsState), setMetricImperialToggle(index)
       );
     }
   };
@@ -83,6 +84,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
                   index={index}
                   handleClick={handleClick}
                   metricImperialToggle={metricImperialToggle}
+                  unitsMeasurement={unitsMeasurement}
                 />
               </div>
             );

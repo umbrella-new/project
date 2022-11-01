@@ -51,7 +51,8 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     settingState,
     essSnowSensorInput,
     tgsSnowSensorInput,
-    tesSnowSensorInput,
+
+    selectUnitsState,
   } = useContext(SettingsContext);
 
   // useState
@@ -86,11 +87,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            console.log(
-              'settingState.essSelectUnits',
-              settingState.essSelectUnits
-            );
-            dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
+            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
             break;
           default:
             return;
@@ -186,11 +183,12 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             // dispatch(
             //   setTgsTesSettingsApplyUnitsButton(settingState.essSelectUnits)
             // );
-            console.log(
-              'settingState.essSelectUnits',
-              settingState.essSelectUnits
-            );
-            dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
+            // console.log(
+            //   'settingState.essSelectUnits',
+            //   settingState.essSelectUnits
+            // );
+
+            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
             dispatch(setEditButtonToFalse());
             break;
           default:
@@ -281,7 +279,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             // dispatch(
             //   setTgsSettingsApplyUnitsButton(settingState.essSelectUnits)
             // );
-            dispatch(setSettingsApplyUnitsButton(settingState.essSelectUnits));
+            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
             dispatch(setEditButtonToFalse());
 
             break;
