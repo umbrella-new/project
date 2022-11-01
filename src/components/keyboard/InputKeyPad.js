@@ -21,7 +21,7 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, column, name }) => {
     // 3.
     if (name !== undefined) {
       if (column !== undefined) {
-        inputNumber !== 0 && handleOnSubmit(name, column, inputNumber);
+        inputNumber !== 0 && handleOnSubmit(column, name, inputNumber);
       } else {
         inputNumber !== 0 && handleOnSubmit(name, inputNumber);
       }

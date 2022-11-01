@@ -8,18 +8,27 @@ import FaultsComments from './FaultsComments';
 import FaultsDetails from './FaultsDetails';
 import FaultsView from './FaultsView';
 
-const FaultSwitch = ({ title, number, isFaults, name, message, comments }) => {
+const FaultSwitch = ({
+  title,
+  number,
+  isFaults,
+  name,
+  message,
+  comments,
+  isTesSwitch,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
   const [indexNumber, setIndexNumber] = useState(null);
   const [displayViewBox, setDisplayViewBox] = useState(false);
 
-  const imgSrcNormal =
-    name === 'ess'
+  const imgSrcNormal = isTesSwitch
+    ? name === 'ess'
       ? '/images/fault-ess-normal.svg'
       : name === 'tgs'
       ? '/images/fault-tgs-normal.svg'
-      : '/images/fault-tes-normal.svg';
+      : '/images/fault-tes-normal.svg'
+    : '/images/fault-without-tes.svg';
 
   const imgSrcActivated =
     name === 'ess'
@@ -66,9 +75,7 @@ const FaultSwitch = ({ title, number, isFaults, name, message, comments }) => {
             </LogoAndTitleWrapper>
             <DisplayAndButtonWrapper>
               <DisplayFaults>
-                <FaultsDetailsNumber>
-                  {number ? number : ''}
-                </FaultsDetailsNumber>
+                <FaultsDetailsNumber>{number ? number : 0}</FaultsDetailsNumber>
                 <FaultsDetailsTitle isFaults={isFaults}>
                   faults
                 </FaultsDetailsTitle>

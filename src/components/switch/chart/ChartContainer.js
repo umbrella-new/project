@@ -81,7 +81,7 @@ const FileOptionTitleWrapper = styled.div`
   justify-content: space-between;
   width: 13rem;
   position: absolute;
-  top: 1rem;
+  top: 0.8rem;
   right: 1rem;
   z-index: 1000;
 `;
