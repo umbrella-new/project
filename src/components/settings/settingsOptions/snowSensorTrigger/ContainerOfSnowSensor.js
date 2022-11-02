@@ -8,6 +8,7 @@ import { selectUserState } from '../../../../store/slices/userSlice';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { useContext } from 'react';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
+import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
@@ -26,12 +27,15 @@ function ContainerOfSnowSensor() {
   const essSwitch = state.isEssSwitch;
   const editSlice = useSelector(selectSettingsOfEss);
   const editState = editSlice.buttonsOfSettings.settingsEditButton;
+  const mode = state.interfaceMode;
+  const settingsEditButton = editSlice.buttonsOfSettings.settingsEditButton;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
   }, []);
   return (
     <Wrapper essSwitch={essSwitch}>
+      {!settingsEditButton && <InvisibleDivForEditButton />}
       <Wrapper1 essSwitch={essSwitch}>
         <SnowFactor
           tgsTes={tgsTes}

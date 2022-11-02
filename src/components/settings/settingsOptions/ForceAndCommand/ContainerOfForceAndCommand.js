@@ -2,12 +2,16 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
+import {
+  selectSettingsOfEss,
+  setResetAllSettingsButtons,
+} from '../../../../store/slices/settingsOfEssSlice';
 import SystemHeaderForceAndCommand from './SysHeaderForceAndCommand';
 import SelectArts from './selectArts/SelectArts';
 import SelectTc from './selectTc/SelectTc';
 import { selectUserState } from '../../../../store/slices/userSlice';
 import { clear } from '@testing-library/user-event/dist/clear';
+import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 
 function ContainerOfForceAndCommand() {
   // button images of TGS TES ESS SYS
@@ -39,6 +43,9 @@ function ContainerOfForceAndCommand() {
   const stateOfEssTgs = useSelector(selectUserState);
   const essSwitch = stateOfEssTgs.isEssSwitch;
   const tesSwitch = stateOfEssTgs.isTesSwitch;
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
 
   // State buttons of Sys, Ess, Tgs and Tes
   const [toggleSysButtonColor, setToggleSysButtonColor] =
@@ -212,6 +219,7 @@ function ContainerOfForceAndCommand() {
 
   return (
     <Wrapper>
+      {!settingsEditButton && <InvisibleDivForEditButton />}
       <Wrapper2>
         <Wrapper3>
           {essSwitch
