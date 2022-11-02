@@ -23,23 +23,22 @@ export const settingsOfTgsSlice = createSlice({
     //   state.buttonsOfSettings.settingsEditButton = true;
     // },
     setTgsSettingsCancelButton: (state) => {
-      state.buttonsOfSettings.settingsCancelButton = true;
-
-      state.buttonsOfSettings.settingsEditButton = false;
+      // state.buttonsOfSettings.settingsCancelButton = true;
+      // state.buttonsOfSettings.settingsEditButton = false;
     },
     setTgsSettingsApplyUnitsButton: (state, action) => {
-      state.buttonsOfSettings.settingsEditButton = false;
-      state.buttonsOfSettings.settingsCancelButton = false;
+      // state.buttonsOfSettings.settingsEditButton = false;
+      // state.buttonsOfSettings.settingsCancelButton = false;
       state.buttonsOfSettings.unitsMeasurement = action.payload;
     },
-    setTgsSettingsApplySnowSensorButton: (state) => {
-      state.buttonsOfSettings.settingsEditButton = false;
-      state.buttonsOfSettings.settingsCancelButton = false;
-    },
+    // setTgsSettingsApplySnowSensorButton: (state) => {
+    //   state.buttonsOfSettings.settingsEditButton = false;
+    //   state.buttonsOfSettings.settingsCancelButton = false;
+    // },
     setTgsSettingsApplyForceAndCommandButton: (state, action) => {
       // todo ess select arts
 
-      state.buttonsOfSettings.settingsCancelButton = false;
+      // state.buttonsOfSettings.settingsCancelButton = false;
       state.tgsSelectTelemetry.tgsOutSideTemp =
         action.payload.tgsTesOutsideTemp;
       state.tgsSelectTelemetry.tgsBurningChamberTemp =
@@ -48,14 +47,14 @@ export const settingsOfTgsSlice = createSlice({
       state.tgsSelectTelemetry.tgsEncloseTemp =
         action.payload.tgsTesEncloseTemp;
     },
-    setTgsSettingsApplyAdminButton: (state) => {
-      state.buttonsOfSettings.settingsEditButton = false;
-      state.buttonsOfSettings.settingsCancelButton = false;
-    },
-    setResetAllTgsSettingsButtons: (state) => {
-      state.buttonsOfSettings.settingsEditButton = false;
-      state.buttonsOfSettings.settingsCancelButton = false;
-    },
+    // setTgsSettingsApplyAdminButton: (state) => {
+    //   state.buttonsOfSettings.settingsEditButton = false;
+    //   state.buttonsOfSettings.settingsCancelButton = false;
+    // },
+    // setResetAllTgsSettingsButtons: (state) => {
+    //   state.buttonsOfSettings.settingsEditButton = false;
+    //   state.buttonsOfSettings.settingsCancelButton = false;
+    // },
   },
 });
 
