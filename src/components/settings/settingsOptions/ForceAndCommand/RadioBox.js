@@ -3,7 +3,7 @@ import { flexboxCenter } from '../../../../styles/commonStyles';
 
 const RadioBox = ({ data, checked, onHandler }) => {
   return (
-    <Wrapper onClick={() => onHandler(data)}>
+    <Wrapper onClick={(e) => onHandler(data, e)}>
       <OptionChecker>
         <CheckedCircle
           checked={checked === data ? true : false}

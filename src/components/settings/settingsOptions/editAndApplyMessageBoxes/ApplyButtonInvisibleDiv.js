@@ -1,8 +1,20 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
+import {
+  selectSettingsOfEss,
+  setSettingsCancelButton,
+  setSettingsClearButton,
+  setSettingsEditButton,
+} from '../../../../store/slices/settingsOfEssSlice';
+import SettingClearOkMessage from './SettingClearOkMessage';
 
 function ApplyButtonInvisibleDiv() {
+  // redux
+  const dispatch = useDispatch();
+  const state = useSelector(selectSettingsOfEss);
+  const clearState = state.buttonsOfSettings.settingsClearButton;
+
   const [display, setDisplay] = useState(false);
 
   const handleMessage = (event) => {
@@ -15,15 +27,21 @@ function ApplyButtonInvisibleDiv() {
     return setDisplay(false);
   };
 
+  const clearMessageBox = (event) => {
+    event.stopPropagation();
+    return dispatch(setSettingsCancelButton()), setDisplay(false);
+  };
+
   const applyTitle = 'settings options';
   const applyMessage =
     'please confirm your selected changes by pressing apply or clear to cancel changes';
 
   return (
     <Div onClick={(e) => handleMessage(e)}>
-      {display === true && (
-        <SettingConfirmedMessage
+      {display && (
+        <SettingClearOkMessage
           onClose={closeMessageBox}
+          onClear={clearMessageBox}
           title={applyTitle}
           message={applyMessage}
           enableButton={display}
@@ -36,9 +54,7 @@ function ApplyButtonInvisibleDiv() {
 export default ApplyButtonInvisibleDiv;
 
 const Div = styled.div`
-  height: 136px;
-  width: 270px;
+  height: 100%;
+  width: 100%;
   background-color: transparent;
-  position: absolute;
-  z-index: 10;
 `;

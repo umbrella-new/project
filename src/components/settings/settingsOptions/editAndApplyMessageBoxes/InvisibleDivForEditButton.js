@@ -18,9 +18,11 @@ function InvisibleDivForEditButton() {
   const editTitle = 'settings options';
   const editMessage = 'please select edit to allow changes';
 
+  console.log('edit');
+
   return (
     <Div onClick={(e) => handleMessage(e)}>
-      {display === true && (
+      {display && (
         <SettingConfirmedMessage
           onClose={closeMessageBox}
           title={editTitle}

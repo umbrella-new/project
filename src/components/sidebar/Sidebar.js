@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectFaults } from '../../store/slices/faultsSlice';
+import { selectSettingsOfEss } from '../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../store/slices/userSlice';
 
 import { flexboxCenter } from '../../styles/commonStyles';
+import ApplyButtonInvisibleDiv from '../settings/settingsOptions/editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
 
 import SidebarButton from './SidebarButton';
 
@@ -12,6 +14,10 @@ const Sidebar = () => {
   const faultsState = useSelector(selectFaults);
   const { faults } = faultsState;
   const userState = useSelector(selectUserState);
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+  const applyState = state.buttonsOfSettings.settingsApplyButton;
+
   const { isTesSwitch } = userState;
   const initialState = userState.isEssSwitch
     ? {
@@ -131,6 +137,11 @@ const Sidebar = () => {
 
   return (
     <Wrapper>
+      {applyState && (
+        <Div>
+          <ApplyButtonInvisibleDiv />
+        </Div>
+      )}
       <ButtonContainerOuter>
         <ButtonContainerInner>
           {buttonProps.map((button, index) => (
@@ -156,6 +167,14 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const Div = styled.div`
+  width: 62px;
+  height: 212px;
+  position: absolute;
+  z-index: 10;
+`;
+
 const ButtonContainerOuter = styled.div`
   width: 62px;
   height: fit-content;

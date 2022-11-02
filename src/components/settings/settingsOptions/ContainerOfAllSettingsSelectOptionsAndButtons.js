@@ -17,6 +17,7 @@ import {
   setEditButtonToFalse,
   setCancelButtonToFalse,
   setApplyButtonToFalse,
+  setApplyButtonToTrue,
 } from '../../../store/slices/settingsOfEssSlice';
 import {
   setTgsSettingsEditButton,
@@ -57,6 +58,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     tgsSnowSensorInput,
     tesSnowSensorInput,
     selectUnitsState,
+    metricImperialToggle,
   } = useContext(SettingsContext);
 
   // useState
@@ -120,12 +122,17 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
             break;
           case 2:
-            dispatch(setSettingsApplySnowSensorTriggerButton());
+            dispatch(setSettingsApplyButton());
             dispatch(
-              handleSnowSensorDefaultTemp(essSnowSensorInput.current.value)
+              handleSnowSensorDefaultTemp(
+                metricImperialToggle === 1
+                  ? Math.round(
+                      (Number(essSnowSensorInput.current.value - 32) * 5) / 9
+                    )
+                  : Number(essSnowSensorInput.current.value)
+              )
             );
 
             break;
@@ -140,10 +147,10 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
             break;
           case 2:
             // todo finalize the ess select arts dispatch
+            dispatch(setSettingsApplyButton());
             dispatch(
               setSettingsApplyForceCommandButton({
                 essHeaterTemp,
@@ -163,10 +170,113 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
             break;
           case 2:
+            dispatch(setSettingsApplyButton());
             dispatch(setSettingsApplyAdminButton());
+            break;
+          default:
+            return;
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleTgsEditCancelApplyButtons = (buttonId) => {
+    switch (settingsState) {
+      case 'units':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyButton());
+            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
+
+            break;
+          default:
+            return;
+        }
+        break;
+      // case 'wind factor trigger':
+      //   switch (buttonId) {
+      //     case 0:
+      //       dispatch(setTgsSettingsEditButton());
+      //       break;
+      //     case 1:
+      //       dispatch(setTgsSettingsCancelButton());
+      //       break;
+      //     case 2:
+      //       dispatch(setTgsSettingsApplySnowFactorButton());
+      //       break;
+      //     default:
+      //       return;
+      //   }
+      //   break;
+      case 'snow sensor trigger':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyButton());
+            dispatch(
+              handleTgsSnowSensorDefaultTemp(
+                metricImperialToggle === 1
+                  ? Math.round(
+                      (Number(tgsSnowSensorInput.current.value - 32) * 5) / 9
+                    )
+                  : Number(tgsSnowSensorInput.current.value)
+              )
+            );
+            break;
+          default:
+            return;
+        }
+        break;
+      case 'force & command':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyButton());
+            dispatch(
+              setTgsSettingsApplyForceAndCommandButton({
+                tgsTesOutsideTemp,
+                burningChamberTemp,
+                tgsHeaterTemp,
+                tgsTesEncloseTemp,
+              })
+            );
+            break;
+
+          default:
+            return;
+        }
+        break;
+      case 'admin.':
+        switch (buttonId) {
+          case 0:
+            dispatch(setSettingsEditButton());
+            break;
+          case 1:
+            dispatch(setSettingsCancelButton());
+            break;
+          case 2:
+            dispatch(setSettingsApplyButton());
+            dispatch(setTgsSettingsApplyAdminButton());
             break;
           default:
             return;
@@ -221,10 +331,22 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
           case 2:
             dispatch(setSettingsApplyButton());
             dispatch(
-              handleSnowSensorDefaultTemp(tesSnowSensorInput.current.value)
+              handleSnowSensorDefaultTemp(
+                metricImperialToggle === 1
+                  ? Math.round(
+                      (Number(tesSnowSensorInput.current.value - 32) * 5) / 9
+                    )
+                  : Number(tesSnowSensorInput.current.value)
+              )
             );
             dispatch(
-              handleTgsSnowSensorDefaultTemp(tgsSnowSensorInput.current.value)
+              handleTgsSnowSensorDefaultTemp(
+                metricImperialToggle === 1
+                  ? Math.round(
+                      (Number(tgsSnowSensorInput.current.value - 32) * 5) / 9
+                    )
+                  : Number(tgsSnowSensorInput.current.value)
+              )
             );
             break;
           default:
@@ -259,7 +381,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
       case 'admin.':
         switch (buttonId) {
           case 0:
-            // dispatch(setTgsTesSettingsEditButton());
             dispatch(setSettingsEditButton());
             break;
           case 1:
@@ -267,113 +388,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 2:
             dispatch(setSettingsApplyButton());
-
-            break;
-          default:
-            return;
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleTgsEditCancelApplyButtons = (buttonId) => {
-    switch (settingsState) {
-      case 'units':
-        switch (buttonId) {
-          case 0:
-            // dispatch(setTgsSettingsEditButton());
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setTgsSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
-            break;
-          case 2:
-            // dispatch(
-            //   setTgsSettingsApplyUnitsButton(settingState.essSelectUnits)
-            // );
-            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
-            dispatch(setEditButtonToFalse());
-
-            break;
-          default:
-            return;
-        }
-        break;
-      // case 'wind factor trigger':
-      //   switch (buttonId) {
-      //     case 0:
-      //       dispatch(setTgsSettingsEditButton());
-      //       break;
-      //     case 1:
-      //       dispatch(setTgsSettingsCancelButton());
-      //       break;
-      //     case 2:
-      //       dispatch(setTgsSettingsApplySnowFactorButton());
-      //       break;
-      //     default:
-      //       return;
-      //   }
-      //   break;
-      case 'snow sensor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setTgsSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
-            break;
-          case 2:
-            dispatch(setTgsSettingsApplySnowSensorButton());
-            dispatch(
-              handleTgsSnowSensorDefaultTemp(tgsSnowSensorInput.current.value)
-            );
-            dispatch(setEditButtonToFalse());
-            break;
-          default:
-            return;
-        }
-        break;
-      case 'force & command':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setTgsSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
-            break;
-          case 2:
-            dispatch(
-              setTgsSettingsApplyForceAndCommandButton({
-                tgsTesOutsideTemp,
-                burningChamberTemp,
-                tgsHeaterTemp,
-                tgsTesEncloseTemp,
-              })
-            );
-            dispatch(setEditButtonToFalse());
-            break;
-
-          default:
-            return;
-        }
-        break;
-      case 'admin.':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setTgsSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
-            break;
-          case 2:
-            dispatch(setTgsSettingsApplyAdminButton());
-            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
@@ -388,7 +402,11 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     <Wrapper mode={mode}>
       <TitleOfSettingsOptions />
       <>
-        {ApplyButtonInvisibleDiv}
+        {applyState && (
+          <Div>
+            <ApplyButtonInvisibleDiv />
+          </Div>
+        )}
         <AllTheSelectionsOfSettingsOptions
           settingsData={settingsData}
           setSettingsState={setSettingsState}
@@ -407,6 +425,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     </Wrapper>
   );
 }
+export default ContainerOfAllSettingsSelectOptionsAndButtons;
 
 const Wrapper = styled.div`
   width: 280px;
@@ -432,4 +451,8 @@ const Wrapper = styled.div`
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
 
-export default ContainerOfAllSettingsSelectOptionsAndButtons;
+const Div = styled.div`
+  height: 140px;
+  width: 270px;
+  position: absolute;
+`;

@@ -5,7 +5,11 @@ import ImperialMetricMeasurementReader from './ImperialMetricMeasurementReader';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectSettingsOfEss,
+  setApplyAndClearButtonToFalse,
+  setApplyButtonToTrue,
   setResetAllSettingsButtons,
+  setSettingsApplyButton,
+  setSettingsClearButton,
 } from '../../../../store/slices/settingsOfEssSlice';
 import { useState, useEffect } from 'react';
 import {
@@ -36,34 +40,45 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     },
   ];
   // state
-  const [metricImperialToggle, setMetricImperialToggle] = useState();
+  // const [metricImperialToggle, setMetricImperialToggle] = useState();
 
   // useContext
-  const { selectUnitsState, setSelectUnitsState } = useContext(SettingsContext);
+  const {
+    selectUnitsState,
+    setSelectUnitsState,
+    metricImperialToggle,
+    setMetricImperialToggle,
+  } = useContext(SettingsContext);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
   const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
-  // const unitsState = useSelector(selectUnitsState);
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
-  const applyState = state.buttonsOfSettings.settingsApplyButton;
+  const cancelState = state.buttonsOfSettings.settingsCancelButton;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
 
-    // console.log('settingState.essSelectUnits', unitsMeasurement);
     if (unitsMeasurement === false) {
-      // console.log('metricImperialToggle0', unitsMeasurement);
       setMetricImperialToggle(0);
       setSelectUnitsState(false);
     } else {
-      console.log('metricImperialToggle1', unitsMeasurement);
       setMetricImperialToggle(1);
       setSelectUnitsState(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (unitsMeasurement === false) {
+      setMetricImperialToggle(0);
+      setSelectUnitsState(false);
+    } else {
+      setMetricImperialToggle(1);
+      setSelectUnitsState(true);
+    }
+  }, [cancelState]);
 
   const handleClick = (index) => {
     if (index !== metricImperialToggle) {
