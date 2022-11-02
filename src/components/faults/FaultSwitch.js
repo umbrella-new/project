@@ -60,10 +60,6 @@ const FaultSwitch = ({
       ? '/images/fault-tgs-activated.svg'
       : '/images/fault-tes-activated.svg';
 
-  // ************************
-  const essState = useSelector(selectEssSwitch);
-  console.log(essState);
-
   const handleDisplayFaults = () => {
     if (isFaults) {
       if (isExpanded) {
@@ -87,6 +83,9 @@ const FaultSwitch = ({
       dispatch(handleDisplayForceSelectionBox(true));
     } else {
       // not decided
+      if (switchName === 'tes') {
+        // remove all the faults!
+      }
     }
   };
 
