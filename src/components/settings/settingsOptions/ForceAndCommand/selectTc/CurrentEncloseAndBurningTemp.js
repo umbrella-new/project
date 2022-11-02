@@ -20,10 +20,30 @@ function CurrentEncloseAndBurningTemp({
   tgsHeaterTemp,
   tesHeaterTemp,
   tgsTesEncloseTemp,
+  essState,
+  tgsState,
+  tgsTesState,
 }) {
   // redux
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
+  const tgsTesEncloseTemp1 =
+    tgsTesState.tgsTesSelectTelemetry.tgsTesEncloseTemp;
+
+  // {isClicked === null
+  //   ? value.selection
+  //   : index === 0
+  //   ? isClicked.tgsHeaterTemp
+  //   : index === 1
+  //   ? isClicked.tesHeaterTemp
+  //   : index === 2
+  //   ? isClicked.tgsTesEncloseTemp
+  //   : value}
+
+  // useEffect(() => {}, [isClicked]);
+
+  // console.log('isClicked', isClicked.tgsHeaterTemp);
+  // console.log('tgsTesEncloseTemp', tgsTesEncloseTemp1);
 
   return (
     <FlexWrapper>
@@ -71,17 +91,17 @@ function CurrentEncloseAndBurningTemp({
                       essSwitch={essSwitch}
                       index={index}
                     >
-                      {value.selection}
+                      {isClicked.tgsHeaterTemp}
                     </Selection>
                   </SelectionIndentWrapper>
                   {essSwitch ? (
                     <Img
                       src={'./images/whiteTriangle.svg'}
-                      onClick={() =>
+                      onClick={(e) =>
                         editState &&
                         (index === 0
-                          ? displayOptions(essHeaterTemp)
-                          : displayOptions(essEncloseTemp))
+                          ? displayOptions(essHeaterTemp, e)
+                          : displayOptions(essEncloseTemp, e))
                       }
                     />
                   ) : !tesSwitch && index === 1 ? (
@@ -92,13 +112,13 @@ function CurrentEncloseAndBurningTemp({
                   ) : (
                     <Img
                       src={'./images/whiteTriangle.svg'}
-                      onClick={() =>
+                      onClick={(e) =>
                         editState &&
                         (index === 0
-                          ? displayOptions(tgsHeaterTemp)
+                          ? displayOptions(tgsHeaterTemp, e)
                           : index === 1
-                          ? displayOptions(tesHeaterTemp)
-                          : index === 2 && displayOptions(tgsTesEncloseTemp))
+                          ? displayOptions(tesHeaterTemp, e)
+                          : index === 2 && displayOptions(tgsTesEncloseTemp, e))
                       }
                     />
                   )}

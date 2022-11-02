@@ -9,7 +9,7 @@ function SnowFactor({
   essSwitch,
   editState,
   snowSensorRef,
-
+  metricImperialToggle,
   tesSnowSensorRef,
 }) {
   return (
@@ -76,7 +76,7 @@ function SnowFactor({
                               }
                             ></Input>
                           )}
-                        ° c
+                        {metricImperialToggle === 0 ? '°c' : '°F'}
                       </Temperature>
                     </SmallContainer>
                   </ValueContainer>

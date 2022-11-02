@@ -13,6 +13,9 @@ import {
   selectForceAndCommand,
   setTgsTesTcTemp,
 } from '../../../../../store/slices/forceAndCommandSlice';
+import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
+import { selectSettingsOfTgsTes } from '../../../../../store/slices/settingsOfTgsTesSlice';
+import { SelectSettingsOfTgs } from '../../../../../store/slices/settingsOfTgsSlice';
 
 function SelectTc({ ess, tgs, essSwitch }) {
   const essData = [
@@ -42,6 +45,9 @@ function SelectTc({ ess, tgs, essSwitch }) {
 
   const state = useSelector(selectUserState);
   const tesSwitch = state.isTesSwitch;
+  const essState = useSelector(selectSettingsOfEss);
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+  const tgsState = useSelector(SelectSettingsOfTgs);
 
   const dispatch = useDispatch();
 
@@ -57,12 +63,14 @@ function SelectTc({ ess, tgs, essSwitch }) {
   });
   const [checked, setChecked] = useState(select[0]);
 
-  const handleChecked = (elem) => {
+  console.log('isClicked', isClicked.tgsHeaterTemp);
+
+  const handleChecked = (elem, e) => {
+    e.stopPropagation();
     setChecked(elem);
   };
-  const displayOptions = (data) => {
-    console.log(data);
-
+  const displayOptions = (data, e) => {
+    e.stopPropagation();
     if (essSwitch) {
       if (data === 'essOutsideTemp') {
         return setIsClicked((prevState) => ({
@@ -110,7 +118,6 @@ function SelectTc({ ess, tgs, essSwitch }) {
   };
 
   const onConfirmCurrentEssHeaterTempHandler = (id) => {
-    console.log({ id: id, data: checked });
     essSwitch
       ? dispatch(setEssTcTemp({ id: id, data: checked }))
       : dispatch(setTgsTesTcTemp({ id: id, data: checked }));
@@ -145,6 +152,10 @@ function SelectTc({ ess, tgs, essSwitch }) {
               essOutsideTemp={'essOutsideTemp'}
               tgsTesOutsideTemp={'tgsTesOutsideTemp'}
               burningChamberTemp={'burningChamberTemp'}
+              essSwitch={essSwitch}
+              essState={essState}
+              tgsState={tgsState}
+              tgsTesState={tgsTesState}
             />
             <CurrentEncloseAndBurningTemp
               data={essSwitch ? essData : tgsData}
@@ -161,6 +172,9 @@ function SelectTc({ ess, tgs, essSwitch }) {
               tgsHeaterTemp={'tgsHeaterTemp'}
               tesHeaterTemp={'tesHeaterTemp'}
               tgsTesEncloseTemp={'tgsTesEncloseTemp'}
+              essState={essState}
+              tgsState={tgsState}
+              tgsTesState={tgsTesState}
             />
           </Wrapper>
           {/* <WrapperButton>

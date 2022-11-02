@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-function ConfirmButton() {
+function ConfirmButton({ name }) {
   return (
     <Wrapper>
       <Wrapper1 onClick={() => {}}>
         <ButtonHole>
           <ButtonTop>
-            <ButtonName>confirm</ButtonName>
+            <ButtonName>{name}</ButtonName>
           </ButtonTop>
         </ButtonHole>
       </Wrapper1>

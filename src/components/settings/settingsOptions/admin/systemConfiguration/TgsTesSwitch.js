@@ -69,7 +69,7 @@ function TgsTesSwitch() {
             </ControlContainer>
           </WrapperSelection>
           <WrapperButton>
-            <ConfirmButton />
+            <ConfirmButton name={'save'} />
           </WrapperButton>
         </Wrapper3>
       </Wrapper2>
