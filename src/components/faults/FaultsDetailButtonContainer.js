@@ -18,7 +18,6 @@ const FaultsDetailButtonContainer = ({
   // console.log(faultContents.split(' - ')[0]);
   // console.log(faultsTypes.indexOf(faultContents.split(' - ')[0]));
 
-  // Find index number depending on its fault type to render different button styles.
   const faultsNumber = faultsTypes.indexOf(faultContents.split(' - ')[0]);
 
   return (

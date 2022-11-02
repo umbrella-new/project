@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { act } from 'react-dom/test-utils';
 import { AiOutlineTransaction } from 'react-icons/ai';
 
 const initialState = {
@@ -26,6 +27,11 @@ const initialState = {
     ],
     maxHeatFor12hrsTimer: false,
     selectedForce: null,
+
+    isForceButtonClicked: false,
+    isForceButtonActivated: false,
+    displayForceSelectionBox: false,
+    displayForceMessageBox: false,
   },
   tgs: {
     isFaults: true,
@@ -48,14 +54,35 @@ const faultsSlice = createSlice({
     },
     handleTimerOn: (state) => {
       state.ess.maxHeatFor12hrsTimer = true;
+      state.ess.isForceButtonActivated = true;
     },
     handleTimerOff: (state) => {
       state.ess.maxHeatFor12hrsTimer = false;
+    },
+    handleForceButtonClick: (state, action) => {
+      state.ess.isForceButtonClicked = action.payload;
+    },
+    handleDisplayForceMessageBox: (state, action) => {
+      state.ess.displayForceMessageBox = action.payload;
+    },
+    handleDisplayForceSelectionBox: (state, action) => {
+      state.ess.displayForceSelectionBox = action.payload;
+    },
+    handleForceButtonActivated: (state, action) => {
+      state.ess.isForceButtonActivated = action.payload;
+      state.ess.isForceButtonClicked = false;
     },
   },
 });
 
 export default faultsSlice;
 export const selectFaults = (state) => state.faultsState;
-export const { handleForceSelection, handleTimerOn, handleTimerOff } =
-  faultsSlice.actions;
+export const {
+  handleForceSelection,
+  handleTimerOn,
+  handleTimerOff,
+  handleDisplayForceSelectionBox,
+  handleDisplayForceMessageBox,
+  handleForceButtonClick,
+  handleForceButtonActivated,
+} = faultsSlice.actions;

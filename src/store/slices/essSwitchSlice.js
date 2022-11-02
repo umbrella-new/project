@@ -118,7 +118,19 @@ const essSwitchSlice = createSlice({
       state.snowSensor.defaultTemp = action.payload;
     },
     handleTurnOffTheHeater: (state) => {
-      state = initialState;
+      state.isEsSwitchActivated = false;
+      state.heatingScheduleCalendar = { isDisplayed: false, id: null };
+      state.instantHeat = { instantHeatTemp: 0, instantButtonToggler: false };
+      state.snowSensor = { isReady: false, activated: false, defaultTemp: 350 };
+      state.optionalConstantTemp = { inputTemp: 0, apply: false };
+      state.heatingSchedule = {
+        inputTemp: 0,
+        isReady: false,
+        activated: false,
+        disable: false,
+      };
+
+      state.windFactor = { isReady: false, activated: false };
     },
   },
 });
