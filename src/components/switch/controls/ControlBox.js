@@ -24,11 +24,9 @@ import SnowSensor from './../controls/snowSensor/SnowSensor';
 import WindFactor from './../controls/windFactor/WindFactor';
 import ConflictMessage from '../../userMessages/ConflictMessage';
 
-import InputKeyboard from '../../keyboard/InputKeyboard';
-
 const ControlBox = () => {
   const userState = useSelector(selectUserState);
-  const { isEssSwitch, isKeyboardActivated } = userState;
+  const { isEssSwitch } = userState;
 
   const state = useSelector(selectEssSwitch);
   const { displayConflictMessage } = state;
@@ -145,7 +143,6 @@ const PositionAbsolute = styled.div`
 
 const Title = styled.span`
   font-size: 10px;
-
   margin-left: var(--space3);
 `;
 

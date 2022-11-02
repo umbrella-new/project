@@ -26,7 +26,7 @@ const FaultsDetailButton = ({
 
   return (
     <WrapperHole
-      onClick={() => handleButtonClick(name, title, column)}
+      onClick={() => handleButtonClick(name, title, column, faultsNumber)}
       inVisible={inVisible}
       disable={disable}
     >

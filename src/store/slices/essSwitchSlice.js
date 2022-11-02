@@ -117,6 +117,9 @@ const essSwitchSlice = createSlice({
       console.log(action.payload);
       state.snowSensor.defaultTemp = action.payload;
     },
+    handleTurnOffTheHeater: (state) => {
+      state = initialState;
+    },
   },
 });
 
@@ -140,4 +143,5 @@ export const {
   deactivateEsConflictMessage,
   addHeatingSchedule,
   handleSnowSensorDefaultTemp,
+  handleTurnOffTheHeater,
 } = essSwitchSlice.actions;

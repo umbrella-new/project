@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AiOutlineTransaction } from 'react-icons/ai';
 
 const initialState = {
   faults: true,
@@ -18,6 +19,13 @@ const initialState = {
       'GROUND FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
     ],
     comments: [],
+    forceOptions: [
+      'max heat',
+      'max heat for 12 hours',
+      'change and replace t/c',
+    ],
+    maxHeatFor12hrsTimer: false,
+    selectedForce: null,
   },
   tgs: {
     isFaults: true,
@@ -34,8 +42,20 @@ const initialState = {
 const faultsSlice = createSlice({
   name: 'faultsState',
   initialState,
-  reducers: {},
+  reducers: {
+    handleForceSelection: (state, action) => {
+      state.ess.selectedForce = action.payload;
+    },
+    handleTimerOn: (state) => {
+      state.ess.maxHeatFor12hrsTimer = true;
+    },
+    handleTimerOff: (state) => {
+      state.ess.maxHeatFor12hrsTimer = false;
+    },
+  },
 });
 
 export default faultsSlice;
 export const selectFaults = (state) => state.faultsState;
+export const { handleForceSelection, handleTimerOn, handleTimerOff } =
+  faultsSlice.actions;

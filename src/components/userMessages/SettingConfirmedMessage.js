@@ -2,19 +2,18 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import MessageButton from './MessageButton';
 
-const SettingConfirmedMessage = ({ onClose, title, message }) => {
-  console.log(title, message);
+const SettingConfirmedMessage = ({ onClose, title, message, alert, src }) => {
   return (
     <Wrapper>
-      <MessageOuter>
+      <MessageOuter alert={alert}>
         <MessageInner>
-          <HeaderWrapper>
-            <HeaderTitle>{title}</HeaderTitle>
+          <HeaderWrapper alert={alert}>
+            <HeaderTitle alert={alert}>{title}</HeaderTitle>
             <Logo src='/images/messagebox-logo.svg' />
           </HeaderWrapper>
 
           <MessageWrapper>
-            <Message>{message}</Message>
+            <Message alert={alert}>{message}</Message>
           </MessageWrapper>
           <ButtonWrapper>
             <MessageButton name='ok' buttonHandler={onClose} />
@@ -72,6 +71,7 @@ const HeaderWrapper = styled.div`
   border-bottom: 1px solid #fff;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 15%;
 `;
 const HeaderTitle = styled.span``;
@@ -90,7 +90,6 @@ const Message = styled.p`
 `;
 
 const ButtonWrapper = styled.div`
-  height: 20%;
   width: 100%;
   display: flex;
   justify-content: flex-end;

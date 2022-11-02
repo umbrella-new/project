@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import essSwitchSlice from '../../../store/slices/essSwitchSlice';
 import { selectFaults } from '../../../store/slices/faultsSlice';
 import { selectUserState } from '../../../store/slices/userSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
+import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
 
 import Chart from './Chart';
 import ChartInfoContainer from './ChartInfoContainer';
@@ -13,6 +16,7 @@ import Legend from './Legend';
 
 function ChartContainer() {
   const faultsState = useSelector(selectFaults);
+  const { maxHeatFor12hrsTimer } = faultsState.ess;
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   const location = useLocation();
@@ -58,9 +62,22 @@ function ChartContainer() {
           <DisplayStatus />
         </ContentsWrapper>
       </PositionAbsolute>
+
+      {maxHeatFor12hrsTimer && isEssSwitch && (
+        <TimerWrapperPositionAbsolute>
+          <MaxHeat12HrsTimer />
+        </TimerWrapperPositionAbsolute>
+      )}
+
+      {maxHeatFor12hrsTimer && !isEssSwitch && location.pathname !== '/' && (
+        <TimerWrapperPositionAbsolute>
+          <MaxHeat12HrsTimer />
+        </TimerWrapperPositionAbsolute>
+      )}
     </Wrapper>
   );
 }
+export default ChartContainer;
 const Wrapper = styled.div`
   height: 459px;
   width: 594px;
@@ -167,4 +184,8 @@ const ChartWrapper3 = styled.div`
   opacity: 1;
 `;
 
-export default ChartContainer;
+const TimerWrapperPositionAbsolute = styled.div`
+  position: absolute;
+  top: 5rem;
+  right: 0.3rem;
+`;
