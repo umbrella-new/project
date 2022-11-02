@@ -1,14 +1,18 @@
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+
 import { selectUserState } from '../../../store/slices/userSlice';
+
+import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ChartInfoContainer = () => {
   // Sytem title will be chaged by state from store
   const userState = useSelector(selectUserState);
+
   const { isEssSwitch } = userState;
   const location = useLocation();
+
   const source = isEssSwitch
     ? 'ess'
     : location.pathname === '/'
@@ -45,6 +49,8 @@ const Wrapper = styled.div`
 
   ${flexboxCenter}
   flex-direction:column;
+
+  position: relative;
 `;
 
 const InfoTitle = styled.span`

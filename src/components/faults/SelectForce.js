@@ -1,15 +1,21 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { handleTurnOffTheHeater } from '../../store/slices/essSwitchSlice';
+import {
+  handleForceSelection,
+  handleTimerOn,
+  selectFaults,
+} from '../../store/slices/faultsSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 import MessageButton from '../userMessages/MessageButton';
 
-const SelectForce = ({ title }) => {
-  const options = [
-    'max heat',
-    'max heat for 12 hours',
-    'change and replace t/c',
-  ];
+const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
+  const faultsState = useSelector(selectFaults);
+  const options = faultsState.ess.forceOptions;
+  const dispatch = useDispatch();
+
   const [selectedOne, setSelectedOne] = useState(options[0]);
 
   const handleClick = (option) => {
@@ -17,15 +23,31 @@ const SelectForce = ({ title }) => {
   };
 
   const handleConfirm = () => {
-    console.log(selectedOne);
-    if (selectedOne === options[1]) {
-      // 12 hrs timer start!
-    } else if (selectedOne === options[0]) {
-      // max heat! keep working the gas switch
-    } else {
-      // change parts --- ?
+    switch (selectedOne) {
+      case options[0]: {
+        // Max heat => keep the current heating status
+        break;
+      }
+      case options[1]: {
+        // Max heat with 12 hrs timer
+        dispatch(handleTimerOn());
+        break;
+      }
+      case options[2]: {
+        // turn off all electric heater and show the message
+        dispatch(handleTurnOffTheHeater());
+        handleAlertMessageBox();
+        break;
+      }
+      default: {
+        break;
+      }
     }
+    // Common dispatch and close the selection box
+    dispatch(handleForceSelection(selectedOne));
+    handleClose();
   };
+
   return (
     <Wrapper>
       <MessageOuter>
@@ -129,7 +151,8 @@ const Title = styled.div`
   border: 1px solid #142033;
   border-radius: 13px;
 
-  font-size: 8px;
+  font-size: 9px;
+  letter-spacing: 1px;
   ${flexboxCenter}
 `;
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
+
 import FaultsDetailButtonContainer from './FaultsDetailButtonContainer';
 
 const FaultsDetails = ({ faultContents, column, handleButtonClick, name }) => {

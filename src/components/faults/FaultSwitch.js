@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
+import SettingConfirmedMessage from '../userMessages/SettingConfirmedMessage';
 
 import ExpandButton from './ExpandButton';
 import FaultsComments from './FaultsComments';
@@ -20,14 +22,9 @@ const FaultSwitch = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
   const [indexNumber, setIndexNumber] = useState(null);
-  const [displayViewBox, setDisplayViewBox] = useState(false);
   const [displaySelectForceBox, setDisplaySelectForceBox] = useState(false);
-  const forceSelectOptions = [
-    'max heat',
-    'max heat for 12 hours',
-    'change and replace t/c',
-  ];
-
+  const [displayForceMessageBox, setDisplayForceMessageBox] = useState(false);
+  const dispatch = useDispatch();
   const imgSrcNormal = isTesSwitch
     ? name === 'ess'
       ? '/images/fault-ess-normal.svg'
@@ -52,10 +49,9 @@ const FaultSwitch = ({
       }
     }
   };
-  console.log(displaySelectForceBox);
 
-  const handleButtonClick = (switchName, buttonName, column) => {
-    // console.log(switchName, buttonName, column);
+  const handleButtonClick = (switchName, buttonName, column, faultsTypeIdx) => {
+    // console.log(switchName, buttonName, column, faultsTypeIdx);
 
     if (buttonName === 'attend') {
       // display comment box
@@ -63,7 +59,6 @@ const FaultSwitch = ({
       setIndexNumber(column);
     } else if (buttonName === 'force') {
       // display select force
-      console.log('show me!!');
       setDisplaySelectForceBox(true);
     } else {
       // not decided
@@ -136,7 +131,22 @@ const FaultSwitch = ({
           handleClose={setDisplayCommentBox}
         />
       )}
-      {displaySelectForceBox && <SelectForce title='thermocuople failure' />}
+      {displaySelectForceBox && (
+        <SelectForce
+          title='thermocouple failure'
+          handleClose={() => setDisplaySelectForceBox(false)}
+          handleAlertMessageBox={() => setDisplayForceMessageBox(true)}
+        />
+      )}
+      {displayForceMessageBox && (
+        <SettingConfirmedMessage
+          onClose={() => setDisplayForceMessageBox(false)}
+          title='thermocouple failure'
+          alert={true}
+          src={'/images/heater-off-alert.svg'}
+          message='SYSTEM OFF UNTIL RELEASE FAULT OR BY forcing the SYSTEM.'
+        />
+      )}
     </Wrapper>
   );
 };
