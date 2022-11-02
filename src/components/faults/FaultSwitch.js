@@ -1,7 +1,15 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
 import styled, { css } from 'styled-components';
+import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
+import {
+  handleDisplayForceMessageBox,
+  handleDisplayForceSelectionBox,
+  handleForceButtonClick,
+  selectFaults,
+} from '../../store/slices/faultsSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 import SettingConfirmedMessage from '../userMessages/SettingConfirmedMessage';
 
@@ -22,8 +30,20 @@ const FaultSwitch = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
   const [indexNumber, setIndexNumber] = useState(null);
-  const [displaySelectForceBox, setDisplaySelectForceBox] = useState(false);
-  const [displayForceMessageBox, setDisplayForceMessageBox] = useState(false);
+
+  // const [displaySelectForceBox, setDisplaySelectForceBox] = useState(false);
+  // const [displayForceMessageBox, setDisplayForceMessageBox] = useState(false);
+  // const [forceButtonClicked, setForceButtonClicked] = useState(false);
+
+  const faultsState = useSelector(selectFaults);
+
+  const {
+    isForceButtonClicked,
+    isForceButtonActivated,
+    displayForceSelectionBox,
+    displayForceMessageBox,
+  } = faultsState.ess;
+
   const dispatch = useDispatch();
   const imgSrcNormal = isTesSwitch
     ? name === 'ess'
@@ -55,13 +75,17 @@ const FaultSwitch = ({
 
     if (buttonName === 'attend') {
       // display comment box
-      setDisplayCommentBox(true);
       setIndexNumber(column);
     } else if (buttonName === 'force') {
-      // display select force
-      setDisplaySelectForceBox(true);
+      // 1. make the button click state true for the styling
+      dispatch(handleForceButtonClick(true));
+      // 2. display select force box
+      dispatch(handleDisplayForceSelectionBox(true));
     } else {
       // not decided
+      if (switchName === 'tes') {
+        // remove all the faults!
+      }
     }
   };
 
@@ -131,16 +155,18 @@ const FaultSwitch = ({
           handleClose={setDisplayCommentBox}
         />
       )}
-      {displaySelectForceBox && (
+      {displayForceSelectionBox && (
         <SelectForce
           title='thermocouple failure'
-          handleClose={() => setDisplaySelectForceBox(false)}
-          handleAlertMessageBox={() => setDisplayForceMessageBox(true)}
+          handleClose={() => dispatch(handleDisplayForceSelectionBox(false))}
+          handleAlertMessageBox={() =>
+            dispatch(handleDisplayForceMessageBox(true))
+          }
         />
       )}
       {displayForceMessageBox && (
         <SettingConfirmedMessage
-          onClose={() => setDisplayForceMessageBox(false)}
+          onClose={() => dispatch(handleDisplayForceMessageBox(false))}
           title='thermocouple failure'
           alert={true}
           src={'/images/heater-off-alert.svg'}

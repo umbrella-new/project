@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { handleTurnOffTheHeater } from '../../store/slices/essSwitchSlice';
 import {
+  handleForceButtonActivated,
   handleForceSelection,
   handleTimerOn,
   selectFaults,
@@ -43,8 +44,10 @@ const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
         break;
       }
     }
+    console.log(selectedOne);
     // Common dispatch and close the selection box
     dispatch(handleForceSelection(selectedOne));
+    dispatch(handleForceButtonActivated(true));
     handleClose();
   };
 

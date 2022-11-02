@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import FaultsDetailButtonContainer from './FaultsDetailButtonContainer';
 
 const FaultsDetails = ({ faultContents, column, handleButtonClick, name }) => {

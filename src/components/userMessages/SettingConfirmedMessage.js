@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import MessageButton from './MessageButton';
-
 
 const SettingConfirmedMessage = ({ onClose, title, message, alert, src }) => {
   return (
@@ -12,10 +11,17 @@ const SettingConfirmedMessage = ({ onClose, title, message, alert, src }) => {
             <HeaderTitle alert={alert}>{title}</HeaderTitle>
             <Logo src='/images/messagebox-logo.svg' />
           </HeaderWrapper>
+          {alert ? (
+            <MessageWrapper>
+              <Message alert={alert}>{message}</Message>
+              <AlertLogo src={src} />
+            </MessageWrapper>
+          ) : (
+            <MessageWrapper>
+              <Message>{message}</Message>
+            </MessageWrapper>
+          )}
 
-          <MessageWrapper>
-            <Message alert={alert}>{message}</Message>
-          </MessageWrapper>
           <ButtonWrapper>
             <MessageButton name='ok' buttonHandler={onClose} />
           </ButtonWrapper>
@@ -74,20 +80,45 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 15%;
+
+  ${(p) =>
+    p.alert &&
+    css`
+      border-bottom: 1px solid #ff0000;
+    `}
 `;
-const HeaderTitle = styled.span``;
+const HeaderTitle = styled.span`
+  ${(p) =>
+    p.alert &&
+    css`
+      color: #ff0000;
+    `}
+`;
 
 const Logo = styled.img``;
 
 const MessageWrapper = styled.div`
   width: 100%;
   height: 60%;
-  ${flexboxCenter}
-  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ${(p) => p.alert && css``}
 `;
+
+const AlertLogo = styled.img``;
+
 const Message = styled.p`
   font-size: 12px;
   text-align: center;
+  ${(p) =>
+    p.alert &&
+    css`
+      width: 50%;
+      color: #ff0000;
+      text-align: left;
+    `}
 `;
 
 const ButtonWrapper = styled.div`
