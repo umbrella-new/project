@@ -1,28 +1,31 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import SettingConfirmedMessage from '../../userMessages/SettingConfirmedMessage';
+import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 
 function InvisibleDivForEditButton() {
   const [display, setDisplay] = useState(false);
-  const handleMessage = () => {
+
+  const handleMessage = (event) => {
+    event.stopPropagation();
     return setDisplay(true);
   };
 
-  const closeMessageBox = () => {
+  const closeMessageBox = (event) => {
+    event.stopPropagation();
     return setDisplay(false);
   };
-  console.log(display);
 
-  const editTitle = 'Edit';
-  const editMessage = ' please press ok';
+  const editTitle = 'settings options';
+  const editMessage = 'please select edit to allow changes';
 
   return (
-    <Div onClick={() => handleMessage()}>
-      {display && (
+    <Div onClick={(e) => handleMessage(e)}>
+      {display === true && (
         <SettingConfirmedMessage
           onClose={closeMessageBox}
           title={editTitle}
           message={editMessage}
+          enableButton={display}
         />
       )}
     </Div>
@@ -30,9 +33,11 @@ function InvisibleDivForEditButton() {
 }
 
 const Div = styled.div`
-  height: 327px;
+  height: 800px;
   width: 592px;
   background-color: transparent;
+  position: absolute;
+  z-index: 10;
 `;
 
 export default InvisibleDivForEditButton;

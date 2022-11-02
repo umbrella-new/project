@@ -14,7 +14,7 @@ import {
 } from '../../../../store/slices/unitsSlice';
 import { useContext } from 'react';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
-import InvisibleDivForEditButton from '../InvisibleDivForEditButton';
+import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 
 function ContainerOfMetricImperialAndMeasurementTitle() {
   const measurementsArr = [
@@ -45,7 +45,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
-  const { settingsEditButton } = state.buttonsOfSettings;
+  const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
   // const unitsState = useSelector(selectUnitsState);
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
   const applyState = state.buttonsOfSettings.settingsApplyButton;

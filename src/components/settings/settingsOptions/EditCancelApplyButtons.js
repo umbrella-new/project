@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectSettingsOfEss,
-  setSettingsEditButton,
-  setSettingsCancelButton,
-  setSettingsApplyButton,
-} from '../../../store/slices/settingsOfEssSlice';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import Button from './Button';
 
 function EditCancelApplyButtons({ handleClick, buttonsName }) {

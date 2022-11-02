@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SystemHeader from './SystemHeader';
 import Control from './sysControl/Control';
-import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
+import {
+  selectSettingsOfEss,
+  setResetAllSettingsButtons,
+} from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
 import {
   selectUserState,
@@ -16,6 +19,7 @@ import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
 import TgsTesSwitch from './systemConfiguration/TgsTesSwitch';
 import AddElementToBank from './AddElementToBank';
 import SystemIdentification from './SystemIdentification';
+import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -37,6 +41,9 @@ function ContainerOfAdmin() {
   const adminAccess = state.isAdministrator;
   const essSwitch = state.isEssSwitch;
   const tesSwitch = state.isTesSwitch;
+  const essState = useSelector(selectSettingsOfEss);
+  const mode = essState.interfaceMode;
+  const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
 
   // states
   const [essExpandOrClose, setEssExpandOrClose] = useState('close');
@@ -193,6 +200,7 @@ function ContainerOfAdmin() {
 
   return (
     <Wrapper>
+      {!settingsEditButton && <InvisibleDivForEditButton />}
       <Wrapper2>
         <Wrapper3>
           {essSwitch

@@ -3,7 +3,7 @@ import { flexboxCenter } from '../../styles/commonStyles';
 
 const MessageButton = ({ name, buttonHandler }) => {
   return (
-    <WrapperHole onClick={buttonHandler}>
+    <WrapperHole onClick={(e) => buttonHandler(e)}>
       <ButtonOuter>
         <ButtonInnerHole>
           <ButtonTop>

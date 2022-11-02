@@ -12,6 +12,7 @@ const initialState = {
   buttonsOfSettings: {
     settingsEditButton: false,
     settingsCancelButton: false,
+    settingsApplyButton: false,
     unitsMeasurement: false,
   },
   unitsMeasurement: false,
@@ -66,37 +67,48 @@ export const settingsOfEssSlice = createSlice({
     },
     setSettingsEditButton: (state) => {
       state.buttonsOfSettings.settingsEditButton = true;
-      // state.buttonsOfSettings.settingsCancelButton = false;
-      // state.buttonsOfSettings.settingsApplyButton = false;
-    },
-    setEditButtonToFalse: (state) => {
-      state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = false;
     },
     setSettingsCancelButton: (state) => {
       state.buttonsOfSettings.settingsCancelButton = true;
       state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsApplyButton = true;
     },
+    setSettingsApplyButton: (state) => {
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+    },
+    // setEditButtonToFalse: (state) => {
+    //   state.buttonsOfSettings.settingsEditButton = false;
+    // },
+    // setCancelButtonToFalse: (state) => {
+    //   state.buttonsOfSettings.settingsCancelButton = false;
+    // },
+    // setApplyButtonToFalse: (state) => {
+    //   state.buttonsOfSettings.settingsApplyButton = false;
+    // },
 
     // Buttons of Select options
     setSettingsApplyUnitsButton: (state, action) => {
       console.log('action.payload', action.payload);
-      state.buttonsOfSettings.unitsMeasurement = action.payload;
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.buttonsOfSettings.unitsMeasurement = action.payload;
     },
-    // setSettingsApplyWindFactorTriggerButton: (state) => {
-    //   state.buttonsOfSettings.settingsEditButton = false;
-    //   state.buttonsOfSettings.settingsCancelButton = false;
-    // },
+
     setSettingsApplySnowSensorTriggerButton: (state) => {
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = true;
     },
     setSettingsApplyForceCommandButton: (state, action) => {
       // todo ess select arts
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = true;
       state.selectTelemetry.essHeaterTemp = action.payload.essHeaterTemp;
       state.selectTelemetry.essEncloseTemp = action.payload.essEncloseTemp;
       state.selectTelemetry.essOutSideTemp = action.payload.essOutsideTemp;
@@ -104,10 +116,12 @@ export const settingsOfEssSlice = createSlice({
     setSettingsApplyAdminButton: (state) => {
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = true;
     },
     setResetAllSettingsButtons: (state) => {
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = false;
     },
   },
 });
@@ -124,12 +138,15 @@ export const {
   setSysButtonExpandAndClose,
   setSettingsEditButton,
   setSettingsCancelButton,
+  setSettingsApplyButton,
   setSettingsApplyUnitsButton,
   setSettingsApplyWindFactorTriggerButton,
   setSettingsApplySnowSensorTriggerButton,
   setSettingsApplyForceCommandButton,
   setSettingsApplyAdminButton,
   setEditButtonToFalse,
+  setCancelButtonToFalse,
+  setApplyButtonToFalse,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

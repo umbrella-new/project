@@ -8,12 +8,15 @@ import {
   selectSettingsOfEss,
   setSettingsEditButton,
   setSettingsCancelButton,
+  setSettingsApplyButton,
   setSettingsApplyUnitsButton,
   setSettingsApplyWindFactorTriggerButton,
   setSettingsApplySnowSensorTriggerButton,
   setSettingsApplyForceCommandButton,
   setSettingsApplyAdminButton,
   setEditButtonToFalse,
+  setCancelButtonToFalse,
+  setApplyButtonToFalse,
 } from '../../../store/slices/settingsOfEssSlice';
 import {
   setTgsSettingsEditButton,
@@ -37,6 +40,7 @@ import { SettingsContext } from '../../../context/ContextOfSettings';
 import { handleSnowSensorDefaultTemp } from '../../../store/slices/essSwitchSlice';
 import { selectForceAndCommand } from '../../../store/slices/forceAndCommandSlice';
 import { handleTgsSnowSensorDefaultTemp } from '../../../store/slices/tgsSwitchSlice';
+import ApplyButtonInvisibleDiv from './editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
 
 function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const settingsData = [
@@ -63,6 +67,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
+  const applyState = state.buttonsOfSettings.settingsApplyButton;
   const essTesState = useSelector(selectUserState);
   const essState = essTesState.isEssSwitch;
   const tesState = essTesState.isTesSwitch;
@@ -85,7 +90,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 1:
             dispatch(setSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
             break;
           case 2:
             dispatch(setSettingsApplyUnitsButton(selectUnitsState));
@@ -181,12 +185,11 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsEditButton());
             break;
           case 1:
-            dispatch(setTgsTesSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
+            dispatch(setSettingsCancelButton());
             break;
           case 2:
+            dispatch(setSettingsApplyButton());
             dispatch(setSettingsApplyUnitsButton(selectUnitsState));
-            dispatch(setEditButtonToFalse());
             break;
           default:
             return;
@@ -213,12 +216,10 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsEditButton());
             break;
           case 1:
-            dispatch(setTgsTesSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
+            dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplySnowSensorButton());
-            dispatch(setEditButtonToFalse());
+            dispatch(setSettingsApplyButton());
             dispatch(
               handleSnowSensorDefaultTemp(tesSnowSensorInput.current.value)
             );
@@ -236,12 +237,12 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsEditButton());
             break;
           case 1:
-            dispatch(setTgsTesSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
+            dispatch(setSettingsCancelButton());
             break;
           case 2:
+            dispatch(setSettingsApplyButton());
             dispatch(
-              setTgsSettingsApplyForceAndCommandButton({
+              setTgsTesSettingsApplyForceAndCommandButton({
                 tgsTesOutsideTemp,
                 burningChamberTemp,
                 tgsHeaterTemp,
@@ -249,7 +250,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
                 tgsTesEncloseTemp,
               })
             );
-            dispatch(setEditButtonToFalse());
+
             break;
           default:
             return;
@@ -262,12 +263,11 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsEditButton());
             break;
           case 1:
-            dispatch(setTgsTesSettingsCancelButton());
-            dispatch(setEditButtonToFalse());
+            dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setTgsTesSettingsApplyAdminButton());
-            dispatch(setEditButtonToFalse());
+            dispatch(setSettingsApplyButton());
+
             break;
           default:
             return;
@@ -387,10 +387,13 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   return (
     <Wrapper mode={mode}>
       <TitleOfSettingsOptions />
-      <AllTheSelectionsOfSettingsOptions
-        settingsData={settingsData}
-        setSettingsState={setSettingsState}
-      />
+      <>
+        {ApplyButtonInvisibleDiv}
+        <AllTheSelectionsOfSettingsOptions
+          settingsData={settingsData}
+          setSettingsState={setSettingsState}
+        />
+      </>
       <EditCancelApplyButtons
         handleClick={
           essState
@@ -428,20 +431,5 @@ const Wrapper = styled.div`
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
-
-// const ContainerButtons = styled.div`
-//   width: 270px;
-//   height: 37px;
-//   background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')};
-//   /* background: #233a54 0% 0% no-repeat padding-box; */
-//   box-shadow: inset 0px 0px 3px #000000;
-//   border-radius: 19px;
-//   opacity: 1;
-
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   padding: 0 1px;
-// `;
 
 export default ContainerOfAllSettingsSelectOptionsAndButtons;
