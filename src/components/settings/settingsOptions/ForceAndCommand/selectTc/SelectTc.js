@@ -45,9 +45,7 @@ function SelectTc({ ess, tgs, essSwitch }) {
 
   const state = useSelector(selectUserState);
   const tesSwitch = state.isTesSwitch;
-  const essState = useSelector(selectSettingsOfEss);
-  const tgsTesState = useSelector(selectSettingsOfTgsTes);
-  const tgsState = useSelector(SelectSettingsOfTgs);
+  const selectTcState = useSelector(selectForceAndCommand);
 
   const dispatch = useDispatch();
 
@@ -63,14 +61,12 @@ function SelectTc({ ess, tgs, essSwitch }) {
   });
   const [checked, setChecked] = useState(select[0]);
 
-  console.log('isClicked', isClicked.tgsHeaterTemp);
-
+  // functions for current enclose and burning temp
   const handleChecked = (elem, e) => {
     e.stopPropagation();
     setChecked(elem);
   };
-  const displayOptions = (data, e) => {
-    e.stopPropagation();
+  const displayOptions = (data) => {
     if (essSwitch) {
       if (data === 'essOutsideTemp') {
         return setIsClicked((prevState) => ({
@@ -149,13 +145,11 @@ function SelectTc({ ess, tgs, essSwitch }) {
               isClicked={isClicked}
               select={select}
               checked={checked}
-              essOutsideTemp={'essOutsideTemp'}
-              tgsTesOutsideTemp={'tgsTesOutsideTemp'}
-              burningChamberTemp={'burningChamberTemp'}
+              essOutsideTempName={'essOutsideTemp'}
+              tgsTesOutsideTempName={'tgsTesOutsideTemp'}
+              burningChamberTempName={'burningChamberTemp'}
               essSwitch={essSwitch}
-              essState={essState}
-              tgsState={tgsState}
-              tgsTesState={tgsTesState}
+              selectTcState={selectTcState}
             />
             <CurrentEncloseAndBurningTemp
               data={essSwitch ? essData : tgsData}
@@ -167,14 +161,12 @@ function SelectTc({ ess, tgs, essSwitch }) {
               isClicked={isClicked}
               select={select}
               checked={checked}
-              essHeaterTemp={'essHeaterTemp'}
-              essEncloseTemp={'essEncloseTemp'}
-              tgsHeaterTemp={'tgsHeaterTemp'}
-              tesHeaterTemp={'tesHeaterTemp'}
-              tgsTesEncloseTemp={'tgsTesEncloseTemp'}
-              essState={essState}
-              tgsState={tgsState}
-              tgsTesState={tgsTesState}
+              essHeaterTempName={'essHeaterTemp'}
+              essEncloseTempName={'essEncloseTemp'}
+              tgsHeaterTempName={'tgsHeaterTemp'}
+              tesHeaterTempName={'tesHeaterTemp'}
+              tgsTesEncloseTempName={'tgsTesEncloseTemp'}
+              selectTcState={selectTcState}
             />
           </Wrapper>
           {/* <WrapperButton>

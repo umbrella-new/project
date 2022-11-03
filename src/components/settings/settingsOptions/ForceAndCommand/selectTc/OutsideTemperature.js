@@ -14,9 +14,10 @@ function OutsideTemperature({
   isClicked,
   select,
   checked,
-  essOutsideTemp,
-  tgsTesOutsideTemp,
-  burningChamberTemp,
+  essOutsideTempName,
+  tgsTesOutsideTempName,
+  burningChamberTempName,
+  selectTcState,
 }) {
   const tempMeasurementSelection = ['internet', 'thermocouple'];
   const whiteTriangle = './images/whiteTriangle.svg';
@@ -35,7 +36,10 @@ function OutsideTemperature({
 
   const editState = state.buttonsOfSettings.settingsEditButton;
 
-  // functions
+  const essOutsideTemp = selectTcState.essOutSideTemp.select;
+  const tgsTesOutsideTemp = selectTcState.tgsTesOutsideTemp.select;
+  const burningChamber = selectTcState.burningChamberTemp.select;
+
   const handleToggle = (index) => {
     if (index !== temperatureSelection) return setTemperatureSelection(index);
   };
@@ -82,15 +86,19 @@ function OutsideTemperature({
         <SelectionWrapper color={activeSelect}>
           <WrapperTitleAndImg>
             <SelectionIndentWrapper color={activeSelect}>
-              <Selection color={activeSelect}>select t/c</Selection>
+              <Selection color={activeSelect}>
+                {!activeSelect && 'select t/c'}
+                {!activeSelect || (essSwitch && essOutsideTemp)}
+                {!activeSelect || (!essSwitch && tgsTesOutsideTemp)}
+              </Selection>
             </SelectionIndentWrapper>
 
             <Img
               src={`${activeSelect ? whiteTriangle : greyTriangle}`}
               onClick={() =>
                 activeSelect && essSwitch
-                  ? displayOptions(essOutsideTemp)
-                  : activeSelect && displayOptions(tgsTesOutsideTemp)
+                  ? displayOptions(essOutsideTempName)
+                  : activeSelect && displayOptions(tgsTesOutsideTempName)
               }
             />
           </WrapperTitleAndImg>
@@ -110,8 +118,8 @@ function OutsideTemperature({
               <WrapperButton>
                 <ConfirmButton
                   onConfirm={onConfirmHandler}
-                  essOutsideTemp={essOutsideTemp}
-                  tgsTesOutsideTemp={tgsTesOutsideTemp}
+                  essOutsideTemp={essOutsideTempName}
+                  tgsTesOutsideTemp={tgsTesOutsideTempName}
                 />
               </WrapperButton>
             </WrapperSelectAndConfirmButton>
@@ -133,13 +141,13 @@ function OutsideTemperature({
             <SelectionWrapper1>
               <WrapperTitleAndImg>
                 <SelectionIndentWrapper1>
-                  <Selection1>select t/c</Selection1>
+                  <Selection1>{!essSwitch && burningChamber}</Selection1>
                 </SelectionIndentWrapper1>
 
                 <Img
                   src={'./images/whiteTriangle.svg'}
                   onClick={() =>
-                    editState && displayOptions(burningChamberTemp)
+                    editState && displayOptions(burningChamberTempName)
                   }
                 />
               </WrapperTitleAndImg>
@@ -158,7 +166,7 @@ function OutsideTemperature({
                   <WrapperButton>
                     <ConfirmButton
                       onConfirm={onConfirmHandler}
-                      burningChamberTemp={burningChamberTemp}
+                      burningChamberTemp={burningChamberTempName}
                     />
                   </WrapperButton>
                 </WrapperSelectAndConfirmButton>

@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import {
   handleAdditionalSSRRating,
+  handleAdditionalSystemIdentification,
   selectSystemIdentification,
 } from '../../../../store/slices/settingSystemIdentificationSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
@@ -36,12 +37,14 @@ const SystemIdentification = () => {
   const [displaySelectBox, setDisplaySelectBox] = useState(initialSelectBox);
   const [isChecked, setIsChecked] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [activateMessageBox, setActivateMessageBox] = useState(false);
   const [message, setMessage] = useState(null);
   const [isReadyToSave, setIsReadytoSave] = useState(false);
   const [keyboardPosition, setKeyboardPosition] = useState(null);
   const [displayAdditionalInput, setDisplayingAdditionalInput] =
     useState(false);
+  const [buttonNames, setButtonNames] = useState(['edit system', 'save']);
 
   const systemIdState = useSelector(selectSystemIdentification);
   const { heatingSysOptions, switchSizeOptions, ssrRatingOptions } =
@@ -50,8 +53,6 @@ const SystemIdentification = () => {
   const mode = state.interfaceMode;
   const { settingsEditButton } = state.buttonsOfSettings;
   const dispatch = useDispatch();
-
-  const buttonNames = ['edit system', 'save'];
 
   useEffect(() => {
     inputData.locationName !== '' &&
@@ -72,9 +73,12 @@ const SystemIdentification = () => {
     if (name === 'save') {
       if (isEditable) {
         if (isReadyToSave) {
+          setButtonNames(['edit system', 'saved']);
+          dispatch(handleAdditionalSystemIdentification(inputData));
           setIsEditable(!isEditable);
-          setMessage('selection confirmed');
-          setActivateMessageBox(true);
+          setIsSaved(!isSaved);
+          // setMessage('selection confirmed');
+          // setActivateMessageBox(true);
         } else {
           setMessage('please fill in all fields');
           setActivateMessageBox(true);
@@ -179,7 +183,7 @@ const SystemIdentification = () => {
               >
                 <TitleAndButtonWrapper>
                   <DisplaySelectedOne>
-                    {inputData.heatingSystem
+                    {isEditable && inputData.heatingSystem
                       ? inputData.heatingSystem
                       : `select heating system`}
                   </DisplaySelectedOne>
@@ -255,7 +259,7 @@ const SystemIdentification = () => {
               <ComponentWrapper displayRadioBox={displaySelectBox.switchSize}>
                 <TitleAndButtonWrapper>
                   <DisplaySelectedOne>
-                    {inputData.switchSize
+                    {isEditable && inputData.switchSize
                       ? inputData.switchSize
                       : `select switch size`}
                   </DisplaySelectedOne>
@@ -287,7 +291,7 @@ const SystemIdentification = () => {
               <ComponentWrapper displayRadioBox={displaySelectBox.ssrRating}>
                 <TitleAndButtonWrapper>
                   <DisplaySelectedOne>
-                    {inputData.ssrRating
+                    {isEditable && inputData.ssrRating
                       ? inputData.ssrRating
                       : `select ssr rating`}
                   </DisplaySelectedOne>
@@ -362,6 +366,7 @@ const SystemIdentification = () => {
                 <ButtonWrapper
                   onClick={() => settingsEditButton && handleButtonClick(name)}
                   isEditable={isEditable}
+                  isSaved={isSaved}
                 >
                   <ButtonHole>
                     <ButtonTop>{name}</ButtonTop>
@@ -579,14 +584,23 @@ const ButtonWrapper = styled.button`
   border-radius: 25px;
   &:first-child {
     ${(p) =>
-      p.isEditable &&
-      css`
-        border: 1px solid #95ff45;
-      `}
+      p.isEditable
+        ? css`
+            border: 1px solid #95ff45;
+          `
+        : 'none'}
   }
-
+  &:last-child {
+    ${({ isSaved }) =>
+      isSaved
+        ? css`
+            border: 1px solid #95ff45;
+          `
+        : 'none'}
+  }
   ${flexboxCenter}
 `;
+
 const ButtonHole = styled.div`
   ${flexboxCenter}
 
