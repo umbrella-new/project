@@ -81,7 +81,7 @@ const AddElementToBank = () => {
                       }}
                       name='name'
                       onChange={(event) =>
-                        handleInput('name', event.target.value)
+                        handleInput('name', event.target.value.toUpperCase())
                       }
                       value={inputElement.name}
                     />
@@ -109,7 +109,10 @@ const AddElementToBank = () => {
                       }}
                       name='partNumber'
                       onChange={(event) =>
-                        handleInput('partNumber', event.target.value)
+                        handleInput(
+                          'partNumber',
+                          event.target.value.toUpperCase()
+                        )
                       }
                       value={inputElement.partNumber}
                     />

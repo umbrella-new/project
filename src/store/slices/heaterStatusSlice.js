@@ -163,8 +163,7 @@ const heaterStatusSlice = createSlice({
       state[action.payload.id].switchName = action.payload.name;
     },
     handleSSRDetails: (state, action) => {
-      console.log(action.payload.data);
-      // state[action.payload.id].specs = action.payload.data;
+      state[action.payload.id].specs = action.payload.data;
     },
   },
 });
