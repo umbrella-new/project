@@ -25,7 +25,6 @@ const Faults = () => {
           <FaultSwitch
             name='ess'
             title='electric switch system'
-            isFaults={ess.isFaults}
             number={ess.message.length}
             message={ess.message}
             comments={ess.comments}
@@ -36,7 +35,6 @@ const Faults = () => {
             <FaultSwitch
               name='tgs'
               title='typhoon gas system'
-              isFaults={tgs.isFaults}
               number={tgs.message.length}
               message={tgs.message}
               comments={tgs.comments}
@@ -46,7 +44,6 @@ const Faults = () => {
               name='tes'
               isTesSwitch={isTesSwitch}
               title='typhoon electric system'
-              isFaults={ess.isFaults}
               number={ess.message.length}
               message={ess.message}
               comments={ess.comments}

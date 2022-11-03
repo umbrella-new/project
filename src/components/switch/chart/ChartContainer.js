@@ -21,8 +21,8 @@ function ChartContainer() {
   const { isEssSwitch } = userState;
   const location = useLocation();
 
-  const essFault = faultsState.ess.isFaults;
-  const tgsFault = faultsState.tgs.isFaults;
+  const essFault = faultsState.ess.message.length > 0;
+  const tgsFault = faultsState.tgs.message.length > 0;
 
   const isFaults = isEssSwitch
     ? essFault
