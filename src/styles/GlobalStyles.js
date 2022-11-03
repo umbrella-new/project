@@ -59,8 +59,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
-  
+	line-height: 1;  
 
 }
 button {
@@ -74,7 +73,10 @@ button {
 	color: #fff;
 	text-transform: uppercase;
 }
-input {
+*:focus {
+	outline: none;
+}
+input, textarea {
 	border: none;
 	text-align: center;
 	font-family: 'Orbitron', sans-serif;		
@@ -83,7 +85,10 @@ input {
 		font-family: 'Orbitron', sans-serif;		
 		text-transform: uppercase;
 	}
+	
+	
 }
+
 ol, ul,li {
 	list-style: none;
 	padding: 0;

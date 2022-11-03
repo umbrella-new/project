@@ -7,7 +7,11 @@ import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
 import {
   handleDisplayForceMessageBox,
   handleDisplayForceSelectionBox,
+  handleEsAttendButtonClick,
+  handleEsFaultsReset,
   handleForceButtonClick,
+  handleGsAttendButtonClick,
+  handleGsFaultsReset,
   selectFaults,
 } from '../../store/slices/faultsSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
@@ -29,20 +33,10 @@ const FaultSwitch = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [displayCommentBox, setDisplayCommentBox] = useState(false);
-  const [indexNumber, setIndexNumber] = useState(null);
-
-  // const [displaySelectForceBox, setDisplaySelectForceBox] = useState(false);
-  // const [displayForceMessageBox, setDisplayForceMessageBox] = useState(false);
-  // const [forceButtonClicked, setForceButtonClicked] = useState(false);
-
+  const [faultsIndexNumber, setFaultsIndexNumber] = useState(null);
   const faultsState = useSelector(selectFaults);
 
-  const {
-    isForceButtonClicked,
-    isForceButtonActivated,
-    displayForceSelectionBox,
-    displayForceMessageBox,
-  } = faultsState.ess;
+  const { displayForceSelectionBox, displayForceMessageBox } = faultsState.ess;
 
   const dispatch = useDispatch();
   const imgSrcNormal = isTesSwitch
@@ -71,20 +65,31 @@ const FaultSwitch = ({
   };
 
   const handleButtonClick = (switchName, buttonName, column, faultsTypeIdx) => {
-    // console.log(switchName, buttonName, column, faultsTypeIdx);
+    console.log(switchName, buttonName, faultsTypeIdx);
 
     if (buttonName === 'attend') {
       // display comment box
-      setIndexNumber(column);
+      if (switchName === 'tgs') {
+        dispatch(handleGsAttendButtonClick(faultsTypeIdx));
+      } else {
+        dispatch(handleEsAttendButtonClick(faultsTypeIdx));
+      }
+      setFaultsIndexNumber(faultsTypeIdx);
+      setDisplayCommentBox(true);
     } else if (buttonName === 'force') {
       // 1. make the button click state true for the styling
       dispatch(handleForceButtonClick(true));
       // 2. display select force box
       dispatch(handleDisplayForceSelectionBox(true));
     } else {
-      // not decided
+      // buttonName === 'reset'
+      // 1. send to reset to backend
+      // 2. remove all the faults in the faults slice
       if (switchName === 'tes') {
-        // remove all the faults!
+        dispatch(handleEsFaultsReset(faultsTypeIdx));
+      } else {
+        // switchName === 'tgs'
+        dispatch(handleGsFaultsReset(faultsTypeIdx));
       }
     }
   };
@@ -151,8 +156,11 @@ const FaultSwitch = ({
       </ItemInnerHole>
       {displayCommentBox && (
         <FaultsComments
-          indexNumber={indexNumber}
-          handleClose={setDisplayCommentBox}
+          handleClose={() => {
+            setDisplayCommentBox(false);
+          }}
+          faultsIndexNumber={faultsIndexNumber}
+          name={name}
         />
       )}
       {displayForceSelectionBox && (

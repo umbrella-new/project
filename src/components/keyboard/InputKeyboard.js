@@ -22,7 +22,11 @@ const InputKeyboard = ({
     } else if (name === 'password') {
       setInput(input);
     } else {
-      handleOnSubmit(name, input);
+      if (name) {
+        handleOnSubmit(name, input);
+      } else {
+        handleOnSubmit(input);
+      }
     }
   };
 
@@ -36,6 +40,7 @@ const InputKeyboard = ({
         closeKeyboard();
       }
     } else if (button === '{shift}') {
+      console.log(button);
       const layoutName = layout === 'default' ? 'shift' : 'default';
       setLayout(layoutName);
     }
@@ -97,13 +102,10 @@ const Wrapper = styled.div`
   border-radius: 16px;
   opacity: 1;
 
+  text-transform: none;
+
   /* position: absolute;
   z-index: 10000;
   top: 10.5rem;
   left: -10rem; */
-`;
-
-const Logo = styled.div`
-  width: ;
-  ${flexboxCenter}
 `;
