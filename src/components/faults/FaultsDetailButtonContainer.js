@@ -10,7 +10,7 @@ const FaultsDetailButtonContainer = ({
   faultContents,
 }) => {
   const buttonNames =
-    name === 'tgs' ? ['reset', 'attent'] : ['force', 'reset', 'attent'];
+    name === 'tgs' ? ['reset', 'attend'] : ['force', 'reset', 'attend'];
   const faultsState = useSelector(selectFaults);
   const { faultsTypes } = name === 'tgs' ? faultsState.tgs : faultsState.ess;
 

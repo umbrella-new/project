@@ -13,6 +13,8 @@ const FaultsDetailButton = ({
 }) => {
   const faultsState = useSelector(selectFaults);
   const { isForceButtonClicked, isForceButtonActivated } = faultsState.ess;
+  const { activatedResetButton, resetCounter, attendButtonClicked } =
+    name === 'tgs' ? faultsState.tgs : faultsState.ess;
 
   // Make button disabled depending on tgs fault types
   const tgsDisable =
@@ -34,20 +36,51 @@ const FaultsDetailButton = ({
   const forceBtnActivated = isForceButtonActivated && title === 'force';
   // ******************************************
 
+  // ***************for styling in reset button **************
+  const resetBtnActivated =
+    activatedResetButton.faultsIdx === faultsNumber && title === 'reset';
+  // ******************************************
+
+  // ***************for styling in reset button **************
+  const attendBtnClicked =
+    attendButtonClicked.faultsIdx === faultsNumber && title === 'attend';
+  // ******************************************
+
+  // console.log(
+  //   'attend',
+  //   attendButtonClicked.faultsIdx,
+  //   faultsNumber,
+  //   attendBtnClicked
+  // );
   return (
     <WrapperHole
       onClick={() => handleButtonClick(name, title, column, faultsNumber)}
       inVisible={inVisible}
       disable={disable}
       forceBtnClicked={forceBtnClicked}
+      attendBtnClicked={attendBtnClicked}
     >
-      <ButtonInner disable={disable} forceBtnActivated={forceBtnActivated}>
+      <ButtonInner
+        disable={disable}
+        forceBtnActivated={forceBtnActivated}
+        resetBtnActivated={resetBtnActivated}
+      >
         <ButtonInnerHole
           disable={disable}
           forceBtnActivated={forceBtnActivated}
+          resetBtnActivated={resetBtnActivated}
         >
-          <ButtonTop disable={disable} forceBtnActivated={forceBtnActivated}>
-            <Title forceBtnActivated={forceBtnActivated}>{title}</Title>
+          <ButtonTop
+            disable={disable}
+            forceBtnActivated={forceBtnActivated}
+            resetBtnActivated={resetBtnActivated}
+          >
+            <Title
+              forceBtnActivated={forceBtnActivated}
+              resetBtnActivated={resetBtnActivated}
+            >
+              {title}
+            </Title>
           </ButtonTop>
         </ButtonInnerHole>
       </ButtonInner>
@@ -91,6 +124,12 @@ const WrapperHole = styled.button`
     css`
       border: 1px solid #95ff45;
     `}
+
+    ${(p) =>
+    p.attendBtnClicked &&
+    css`
+      border: 1px solid #95ff45;
+    `}
 `;
 const ButtonInner = styled.div`
   ${flexboxCenter};
@@ -121,6 +160,15 @@ const ButtonInner = styled.div`
       box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
       border: 0.5px solid #000000;
     `}
+
+    ${(p) =>
+    p.resetBtnActivated &&
+    css`
+      background: transparent linear-gradient(180deg, #db9d0c 0%, #946f18 100%)
+        0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+      border: 0.5px solid #000000;
+    `}
 `;
 const ButtonInnerHole = styled.div`
   ${flexboxCenter};
@@ -140,6 +188,13 @@ const ButtonInnerHole = styled.div`
 
   ${(p) =>
     p.forceBtnActivated &&
+    css`
+      background: #946f18 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 1px #000000;
+    `}
+
+    ${(p) =>
+    p.resetBtnActivated &&
     css`
       background: #946f18 0% 0% no-repeat padding-box;
       box-shadow: inset 0px 0px 1px #000000;
@@ -173,6 +228,16 @@ const ButtonTop = styled.div`
       box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
       border: 0.5px solid #000000;
     `}
+
+    
+    ${(p) =>
+    p.resetBtnActivated &&
+    css`
+      background: transparent linear-gradient(180deg, #db9d0c 0%, #946f18 100%)
+        0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+      border: 0.5px solid #000000;
+    `}
 `;
 const Title = styled.span`
   font-size: 8px;
@@ -180,6 +245,12 @@ const Title = styled.span`
 
   ${(p) =>
     p.forceBtnActivated &&
+    css`
+      color: #233a54;
+    `}
+
+  ${(p) =>
+    p.resetBtnActivated &&
     css`
       color: #233a54;
     `}

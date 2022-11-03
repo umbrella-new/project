@@ -44,7 +44,6 @@ const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
         break;
       }
     }
-    console.log(selectedOne);
     // Common dispatch and close the selection box
     dispatch(handleForceSelection(selectedOne));
     dispatch(handleForceButtonActivated(true));
@@ -66,7 +65,10 @@ const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
 
           <SelectionsWrapper>
             {options.map((option, index) => (
-              <SelectionItemWrapper onClick={() => handleClick(option)}>
+              <SelectionItemWrapper
+                onClick={() => handleClick(option)}
+                key={index}
+              >
                 <SelectRadioButton>
                   <SelectionIndicator
                     isSelected={selectedOne === option}

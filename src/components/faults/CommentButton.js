@@ -4,7 +4,7 @@ import { flexboxCenter } from '../../styles/commonStyles';
 
 const CommentButton = ({ name, handleButtonClick }) => {
   return (
-    <Wrapper onClick={() => handleButtonClick(name)}>
+    <Wrapper onClick={() => handleButtonClick()}>
       <Inner>
         <Top>
           <Title>{name}</Title>
