@@ -24,10 +24,15 @@ const AddElementToBank = () => {
     voltage: null,
     lengths: null,
   };
+  // useState
   const [inputElement, setInputElement] = useState(initialInputState);
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState('name');
+  const [borderColor, setBorderColor] = useState(false);
+  const [buttonName, setButtonName] = useState('save');
+
+  // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const { settingsEditButton } = state.buttonsOfSettings;
@@ -49,8 +54,12 @@ const AddElementToBank = () => {
       const copyObj = { ...inputElement };
       copyObj.lengths = copyObj.lengths / 3.28084;
       dispatch(handleAddNewElement(copyObj));
+      setBorderColor(true);
+      setButtonName('saved');
     } else {
       dispatch(handleAddNewElement(inputElement));
+      setBorderColor(true);
+      setButtonName('saved');
     }
   };
 
@@ -229,11 +238,11 @@ const AddElementToBank = () => {
           </SectionWrapper>
 
           <SectionWrapper>
-            <ButtonWrapper onClick={handleSave}>
+            <ButtonWrapper onClick={handleSave} color={borderColor}>
               <ButtonInnerWrapper>
                 <ButtonHole>
                   <ButtonTop>
-                    <Span>save</Span>
+                    <Span>{buttonName}</Span>
                   </ButtonTop>
                 </ButtonHole>
               </ButtonInnerWrapper>
@@ -492,6 +501,7 @@ const ButtonWrapper = styled.button`
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 19px;
+  border: ${({ color }) => color && '1px solid #95ff45'};
 `;
 const ButtonInnerWrapper = styled.div`
   ${flexboxCenter}

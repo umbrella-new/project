@@ -52,7 +52,7 @@ function ContainerOfAdmin() {
   const [toggleTgsButton, setToggleTgsButton] = useState(tgsButton);
   const [toggleTesButton, setToggleTesButton] = useState(tesButton);
   const [toggleEssButton, setToggleEssButton] = useState(essButton);
-  const [options, setOptions] = useState(essSwitch ? 1 : 2);
+  const [options, setOptions] = useState('');
   const [toggleThermocoupleSwitch, setToggleThermocoupleSwitch] =
     useState(enableSwitch);
   const [toggleEnableDisableSwitch, setToggleEnableDisableSwitch] =
@@ -267,7 +267,7 @@ function ContainerOfAdmin() {
                 return (
                   <Wrapper4 key={index}>
                     <TgsTesSysWrapper>
-                      <SystemHeader
+                      {/* <SystemHeader
                         // handleCloseExpandButton={handleTgsTesExpandCloseButton}
                         handleSelect={handleSelect}
                         name={data.title}
@@ -277,8 +277,9 @@ function ContainerOfAdmin() {
                         adminAccess={adminAccess}
                         tesSwitch={tesSwitch}
                         essSwitch={essSwitch}
-                      />
-                    </TgsTesSysWrapper>
+                      /> */}
+                    </TgsTesSysWrapper>{' '}
+                    *
                     {index === 0 && adminAccess && options === index && (
                       <ValveWrapper>
                         <ContainerValveSettings />
@@ -345,8 +346,9 @@ function ContainerOfAdmin() {
 export default ContainerOfAdmin;
 
 const Wrapper = styled.div`
-  width: 592px;
+  width: 594px;
   height: auto;
+  margin-top: 2px;
   margin-bottom: 6px;
 
   background: #233a54 0% 0% no-repeat padding-box;
@@ -354,39 +356,46 @@ const Wrapper = styled.div`
   border-radius: 4px;
   opacity: 1;
   ${flexboxCenter};
+  justify-content: space-around;
+  flex-direction: column;
 `;
 
 const Wrapper2 = styled.div`
-  width: 588px;
+  width: 590px;
   height: auto;
   margin-bottom: 2px;
 
-  background: transparent
+  /* background: transparent
     linear-gradient(180deg, rgb(35, 58, 84) 0%, rgb(0, 0, 0) 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: inset 0px 1px 2px #ffffff24, 0px 0px 2px #000000;
+    no-repeat padding-box; */
+  background-image: -webkit-linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  );
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0px 0px 2px #000000;
   border: 0.5px solid #000000;
   border-radius: 4px;
   opacity: 1;
 
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  ${flexboxCenter}
+  flex-direction: column;
+  justify-content: space-evenly;
 `;
 
 const Wrapper3 = styled.div`
   width: 570px;
-  /* height: 303px; */
   height: auto;
   margin-top: 10px;
   margin-bottom: 8px;
 
   background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 27px 27px 30px 30px;
+  box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;
+  border-radius: 28px;
   opacity: 1;
   ${flexboxCenter};
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   flex-direction: column;
 `;
 
@@ -398,21 +407,31 @@ const EssWrapper = styled.div`
 
 const Wrapper4 = styled.div`
   width: 566px;
-  height: auto;
+  height: 58px;
   margin-bottom: 2px;
+  margin-top: 2px;
 
-  background-color: rgb(0, 0, 0);
-  border-radius: 27px;
+  background-color: rgb(35, 58, 84) 100%;
+  background-color: rgb(20, 32, 51) 100%;
+  /* background-image: -webkit-linear-gradient(
+    270deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  ); */
+  box-shadow: inset 0px 1px 5px #000000;
+  border-radius: 28px;
   opacity: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
 const TgsTesSysWrapper = styled.div`
-  width: 567px;
-  height: 53px;
+  width: 564px;
+  height: 56px;
+  /* border-radius: 28px; */
+  margin-top: 1px;
+  ${flexboxCenter}
 `;
 
 const ValveWrapper = styled.div`
@@ -457,8 +476,18 @@ const SysWrapper = styled.div`
 `;
 
 const LoginWrapper = styled.div`
-  margin-bottom: 4px;
-  margin-bottom: 10px;
+  /* margin-bottom: 4px;
+  margin-bottom: 10px; */
+  width: 603px;
+  height: 391px;
+
+  position: fixed;
+  top: 195px;
+  left: 410px;
+
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  ${flexboxCenter};
 `;
 
 const Wrapper5 = styled.div`

@@ -4,7 +4,7 @@ const initialState = {
   heatingSysOptions: [
     'ess - electric switch system',
     'tgs - typhoon gas system',
-    'tes - typhoon electric system',
+    'tgs-tes - typhoon electric system',
   ],
   switchSizeOptions: ['# 10', '# 15', '# 20', '# 50', '# 100'],
   ssrRatingOptions: [
@@ -40,10 +40,15 @@ const settingsSystemIdentificationSlice = createSlice({
         action.payload
       );
     },
+    handleAdditionalSystemIdentification: (state, action) => {
+      state.sysIdentification = action.payload;
+    },
   },
 });
 
 export default settingsSystemIdentificationSlice;
 export const selectSystemIdentification = (state) => state.systemIdentification;
-export const { handleAdditionalSSRRating } =
-  settingsSystemIdentificationSlice.actions;
+export const {
+  handleAdditionalSSRRating,
+  handleAdditionalSystemIdentification,
+} = settingsSystemIdentificationSlice.actions;

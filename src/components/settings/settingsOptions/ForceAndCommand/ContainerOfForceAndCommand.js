@@ -10,7 +10,6 @@ import SystemHeaderForceAndCommand from './SysHeaderForceAndCommand';
 import SelectArts from './selectArts/SelectArts';
 import SelectTc from './selectTc/SelectTc';
 import { selectUserState } from '../../../../store/slices/userSlice';
-import { clear } from '@testing-library/user-event/dist/clear';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 
 function ContainerOfForceAndCommand() {
@@ -55,7 +54,7 @@ function ContainerOfForceAndCommand() {
   const [toggleTesButtonColor, setToggleTesButtonColor] = useState(tesButton);
   // expand and close states
 
-  const [options, setOptions] = useState(essSwitch ? 1 : 2);
+  const [options, setOptions] = useState('');
 
   const essHeaders = [
     {
@@ -151,72 +150,6 @@ function ContainerOfForceAndCommand() {
     }
   }, [options]);
 
-  // const handleEssCloseExpandButton = (index) => {
-  //   switch (index) {
-  //     case 0: {
-  //       setToggleEssButtonColor(essButtonActive);
-  //       setToggleSysButtonColor(sysButton);
-  //       // setToggleTgsButtonColor(tgsButton);
-  //       // setToggleTesButtonColor(tesButton);
-  //       break;
-  //     }
-
-  //     case 1: {
-  //       setToggleSysButtonColor(sysButtonActive);
-  //       setToggleEssButtonColor(essButton);
-  //       // setToggleTgsButtonColor(tgsButton);
-  //       // setToggleTesButtonColor(tesButton);
-  //       break;
-  //     }
-
-  //     default:
-  //       return;
-  //   }
-  // };
-
-  // const handleTgsCloseExpandButton = (options) => {
-  //   // if (index === options) {
-  //   //   setToggleSysButtonColor(sysButton);
-  //   //   setToggleTgsButtonColor(tgsButton);
-  //   //   setToggleTesButtonColor(tesButton);
-  //   // } else if ()
-  //   switch (options) {
-  //     case '': {
-  //       console.log('hello');
-  //       setToggleSysButtonColor(sysButton);
-  //       setToggleTgsButtonColor(tgsButton);
-  //       setToggleTesButtonColor(tesButton);
-  //       break;
-  //     }
-  //     case 0: {
-  //       console.log('0');
-  //       setToggleTgsButtonColor(tgsButtonActive);
-  //       setToggleTesButtonColor(tesButton);
-  //       setToggleSysButtonColor(sysButton);
-
-  //       break;
-  //     }
-  //     case 1: {
-  //       console.log('1');
-  //       setToggleTesButtonColor(tesButtonActive);
-  //       setToggleSysButtonColor(sysButton);
-  //       setToggleTgsButtonColor(tgsButton);
-  //       break;
-  //     }
-
-  //     case 2: {
-  //       console.log('2');
-  //       setToggleSysButtonColor(sysButtonActive);
-  //       setToggleTgsButtonColor(tgsButton);
-  //       setToggleTesButtonColor(tesButton);
-  //       break;
-  //     }
-
-  //     default:
-  //       break;
-  //   }
-  // };
-
   return (
     <Wrapper>
       {!settingsEditButton && <InvisibleDivForEditButton />}
@@ -230,7 +163,6 @@ function ContainerOfForceAndCommand() {
                       <SystemHeaderForceAndCommand
                         name={value.title}
                         toggleButtonColor={value.button}
-                        // handleCloseExpandButton={handleEssCloseExpandButton}
                         handleSelect={handleSelect}
                         index={index}
                         options={options}
@@ -274,7 +206,6 @@ function ContainerOfForceAndCommand() {
                       <SystemHeaderForceAndCommand
                         name={value.title}
                         toggleButtonColor={value.button}
-                        // handleCloseExpandButton={handleTgsCloseExpandButton}
                         handleSelect={handleSelect}
                         index={index}
                         options={options}
@@ -340,7 +271,7 @@ const Wrapper = styled.div`
   width: 594px;
   height: auto;
   margin-top: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 4px;
@@ -353,14 +284,11 @@ const Wrapper = styled.div`
 const Wrapper2 = styled.div`
   width: 590px;
   height: auto;
-  margin-top: 2px;
+
   margin-bottom: 2px;
 
   opacity: 1;
 
-  ${flexboxCenter}
-  flex-direction: column;
-  justify-content: space-evenly;
   box-sizing: border-box;
   border: 0.5px solid #000000;
   border-radius: 4px;
@@ -372,13 +300,16 @@ const Wrapper2 = styled.div`
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  ${flexboxCenter}
+  flex-direction: column;
+  justify-content: space-evenly;
 `;
 
 const Wrapper3 = styled.div`
   width: 570px;
   height: auto;
-  margin-top: 2px;
-  margin-bottom: 6px;
+  margin-top: 10px;
+  margin-bottom: 8px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;

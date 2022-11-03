@@ -1,19 +1,23 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { selectUserState } from '../store/slices/userSlice';
+import { selectSystemIdentification } from '../store/slices/settingSystemIdentificationSlice';
 import { flexboxCenter } from '../styles/commonStyles';
 import DateAndWeather from './DateAndWeather';
 
 const Header = () => {
-  const userState = useSelector(selectUserState);
-  const { isEssSwitch } = userState;
+  const systemIdentificationState = useSelector(selectSystemIdentification);
+  const sysState = systemIdentificationState.sysIdentification;
 
-  const switchName = userState.switchName
-    ? userState.switchName
-    : isEssSwitch
-    ? `WE-COVE-02 #10 S.T.-ESS`
-    : `WE-COVE-02 #10 S.T.-TGS-TES`;
-  const machineId = userState.userId ? userState.userId : `10000000000023442`;
+  const switchName =
+    sysState.switchName +
+    ' ' +
+    sysState.switchSize +
+    ' ' +
+    sysState.application +
+    '-' +
+    sysState.heatingSystem.split(' - ')[0];
+
+  const machineId = sysState.sysId;
 
   return (
     <OutsideWrapper>

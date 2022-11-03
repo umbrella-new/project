@@ -148,7 +148,6 @@ const Wrapper = styled.div`
 `;
 const Wrapper1 = styled.div`
   width: 246px;
-  /* height: 161px; */
   height: auto;
   margin: 5px 0 5px 0;
 
@@ -161,7 +160,6 @@ const Wrapper1 = styled.div`
 `;
 const Wrapper2 = styled.div`
   width: 242px;
-  height: 157px;
   height: auto;
   margin: 0.08rem 0;
 
@@ -247,7 +245,7 @@ const Button = styled.button`
 
 const WarningMessage = styled.p`
   width: 160px;
-  height: 27px;
+  height: auto;
   margin: 4px 0 4px 0;
 
   text-align: center;

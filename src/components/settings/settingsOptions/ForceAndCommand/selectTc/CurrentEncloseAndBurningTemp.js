@@ -15,35 +15,28 @@ function CurrentEncloseAndBurningTemp({
   isClicked,
   select,
   checked,
-  essEncloseTemp,
-  essHeaterTemp,
-  tgsHeaterTemp,
-  tesHeaterTemp,
-  tgsTesEncloseTemp,
-  essState,
-  tgsState,
-  tgsTesState,
+  essEncloseTempName,
+  essHeaterTempName,
+  tgsHeaterTempName,
+  tesHeaterTempName,
+  tgsTesEncloseTempName,
+  selectTcState,
 }) {
   // redux
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
-  const tgsTesEncloseTemp1 =
-    tgsTesState.tgsTesSelectTelemetry.tgsTesEncloseTemp;
 
-  // {isClicked === null
-  //   ? value.selection
-  //   : index === 0
-  //   ? isClicked.tgsHeaterTemp
-  //   : index === 1
-  //   ? isClicked.tesHeaterTemp
-  //   : index === 2
-  //   ? isClicked.tgsTesEncloseTemp
-  //   : value}
+  // redux state for radioBox Selection
+  const tgsTesEncloseTemp = selectTcState.tgsTesEncloseTemp.select;
+  const tgsTesOutsideTemp = selectTcState.tgsTesOutsideTemp.select;
+  // const burningChamber = selectTcState.burningChamber.select;
+  const tgsHeaterTemp = selectTcState.tgsHeaterTemp.select;
+  const tesHeaterTemp = selectTcState.tesHeaterTemp.select;
+  // const essOutsideTemp = selectTcState.essOutSideTemp.select;
+  const essHeaterTemp = selectTcState.essHeaterTemp.select;
+  const essEncloseTemp = selectTcState.essEncloseTemp.select;
 
-  // useEffect(() => {}, [isClicked]);
-
-  // console.log('isClicked', isClicked.tgsHeaterTemp);
-  // console.log('tgsTesEncloseTemp', tgsTesEncloseTemp1);
+  // console.log('tgsTesEncloseTemp', tgsTesEncloseTemp);
 
   return (
     <FlexWrapper>
@@ -91,7 +84,17 @@ function CurrentEncloseAndBurningTemp({
                       essSwitch={essSwitch}
                       index={index}
                     >
-                      {isClicked.tgsHeaterTemp}
+                      {essSwitch && index === 0
+                        ? essHeaterTemp
+                        : essSwitch && index === 1 && essEncloseTemp}
+                      {!tesSwitch && index === 0
+                        ? tgsHeaterTemp
+                        : !tesSwitch && index === 2 && tgsTesOutsideTemp}
+                      {tesSwitch && index === 0
+                        ? tgsHeaterTemp
+                        : tesSwitch && index === 1
+                        ? tesHeaterTemp
+                        : tesSwitch && index === 2 && tgsTesEncloseTemp}
                     </Selection>
                   </SelectionIndentWrapper>
                   {essSwitch ? (
@@ -100,14 +103,14 @@ function CurrentEncloseAndBurningTemp({
                       onClick={(e) =>
                         editState &&
                         (index === 0
-                          ? displayOptions(essHeaterTemp, e)
-                          : displayOptions(essEncloseTemp, e))
+                          ? displayOptions(essHeaterTempName, e)
+                          : displayOptions(essEncloseTempName, e))
                       }
                     />
                   ) : !tesSwitch && index === 1 ? (
                     <Img
                       src={'./images/greyTriangle.svg'}
-                      // onClick={() => displayOptions(tesHeaterTemp)}
+                      // onClick={() => displayOptions(tesHeaterTempName)}
                     />
                   ) : (
                     <Img
@@ -115,10 +118,11 @@ function CurrentEncloseAndBurningTemp({
                       onClick={(e) =>
                         editState &&
                         (index === 0
-                          ? displayOptions(tgsHeaterTemp, e)
+                          ? displayOptions(tgsHeaterTempName, e)
                           : index === 1
-                          ? displayOptions(tesHeaterTemp, e)
-                          : index === 2 && displayOptions(tgsTesEncloseTemp, e))
+                          ? displayOptions(tesHeaterTempName, e)
+                          : index === 2 &&
+                            displayOptions(tgsTesEncloseTempName, e))
                       }
                     />
                   )}
@@ -139,8 +143,8 @@ function CurrentEncloseAndBurningTemp({
                     <WrapperButton>
                       <ConfirmButton
                         onConfirm={onConfirmHandler}
-                        essHeaterTemp={essHeaterTemp}
-                        tgsHeaterTemp={tgsHeaterTemp}
+                        essHeaterTemp={essHeaterTempName}
+                        tgsHeaterTemp={tgsHeaterTempName}
                       />
                     </WrapperButton>
                   </WrapperSelectAndConfirmButton>
@@ -163,8 +167,8 @@ function CurrentEncloseAndBurningTemp({
                     <WrapperButton>
                       <ConfirmButton
                         onConfirm={onConfirmHandler}
-                        essEncloseTemp={essEncloseTemp}
-                        tesHeaterTemp={tesHeaterTemp}
+                        essEncloseTemp={essEncloseTempName}
+                        tesHeaterTemp={tesHeaterTempName}
                       />
                     </WrapperButton>
                   </WrapperSelectAndConfirmButton>
@@ -186,7 +190,7 @@ function CurrentEncloseAndBurningTemp({
                     <WrapperButton>
                       <ConfirmButton
                         onConfirm={onConfirmHandler}
-                        tgsTesEncloseTemp={tgsTesEncloseTemp}
+                        tgsTesEncloseTemp={tgsTesEncloseTempName}
                       />
                     </WrapperButton>
                   </WrapperSelectAndConfirmButton>

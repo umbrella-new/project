@@ -18,7 +18,6 @@ const initialState = {
     iconSrc: '/images/weather-sunny.svg',
   },
   userId: null,
-  switchName: null,
   currentTemp: null,
   outSideTemp: null,
   enclosureTemp: null,

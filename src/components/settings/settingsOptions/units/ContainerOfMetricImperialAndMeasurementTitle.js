@@ -5,17 +5,10 @@ import ImperialMetricMeasurementReader from './ImperialMetricMeasurementReader';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectSettingsOfEss,
-  setApplyAndClearButtonToFalse,
-  setApplyButtonToTrue,
   setResetAllSettingsButtons,
-  setSettingsApplyButton,
-  setSettingsClearButton,
 } from '../../../../store/slices/settingsOfEssSlice';
-import { useState, useEffect } from 'react';
-import {
-  toggleUnitsBetweenImperialMetric,
-  selectUnitsState,
-} from '../../../../store/slices/unitsSlice';
+import { useEffect } from 'react';
+
 import { useContext } from 'react';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
@@ -39,8 +32,6 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
       backgroundColor: '360',
     },
   ];
-  // state
-  // const [metricImperialToggle, setMetricImperialToggle] = useState();
 
   // useContext
   const {

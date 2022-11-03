@@ -13,8 +13,7 @@ const initialState = {
     settingsEditButton: false,
     settingsCancelButton: false,
     settingsApplyButton: false,
-
-    // unitsMeasurement: false,
+    unitsMeasurement: true,
   },
   unitsMeasurement: false,
   selectTelemetry: {
@@ -85,12 +84,7 @@ export const settingsOfEssSlice = createSlice({
     setApplyButtonToTrue: (state) => {
       state.buttonsOfSettings.settingsApplyButton = true;
     },
-    // setEditButtonToFalse: (state) => {
-    //   state.buttonsOfSettings.settingsEditButton = false;
-    // },
-    // setCancelButtonToFalse: (state) => {
-    //   state.buttonsOfSettings.settingsCancelButton = false;
-    // },
+
     setApplyButtonToFalse: (state) => {
       state.buttonsOfSettings.settingsApplyButton = false;
     },
