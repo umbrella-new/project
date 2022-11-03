@@ -32,7 +32,7 @@ const ControlBox = () => {
   const { displayConflictMessage } = state;
 
   const faultsState = useSelector(selectFaults);
-  const { isFaults } = faultsState.ess;
+  const isFaults = faultsState.ess.message.length > 0;
 
   const tgsState = useSelector(selectTgsSwitch);
   const {

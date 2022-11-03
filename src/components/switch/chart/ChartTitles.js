@@ -14,8 +14,8 @@ function ChartTitles() {
   const { isEssSwitch } = userState;
   const location = useLocation();
 
-  const essFaults = faultsState.ess.isFaults;
-  const tgsFaults = faultsState.tgs.isFaults;
+  const essFaults = faultsState.ess.message.length > 0;
+  const tgsFaults = faultsState.tgs.message.length > 0;
   const alarmState = isEssSwitch
     ? essFaults
     : location.pathname === '/'

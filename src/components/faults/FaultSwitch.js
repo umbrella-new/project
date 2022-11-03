@@ -25,7 +25,7 @@ import SelectForce from './SelectForce';
 const FaultSwitch = ({
   title,
   number,
-  isFaults,
+
   name,
   message,
   comments,
@@ -37,6 +37,8 @@ const FaultSwitch = ({
   const faultsState = useSelector(selectFaults);
 
   const { displayForceSelectionBox, displayForceMessageBox } = faultsState.ess;
+
+  const isFaults = message.length > 0;
 
   const dispatch = useDispatch();
   const imgSrcNormal = isTesSwitch

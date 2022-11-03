@@ -23,7 +23,7 @@ const HeaterStatus = () => {
   const faultsState = useSelector(selectFaults);
   const userState = useSelector(selectUserState);
   const { isExpanded } = userState;
-  const { isFaults } = faultsState.ess;
+  const isFaults = faultsState.ess.message.length > 0;
 
   const dispatch = useDispatch();
 

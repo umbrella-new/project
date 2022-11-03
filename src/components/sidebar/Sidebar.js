@@ -12,7 +12,9 @@ import SidebarButton from './SidebarButton';
 
 const Sidebar = () => {
   const faultsState = useSelector(selectFaults);
-  const { faults } = faultsState;
+  const faults =
+    faultsState.ess.message.length > 0 || faultsState.tgs.message.length > 0;
+
   const userState = useSelector(selectUserState);
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;

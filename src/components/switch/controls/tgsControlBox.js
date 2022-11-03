@@ -36,7 +36,7 @@ const TgsControlBox = () => {
   const { displayConflictMessage } = state;
 
   const faultsState = useSelector(selectFaults);
-  const { isFaults } = faultsState.tgs;
+  const isFaults = faultsState.tgs.message.length > 0;
 
   const esState = useSelector(selectEssSwitch);
   const {
