@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { selectSystemIdentification } from '../store/slices/settingSystemIdentificationSlice';
+
+import styled from 'styled-components';
 import { flexboxCenter } from '../styles/commonStyles';
+
 import DateAndWeather from './DateAndWeather';
 
 const Header = () => {

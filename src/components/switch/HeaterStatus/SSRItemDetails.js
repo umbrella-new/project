@@ -35,7 +35,6 @@ const SSRItemDetails = ({
   const dispatch = useDispatch();
   // For mapping
   const { specs } = data;
-  console.log(specs);
 
   // To make descriptions
   useEffect(() => {
