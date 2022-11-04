@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { flexboxCenter } from '../../../styles/commonStyles';
 
-function Chart() {
+const Chart = () => {
   const data = [
     {
       name: '1',
@@ -138,8 +138,8 @@ function Chart() {
               value: 'TIME (DAY)',
               position: 'BottomRight',
               fill: '#ffff',
-              dx: 224,
-              dy: 8,
+              dx: 220,
+              dy: 10,
               fontSize: 8,
             }}
             // scale="band"
@@ -158,7 +158,7 @@ function Chart() {
               value: 'HEATER TEMPERATURE (°C)',
               position: 'outsideLeft',
               angle: -90,
-              dx: -50,
+              dx: -45,
               dy: 0,
 
               fontSize: 8,
@@ -190,7 +190,7 @@ function Chart() {
       </ResponsiveContainer>
     </>
   );
-}
+};
 
 export default Chart;
 

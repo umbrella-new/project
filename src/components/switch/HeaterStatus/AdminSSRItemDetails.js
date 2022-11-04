@@ -7,6 +7,7 @@ import { handleSSRDetails } from '../../../store/slices/heaterStatusSlice';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
+import { setAdminAccess } from '../../../store/slices/userSlice';
 import {
   flexboxCenter,
   ItemBackground,
@@ -109,6 +110,7 @@ const AdminSSRItemDetails = ({
   const [isEditable, setIsEditable] = useState(true);
   // ******************* to deal with input value conditionally *********************
   const [activateMessageBox, setActivateMessageBox] = useState(false);
+  const [message, setMessage] = useState(null);
   const dispatch = useDispatch();
 
   const unitsState = useSelector(selectSettingsOfEss);
@@ -122,14 +124,14 @@ const AdminSSRItemDetails = ({
     ) {
       // 1. Make the specs as a string
       const specsString = !unitsMeasurement
-        ? `${inputDetails[0].partNumber}-${inputDetails[0].current}/${inputDetails[0].wattage}/${inputDetails[0].voltage}/${inputDetails[0].lengths}`
-        : `${inputDetails[0].partNumber}-${inputDetails[0].current}/${
+        ? `${inputDetails[0].partNumber}-${inputDetails[0].current}/${
             inputDetails[0].wattage
-          }/${inputDetails[0].voltage}/${(
-            Number(inputDetails[0].lengths) / 3.28084
-          ).toFixed(1)}`;
+          }/${inputDetails[0].voltage}/${Math.round(
+            Number(inputDetails[0].lengths) * 3.28084
+          )}`
+        : `${inputDetails[0].partNumber}-${inputDetails[0].current}/${inputDetails[0].wattage}/${inputDetails[0].voltage}/${inputDetails[0].lengths}`;
       // 2. Find Index using indexOF
-
+      console.log(specsString);
       const descriptionIndex = specsStr.indexOf(specsString);
       // 3. Set description state
       const copyArr =
@@ -137,6 +139,9 @@ const AdminSSRItemDetails = ({
           ? ['', '', '']
           : [descriptionOptions[descriptionIndex], '', ''];
       setDescription(copyArr);
+    } else {
+      console.log(typeof inputDetails[0].lengths, inputDetails[0].lengths);
+      setDescription(['', '', '']);
     }
   }, [
     inputDetails[0].partNumber,
@@ -157,14 +162,15 @@ const AdminSSRItemDetails = ({
       console.log('index 0');
       // 1. Make the specs as a string
       const specsString = !unitsMeasurement
-        ? `${inputDetails[1].partNumber}-${inputDetails[1].current}/${inputDetails[1].wattage}/${inputDetails[1].voltage}/${inputDetails[1].lengths}`
-        : `${inputDetails[1].partNumber}-${inputDetails[1].current}/${
+        ? `${inputDetails[1].partNumber}-${inputDetails[1].current}/${
             inputDetails[1].wattage
-          }/${inputDetails[1].voltage}/${(
-            Number(inputDetails[1].lengths) / 3.28084
-          ).toFixed(1)}`;
+          }/${inputDetails[1].voltage}/${Math.round(
+            Number(inputDetails[1].lengths) * 3.28084
+          )}`
+        : `${inputDetails[1].partNumber}-${inputDetails[1].current}/${inputDetails[1].wattage}/${inputDetails[1].voltage}/${inputDetails[1].lengths}`;
       // 2. Find Index using indexOF
       const descriptionIndex = specsStr.indexOf(specsString);
+      console.log(specsString);
       // 3. Set description state
       const copyArr = [
         description[0],
@@ -172,6 +178,8 @@ const AdminSSRItemDetails = ({
         '',
       ];
       setDescription(copyArr);
+    } else {
+      setDescription([description[0], '', '']);
     }
   }, [
     inputDetails[1].partNumber,
@@ -191,12 +199,12 @@ const AdminSSRItemDetails = ({
     ) {
       // 1. Make the specs as a string
       const specsString = !unitsMeasurement
-        ? `${inputDetails[2].partNumber}-${inputDetails[2].current}/${inputDetails[2].wattage}/${inputDetails[2].voltage}/${inputDetails[2].lengths}`
-        : `${inputDetails[2].partNumber}-${inputDetails[2].current}/${
+        ? `${inputDetails[2].partNumber}-${inputDetails[2].current}/${
             inputDetails[2].wattage
-          }/${inputDetails[2].voltage}/${(
-            Number(inputDetails[2].lengths) / 3.28084
-          ).toFixed(1)}`;
+          }/${inputDetails[2].voltage}/${Math.round(
+            Number(inputDetails[2].lengths) * 3.28084
+          )}`
+        : `${inputDetails[2].partNumber}-${inputDetails[2].current}/${inputDetails[2].wattage}/${inputDetails[2].voltage}/${inputDetails[2].lengths}`;
       // 2. Find Index using indexOF
       const descriptionIndex = specsStr.indexOf(specsString);
       // 3. Set description state
@@ -207,6 +215,8 @@ const AdminSSRItemDetails = ({
       ];
 
       setDescription(copyArr);
+    } else {
+      setDescription([description[0], description[1], '']);
     }
   }, [
     inputDetails[2].partNumber,
@@ -315,97 +325,130 @@ const AdminSSRItemDetails = ({
       }
     } else if (name === 'apply') {
       // name === 'apply' do Dispatch
-      if (unitsMeasurement) {
+      if (!unitsMeasurement) {
         if (inputDetails[0].current > 0) {
           switch (hiddenNumber) {
             case 1: {
-              dispatch(
-                handleSSRDetails({
-                  data: [
-                    {
-                      partNumber: inputDetails[0].partNumber,
-                      current: inputDetails[0].current,
-                      wattage: inputDetails[0].wattage,
-                      voltage: inputDetails[0].voltage,
-                      lengths: (
-                        Number(inputDetails[0].lengths) / 3.28084
-                      ).toFixed(1),
-                      currentCurrent: inputDetails[0].currentCurrent,
-                    },
-                  ],
-                  id: `ssr${id}`,
-                })
-              );
+              if (description[0].length > 5) {
+                console.log('case 1', description[0].length);
+                dispatch(
+                  handleSSRDetails({
+                    data: [
+                      {
+                        partNumber: inputDetails[0].partNumber,
+                        current: inputDetails[0].current,
+                        wattage: inputDetails[0].wattage,
+                        voltage: inputDetails[0].voltage,
+                        lengths: Math.round(
+                          Number(inputDetails[0].lengths) * 3.28084
+                        ),
+                        currentCurrent: inputDetails[0].currentCurrent,
+                      },
+                    ],
+                    id: `ssr${id}`,
+                  })
+                );
+                setMessage(null);
+                setActivateMessageBox(true);
+              } else {
+                setMessage(
+                  'element not found! please check again the input specifications'
+                );
+                setActivateMessageBox(true);
+              }
+
               break;
             }
             case 2: {
-              dispatch(
-                handleSSRDetails({
-                  data: [
-                    {
-                      partNumber: inputDetails[0].partNumber,
-                      current: inputDetails[0].current,
-                      wattage: inputDetails[0].wattage,
-                      voltage: inputDetails[0].voltage,
-                      lengths: (
-                        Number(inputDetails[0].lengths) / 3.28084
-                      ).toFixed(1),
-                      currentCurrent: inputDetails[0].currentCurrent,
-                    },
-                    {
-                      partNumber: inputDetails[1].partNumber,
-                      current: inputDetails[1].current,
-                      wattage: inputDetails[1].wattage,
-                      voltage: inputDetails[1].voltage,
-                      lengths: (
-                        Number(inputDetails[1].lengths) / 3.28084
-                      ).toFixed(1),
-                      currentCurrent: inputDetails[1].currentCurrent,
-                    },
-                  ],
-                  id: `ssr${id}`,
-                })
-              );
+              if (description[1].length > 5) {
+                console.log('case 2');
+                dispatch(
+                  handleSSRDetails({
+                    data: [
+                      {
+                        partNumber: inputDetails[0].partNumber,
+                        current: inputDetails[0].current,
+                        wattage: inputDetails[0].wattage,
+                        voltage: inputDetails[0].voltage,
+                        lengths: Math.round(
+                          Number(inputDetails[0].lengths) * 3.28084
+                        ),
+                        currentCurrent: inputDetails[0].currentCurrent,
+                      },
+                      {
+                        partNumber: inputDetails[1].partNumber,
+                        current: inputDetails[1].current,
+                        wattage: inputDetails[1].wattage,
+                        voltage: inputDetails[1].voltage,
+                        lengths: Math.round(
+                          Number(inputDetails[1].lengths) * 3.28084
+                        ),
+                        currentCurrent: inputDetails[1].currentCurrent,
+                      },
+                    ],
+                    id: `ssr${id}`,
+                  })
+                );
+                setMessage(null);
+                setActivateMessageBox(true);
+              } else {
+                setMessage(
+                  'element not found! please check again the input specifications'
+                );
+                setActivateMessageBox(true);
+              }
+
               break;
             }
             default: {
-              dispatch(
-                handleSSRDetails({
-                  data: [
-                    {
-                      partNumber: inputDetails[0].partNumber,
-                      current: inputDetails[0].current,
-                      wattage: inputDetails[0].wattage,
-                      voltage: inputDetails[0].voltage,
-                      lengths: (
-                        Number(inputDetails[0].lengths) / 3.28084
-                      ).toFixed(1),
-                      currentCurrent: inputDetails[0].currentCurrent,
-                    },
-                    {
-                      partNumber: inputDetails[1].partNumber,
-                      current: inputDetails[1].current,
-                      wattage: inputDetails[1].wattage,
-                      voltage: inputDetails[1].voltage,
-                      lengths: (
-                        Number(inputDetails[1].lengths) / 3.28084
-                      ).toFixed(1),
-                      currentCurrent: inputDetails[1].currentCurrent,
-                    },
-                    {
-                      partNumber: inputDetails[2].partNumber,
-                      current: inputDetails[2].current,
-                      wattage: inputDetails[2].wattage,
-                      voltage: inputDetails[2].voltage,
-                      lengths: (
-                        Number(inputDetails[2].lengths) / 3.28084
-                      ).toFixed(1),
-                      currentCurrent: inputDetails[2].currentCurrent,
-                    },
-                  ],
-                  id: `ssr${id}`,
-                })
-              );
+              if (description[2].length > 5) {
+                console.log('case 3');
+                dispatch(
+                  handleSSRDetails({
+                    data: [
+                      {
+                        partNumber: inputDetails[0].partNumber,
+                        current: inputDetails[0].current,
+                        wattage: inputDetails[0].wattage,
+                        voltage: inputDetails[0].voltage,
+                        lengths: Math.round(
+                          Number(inputDetails[0].lengths) * 3.28084
+                        ),
+                        currentCurrent: inputDetails[0].currentCurrent,
+                      },
+                      {
+                        partNumber: inputDetails[1].partNumber,
+                        current: inputDetails[1].current,
+                        wattage: inputDetails[1].wattage,
+                        voltage: inputDetails[1].voltage,
+                        lengths: Math.round(
+                          Number(inputDetails[1].lengths) * 3.28084
+                        ),
+                        currentCurrent: inputDetails[1].currentCurrent,
+                      },
+                      {
+                        partNumber: inputDetails[2].partNumber,
+                        current: inputDetails[2].current,
+                        wattage: inputDetails[2].wattage,
+                        voltage: inputDetails[2].voltage,
+                        lengths: Math.round(
+                          Number(inputDetails[2].lengths) * 3.28084
+                        ),
+                        currentCurrent: inputDetails[2].currentCurrent,
+                      },
+                    ],
+                    id: `ssr${id}`,
+                  })
+                );
+                setMessage(null);
+                setActivateMessageBox(true);
+              } else {
+                setMessage(
+                  'element not found! please check again the input specifications'
+                );
+                setActivateMessageBox(true);
+              }
+              break;
             }
           }
         }
@@ -413,40 +456,64 @@ const AdminSSRItemDetails = ({
         if (inputDetails[0].current > 0) {
           switch (hiddenNumber) {
             case 1: {
-              dispatch(
-                handleSSRDetails({
-                  data: [inputDetails[0]],
-                  id: `ssr${id}`,
-                })
-              );
+              if (description[0].length > 5) {
+                dispatch(
+                  handleSSRDetails({
+                    data: [inputDetails[0]],
+                    id: `ssr${id}`,
+                  })
+                );
+              } else {
+                setMessage(
+                  'element not found! please check again the input specifications'
+                );
+                setActivateMessageBox(true);
+              }
+              setMessage(null);
               setActivateMessageBox(true);
               break;
             }
             case 2: {
-              dispatch(
-                handleSSRDetails({
-                  data: [inputDetails[0], inputDetails[1]],
-                  id: `ssr${id}`,
-                })
-              );
-              setActivateMessageBox(true);
+              if (description[0].length > 5) {
+                dispatch(
+                  handleSSRDetails({
+                    data: [inputDetails[0], inputDetails[1]],
+                    id: `ssr${id}`,
+                  })
+                );
+                setMessage(null);
+                setActivateMessageBox(true);
+              } else {
+                setMessage(
+                  'element not found! please check again the input specifications'
+                );
+                setActivateMessageBox(true);
+              }
+
               break;
             }
             default: {
-              dispatch(
-                handleSSRDetails({
-                  data: inputDetails,
-                  id: `ssr${id}`,
-                })
-              );
-              setActivateMessageBox(true);
+              if (description[0].length > 5) {
+                dispatch(
+                  handleSSRDetails({
+                    data: inputDetails,
+                    id: `ssr${id}`,
+                  })
+                );
+                setMessage(null);
+                setActivateMessageBox(true);
+              } else {
+                setMessage(
+                  'element not found! please check again the input specifications'
+                );
+                setActivateMessageBox(true);
+              }
+
               break;
             }
           }
         }
       }
-    } else {
-      setIsEditable(true);
     }
   };
 
@@ -481,6 +548,7 @@ const AdminSSRItemDetails = ({
       setInputDetails(newInput);
     }
   };
+  // console.log(inputDetails[0].lengths);
 
   // For virtual keypad input
   const handleKeypadInput = (index, name, input) => {
@@ -513,12 +581,6 @@ const AdminSSRItemDetails = ({
       ? setDisplaySuggestions(true)
       : setDisplaySuggestions(false);
   }, [filteredSuggestions, inputPartNumber]);
-
-  // console.log('filtered', filteredSuggestions);
-  // console.log('inputed', inputPartNumber);
-
-  // let displaySuggestions =
-  //   filteredSuggestions.length >= 1 && inputPartNumber.length >= 2;
 
   const handleSelect = (index, suggestion) => {
     const newInput = [...inputDetails];
@@ -674,7 +736,10 @@ const AdminSSRItemDetails = ({
                   onClick={() =>
                     isEditable && handleActivateKeypad(index, 'lengths')
                   }
-                  onChange={() => isEnable && handleSetInput(index, 'lengths')}
+                  onChange={(event) =>
+                    isEnable &&
+                    handleSetInput(index, 'lengths', event.target.value)
+                  }
                   value={element.lengths}
                 />
               </ItemLength>
@@ -732,9 +797,15 @@ const AdminSSRItemDetails = ({
       />
       {activateMessageBox && (
         <SettingConfirmedMessage
-          onClose={() => setActivateMessageBox(false)}
+          onClose={() => {
+            setActivateMessageBox(false);
+            if (!message) {
+              setIsSettingOpen(false);
+              dispatch(setAdminAccess(false));
+            }
+          }}
           title='ssr details settings'
-          message='selections confirmed'
+          message={message ? message : 'selections confirmed'}
         />
       )}
     </Wrapper>

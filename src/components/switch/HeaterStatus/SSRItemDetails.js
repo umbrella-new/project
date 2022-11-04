@@ -35,6 +35,7 @@ const SSRItemDetails = ({
   const dispatch = useDispatch();
   // For mapping
   const { specs } = data;
+  console.log(specs);
 
   // To make descriptions
   useEffect(() => {
@@ -84,11 +85,11 @@ const SSRItemDetails = ({
 
             <ItemLength isEnable={isEnable}>
               {unitsMeasurement ? (
-                <ItemData isEnable={isEnable}>
-                  {Math.round(Number(spec.lengths) * 3.28084)}
-                </ItemData>
-              ) : (
                 <ItemData isEnable={isEnable}>{spec.lengths}</ItemData>
+              ) : (
+                <ItemData isEnable={isEnable}>
+                  {(Number(spec.lengths) / 3.28048).toFixed(1)}
+                </ItemData>
               )}
             </ItemLength>
 
@@ -100,9 +101,9 @@ const SSRItemDetails = ({
                   {description[index] &&
                     `${spec.current} A / ${spec.wattage} W / ${
                       spec.voltage
-                    } v / ${spec.lengths} m - ${Math.round(
-                      spec.lengths * 3.28048
-                    )} ft`}
+                    } v / ${(Number(spec.lengths) / 3.28048).toFixed(1)} m - ${
+                      spec.lengths
+                    } ft`}
                 </ItemData>
               </ItemDescription>
 
