@@ -92,7 +92,7 @@ const BackgroundWrapper = styled.div`
   border-radius: 14px;
   ${flexboxCenter};
   position: relative;
-  padding-top: 0.6rem;
+  margin-top: 0.2rem;
 `;
 
 const FileOptionTitleWrapper = styled.div`
@@ -101,7 +101,7 @@ const FileOptionTitleWrapper = styled.div`
   justify-content: space-between;
   width: 13rem;
   position: absolute;
-  top: 1.1rem;
+  top: 0.6rem;
   right: 1.6rem;
   z-index: 1000;
 `;
@@ -115,11 +115,7 @@ const FileTitle = styled.span`
 `;
 
 const SvgImg = styled.img`
-  width: 100%;
-  height: 98%;
-  /* position: absolute;
-  top: 0.6rem;
-  left: 0.35rem; */
+  height: 97%;
 `;
 
 const PositionAbsolute = styled.div`
@@ -131,10 +127,10 @@ const PositionAbsolute = styled.div`
   justify-content: flex-start;
 
   position: absolute;
-  top: 3rem;
+  top: 2.98rem;
   right: 0.45rem;
 
-  padding: 0.05rem 0.1rem;
+  padding: 0.02rem 0.1rem 0.05rem 0.1rem;
 `;
 
 const ContentsWrapper = styled.div`
