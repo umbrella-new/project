@@ -16,7 +16,7 @@ function ContainerOfForceAndCommand() {
   // button images of TGS TES ESS SYS
   const essButton = './images/blueEssButton.svg';
   const essButtonActive = './images/greenEssButton.svg';
-  const sysButton = './images/sysButton.svg';
+  const sysButton = './images/blueSysButton.svg';
   const sysButtonActive = './images/greenSysButton.svg';
   const tgsButton = './images/blueTgsButton.svg';
   const tgsButtonActive = './images/greenTgsButton.svg';
@@ -159,15 +159,21 @@ function ContainerOfForceAndCommand() {
             ? essHeaders.map((value, index) => {
                 return (
                   <Wrapper4 key={index}>
-                    <Wrapper5>
-                      <SystemHeaderForceAndCommand
-                        name={value.title}
-                        toggleButtonColor={value.button}
-                        handleSelect={handleSelect}
-                        index={index}
-                        options={options}
-                        essSwitch={essSwitch}
-                      />
+                    <Wrapper5
+                      changeBorder0={options === index && index === 0}
+                      changeBorder1={options === index && index === 1}
+                      changeBorder2={options === index && index === 2}
+                    >
+                      <Wrapper6>
+                        <SystemHeaderForceAndCommand
+                          name={value.title}
+                          toggleButtonColor={value.button}
+                          handleSelect={handleSelect}
+                          index={index}
+                          options={options}
+                          essSwitch={essSwitch}
+                        />
+                      </Wrapper6>
                       {options === index && index === 0 && (
                         <NewWrapper>
                           <WrapperSelectTcSelect>
@@ -202,19 +208,26 @@ function ContainerOfForceAndCommand() {
             : tgsHeaders.map((value, index) => {
                 return (
                   <Wrapper4 key={index}>
-                    <Wrapper5>
-                      <SystemHeaderForceAndCommand
-                        name={value.title}
-                        toggleButtonColor={value.button}
-                        handleSelect={handleSelect}
-                        index={index}
-                        options={options}
-                        tesSwitch={tesSwitch}
-                        essSwitch={essSwitch}
-                      />
+                    <Wrapper5
+                      changeBorder0={options === index && index === 0}
+                      changeBorder1={options === index && index === 1}
+                      changeBorder2={options === index && index === 2}
+                    >
+                      <Wrapper6>
+                        <SystemHeaderForceAndCommand
+                          name={value.title}
+                          toggleButtonColor={value.button}
+                          handleSelect={handleSelect}
+                          index={index}
+                          options={options}
+                          tesSwitch={tesSwitch}
+                          essSwitch={essSwitch}
+                        />
+                      </Wrapper6>
                       {options === index && index === 0 && (
-                        <NewWrapper>
-                          <WrapperSelectTcSelect>
+                        <NewWrapper1>
+                          <NewWrapper>
+                            {/* <WrapperSelectTcSelect> */}
                             <FlexWrapper>
                               <SelectArts
                                 propIndex={index}
@@ -224,13 +237,15 @@ function ContainerOfForceAndCommand() {
                                 tesGpEbp={tesGpEbp}
                               />
                             </FlexWrapper>
-                          </WrapperSelectTcSelect>
-                        </NewWrapper>
+                            {/* </WrapperSelectTcSelect> */}
+                          </NewWrapper>
+                        </NewWrapper1>
                       )}
 
                       {tesSwitch && options === index && index === 1 && (
-                        <NewWrapper>
-                          <WrapperSelectTcSelect>
+                        <NewWrapper1>
+                          <NewWrapper>
+                            {/* <WrapperSelectTcSelect> */}
                             <FlexWrapper>
                               <SelectArts
                                 propIndex={index}
@@ -240,20 +255,25 @@ function ContainerOfForceAndCommand() {
                                 tesGpEbp={tesGpEbp}
                               />
                             </FlexWrapper>
-                          </WrapperSelectTcSelect>
-                        </NewWrapper>
+                            {/* </WrapperSelectTcSelect> */}
+                          </NewWrapper>
+                        </NewWrapper1>
                       )}
 
                       {options === index && index === 2 && (
-                        <NewWrapper>
-                          <WrapperSelectTcSelect>
+                        <NewWrapper1
+                          changeBorder2={options === index && index === 2}
+                        >
+                          <NewWrapper>
+                            {/* <WrapperSelectTcSelect> */}
                             <SelectTc
                               tgs={['tgs', 'tes']}
                               ess={'ess'}
                               essSwitch={essSwitch}
                             />
-                          </WrapperSelectTcSelect>
-                        </NewWrapper>
+                            {/* </WrapperSelectTcSelect> */}
+                          </NewWrapper>
+                        </NewWrapper1>
                       )}
                     </Wrapper5>
                   </Wrapper4>
@@ -274,7 +294,7 @@ const Wrapper = styled.div`
   margin-bottom: 6px;
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 4px;
+  border-radius: 6px;
   opacity: 1;
   ${flexboxCenter};
   justify-content: space-around;
@@ -284,36 +304,33 @@ const Wrapper = styled.div`
 const Wrapper2 = styled.div`
   width: 590px;
   height: auto;
-
   margin-bottom: 2px;
+  margin-top: 2px;
 
-  opacity: 1;
-
-  box-sizing: border-box;
-  border: 0.5px solid #000000;
-  border-radius: 4px;
   background-image: -webkit-linear-gradient(
     90deg,
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  border: 0.5px solid #000000;
+  border-radius: 4px;
+  opacity: 1;
   ${flexboxCenter}
   flex-direction: column;
   justify-content: space-evenly;
 `;
 
 const Wrapper3 = styled.div`
-  width: 570px;
+  width: 566px;
   height: auto;
   margin-top: 10px;
   margin-bottom: 8px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: #233a54;
   box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;
-  border-radius: 28px;
+  border-radius: 30px;
   opacity: 1;
   ${flexboxCenter}
   flex-direction: column;
@@ -322,41 +339,77 @@ const Wrapper3 = styled.div`
 const Wrapper4 = styled.div`
   width: 566px;
   height: auto;
-  margin-top: 2px;
+  margin-top: 4px;
   margin-bottom: 2px;
 
-  background-image: -webkit-linear-gradient(
+  background-color: rgb(35, 58, 84) 100%;
+  /* background-image: -webkit-linear-gradient(
     270deg,
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
-  );
-  box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;
+  ); */
+  /* box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080; */
   border-radius: 28px;
   opacity: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const Wrapper5 = styled.div`
-  width: 564px;
+  width: 560px;
   height: auto;
-  margin-top: 1px;
+  ${({ changeBorder2 }) => changeBorder2 && 'margin-bottom: 2px'};
+
+  background: rgb(20, 32, 51) 100%;
+  border-radius: ${({ changeBorder0, changeBorder1 }) =>
+    changeBorder0 || changeBorder1 ? '28px 28px 14px 14px' : '28px'};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Wrapper6 = styled.div`
+  width: 100%;
+  height: 56px;
+  padding: 1px;
+`;
+
+const NewWrapper1 = styled.div`
+  width: 558px;
+  height: auto;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 2px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: 0px 0px 2px #000000;
+  border: 0.5px solid #142033;
+  border-radius: ${({ changeBorder2 }) =>
+    changeBorder2 ? '14px 14px 28px 28px' : '14px'};
+  opacity: 1;
+  ${flexboxCenter};
+  align-items: flex-start;
 `;
 
 const NewWrapper = styled.div`
-  width: 560px;
+  width: 554px;
   height: auto;
-  margin-top: 5px;
-  margin-bottom: 2px;
+
+  margin-bottom: 20px;
   background-image: -webkit-linear-gradient(
     90deg,
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
+  background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
-  border-radius: 9px 9px 24px 24px;
+  border-radius: 13px;
   border: none;
   opacity: 1;
   ${flexboxCenter}
@@ -367,7 +420,7 @@ const NewWrapper = styled.div`
 const WrapperSelectTcSelect = styled.div`
   width: 556px;
   height: auto;
-  margin-top: 4px;
+  margin-top: 2px;
   margin-bottom: 20px;
 
   background: #233a54 0% 0% no-repeat padding-box;
@@ -384,7 +437,7 @@ const FlexWrapper = styled.div`
   height: 100%;
   display: flex;
   justify-content: flex-start;
-  margin-left: 4px;
+  margin-left: 2px;
   margin-bottom: 2px;
   margin-top: 2px;
 `;

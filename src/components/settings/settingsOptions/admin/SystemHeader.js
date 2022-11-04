@@ -69,11 +69,8 @@ export default SystemHeader;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 54px;
+  height: 100%;
 
-  /* background: transparent
-    linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%) 0% 0% no-repeat
-    padding-box; */
   background: ${({ tesSwitchFalse }) =>
     tesSwitchFalse
       ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'

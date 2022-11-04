@@ -79,7 +79,9 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                       );
                     })}
                   </WrapperIndent>
-                  <ValveConfirmButton type='submit' />
+                  <WrapperButton>
+                    <ValveConfirmButton type='submit' />
+                  </WrapperButton>
                 </Form>
               </WrapperData3>
             </WrapperData2>
@@ -240,18 +242,25 @@ const WrapperIndent = styled.div`
 const MapDiv = styled.div`
   height: 100%;
   width: 100%;
+  padding-right: 1px;
+
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
 
 const DataSubtitle = styled.p`
+  width: 58px;
+  height: auto;
   text-align: center;
   font-size: var(--space2);
   letter-spacing: 0.8px;
   color: #ffffff;
   text-transform: uppercase;
   opacity: 1;
+  &:first-child {
+    padding-left: 2px;
+  }
 `;
 
 const DataContainer = styled.div`
@@ -270,6 +279,7 @@ const DataContainer = styled.div`
 const DataIndent = styled.div`
   width: 33px;
   height: 20px;
+  margin-left: -4px;
 
   background: #233a54;
   box-shadow: inset 0px 0px 6px #000000;
@@ -295,6 +305,10 @@ const DataInput = styled.input`
 `;
 
 const PercentageSign = styled.p`
-  margin-left: 2px;
+  margin-left: 6px;
   font-size: var(--space2);
+`;
+
+const WrapperButton = styled.div`
+  margin-left: 6px;
 `;

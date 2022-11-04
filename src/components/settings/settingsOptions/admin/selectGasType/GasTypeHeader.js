@@ -38,13 +38,13 @@ const WrapperTitle2 = styled.div`
 `;
 
 const Title = styled.p`
-  width: 120px;
-  height: 18px;
-  margin-top: 6px;
+  width: auto;
+  height: auto;
 
   text-align: center;
-  font-size: var(--space2);
+  font-size: var(--space0);
   letter-spacing: 0.8px;
+  text-transform: uppercase;
   color: #ffffff;
   opacity: 1;
 `;

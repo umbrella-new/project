@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 16px;
+  border-radius: 18px;
   opacity: 1;
   display: flex;
   align-items: center;
@@ -74,7 +74,7 @@ const ButtonHole = styled.div`
 `;
 
 const ButtonTop = styled.div`
-  width: 108px;
+  width: 110px;
   height: 26px;
   border-radius: 25px;
 

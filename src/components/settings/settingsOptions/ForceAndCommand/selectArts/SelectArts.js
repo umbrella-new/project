@@ -67,6 +67,8 @@ export default SelectArts;
 const Wrapper = styled.div`
   width: 275px;
   height: auto;
+  padding-top: 2px;
+  padding-bottom: 2px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
@@ -76,7 +78,7 @@ const Wrapper = styled.div`
 `;
 
 const Wrapper2 = styled.div`
-  width: 269px;
+  width: 271px;
   height: auto;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%

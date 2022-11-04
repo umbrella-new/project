@@ -54,7 +54,7 @@ export default SysHeaderForceAndCommand;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 54px;
+  height: 100%;
 
   background: ${({ tesSwitchFalse }) =>
     tesSwitchFalse
@@ -63,7 +63,7 @@ const Wrapper = styled.div`
 
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;
-  border-radius: 38px;
+  border-radius: 27px;
   opacity: 1;
   ${flexboxCenter};
   justify-content: space-evenly;
@@ -74,7 +74,7 @@ const ButtonHole = styled.div`
 `;
 
 const Img = styled.img`
-  margin-left: 6px;
+  margin-left: 5px;
 `;
 
 const Span = styled.span`
