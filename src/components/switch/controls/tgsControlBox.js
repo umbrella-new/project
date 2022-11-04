@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserState } from "../../../store/slices/userSlice";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserState } from '../../../store/slices/userSlice';
 import {
   selectTgsSwitch,
   tgsHeatingScheduleDate,
   tgsHeatingScheduleCancel,
   deactivateTgsConflictMessage,
-} from "../../../store/slices/tgsSwitchSlice";
+} from '../../../store/slices/tgsSwitchSlice';
 
 import essSwitchSlice, {
   activateEsSwitchStatus,
   deactivateEsSwitchStatus,
   selectEssSwitch,
-} from "../../../store/slices/essSwitchSlice";
-import { selectFaults } from "../../../store/slices/faultsSlice";
+} from '../../../store/slices/essSwitchSlice';
+import { selectFaults } from '../../../store/slices/faultsSlice';
 
-import styled from "styled-components";
-import { flexboxCenter } from "../../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
-import TgsInstantHeat from "./instantHeat/TgsInstantHeat";
-import TgsSnowSensor from "./snowSensor/TgsSnowSensor";
-import ConstantHeat from "./optionalConstantTemp/ConstantHeat";
-import DisplayTemperatureStates from "./displayState/DisplayTemperatureStates";
-import TgsHeatingSchedule from "./HeatingSchedule/TgsHeatingSchedule";
-import TgsWindFactor from "./windFactor/TgsWindFactor";
-import ScheduleCalendar from "./HeatingSchedule/ScheduleCalendar";
-import ConflictMessage from "../../userMessages/ConflictMessage";
-import SettingConfirmedMessage from "../../userMessages/SettingConfirmedMessage";
+import TgsInstantHeat from './instantHeat/TgsInstantHeat';
+import TgsSnowSensor from './snowSensor/TgsSnowSensor';
+import ConstantHeat from './optionalConstantTemp/ConstantHeat';
+import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
+import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
+import TgsWindFactor from './windFactor/TgsWindFactor';
+import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
+import ConflictMessage from '../../userMessages/ConflictMessage';
+import SettingConfirmedMessage from '../../userMessages/SettingConfirmedMessage';
 
 const TgsControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -54,9 +54,11 @@ const TgsControlBox = () => {
 
   const [disabledBox, setDisabledBox] = useState(false);
   const [displayFaultsMessageBox, setDisplayFaultsMessageBox] = useState(false);
-
+  const [faultsType, setFaultsType] = useState(null);
   useEffect(() => {
     if (message.length > 0) {
+      if (message.length === 1) {
+      }
       setDisabledBox(true);
     }
   }, [message]);
@@ -81,7 +83,7 @@ const TgsControlBox = () => {
   };
 
   const handleConfirmConflictMessage = () => {
-    console.log("turn off es");
+    console.log('turn off es');
     // Turn off all tgs switches at once
     dispatch(deactivateEsSwitchStatus());
     // Deactivate the message box
@@ -93,8 +95,8 @@ const TgsControlBox = () => {
       <BackgroundImg
         src={
           isFaults
-            ? "/images/controller-background-faults.svg"
-            : "/images/controller-background.svg"
+            ? '/images/controller-background-faults.svg'
+            : '/images/controller-background.svg'
         }
       />
       <PositionAbsolute>
@@ -134,7 +136,7 @@ const TgsControlBox = () => {
           title='faults'
           message='SYSTEM OFF
           UNTIL RELEASE FAULT! Go to faults page to check the details'
-          src={"/images/heater-off-alert.svg"}
+          src={'/images/heater-off-alert.svg'}
         />
       )}
     </Wrapper>

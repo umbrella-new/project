@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import styled, { css } from "styled-components";
-import essSwitchSlice from "../../../store/slices/essSwitchSlice";
-import { selectFaults } from "../../../store/slices/faultsSlice";
-import { selectUserState } from "../../../store/slices/userSlice";
-import { flexboxCenter } from "../../../styles/commonStyles";
-import MaxHeat12HrsTimer from "../../faults/MaxHeat12HrsTimer";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import essSwitchSlice from '../../../store/slices/essSwitchSlice';
+import { selectFaults } from '../../../store/slices/faultsSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
+import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
 
-import Chart from "./Chart";
-import ChartInfoContainer from "./ChartInfoContainer";
-import ChartTitles from "./ChartTitles";
-import DisplayStatus from "./DisplayStatus";
-import Legend from "./Legend";
+import Chart from './Chart';
+import ChartInfoContainer from './ChartInfoContainer';
+import ChartTitles from './ChartTitles';
+import DisplayStatus from './DisplayStatus';
+import Legend from './Legend';
 
 function ChartContainer() {
   const faultsState = useSelector(selectFaults);
@@ -26,7 +26,7 @@ function ChartContainer() {
 
   const isFaults = isEssSwitch
     ? essFault
-    : location.pathname === "/"
+    : location.pathname === '/'
     ? tgsFault
     : essFault;
 
@@ -40,8 +40,8 @@ function ChartContainer() {
         <SvgImg
           src={
             isFaults
-              ? "/images/chart-background-faults.svg"
-              : "/images/chart-background-noFaults.svg"
+              ? '/images/chart-background-faults.svg'
+              : '/images/chart-background-noFaults.svg'
           }
         />
       </BackgroundWrapper>
@@ -71,7 +71,7 @@ function ChartContainer() {
         </TimerWrapperPositionAbsolute>
       )}
 
-      {maxHeatFor12hrsTimer && !isEssSwitch && location.pathname !== "/" && (
+      {maxHeatFor12hrsTimer && !isEssSwitch && location.pathname !== '/' && (
         <TimerWrapperPositionAbsolute>
           <MaxHeat12HrsTimer />
         </TimerWrapperPositionAbsolute>
@@ -128,7 +128,7 @@ const PositionAbsolute = styled.div`
 
   position: absolute;
   top: 2.98rem;
-  right: 0.45rem;
+  right: 0.42rem;
 
   padding: 0.02rem 0.1rem 0.05rem 0.1rem;
 `;
