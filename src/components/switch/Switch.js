@@ -1,51 +1,34 @@
-import { useSelector } from 'react-redux';
-import { selectUserState } from '../../store/slices/userSlice';
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useSelector } from "react-redux";
+import { selectUserState } from "../../store/slices/userSlice";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../styles/commonStyles";
 
-import ControlBox from './controls/ControlBox';
-import ChartContainer from './chart/ChartContainer';
-import HeaterStatus from './HeaterStatus/HeaterStatus';
-import DisplayEnergyConsumption from './DisplayEnergyConsumption';
+import ControlBox from "./controls/ControlBox";
+import ChartContainer from "./chart/ChartContainer";
+import HeaterStatus from "./HeaterStatus/HeaterStatus";
+import DisplayEnergyConsumption from "./DisplayEnergyConsumption";
 
-import TgsControlBox from './controls/tgsControlBox';
-import { selectFaults } from '../../store/slices/faultsSlice';
+import TgsControlBox from "./controls/tgsControlBox";
+import { selectFaults } from "../../store/slices/faultsSlice";
+import SettingConfirmedMessage from "../userMessages/SettingConfirmedMessage";
 
 const Switch = () => {
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
-  const faultsState = useSelector(selectFaults);
 
   const location = useLocation();
-  const { message, faultsTypes } =
-    location.pathname === '/' ? faultsState.tgs : faultsState.ess;
-  const [disabledBox, setDisabledBox] = useState(false);
-  const [displayFaultsMessageBox, setDisplayFaultsMessageBox] = useState(false);
-  const [faultsMessage, setFaultsMessage] = useState(null);
-  const [faults, setFaults] = useState(null);
-
-  useEffect(() => {
-    if (message.length > 0) {
-      if (location.pathname === '/') {
-        setDisabledBox(true);
-      } else {
-        const spFaults = message.map((fault) => fault.split(' - ')[0]);
-        spFaults.indexOf(faultsTypes[3]) === -1 && setDisabledBox(true);
-      }
-    }
-  }, [message]);
 
   // only display Heater status ' in ESS Switch '
   const isActivated = isEssSwitch ? true : false;
   const displayHeaterStatus = isEssSwitch
     ? true
-    : location.pathname === '/'
+    : location.pathname === "/"
     ? false
     : true;
-  const backgroundSvg = '/images/background-hat.svg';
+  const backgroundSvg = "/images/background-hat.svg";
 
   return (
     <Wrapper isActivated={isActivated}>
@@ -56,7 +39,7 @@ const Switch = () => {
         <MainSection>
           {isEssSwitch ? (
             <ControlBox />
-          ) : location.pathname === '/' ? (
+          ) : location.pathname === "/" ? (
             <TgsControlBox />
           ) : (
             <ControlBox />
@@ -71,14 +54,6 @@ const Switch = () => {
           </SubSection>
         )}
       </ContentWrapper>
-      {disabledBox && (
-        <DisabledWholePage
-          onClick={() => {
-            setFaultsMessage();
-            setDisplayFaultsMessageBox(true);
-          }}
-        ></DisabledWholePage>
-      )}
     </Wrapper>
   );
 };
@@ -121,13 +96,4 @@ const MainSection = styled.section`
 `;
 const SubSection = styled.section`
   ${flexboxCenter}
-`;
-
-const DisabledWholePage = styled.div`
-  width: 100vw;
-  height: 100vh;
-  width: 100px;
-  height: 100px;
-  border: 1px solid red;
-  position: absolute;
 `;
