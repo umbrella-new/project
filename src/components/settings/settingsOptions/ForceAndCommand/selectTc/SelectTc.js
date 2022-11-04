@@ -131,50 +131,50 @@ function SelectTc({ ess, tgs, essSwitch }) {
   };
 
   return (
-    <WrapperTelemetry>
-      <WrapperTelemetry1>
-        <WrapperTelemetry2>
-          <TitleWrapper>
-            <P>select t/c telemetry</P>
-          </TitleWrapper>
-          <Wrapper>
-            <OutsideTemperature
-              handleChecked={handleChecked}
-              onConfirmHandler={onConfirmCurrentEssHeaterTempHandler}
-              displayOptions={displayOptions}
-              isClicked={isClicked}
-              select={select}
-              checked={checked}
-              essOutsideTempName={'essOutsideTemp'}
-              tgsTesOutsideTempName={'tgsTesOutsideTemp'}
-              burningChamberTempName={'burningChamberTemp'}
-              essSwitch={essSwitch}
-              selectTcState={selectTcState}
-            />
-            <CurrentEncloseAndBurningTemp
-              data={essSwitch ? essData : tgsData}
-              essSwitch={essSwitch}
-              tesSwitch={tesSwitch}
-              handleChecked={handleChecked}
-              onConfirmHandler={onConfirmCurrentEssHeaterTempHandler}
-              displayOptions={displayOptions}
-              isClicked={isClicked}
-              select={select}
-              checked={checked}
-              essHeaterTempName={'essHeaterTemp'}
-              essEncloseTempName={'essEncloseTemp'}
-              tgsHeaterTempName={'tgsHeaterTemp'}
-              tesHeaterTempName={'tesHeaterTemp'}
-              tgsTesEncloseTempName={'tgsTesEncloseTemp'}
-              selectTcState={selectTcState}
-            />
-          </Wrapper>
-          {/* <WrapperButton>
+    // <WrapperTelemetry>
+    <WrapperTelemetry1>
+      <WrapperTelemetry2>
+        <TitleWrapper>
+          <P>select t/c telemetry</P>
+        </TitleWrapper>
+        <Wrapper>
+          <OutsideTemperature
+            handleChecked={handleChecked}
+            onConfirmHandler={onConfirmCurrentEssHeaterTempHandler}
+            displayOptions={displayOptions}
+            isClicked={isClicked}
+            select={select}
+            checked={checked}
+            essOutsideTempName={'essOutsideTemp'}
+            tgsTesOutsideTempName={'tgsTesOutsideTemp'}
+            burningChamberTempName={'burningChamberTemp'}
+            essSwitch={essSwitch}
+            selectTcState={selectTcState}
+          />
+          <CurrentEncloseAndBurningTemp
+            data={essSwitch ? essData : tgsData}
+            essSwitch={essSwitch}
+            tesSwitch={tesSwitch}
+            handleChecked={handleChecked}
+            onConfirmHandler={onConfirmCurrentEssHeaterTempHandler}
+            displayOptions={displayOptions}
+            isClicked={isClicked}
+            select={select}
+            checked={checked}
+            essHeaterTempName={'essHeaterTemp'}
+            essEncloseTempName={'essEncloseTemp'}
+            tgsHeaterTempName={'tgsHeaterTemp'}
+            tesHeaterTempName={'tesHeaterTemp'}
+            tgsTesEncloseTempName={'tgsTesEncloseTemp'}
+            selectTcState={selectTcState}
+          />
+        </Wrapper>
+        {/* <WrapperButton>
             <ButtonSelect />
           </WrapperButton> */}
-        </WrapperTelemetry2>
-      </WrapperTelemetry1>
-    </WrapperTelemetry>
+      </WrapperTelemetry2>
+    </WrapperTelemetry1>
+    // </WrapperTelemetry>
   );
 }
 
@@ -194,7 +194,7 @@ const WrapperTelemetry = styled.div`
 `;
 
 const WrapperTelemetry1 = styled.div`
-  width: 548px;
+  width: 550px;
   height: auto;
   margin: 2px;
 
@@ -206,7 +206,7 @@ const WrapperTelemetry1 = styled.div`
 `;
 
 const WrapperTelemetry2 = styled.div`
-  width: 544px;
+  width: 546px;
   height: auto;
   margin: 2px;
 

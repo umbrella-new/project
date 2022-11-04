@@ -97,12 +97,11 @@ const ButtonTop = styled.div`
 `;
 
 const ButtonName = styled.span`
-  height: 12px;
-  display: inline-block;
   font-size: var(--space2);
   text-transform: uppercase;
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 1px;
   color: #ffffff;
   opacity: 1;
+  text-align: center;
 `;

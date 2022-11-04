@@ -63,7 +63,7 @@ const ButtonHole = styled.div`
   /* background: #3b3b3b; */
   border-color: #707070;
 
-  box-shadow:  background: ${({ tesSwitchFalse }) =>
+  box-shadow: ${({ tesSwitchFalse }) =>
     tesSwitchFalse ? 'inset 0 0 6px #3B3B3B' : 'inset 0 0 6px #000000'};
   opacity: 1;
   padding: 0;
