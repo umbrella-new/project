@@ -176,7 +176,7 @@ const ScheduleSetTitleAndButton = styled.div`
 const ScheduleSetTitle = styled.span`
   height: 12px;
   font-size: 8px;
-  margin-right: 70px;
+  margin-right: 55px;
 `;
 
 const ScheduleCalendarWrapper = styled.div`

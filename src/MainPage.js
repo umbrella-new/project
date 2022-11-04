@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from './components/Footer';
@@ -7,12 +6,8 @@ import Sidebar from './components/sidebar/Sidebar';
 import Switch from './components/switch/Switch';
 import Settings from './components/settings/Settings';
 import Faults from './components/faults/Faults';
-import { selectUserState } from './store/slices/userSlice';
-// import TestSettings from "./components/settings/TestSettings";
 
 const MainPage = () => {
-  const userState = useSelector(selectUserState);
-
   return (
     <Wrapper>
       <Header />
