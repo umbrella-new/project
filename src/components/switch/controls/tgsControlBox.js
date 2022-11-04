@@ -1,31 +1,32 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUserState } from '../../../store/slices/userSlice';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserState } from "../../../store/slices/userSlice";
 import {
   selectTgsSwitch,
   tgsHeatingScheduleDate,
   tgsHeatingScheduleCancel,
   deactivateTgsConflictMessage,
-} from '../../../store/slices/tgsSwitchSlice';
+} from "../../../store/slices/tgsSwitchSlice";
 
 import essSwitchSlice, {
   activateEsSwitchStatus,
   deactivateEsSwitchStatus,
   selectEssSwitch,
-} from '../../../store/slices/essSwitchSlice';
-import { selectFaults } from '../../../store/slices/faultsSlice';
+} from "../../../store/slices/essSwitchSlice";
+import { selectFaults } from "../../../store/slices/faultsSlice";
 
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
-import TgsInstantHeat from './instantHeat/TgsInstantHeat';
-import TgsSnowSensor from './snowSensor/TgsSnowSensor';
-import ConstantHeat from './optionalConstantTemp/ConstantHeat';
-import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
-import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
-import TgsWindFactor from './windFactor/TgsWindFactor';
-import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
-import ConflictMessage from '../../userMessages/ConflictMessage';
+import TgsInstantHeat from "./instantHeat/TgsInstantHeat";
+import TgsSnowSensor from "./snowSensor/TgsSnowSensor";
+import ConstantHeat from "./optionalConstantTemp/ConstantHeat";
+import DisplayTemperatureStates from "./displayState/DisplayTemperatureStates";
+import TgsHeatingSchedule from "./HeatingSchedule/TgsHeatingSchedule";
+import TgsWindFactor from "./windFactor/TgsWindFactor";
+import ScheduleCalendar from "./HeatingSchedule/ScheduleCalendar";
+import ConflictMessage from "../../userMessages/ConflictMessage";
+import SettingConfirmedMessage from "../../userMessages/SettingConfirmedMessage";
 
 const TgsControlBox = () => {
   const userState = useSelector(selectUserState);
@@ -36,7 +37,8 @@ const TgsControlBox = () => {
   const { displayConflictMessage } = state;
 
   const faultsState = useSelector(selectFaults);
-  const isFaults = faultsState.tgs.message.length > 0;
+  const { message } = faultsState.tgs;
+  const isFaults = message.length > 0;
 
   const esState = useSelector(selectEssSwitch);
   const {
@@ -49,6 +51,15 @@ const TgsControlBox = () => {
   } = esState;
 
   const dispatch = useDispatch();
+
+  const [disabledBox, setDisabledBox] = useState(false);
+  const [displayFaultsMessageBox, setDisplayFaultsMessageBox] = useState(false);
+
+  useEffect(() => {
+    if (message.length > 0) {
+      setDisabledBox(true);
+    }
+  }, [message]);
 
   // Check if es is activated
   useEffect(() => {
@@ -70,7 +81,7 @@ const TgsControlBox = () => {
   };
 
   const handleConfirmConflictMessage = () => {
-    console.log('turn off es');
+    console.log("turn off es");
     // Turn off all tgs switches at once
     dispatch(deactivateEsSwitchStatus());
     // Deactivate the message box
@@ -82,8 +93,8 @@ const TgsControlBox = () => {
       <BackgroundImg
         src={
           isFaults
-            ? '/images/controller-background-faults.svg'
-            : '/images/controller-background.svg'
+            ? "/images/controller-background-faults.svg"
+            : "/images/controller-background.svg"
         }
       />
       <PositionAbsolute>
@@ -105,6 +116,25 @@ const TgsControlBox = () => {
           DesiredSwitch='tgs-typhoon gas system'
           handleCancel={handleCancelConflictMessage}
           handleConfirm={handleConfirmConflictMessage}
+        />
+      )}
+
+      {disabledBox && (
+        <DisabledWholePage
+          onClick={() => {
+            setDisplayFaultsMessageBox(true);
+          }}
+        ></DisabledWholePage>
+      )}
+
+      {displayFaultsMessageBox && (
+        <SettingConfirmedMessage
+          alert={true}
+          onClose={() => setDisplayFaultsMessageBox(false)}
+          title='faults'
+          message='SYSTEM OFF
+          UNTIL RELEASE FAULT! Go to faults page to check the details'
+          src={"/images/heater-off-alert.svg"}
         />
       )}
     </Wrapper>
@@ -173,4 +203,13 @@ const SchedulerWrapper = styled.div`
   position: absolute;
   top: 1rem;
   z-index: 100;
+`;
+
+const DisabledWholePage = styled.div`
+  width: 100vw;
+  height: 600px;
+
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
 `;
