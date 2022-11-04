@@ -1,13 +1,13 @@
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { selectUserState } from '../../../store/slices/userSlice';
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { selectUserState } from "../../../store/slices/userSlice";
 
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
-import DisplayBox from './../DisplayBox';
+import DisplayBox from "./../DisplayBox";
 
-import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
+import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
 
 const DisplayStatus = () => {
   // Add conditional statement to assignment values
@@ -15,7 +15,7 @@ const DisplayStatus = () => {
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const a = 350;
-  const b = '___';
+  const b = "___";
   const energyConsumption = `${a} `;
   const enclosureTemp = b;
   const outsideTemp = b;
@@ -31,7 +31,7 @@ const DisplayStatus = () => {
         <ContentsInnerWrapper>
           <DisplayBox
             currData={energyConsumption}
-            unit={'Kw/H'}
+            unit={"Kw/H"}
             name='energyConsumption'
             label='energy consumption'
           />
@@ -55,24 +55,19 @@ const DisplayStatus = () => {
 export default DisplayStatus;
 
 const Wrapper = styled.div`
-  width: var(--chart-width);
+  width: 100%;
   height: 56px;
-  border-radius: 10px;
 
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-1b2b44);
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  /* border: 0.5px solid #1b2b44; */
+
   border-radius: 10px;
-  opacity: 1;
 
   ${flexboxCenter}
 `;
 
 const ContentsWrapper = styled.div`
-  width: 576px;
+  width: 574px;
   height: 52px;
 
   background: transparent
@@ -91,7 +86,7 @@ const ContentsWrapper = styled.div`
 `;
 
 const ContentsInnerWrapper = styled.div`
-  width: 568px;
+  width: 564px;
   height: 44px;
   border-radius: 7px;
 

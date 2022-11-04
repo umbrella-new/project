@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import essSwitchSlice from '../../../store/slices/essSwitchSlice';
-import { selectFaults } from '../../../store/slices/faultsSlice';
-import { selectUserState } from '../../../store/slices/userSlice';
-import { flexboxCenter } from '../../../styles/commonStyles';
-import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import styled, { css } from "styled-components";
+import essSwitchSlice from "../../../store/slices/essSwitchSlice";
+import { selectFaults } from "../../../store/slices/faultsSlice";
+import { selectUserState } from "../../../store/slices/userSlice";
+import { flexboxCenter } from "../../../styles/commonStyles";
+import MaxHeat12HrsTimer from "../../faults/MaxHeat12HrsTimer";
 
-import Chart from './Chart';
-import ChartInfoContainer from './ChartInfoContainer';
-import ChartTitles from './ChartTitles';
-import DisplayStatus from './DisplayStatus';
-import Legend from './Legend';
+import Chart from "./Chart";
+import ChartInfoContainer from "./ChartInfoContainer";
+import ChartTitles from "./ChartTitles";
+import DisplayStatus from "./DisplayStatus";
+import Legend from "./Legend";
 
 function ChartContainer() {
   const faultsState = useSelector(selectFaults);
@@ -26,7 +26,7 @@ function ChartContainer() {
 
   const isFaults = isEssSwitch
     ? essFault
-    : location.pathname === '/'
+    : location.pathname === "/"
     ? tgsFault
     : essFault;
 
@@ -40,8 +40,8 @@ function ChartContainer() {
         <SvgImg
           src={
             isFaults
-              ? '/images/chart-background-faults.svg'
-              : '/images/chart-background-noFaults.svg'
+              ? "/images/chart-background-faults.svg"
+              : "/images/chart-background-noFaults.svg"
           }
         />
       </BackgroundWrapper>
@@ -58,7 +58,9 @@ function ChartContainer() {
               </ChartWrapper3>
             </ChartWrapper2>
           </ChartWrapper1>
+
           <Legend />
+
           <DisplayStatus />
         </ContentsWrapper>
       </PositionAbsolute>
@@ -69,7 +71,7 @@ function ChartContainer() {
         </TimerWrapperPositionAbsolute>
       )}
 
-      {maxHeatFor12hrsTimer && !isEssSwitch && location.pathname !== '/' && (
+      {maxHeatFor12hrsTimer && !isEssSwitch && location.pathname !== "/" && (
         <TimerWrapperPositionAbsolute>
           <MaxHeat12HrsTimer />
         </TimerWrapperPositionAbsolute>
@@ -86,10 +88,11 @@ const Wrapper = styled.div`
 
 const BackgroundWrapper = styled.div`
   width: 594px;
-  height: 474px;
+  height: 476px;
   border-radius: 14px;
-
+  ${flexboxCenter};
   position: relative;
+  padding-top: 0.6rem;
 `;
 
 const FileOptionTitleWrapper = styled.div`
@@ -98,8 +101,8 @@ const FileOptionTitleWrapper = styled.div`
   justify-content: space-between;
   width: 13rem;
   position: absolute;
-  top: 0.8rem;
-  right: 1rem;
+  top: 1.1rem;
+  right: 1.6rem;
   z-index: 1000;
 `;
 const FileTitle = styled.span`
@@ -114,23 +117,29 @@ const FileTitle = styled.span`
 const SvgImg = styled.img`
   width: 100%;
   height: 98%;
-  position: absolute;
+  /* position: absolute;
   top: 0.6rem;
-  left: 0.35rem;
+  left: 0.35rem; */
 `;
 
 const PositionAbsolute = styled.div`
-  ${flexboxCenter}
+  width: 580px;
+  height: 438px;
+  display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: flex-start;
 
   position: absolute;
-  top: 2.95rem;
-  right: 0.3rem;
+  top: 3rem;
+  right: 0.45rem;
+
+  padding: 0.05rem 0.1rem;
 `;
 
 const ContentsWrapper = styled.div`
   height: 416px;
+  width: 100%;
 
   ${flexboxCenter}
   justify-content: space-between;
@@ -140,48 +149,35 @@ const ContentsWrapper = styled.div`
 `;
 
 const ChartWrapper1 = styled.div`
-  width: var(--chart-width);
-  height: 254px;
+  width: 100%;
+  height: 251px;
 
-  background: transparent;
-  background: var(--unnamed-color-1b2b44) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px var(--unnamed-color-000000);
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 14px;
-  opacity: 1;
 
   ${flexboxCenter}
 `;
 
 const ChartWrapper2 = styled.div`
-  width: 576px;
+  width: 574px;
   height: 250px;
   ${flexboxCenter}
 
-  background: transparent
-    linear-gradient(90deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 12px;
-  opacity: 1;
 `;
 
 const ChartWrapper3 = styled.div`
-  width: 570px;
+  width: 566px;
   height: 242px;
 
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 10px;
-  opacity: 1;
 `;
 
 const TimerWrapperPositionAbsolute = styled.div`

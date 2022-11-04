@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../../styles/commonStyles";
 
 function Legend() {
   return (
@@ -11,11 +11,11 @@ function Legend() {
           </TitleWrapper>
 
           <ItemWrapper>
-            <Img src={'/images/orange-dot.svg'} />
+            <Img src={"/images/orange-dot.svg"} />
             <HeaterTemp>HT-HEATER TEMPERATURE</HeaterTemp>
-            <Img src={'/images/green-dot.svg'} />
+            <Img src={"/images/green-dot.svg"} />
             <EnclosureTemp>ET-ENCLOSURE TEMPERATURE</EnclosureTemp>
-            <Img src={'/images/blue-dot.svg'} />
+            <Img src={"/images/blue-dot.svg"} />
             <OutsideTemp>OT-OUTSIDE TEMPERATURE</OutsideTemp>
           </ItemWrapper>
         </ContentsInnerWrapper>
@@ -27,48 +27,36 @@ function Legend() {
 export default Legend;
 
 const Wrapper = styled.div`
-  width: var(--chart-width);
   height: 24px;
+  width: 100%;
 
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px var(--unnamed-color-000000);
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 7px;
-  opacity: 1;
 
   ${flexboxCenter}
 `;
 
 const ContentsWrapper = styled.div`
-  width: 576px;
+  width: 574px;
   height: 20px;
 
-  background: transparent
-    linear-gradient(90deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 6px;
-  opacity: 1;
 
   ${flexboxCenter}
 `;
 
 const ContentsInnerWrapper = styled.div`
-  width: 568px;
+  width: 566px;
   height: 12px;
 
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 3px;
-  opacity: 1;
 
   ${flexboxCenter}
   justify-content: space-between;

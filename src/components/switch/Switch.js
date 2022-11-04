@@ -71,7 +71,8 @@ const Wrapper = styled.div`
 
   border-radius: 16px 0 16px 16px;
   ${flexboxCenter}
-  padding-bottom: 0.2rem;
+  padding-bottom: 0rem;
+
   position: relative;
 
   /* border: 1px solid red; */
@@ -92,7 +93,7 @@ const ContentWrapper = styled.div`
 const MainSection = styled.section`
   ${flexboxCenter}
 
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 const SubSection = styled.section`
   ${flexboxCenter}
