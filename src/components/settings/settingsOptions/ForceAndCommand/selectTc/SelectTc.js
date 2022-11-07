@@ -194,28 +194,28 @@ const WrapperTelemetry = styled.div`
 `;
 
 const WrapperTelemetry1 = styled.div`
-  width: 550px;
+  width: 548px;
   height: auto;
   margin: 2px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
-  border-radius: 12px;
+  border-radius: 10px;
   opacity: 1;
   ${flexboxCenter}
 `;
 
 const WrapperTelemetry2 = styled.div`
-  width: 546px;
+  width: 544px;
   height: auto;
   margin: 2px;
 
   background: transparent
     linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%) 0% 0% no-repeat
     padding-box;
-  box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
+  box-shadow: inset 1px 1px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;
-  border-radius: 9px;
+  border-radius: 8px;
   opacity: 1;
   ${flexboxCenter}
   flex-direction: column;

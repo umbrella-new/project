@@ -36,6 +36,9 @@ const userSlice = createSlice({
     handleDisplaySSRDetails: (state) => {
       state.isExpanded = !state.isExpanded;
     },
+    handleTesSwitch: (state, action) => {
+      state.isTesSwitch = action.payload;
+    },
   },
 });
 
@@ -45,4 +48,5 @@ export const {
   setAdminAccess,
   handlePasswordPropagation,
   handleDisplaySSRDetails,
+  handleTesSwitch,
 } = userSlice.actions;

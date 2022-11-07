@@ -417,7 +417,8 @@ const InnerWrapper = styled.div`
   height: 201px;
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
-  box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 2px #000000;
+  box-shadow: 0px 0px 2px #000000;
+  box-shadow: inset 1px 1px 2px rgb(255, 255, 255, 0.1);
   border: 0.5px solid #000000;
   border-radius: 9px;
 

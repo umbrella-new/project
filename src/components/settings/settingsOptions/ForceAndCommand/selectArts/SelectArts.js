@@ -72,7 +72,7 @@ const Wrapper = styled.div`
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
-  border-radius: 12px;
+  border-radius: 9px;
   opacity: 1;
   ${flexboxCenter};
 `;
@@ -84,8 +84,9 @@ const Wrapper2 = styled.div`
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: 0px 0px 2px #000000;
+  box-shadow: inset 1px 1px 2px rgb(255, 255, 255, 0.1);
   border: 0.5px solid #142033;
-  border-radius: 9px;
+  border-radius: 7px;
   opacity: 1;
 
   display: flex;

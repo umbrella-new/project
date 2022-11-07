@@ -48,28 +48,15 @@ function ContainerValveSettings() {
 
 export default ContainerValveSettings;
 
-// const Wrapper = styled.div`
-//   width: 558px;
-//   height: 350px;
-
-//   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
-//     0% no-repeat padding-box;
-//   box-shadow: 0px 0px 2px #000000;
-//   border: 0.5px solid #142033;
-//   border-radius: 9px 9px 24px 24px;
-//   opacity: 1;
-//   ${flexboxCenter};
-//   align-items: flex-start;
-// `;
-
 const Wrapper = styled.div`
   width: 554px;
   height: auto;
-  /* height: auto; */
   margin-top: 2px;
+  margin-bottom: 19px;
 
   background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
+  box-shadow: inset 0px 0px 6px #000000;
+
   border-radius: 13px;
   opacity: 1;
   display: flex;
