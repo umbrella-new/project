@@ -67,7 +67,7 @@ const InstantHeat = () => {
       if (temp !== 0) {
         if (!instantButtonToggler) {
           unitsMeasurement
-            ? dispatch(instantHeat((temp - 32) / 1.8))
+            ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
             : dispatch(instantHeat(temp));
           unitsMeasurement
             ? (inputRef.current.value = `${temp}\u00b0F`)
@@ -93,7 +93,7 @@ const InstantHeat = () => {
       if (temp !== 0) {
         if (!instantButtonToggler) {
           unitsMeasurement
-            ? dispatch(instantHeat((temp - 32) / 1.8))
+            ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
             : dispatch(instantHeat(temp));
           unitsMeasurement
             ? (inputRef.current.value = `${temp}\u00b0F`)

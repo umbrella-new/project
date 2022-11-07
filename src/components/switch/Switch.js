@@ -1,19 +1,19 @@
-import { useSelector } from "react-redux";
-import { selectUserState } from "../../store/slices/userSlice";
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
+import { selectUserState } from '../../store/slices/userSlice';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-import styled from "styled-components";
-import { flexboxCenter } from "../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../styles/commonStyles';
 
-import ControlBox from "./controls/ControlBox";
-import ChartContainer from "./chart/ChartContainer";
-import HeaterStatus from "./HeaterStatus/HeaterStatus";
-import DisplayEnergyConsumption from "./DisplayEnergyConsumption";
+import ControlBox from './controls/ControlBox';
+import ChartContainer from './chart/ChartContainer';
+import HeaterStatus from './HeaterStatus/HeaterStatus';
+import DisplayEnergyConsumption from './DisplayEnergyConsumption';
 
-import TgsControlBox from "./controls/tgsControlBox";
-import { selectFaults } from "../../store/slices/faultsSlice";
-import SettingConfirmedMessage from "../userMessages/SettingConfirmedMessage";
+import TgsControlBox from './controls/tgsControlBox';
+import { selectFaults } from '../../store/slices/faultsSlice';
+import SettingConfirmedMessage from '../userMessages/SettingConfirmedMessage';
 
 const Switch = () => {
   const userState = useSelector(selectUserState);
@@ -25,10 +25,10 @@ const Switch = () => {
   const isActivated = isEssSwitch ? true : false;
   const displayHeaterStatus = isEssSwitch
     ? true
-    : location.pathname === "/"
+    : location.pathname === '/'
     ? false
     : true;
-  const backgroundSvg = "/images/background-hat.svg";
+  const backgroundSvg = '/images/background-hat.svg';
 
   return (
     <Wrapper isActivated={isActivated}>
@@ -39,7 +39,7 @@ const Switch = () => {
         <MainSection>
           {isEssSwitch ? (
             <ControlBox />
-          ) : location.pathname === "/" ? (
+          ) : location.pathname === '/' ? (
             <TgsControlBox />
           ) : (
             <ControlBox />
@@ -63,16 +63,16 @@ export default Switch;
 const Wrapper = styled.div`
   width: 901px;
   position: relative;
-  /* height: 500px; */
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
-  opacity: 1;
 
   border-radius: 16px 0 16px 16px;
   ${flexboxCenter}
 
   position: relative;
+
+  /* border: 1px solid blue; */
 `;
 
 const BackgroundImg = styled.img`

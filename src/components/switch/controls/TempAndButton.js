@@ -124,7 +124,7 @@ const TempAndButton = ({
     const temp = Number(input);
     if (title === 'scheduler') {
       if (unitsMeasurement) {
-        buttonHandler(temp / 18 - 32);
+        buttonHandler(Math.round((temp - 32) / 1.8));
         setOpenKeyPad(false);
         inputRef.current.value = `${temp}\u00b0F`;
       } else {
@@ -141,7 +141,7 @@ const TempAndButton = ({
           setOpenKeyPad(false);
           inputRef.current.value = '';
         } else {
-          buttonHandler(temp / 18 - 32);
+          buttonHandler(Math.round((temp - 32) / 1.8));
           setOpenKeyPad(false);
           inputRef.current.value = `${temp}\u00b0F`;
         }

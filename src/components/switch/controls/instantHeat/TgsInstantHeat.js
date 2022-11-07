@@ -60,7 +60,7 @@ const TgsInstantHeat = () => {
       if (unitsMeasurement) {
         if (temp !== 0) {
           if (!instantButtonToggler) {
-            dispatch(tgsInstantHeat(temp - 32 / 1.8));
+            dispatch(tgsInstantHeat(Math.round(temp - 32 / 1.8)));
             inputRef.current.value = `${temp}\u00b0F`;
           } else {
             dispatch(tgsInstantHeat(0));
@@ -95,7 +95,7 @@ const TgsInstantHeat = () => {
       if (unitsMeasurement) {
         if (temp !== 0) {
           if (!instantButtonToggler) {
-            dispatch(tgsInstantHeat((temp - 32) / 1.8));
+            dispatch(tgsInstantHeat(Math.round((temp - 32) / 1.8)));
             inputRef.current.value = `${temp}\u00b0F`;
             handleKeypadClosed();
           } else {

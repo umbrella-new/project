@@ -44,14 +44,10 @@ const Wrapper = styled.section`
   align-items: center;
   justify-content: flex-start;
 
-  background: transparent
-    linear-gradient(90deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 1px 1px #ffffff29, 0px 0px 2px #00000080;
   border: 0.5px solid #000000b0;
-  opacity: 1;
 
   padding: var(--space2) var(--space0);
 
