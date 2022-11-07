@@ -53,7 +53,7 @@ const MessageOuter = styled.div`
     0% 0% no-repeat padding-box;
   box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 6px #000000;
   border: 0.5px solid #000000;
-  opacity: 1;
+
   border-radius: 14px;
   ${flexboxCenter}
 `;
@@ -64,7 +64,6 @@ const MessageInner = styled.div`
   box-shadow: inset 0px 0px 3px #000000;
   border: 0.5px solid #000000;
   border-radius: 9px;
-  opacity: 1;
 
   padding: var(--space2);
 

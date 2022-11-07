@@ -47,17 +47,12 @@ const Wrapper = styled.div`
   width: 133px;
   height: 30px;
   /* UI Properties */
-  background: transparent
-    linear-gradient(180deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
+
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
-  opacity: 1;
 
   ${flexboxCenter};
 `;
@@ -65,12 +60,10 @@ const InnerLayer = styled.div`
   width: 122px;
   height: 21px;
   /* UI Properties */
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 20px;
-  opacity: 1;
 
   display: flex;
   align-items: center;
@@ -89,16 +82,13 @@ const Title = styled.span`
   font-size: 8px;
   letter-spacing: 0.8px;
   color: #ffffff;
-  opacity: 1;
-
   line-height: 110%;
 `;
 
 const Divider = styled.div`
   width: 0px;
   height: 14px;
-  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-  border: 1px solid var(--unnamed-color-ffffff);
+
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #ffffff;
   opacity: 1;
@@ -110,7 +100,7 @@ const DefaultDegree = styled.span`
   width: 42px;
   height: 12px;
   /* UI Properties */
-  color: var(--unnamed-color-ffffff);
+
   text-align: left;
   font-size: 10px;
   letter-spacing: 1px;
