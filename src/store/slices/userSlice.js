@@ -5,13 +5,12 @@ import { createSlice } from '@reduxjs/toolkit';
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: true,
-  isTesSwitch: false,
+  isEssSwitch: false,
+  isTesSwitch: true,
   isExpanded: false,
   isPasswordOpen: false,
   isAdministrator: false,
   adminPassword: 'ATEF61',
-  isKeyboardActivated: false,
   dateAndWeather: {
     date: null,
     weather: null,
@@ -28,10 +27,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    activateKeyboard: (state) => {
-      console.log('here');
-      state.isKeyboardActivated = !state.isKeyboardActivated;
-    },
     setAdminAccess: (state, action) => {
       state.isAdministrator = action.payload;
     },
@@ -47,7 +42,6 @@ const userSlice = createSlice({
 export default userSlice;
 export const selectUserState = (state) => state.user;
 export const {
-  activateKeyboard,
   setAdminAccess,
   handlePasswordPropagation,
   handleDisplaySSRDetails,

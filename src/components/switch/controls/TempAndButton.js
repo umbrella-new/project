@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
-import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -11,6 +9,9 @@ import {
   activeInput,
   ButtonReady,
 } from '../../../styles/commonStyles';
+
+import styled, { css } from 'styled-components';
+
 import InputKeyPad from '../../keyboard/InputKeyPad';
 import InputTempMessage from '../../userMessages/InputTempMessage';
 
@@ -124,7 +125,7 @@ const TempAndButton = ({
     const temp = Number(input);
     if (title === 'scheduler') {
       if (unitsMeasurement) {
-        buttonHandler(temp / 18 - 32);
+        buttonHandler(Math.round((temp - 32) / 1.8));
         setOpenKeyPad(false);
         inputRef.current.value = `${temp}\u00b0F`;
       } else {
@@ -141,7 +142,7 @@ const TempAndButton = ({
           setOpenKeyPad(false);
           inputRef.current.value = '';
         } else {
-          buttonHandler(temp / 18 - 32);
+          buttonHandler(Math.round((temp - 32) / 1.8));
           setOpenKeyPad(false);
           inputRef.current.value = `${temp}\u00b0F`;
         }

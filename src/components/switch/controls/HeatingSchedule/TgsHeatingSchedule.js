@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
-
 import {
   activateTgsConflictMessage,
   addTgsHeatingSchedule,
@@ -12,7 +10,10 @@ import {
   tgsHeatingScheduleDate,
   tgsHeatingScheduleOpen,
 } from '../../../../store/slices/tgsSwitchSlice';
+
+import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+
 import AddScheduleButton from '../AddScheduleButton';
 import ControllerName from '../ControllerName';
 import Scheduler from '../Scheduler';

@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserState } from '../../../store/slices/userSlice';
 import {
   selectTgsSwitch,
-  tgsHeatingScheduleDate,
-  tgsHeatingScheduleCancel,
   deactivateTgsConflictMessage,
 } from '../../../store/slices/tgsSwitchSlice';
 
-import essSwitchSlice, {
+import {
   activateEsSwitchStatus,
   deactivateEsSwitchStatus,
   selectEssSwitch,
@@ -24,14 +22,11 @@ import ConstantHeat from './optionalConstantTemp/ConstantHeat';
 import DisplayTemperatureStates from './displayState/DisplayTemperatureStates';
 import TgsHeatingSchedule from './HeatingSchedule/TgsHeatingSchedule';
 import TgsWindFactor from './windFactor/TgsWindFactor';
-import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
 import ConflictMessage from '../../userMessages/ConflictMessage';
 import SettingConfirmedMessage from '../../userMessages/SettingConfirmedMessage';
 
 const TgsControlBox = () => {
   const userState = useSelector(selectUserState);
-  const { isEssSwitch } = userState;
-  // conditionally change state ess || tgs || tes
 
   const state = useSelector(selectTgsSwitch);
   const { displayConflictMessage } = state;
@@ -54,7 +49,7 @@ const TgsControlBox = () => {
 
   const [disabledBox, setDisabledBox] = useState(false);
   const [displayFaultsMessageBox, setDisplayFaultsMessageBox] = useState(false);
-  const [faultsType, setFaultsType] = useState(null);
+
   useEffect(() => {
     if (message.length > 0) {
       if (message.length === 1) {

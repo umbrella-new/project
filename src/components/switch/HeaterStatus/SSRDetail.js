@@ -1,6 +1,4 @@
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { selectUserState } from '../../../store/slices/userSlice';
 
 import styled from 'styled-components';
 

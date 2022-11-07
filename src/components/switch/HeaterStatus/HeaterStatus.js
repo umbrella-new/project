@@ -2,6 +2,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSSRState } from '../../../store/slices/heaterStatusSlice';
+import { selectFaults } from '../../../store/slices/faultsSlice';
+import {
+  handleDisplaySSRDetails,
+  selectUserState,
+} from '../../../store/slices/userSlice';
 
 // Styling
 import styled, { css } from 'styled-components';
@@ -12,11 +17,6 @@ import ApplyButton from '../controls/ApplyButton';
 import SSRButton from './SSRButton';
 import SSRDetail from './SSRDetail';
 import ContainerLogin from '../../adminPassword/ContainerLogin';
-import { selectFaults } from '../../../store/slices/faultsSlice';
-import {
-  handleDisplaySSRDetails,
-  selectUserState,
-} from '../../../store/slices/userSlice';
 
 const HeaterStatus = () => {
   const ssrState = useSelector(selectSSRState);

@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import essSwitchSlice from '../../../store/slices/essSwitchSlice';
 import { selectFaults } from '../../../store/slices/faultsSlice';
 import { selectUserState } from '../../../store/slices/userSlice';
-import { flexboxCenter } from '../../../styles/commonStyles';
-import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
 
+import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from 'styled-components';
+
+import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
 import Chart from './Chart';
 import ChartInfoContainer from './ChartInfoContainer';
 import ChartTitles from './ChartTitles';
@@ -65,6 +64,15 @@ function ChartContainer() {
         </ContentsWrapper>
       </PositionAbsolute>
 
+      {/* Another layout for responsible design */}
+      {/* <InvisibleWrapper>
+        <HatsWrapper>
+          <MonitorHat></MonitorHat>
+          <GraphHat></GraphHat>
+        </HatsWrapper>
+        <InnerWrapper></InnerWrapper>
+      </InvisibleWrapper> */}
+
       {maxHeatFor12hrsTimer && isEssSwitch && (
         <TimerWrapperPositionAbsolute>
           <MaxHeat12HrsTimer />
@@ -81,9 +89,13 @@ function ChartContainer() {
 }
 export default ChartContainer;
 const Wrapper = styled.div`
-  height: 459px;
+  height: 466px;
   width: 594px;
   box-sizing: border-box;
+  /* margin-top: 1.5rem; */
+  margin-top: 0.4rem;
+
+  display: flex;
 `;
 
 const BackgroundWrapper = styled.div`
@@ -93,6 +105,7 @@ const BackgroundWrapper = styled.div`
   ${flexboxCenter};
   position: relative;
   margin-top: 0.2rem;
+  border
 `;
 
 const FileOptionTitleWrapper = styled.div`
@@ -127,8 +140,8 @@ const PositionAbsolute = styled.div`
   justify-content: flex-start;
 
   position: absolute;
-  top: 2.98rem;
-  right: 0.42rem;
+  top: 2.9rem;
+  right: 0.44rem;
 
   padding: 0.02rem 0.1rem 0.05rem 0.1rem;
 `;
@@ -180,4 +193,36 @@ const TimerWrapperPositionAbsolute = styled.div`
   position: absolute;
   top: 5rem;
   right: 0.3rem;
+`;
+
+const InvisibleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const InnerWrapper = styled.div`
+  width: 592px;
+  height: 447px;
+  border-radius: 12px 0 12px 12px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+`;
+const HatsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const MonitorHat = styled.div`
+  width: 155px;
+  height: 17px;
+
+  background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%) 0%
+    0% no-repeat padding-box;
+`;
+const GraphHat = styled.div`
+  width: 89px;
+  height: 17px;
+
+  border: 1px solid var(--unnamed-color-ff0000);
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
 `;

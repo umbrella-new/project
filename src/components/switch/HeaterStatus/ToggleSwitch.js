@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux';
+import { toggle } from '../../../store/slices/heaterStatusSlice';
 
 import styled from 'styled-components';
-import { toggle } from '../../../store/slices/heaterStatusSlice';
+
 import { flexboxCenter } from '../../../styles/commonStyles';
 
 const ToggleSWitch = ({ data, id }) => {

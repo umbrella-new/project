@@ -7,10 +7,6 @@ import {
   selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
 
-import userSlice, {
-  activateKeyboard,
-} from '../../../../store/slices/userSlice';
-
 import {
   activeInput,
   activeLayer1,
@@ -19,7 +15,7 @@ import {
   layer90Deg,
 } from '../../../../styles/commonStyles';
 import styled, { css } from 'styled-components';
-import { selectUserState } from '../../../../store/slices/userSlice';
+
 import InputKeyPad from '../../../keyboard/InputKeyPad';
 import {
   activateTgsSwitchStatus,
@@ -39,7 +35,6 @@ const InstantHeat = () => {
   const tgsState = useSelector(selectTgsSwitch);
   const { isTgsSwitchActivated } = tgsState;
 
-  // const { isKeyboardActivated } = userState;
   const [openKeyPad, setOpenKeyPad] = useState(false);
   const [activateMessageBox, setActivateMessageBox] = useState(false);
 
@@ -67,7 +62,7 @@ const InstantHeat = () => {
       if (temp !== 0) {
         if (!instantButtonToggler) {
           unitsMeasurement
-            ? dispatch(instantHeat((temp - 32) / 1.8))
+            ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
             : dispatch(instantHeat(temp));
           unitsMeasurement
             ? (inputRef.current.value = `${temp}\u00b0F`)
@@ -93,7 +88,7 @@ const InstantHeat = () => {
       if (temp !== 0) {
         if (!instantButtonToggler) {
           unitsMeasurement
-            ? dispatch(instantHeat((temp - 32) / 1.8))
+            ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
             : dispatch(instantHeat(temp));
           unitsMeasurement
             ? (inputRef.current.value = `${temp}\u00b0F`)

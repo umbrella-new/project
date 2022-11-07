@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import { selectUserState } from '../../store/slices/userSlice';
+import { selectFaults } from '../../store/slices/faultsSlice';
 
 import styled from 'styled-components';
 
 import Titles from '../settings/headings/Titles';
 import FaultSwitch from './FaultSwitch';
-import { selectFaults } from '../../store/slices/faultsSlice';
 
 const Faults = () => {
   const userState = useSelector(selectUserState);

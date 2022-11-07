@@ -160,6 +160,7 @@ const Wrapper = styled.div`
 
   /* Space between the control box with chart container */
   margin-right: var(--space1);
+  /* border: 1px solid blue; */
 `;
 
 const BackgroundImg = styled.img`

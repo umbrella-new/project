@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
-
 import {
   selectTgsSwitch,
   tgsSnowSensor,
   FanOnlyActivator,
   activateTgsConflictMessage,
 } from '../../../../store/slices/tgsSwitchSlice';
-import { flexboxCenter } from '../../../../styles/commonStyles';
-import ApplyButton from '../ApplyButton';
 
+import { flexboxCenter } from '../../../../styles/commonStyles';
+import styled from 'styled-components';
+
+import ApplyButton from '../ApplyButton';
 import ControllerName from '../ControllerName';
 import DefaultTemp from '../DefaultTemp';
 
