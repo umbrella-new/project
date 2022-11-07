@@ -37,13 +37,6 @@ const InputTemp = ({ isEnable, setTemp }) => {
 
 export default InputTemp;
 
-const InputAndLabelWrapper = styled.div`
-  height: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-`;
 const Label = styled.label`
   height: 10px;
   width: 66px;
@@ -67,7 +60,7 @@ const InputWrapper = styled.div`
             rgb(0, 0, 0) 0%,
             rgb(35, 58, 84) 100%
           );
-          opacity: 1;
+
           box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
           box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
         `
@@ -87,7 +80,6 @@ const InputDegree = styled.input`
           background: #233a54;
           border-color: #707070;
           box-shadow: inset 0 0 6px #000000;
-          opacity: 1;
         `
       : css`
           ${DisableApplyButtonHole}

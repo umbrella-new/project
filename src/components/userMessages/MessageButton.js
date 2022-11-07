@@ -22,7 +22,6 @@ const WrapperHole = styled.button`
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 18px;
-  opacity: 1;
 
   ${flexboxCenter}
 
@@ -36,7 +35,7 @@ const ButtonOuter = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
-  opacity: 1;
+
   ${flexboxCenter}
 `;
 const ButtonInnerHole = styled.div`
@@ -45,7 +44,7 @@ const ButtonInnerHole = styled.div`
   background: #142033 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 1px #000000;
   border-radius: 18px;
-  opacity: 1;
+
   ${flexboxCenter}
 `;
 const ButtonTop = styled.div`
@@ -56,7 +55,7 @@ const ButtonTop = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
-  opacity: 1;
+
   ${flexboxCenter}
 `;
 const Title = styled.span`

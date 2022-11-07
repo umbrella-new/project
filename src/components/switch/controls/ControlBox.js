@@ -192,28 +192,21 @@ const ControlsList = styled.ul`
   width: 282px;
   height: 458px;
   /* UI Properties */
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
-  border: 1px solid var(--unnamed-color-1b2b44);
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  /* border: 1px solid #1b2b44; */
+  border: 1px solid #1b2b44;
   border-radius: 10px;
   opacity: 1;
 
   ${flexboxCenter}
+
   flex-direction: column;
   justify-content: space-between;
   padding-top: 0.3rem;
   padding-bottom: 0.1rem;
 
   box-sizing: border-box;
-`;
-
-const KeyboardWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  z-index: 1000;
 `;
 
 const DisabledWholePage = styled.div`

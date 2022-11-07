@@ -135,17 +135,12 @@ export default HeatingSchedule;
 const Wrapper = styled.li`
   width: var(--controller-width);
   height: 142px;
-  background: transparent
-    linear-gradient(90deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
+
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 4px;
-  opacity: 1;
 
   ${flexboxCenter}
 
@@ -157,12 +152,11 @@ const SchedulerWrapper = styled.div`
   width: 272px;
   height: 74px;
   /* UI Properties */
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 10px 10px 26px 26px;
-  opacity: 1;
+
   box-sizing: border-box;
 
   display: flex;

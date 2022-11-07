@@ -64,17 +64,12 @@ export default WindFactor;
 const Wrapper = styled.li`
   width: var(--controller-width);
   height: 68px;
-  background: transparent
-    linear-gradient(90deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
+
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 4px;
-  opacity: 1;
 
   box-sizing: border-box;
 
@@ -103,7 +98,6 @@ const ApplyButtonWrapper = styled.button`
   height: 34px;
   width: 270px;
   border-radius: 25px;
-  padding: 0;
 
   display: flex;
   align-items: center;
@@ -118,7 +112,7 @@ const ApplyButtonWrapper = styled.button`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
+
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 
@@ -147,8 +141,6 @@ const ButtonHole = styled.div`
   background: #233a54;
   border-color: #707070;
   box-shadow: inset 0 0 6px #000000;
-  opacity: 1;
-  padding: 0;
 
   ${(p) =>
     p.isActivated &&
@@ -171,7 +163,7 @@ const ButtonTop = styled.div`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
+
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 

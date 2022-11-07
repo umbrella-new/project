@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 export const flexboxCenter = css`
   display: flex;
@@ -30,25 +30,16 @@ export const layer90Deg = css`
 `;
 
 export const activeLayer1 = css`
-  background: transparent
-    linear-gradient(180deg, #4baf00 0%, var(--unnamed-color-124000) 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(180deg, #4baf00 0%, #124000 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
-
-  /* border: 0.5px solid #000000; */
-
-  opacity: 1;
+  border: 0.5px solid #000000;
 `;
 export const activeLayer2 = css``;
 
 export const activeInput = css`
   background: #124000 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  opacity: 1;
 `;
 
 export const marginBottom = css`
@@ -58,7 +49,6 @@ export const marginBottom = css`
 export const ssrHole = css`
   background: #142033 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 1px #000000;
-  opacity: 1;
 `;
 
 export const ssrOn = css`
@@ -67,29 +57,21 @@ export const ssrOn = css`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
-  opacity: 1;
 `;
 
 export const ssrOff = css`
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(180deg, #565656 0%, #1d1d1d 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-
-  opacity: 1;
 `;
 
 export const ControllerDisabledBackground = css`
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(90deg, #565656 0%, #1d1d1d 100%) 0% 0%
     no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 4px;
-  opacity: 1;
 `;
 
 export const ControllerEnabledBackground = css`
@@ -98,14 +80,13 @@ export const ControllerEnabledBackground = css`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 4px;
-  opacity: 1;
 
   background-image: -webkit-linear-gradient(
     180deg,
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
+
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
@@ -115,28 +96,23 @@ export const DisableApplyButtonBG = css`
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  opacity: 1;
 `;
 
 export const DisableApplyButtonHole = css`
   background: #3b3b3b 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 1px #000000;
-  opacity: 1;
 `;
 
 export const ItemBackground = css`
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
   border-radius: 12px;
-  opacity: 1;
 `;
 
 export const ItemBackgroundDisable = css`
-  background: var(--unnamed-color-3b3b3b) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 2px var(--unnamed-color-000000);
   background: #3b3b3b 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
-  opacity: 1;
+
   border-radius: 12px;
 `;
 
@@ -145,7 +121,6 @@ export const ButtonReady = css`
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  opacity: 1;
 `;
 
 /*background of layer 2 when colors transition from left to right*/
@@ -159,7 +134,7 @@ export const layer2HorizontalGradient = css`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
+
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
@@ -175,22 +150,15 @@ export const layer2VerticalGradient = css`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
+
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
 
 /* background of whole box included layer 1 and 2 to be green  when activated*/
 export const activeLayer = css`
-  background: transparent
-    linear-gradient(180deg, #4baf00 0%, var(--unnamed-color-124000) 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
   background: transparent linear-gradient(180deg, #4baf00 0%, #124000 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-
-  opacity: 1;
 `;

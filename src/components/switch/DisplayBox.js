@@ -80,7 +80,6 @@ const InnerLayer = styled.div`
     0% no-repeat padding-box;
   border: 1px solid #ffe600;
   border-radius: 3px;
-  opacity: 1;
 `;
 const DisplayDataWrapper = styled.div`
   position: absolute;
@@ -115,12 +114,11 @@ const LabelWrapper = styled.div`
 
 const DisplayLabel = styled.span`
   line-height: 10px;
-  color: var(--unnamed-color-1b2b44);
   text-align: right;
   font-size: 8px;
   letter-spacing: 0.8px;
   color: #1b2b44;
-  opacity: 1;
+
   line-height: 0.9;
 `;
 

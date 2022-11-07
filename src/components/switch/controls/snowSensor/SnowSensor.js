@@ -85,12 +85,10 @@ const Wrapper = styled.li`
 const TempAndButton = styled.div`
   width: 272px;
   height: 36px;
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 27px;
-  opacity: 1;
 
   ${flexboxCenter}
   justify-content: space-between;

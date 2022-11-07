@@ -94,7 +94,6 @@ const ButtonHole = styled.div`
           background: #233a54;
           border-color: #707070;
           box-shadow: inset 0 0 6px #000000;
-          opacity: 1;
         `
       : css`
           ${DisableApplyButtonHole}
@@ -118,7 +117,7 @@ const ButtonTop = styled.div`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
-  opacity: 1;
+
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 
   ${(p) =>
@@ -143,7 +142,6 @@ const ButtonTop = styled.div`
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  opacity: 1;
 
   ${flexboxCenter}
 `;

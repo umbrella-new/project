@@ -159,7 +159,6 @@ const TimeOuter = styled.div`
     0% no-repeat padding-box;
   box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
   border: 0.5px solid #000000;
-  opacity: 1;
 
   border-radius: 10px;
   ${flexboxCenter}
@@ -172,7 +171,7 @@ const TimeInner = styled.div`
   background: #142033 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 8px;
-  opacity: 0.8;
+
   /* border: 1px solid red; */
   /* ${flexboxCenter} */
   display: flex;
@@ -209,7 +208,6 @@ const OptionAndTitleWrapper = styled.div`
   box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
   border: 0.5px solid #000000;
   border-radius: 12px;
-  opacity: 1;
 `;
 const OptionWrapper = styled.div`
   display: flex;
@@ -289,19 +287,16 @@ const DivisionOuter = styled.div`
   box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 3px #000000;
   border: 0.5px solid #000000;
   border-radius: 12px;
-  opacity: 1;
 
   ${flexboxCenter}
 `;
 const DivisionInner = styled.div`
   width: 53px;
   height: 31px;
-  background: var(--unnamed-color-142033) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px var(--unnamed-color-000000);
+
   background: #142033 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 8px;
-  opacity: 0.8;
 
   ${flexboxCenter}
 `;
