@@ -16,7 +16,6 @@ const FaultsDetails = ({ faultContents, column, handleButtonClick, name }) => {
     </Wrapper>
   );
 };
-
 export default FaultsDetails;
 
 const Wrapper = styled.div`
