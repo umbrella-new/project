@@ -46,10 +46,10 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  /* background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border: 0.5px solid #142033;
-  border-radius: 13px;
+  border-radius: 13px; */
   opacity: 1;
   display: flex;
   flex-direction: row;

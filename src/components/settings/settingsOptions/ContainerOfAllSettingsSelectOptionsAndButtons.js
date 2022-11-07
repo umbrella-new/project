@@ -36,7 +36,10 @@ import {
   setTgsTesSettingsApplyAdminButton,
 } from '../../../store/slices/settingsOfTgsTesSlice';
 import EditCancelApplyButtons from './EditCancelApplyButtons';
-import { selectUserState } from '../../../store/slices/userSlice';
+import {
+  handleTesSwitch,
+  selectUserState,
+} from '../../../store/slices/userSlice';
 import { SettingsContext } from '../../../context/ContextOfSettings';
 import { handleSnowSensorDefaultTemp } from '../../../store/slices/essSwitchSlice';
 import { selectForceAndCommand } from '../../../store/slices/forceAndCommandSlice';
@@ -59,6 +62,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     tesSnowSensorInput,
     selectUnitsState,
     metricImperialToggle,
+    savedSelection,
   } = useContext(SettingsContext);
 
   // useState
@@ -276,7 +280,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 2:
             dispatch(setSettingsApplyButton());
-            dispatch(setTgsSettingsApplyAdminButton());
+            dispatch(handleTesSwitch(savedSelection));
             break;
           default:
             return;
@@ -387,7 +391,9 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
+            console.log('savedSelection', savedSelection);
             dispatch(setSettingsApplyButton());
+            dispatch(handleTesSwitch(savedSelection));
             break;
           default:
             return;

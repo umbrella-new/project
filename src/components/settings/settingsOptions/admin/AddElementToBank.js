@@ -287,14 +287,13 @@ const Wrapper = styled.div`
   position: relative;
 `;
 const ContentWrapper = styled.div`
-  ${flexboxCenter}
-
   width: 548px;
   height: 196px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
-  border-radius: 10px;
+  border-radius: 11px;
+  ${flexboxCenter}
 `;
 const InnerWrapper = styled.div`
   width: 544px;
@@ -302,7 +301,8 @@ const InnerWrapper = styled.div`
 
   background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat padding-box;
-  box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 2px #000000;
+  box-shadow: 0px 0px 2px #000000;
+  box-shadow: inset 1px 1px 2px rgb(255, 255, 255, 0.1);
   border: 0.5px solid #000000;
   border-radius: 9px;
 

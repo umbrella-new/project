@@ -5,8 +5,8 @@ import { createSlice } from '@reduxjs/toolkit';
 // const date = new Date();
 
 const initialState = {
-  isEssSwitch: true,
-  isTesSwitch: false,
+  isEssSwitch: false,
+  isTesSwitch: true,
   isExpanded: false,
   isPasswordOpen: false,
   isAdministrator: false,
@@ -41,6 +41,9 @@ const userSlice = createSlice({
     handleDisplaySSRDetails: (state) => {
       state.isExpanded = !state.isExpanded;
     },
+    handleTesSwitch: (state, action) => {
+      state.isTesSwitch = action.payload;
+    },
   },
 });
 
@@ -51,4 +54,5 @@ export const {
   setAdminAccess,
   handlePasswordPropagation,
   handleDisplaySSRDetails,
+  handleTesSwitch,
 } = userSlice.actions;

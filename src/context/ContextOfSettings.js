@@ -6,6 +6,7 @@ const SettingsProvider = ({ children }) => {
   const initialState = { essSelectUnits: true };
   const [selectUnitsState, setSelectUnitsState] = useState(true);
   const [metricImperialToggle, setMetricImperialToggle] = useState();
+  const [savedSelection, SetSavedSelection] = useState(false);
   // Declaration of useReducer
   const essSnowSensorInput = useRef(null);
   const tgsSnowSensorInput = useRef(null);
@@ -42,6 +43,8 @@ const SettingsProvider = ({ children }) => {
         setSelectUnitsState,
         metricImperialToggle,
         setMetricImperialToggle,
+        savedSelection,
+        SetSavedSelection,
       }}
     >
       {children}

@@ -54,6 +54,7 @@ const WrapperSelection = styled.div`
 
   background: #233a54;
   box-shadow: inset 0px 0px 3px #000000;
+
   border-radius: 16px;
   opacity: 1;
   ${flexboxCenter}

@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import ConfirmButton from '../../ConfirmButton';
+import { useContext } from 'react';
+import { SettingsContext } from '../../../../../context/ContextOfSettings';
+import { selectUserState } from '../../../../../store/slices/userSlice';
 
 function TgsTesSwitch() {
   const tgsTesDescription = [
@@ -14,11 +17,24 @@ function TgsTesSwitch() {
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const editState = state.buttonsOfSettings.settingsEditButton;
+  const userState = useSelector(selectUserState);
+  const tesState = userState.isTesSwitch;
 
-  const [options, setOptions] = useState(null);
+  const [options, setOptions] = useState(false);
 
-  const handleSelect = (index) => index === 1 && setOptions(!options);
-  // console.log(options);
+  useEffect(() => {
+    if (tesState) {
+      setOptions(true);
+    }
+  }, [tesState]);
+
+  const handleSelect = (index) =>
+    index === 1 ? setOptions(true) : setOptions(false);
+  const { SetSavedSelection } = useContext(SettingsContext);
+
+  const handleActivationOfTes = () => {
+    return SetSavedSelection(options);
+  };
 
   return (
     <Wrapper>
@@ -29,6 +45,7 @@ function TgsTesSwitch() {
               <Title>system configuration</Title>
             </WrapperTitle2>
           </WrapperTitle>
+
           <WrapperSelection>
             <ControlContainer mode={mode}>
               {tgsTesDescription.map((data, index) => {
@@ -45,6 +62,7 @@ function TgsTesSwitch() {
                           mode={mode}
                           color={index}
                           options={options}
+                          savedSelection={tesState}
                         ></InsideFilledGreenCircle>
                       </OutsideRingGreenCircle>
                     </ContainerOfCircles>
@@ -68,7 +86,11 @@ function TgsTesSwitch() {
               })}
             </ControlContainer>
           </WrapperSelection>
-          <WrapperButton>
+          <WrapperButton
+            onClick={() => {
+              handleActivationOfTes();
+            }}
+          >
             <ConfirmButton name={'save'} />
           </WrapperButton>
         </Wrapper3>
@@ -98,6 +120,7 @@ const Wrapper2 = styled.div`
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: 0px 0px 2px #000000;
+  box-shadow: inset 1px 1px 2px rgb(255, 255, 255, 0.1);
   border: 0.5px solid #142033;
   border-radius: 9px;
   opacity: 1;
@@ -150,6 +173,8 @@ const Title = styled.p`
   opacity: 1;
 `;
 
+const Form = styled.form``;
+
 const WrapperSelection = styled.div`
   width: 252px;
   height: 74px;
@@ -201,8 +226,14 @@ const OutsideRingGreenCircle = styled.span`
 const InsideFilledGreenCircle = styled.div`
   width: 12px;
   height: 12px;
+  /* &:first-child {
+    background-color: #95ff45;
+  } */
   background-color: ${({ color }) => color === 0 && '#95ff45'};
-  background-color: ${({ options }) => (options ? '#95ff45' : 'none')};
+
+  ${({ options }) =>
+    options ? 'background-color:#95ff45' : 'background-color:none'};
+
   border-radius: 50%;
 `;
 

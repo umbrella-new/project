@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from '../ForceAndCommand/ButtonCloseAndExpand';
 
@@ -16,8 +18,11 @@ function SystemHeader({
 }) {
   const tesSwitchFalse = !tesSwitch && index === 1 && !essSwitch;
 
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
+
   return (
-    <Wrapper tesSwitchFalse={tesSwitchFalse}>
+    <Wrapper tesSwitchFalse={tesSwitchFalse} mode={mode}>
       <ButtonHole>
         <Img
           src={
@@ -71,9 +76,11 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  background: ${({ tesSwitchFalse }) =>
+  background: ${({ tesSwitchFalse, mode }) =>
     tesSwitchFalse
       ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
+      : mode
+      ? 'transparent linear-gradient(180deg, #EBEBEB 0%, #BBBBBB 100%)'
       : 'transparent linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%)'};
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;

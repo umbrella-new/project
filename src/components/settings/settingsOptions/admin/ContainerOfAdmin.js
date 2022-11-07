@@ -158,13 +158,13 @@ function ContainerOfAdmin() {
     <Wrapper>
       {!settingsEditButton && <InvisibleDivForEditButton />}
       <Wrapper2>
-        <Wrapper3>
+        <Wrapper3 mode={mode}>
           {essSwitch
             ? essHeaders.map((value, index) => {
                 return (
                   <div key={index}>
                     <Wrapper4>
-                      <Wrapper5
+                      <WrapperEss5
                         changeBorder0={options === index && index === 0}
                         changeBorder1={options === index && index === 1}
                         changeBorder2={options === index && index === 2}
@@ -218,7 +218,7 @@ function ContainerOfAdmin() {
                             </LoginWrapper>
                           )
                         )}
-                      </Wrapper5>
+                      </WrapperEss5>
                     </Wrapper4>
                   </div>
                 );
@@ -255,7 +255,7 @@ function ContainerOfAdmin() {
                         options === index && (
                           <WrapperThermocouple>
                             <WrapperThermocouple1>
-                              <SectionWrapper>
+                              <SectionWrapperEss>
                                 <WrapperThermocouple2>
                                   <Thermocouple
                                     toggleLeftEnableDisable={
@@ -264,7 +264,7 @@ function ContainerOfAdmin() {
                                     handleLeftSwitch={handleThermocoupleSwitch}
                                   />
                                 </WrapperThermocouple2>
-                              </SectionWrapper>
+                              </SectionWrapperEss>
 
                               <SectionWrapper1>
                                 <AddElementToBank />
@@ -290,11 +290,10 @@ function ContainerOfAdmin() {
                                     toggleEnableDisableSwitch
                                   }
                                 />
-                                {tesSwitch && (
-                                  <WrapperTgsTesSwitch>
-                                    <TgsTesSwitch tesSwitch={tesSwitch} />
-                                  </WrapperTgsTesSwitch>
-                                )}
+
+                                <WrapperTgsTesSwitch>
+                                  <TgsTesSwitch tesSwitch={tesSwitch} />
+                                </WrapperTgsTesSwitch>
                               </ControlWrapper>
                             </SectionWrapper>
 
@@ -360,10 +359,10 @@ const Wrapper3 = styled.div`
   margin-top: 10px;
   margin-bottom: 8px;
 
-  background: #233a54;
+  background: ${({ mode }) => (mode ? 'rgb(255,255,255)' : '#233a54')};
 
   box-shadow: inset 0px 1px 5px #000000, 0px 0px 2px #00000080;
-  border-radius: 30px;
+  border-radius: 31px;
   opacity: 1;
   ${flexboxCenter};
   flex-direction: column;
@@ -373,17 +372,13 @@ const Wrapper4 = styled.div`
   width: 566px;
   height: auto;
   margin-bottom: 2px;
-  margin-top: 4px;
+  margin-top: 3px;
+  padding-left: 2px;
+  padding-right: 2px;
 
   background-color: rgb(35, 58, 84) 100%;
-  /* background-color: rgb(20, 32, 51) 100%; */
-  /* background-image: -webkit-linear-gradient(
-    270deg,
-    rgb(0, 0, 0) 0%,
-    rgb(35, 58, 84) 100%
-  ); */
-  /* box-shadow: inset 0px 2px 5px #000000; */
-  border-radius: 28px;
+
+  border-radius: 31px;
   opacity: 1;
   display: flex;
   flex-direction: column;
@@ -391,12 +386,31 @@ const Wrapper4 = styled.div`
   align-items: center;
 `;
 
+const WrapperEss5 = styled.div`
+  width: 560px;
+  height: auto;
+  ${({ changeBorder1 }) => changeBorder1 && 'margin-bottom: 2px'};
+
+  background: transparent
+    linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(20, 32, 51) 100%) 0% 0% no-repeat
+    padding-box;
+  border-radius: ${({ changeBorder0 }) =>
+    changeBorder0 ? '28px 28px 14px 14px' : '28px'};
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Wrapper5 = styled.div`
   width: 560px;
   height: auto;
   ${({ changeBorder2 }) => changeBorder2 && 'margin-bottom: 2px'};
 
-  background: rgb(20, 32, 51) 100%;
+  background: transparent
+    linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(20, 32, 51) 100%) 0% 0% no-repeat
+    padding-box;
   border-radius: ${({ changeBorder0, changeBorder1 }) =>
     changeBorder0 || changeBorder1 ? '28px 28px 14px 14px' : '28px'};
 
@@ -409,25 +423,26 @@ const Wrapper5 = styled.div`
 const EssWrapper = styled.div`
   width: 560px;
   height: 56px;
-  margin-bottom: 10px;
+  padding: 1px;
 `;
 
 const TgsTesSysWrapper = styled.div`
   width: 560px;
   height: 56px;
   padding: 1px;
+  border-radius: 16px;
 
-  background: rgb(20, 32, 51) 100%;
-  border-radius: 28px;
+  /* background: rgb(20, 32, 51) 100%; */
+  /* border-radius: 28px;
   ${flexboxCenter}
-  flex-direction: column;
+  flex-direction: column; */
 `;
 
 const ValveWrapper = styled.div`
   width: 558px;
   height: auto;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 1px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -440,10 +455,10 @@ const ValveWrapper = styled.div`
 `;
 
 const WrapperThermocoupleEss = styled.div`
-  width: 558px;
+  width: 554px;
   height: auto;
   margin-top: 5px;
-  margin-bottom: 2px;
+  margin-bottom: 20px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -460,7 +475,7 @@ const WrapperThermocouple = styled.div`
   width: 558px;
   height: auto;
   margin-top: 5px;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -474,11 +489,11 @@ const WrapperThermocouple = styled.div`
 const WrapperThermocouple1 = styled.div`
   width: 554px;
   height: auto;
-  margin-top: 2px;
+  margin-top: 1px;
   margin-bottom: 20px;
 
   background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
+  box-shadow: inset 0px 0px 6px #000000;
   border-radius: 13px;
   opacity: 1;
 
@@ -490,11 +505,11 @@ const WrapperSys = styled.div`
   width: 558px;
   height: auto;
   margin-top: 5px;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
-  box-shadow: 0px 0px 2px #000000;
+  box-shadow: 0px 0px 6px #000000;
   border: 0.5px solid #142033;
   border-radius: 14px 14px 27px 27px;
   opacity: 1;
@@ -507,6 +522,7 @@ const SectionWrapperEss = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin-top: -3px;
+  margin-bottom: 3px;
 `;
 
 const SectionWrapper = styled.div`
@@ -515,6 +531,7 @@ const SectionWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: -3px;
+  margin-bottom: 3px;
 `;
 
 const SectionWrapper1 = styled.div`
@@ -551,31 +568,23 @@ const LoginWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 10000;
   ${flexboxCenter};
+  align-items: flex-start;
 `;
 
 const Wrapper6 = styled.div`
   width: 554px;
   height: auto;
-  margin-top: 2px;
+  margin-top: 1px;
   margin-bottom: 20px;
 
-  /* background: transparent
-    linear-gradient(180deg, rgb(35, 58, 84) 0%, rgb(0, 0, 0) 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  border: 0.5px solid #142033;
-  border-radius: 9px; */
-
   background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
+  box-shadow: inset 0px 0px 6px #000000;
   border-radius: 13px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  padding-bottom: 0.5rem;
 `;
 
 const ControlWrapper = styled.div`
