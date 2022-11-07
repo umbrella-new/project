@@ -6,6 +6,8 @@ import {
   fanOnlyToggler,
   activateTgsConflictMessage,
 } from '../../../../store/slices/tgsSwitchSlice';
+import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 
 import {
   activeInput,
@@ -15,9 +17,8 @@ import {
   layer90Deg,
 } from '../../../../styles/commonStyles';
 import styled, { css } from 'styled-components';
+
 import InputKeyPad from '../../../keyboard/InputKeyPad';
-import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
-import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import InputTempMessage from '../../../userMessages/InputTempMessage';
 
 const TgsInstantHeat = () => {
@@ -33,9 +34,9 @@ const TgsInstantHeat = () => {
   const esState = useSelector(selectEssSwitch);
   const { isEsSwitchActivated } = esState;
 
-  // const { isKeyboardActivated } = userState;
   const [openKeyPad, setOpenKeyPad] = useState(false);
   const [activateMessageBox, setActivateMessageBox] = useState(false);
+
   useEffect(() => {
     setOpenKeyPad(false);
   }, [instantButtonToggler]);

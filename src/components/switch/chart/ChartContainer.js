@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-
 import { selectFaults } from '../../../store/slices/faultsSlice';
 import { selectUserState } from '../../../store/slices/userSlice';
+
 import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from 'styled-components';
 
 import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
 import Chart from './Chart';

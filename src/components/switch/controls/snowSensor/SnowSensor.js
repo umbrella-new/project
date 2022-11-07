@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-
 import {
   activateEsConflictMessage,
   selectEssSwitch,
   snowSensor,
 } from '../../../../store/slices/essSwitchSlice';
+
 import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
-import ApplyButton from '../ApplyButton';
 
+import ApplyButton from '../ApplyButton';
 import ControllerName from '../ControllerName';
 import DefaultTemp from '../DefaultTemp';
 

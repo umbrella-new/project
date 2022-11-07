@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
-import { selectUnitsState } from '../../../store/slices/unitsSlice';
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -11,6 +9,9 @@ import {
   activeInput,
   ButtonReady,
 } from '../../../styles/commonStyles';
+
+import styled, { css } from 'styled-components';
+
 import InputKeyPad from '../../keyboard/InputKeyPad';
 import InputTempMessage from '../../userMessages/InputTempMessage';
 

@@ -2,8 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useDatepicker, START_DATE, useMonth } from '@datepicker-react/hooks';
 
-import moment from 'moment/moment';
-
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 import Month from './Month';
@@ -14,7 +12,6 @@ import TimePicker from './TimePicker';
 
 const ScheduleCalendar = ({
   handleScheduler,
-  handleClear,
   handleCancel,
   start,
   end,

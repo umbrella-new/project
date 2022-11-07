@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-
-import styled, { css } from 'styled-components';
-import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
 import {
   handleDisplayForceMessageBox,
   handleDisplayForceSelectionBox,
@@ -14,9 +10,11 @@ import {
   handleGsFaultsReset,
   selectFaults,
 } from '../../store/slices/faultsSlice';
-import { flexboxCenter } from '../../styles/commonStyles';
-import SettingConfirmedMessage from '../userMessages/SettingConfirmedMessage';
 
+import { flexboxCenter } from '../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+
+import SettingConfirmedMessage from '../userMessages/SettingConfirmedMessage';
 import ExpandButton from './ExpandButton';
 import FaultsComments from './FaultsComments';
 import FaultsDetails from './FaultsDetails';
@@ -25,7 +23,6 @@ import SelectForce from './SelectForce';
 const FaultSwitch = ({
   title,
   number,
-
   name,
   message,
   comments,
@@ -67,8 +64,6 @@ const FaultSwitch = ({
   };
 
   const handleButtonClick = (switchName, buttonName, column, faultsTypeIdx) => {
-    console.log(switchName, buttonName, faultsTypeIdx);
-
     if (buttonName === 'attend') {
       // display comment box
       if (switchName === 'tgs') {

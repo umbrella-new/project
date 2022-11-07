@@ -4,16 +4,17 @@ import {
   windFactor,
 } from '../../../../store/slices/essSwitchSlice';
 import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
+
 import {
   flexboxCenter,
   activeLayer1,
   ButtonReady,
   activeInput,
 } from '../../../../styles/commonStyles';
-
 import styled, { css } from 'styled-components';
+
 import ControllerName from '../ControllerName';
-import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 const WindFactor = () => {
   // off || ready || activated

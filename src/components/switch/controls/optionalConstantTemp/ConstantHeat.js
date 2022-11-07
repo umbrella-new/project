@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
@@ -17,8 +17,6 @@ import {
 
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
-import InputKeyPad from '../../../keyboard/InputKeyPad';
-import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 const ConstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -27,8 +25,7 @@ const ConstantHeat = () => {
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   const dispatch = useDispatch();
-  // const isActivated =
-  // console.log(state.optionalConstantTemp.temp);
+
   const { apply } = state.optionalConstantTemp;
   const location = useLocation();
 

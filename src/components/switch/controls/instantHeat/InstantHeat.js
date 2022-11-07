@@ -7,10 +7,6 @@ import {
   selectEssSwitch,
 } from '../../../../store/slices/essSwitchSlice';
 
-import userSlice, {
-  activateKeyboard,
-} from '../../../../store/slices/userSlice';
-
 import {
   activeInput,
   activeLayer1,
@@ -19,7 +15,7 @@ import {
   layer90Deg,
 } from '../../../../styles/commonStyles';
 import styled, { css } from 'styled-components';
-import { selectUserState } from '../../../../store/slices/userSlice';
+
 import InputKeyPad from '../../../keyboard/InputKeyPad';
 import {
   activateTgsSwitchStatus,
@@ -39,7 +35,6 @@ const InstantHeat = () => {
   const tgsState = useSelector(selectTgsSwitch);
   const { isTgsSwitchActivated } = tgsState;
 
-  // const { isKeyboardActivated } = userState;
   const [openKeyPad, setOpenKeyPad] = useState(false);
   const [activateMessageBox, setActivateMessageBox] = useState(false);
 

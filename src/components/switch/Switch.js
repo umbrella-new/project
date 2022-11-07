@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { selectUserState } from '../../store/slices/userSlice';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
@@ -10,10 +9,7 @@ import ControlBox from './controls/ControlBox';
 import ChartContainer from './chart/ChartContainer';
 import HeaterStatus from './HeaterStatus/HeaterStatus';
 import DisplayEnergyConsumption from './DisplayEnergyConsumption';
-
 import TgsControlBox from './controls/tgsControlBox';
-import { selectFaults } from '../../store/slices/faultsSlice';
-import SettingConfirmedMessage from '../userMessages/SettingConfirmedMessage';
 
 const Switch = () => {
   const userState = useSelector(selectUserState);

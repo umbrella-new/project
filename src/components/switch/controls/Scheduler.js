@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../styles/commonStyles';
-import ScheduleCalendar from './HeatingSchedule/ScheduleCalendar';
 
 const Scheduler = ({ handleOpenScheduler, start, end }) => {
   const displayStart =
@@ -30,17 +29,6 @@ const Scheduler = ({ handleOpenScheduler, start, end }) => {
       <CalendarButton onClick={() => handleOpenScheduler(1)}>
         <Img src={'/images/calendar-button.svg'} />
       </CalendarButton>
-
-      {/* {state.heatingScheduleDisplayed && (
-        <SchedulerWrapper>
-          <ScheduleCalendar
-            state={state}
-            handleScheduler={handleSchedulerDate}
-            handleCancel={handleCancel}
-            handleClear={handleClear}
-          />
-        </SchedulerWrapper>
-      )} */}
     </Wrapper>
   );
 };

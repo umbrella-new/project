@@ -1,23 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  flexboxCenter,
-  activeLayer1,
-  ButtonReady,
-  activeInput,
-} from '../../../../styles/commonStyles';
-
-import styled, { css } from 'styled-components';
-import ControllerName from '../ControllerName';
-import {
   activateTgsConflictMessage,
   selectTgsSwitch,
   tgsWindFactor,
 } from '../../../../store/slices/tgsSwitchSlice';
 import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
 
+import {
+  flexboxCenter,
+  activeLayer1,
+  ButtonReady,
+  activeInput,
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
+
+import ControllerName from '../ControllerName';
+
 const TgsWindFactor = () => {
   // off || ready || activated
-
   const state = useSelector(selectTgsSwitch);
   const dispatch = useDispatch();
 
