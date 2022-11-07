@@ -181,7 +181,6 @@ const FaultSwitch = ({
     </Wrapper>
   );
 };
-
 export default FaultSwitch;
 
 const Wrapper = styled.div`

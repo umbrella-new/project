@@ -215,15 +215,48 @@ const OptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  overflow: auto;
-  scroll-behavior: smooth;
-
   width: 53px;
   height: 60px;
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 8px;
-  opacity: 1;
+
+  overflow: auto;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 13px;
+  }
+  ::-webkit-scrollbar-track {
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 13px;
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+    height: 60%;
+  }
+
+  ::-webkit-scrollbar-button:start:decrement {
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    height: 10px;
+
+    background-image: url('/images/scrollbar-button-start.svg');
+  }
+  ::-webkit-scrollbar-button:end:increment {
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    height: 10px;
+
+    background-image: url('/images/scrollbar-button-end.svg');
+  }
 `;
 
 const Title = styled.div`
