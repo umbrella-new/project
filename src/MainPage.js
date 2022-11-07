@@ -21,7 +21,7 @@ const MainPage = () => {
 
           <Routes>
             <Route path='/' element={<Switch />} />
-            <Route path='/tes' element={<Switch />} />}
+            <Route path='/tes' element={<Switch />} />
             <Route path='/alarm' element={<Faults />} />
             <Route path='/setting' element={<Settings />} />
           </Routes>
