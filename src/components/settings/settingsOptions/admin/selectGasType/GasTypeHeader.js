@@ -5,9 +5,9 @@ function GasTypeHeader() {
   return (
     <div>
       <WrapperTitle>
-        <WrapperTitle2>
-          <Title>select gas type</Title>
-        </WrapperTitle2>
+        {/* <WrapperTitle2> */}
+        <Title>select gas type</Title>
+        {/* </WrapperTitle2> */}
       </WrapperTitle>
     </div>
   );

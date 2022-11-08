@@ -34,10 +34,10 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
     <Wrapper>
       <Wrapper2>
         <TitleWrapper>
-          <TitleWrapper2>
-            <Title>select arts</Title>
-            <GreenConnectionSignal src={'./images/ConnectionSignal.svg'} />
-          </TitleWrapper2>
+          {/* <TitleWrapper2> */}
+          <Title>select arts</Title>
+          <GreenConnectionSignal src={'./images/ConnectionSignal.svg'} />
+          {/* </TitleWrapper2> */}
         </TitleWrapper>
         <SubTitleWrapper>
           <SubTitles essSwitch={essSwitch} propIndex={propIndex} />
@@ -105,6 +105,8 @@ const TitleWrapper = styled.div`
   border-radius: 16px;
   opacity: 1;
   ${flexboxCenter};
+
+  justify-content: space-between;
 `;
 
 const TitleWrapper2 = styled.div`

@@ -2,10 +2,12 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
+import SaveButton from './SaveButton';
 
 function ForceGasElectricSystem({
   handleRightSwitch,
   toggleRightEnableDisable,
+  handleSave,
 }) {
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
@@ -15,16 +17,25 @@ function ForceGasElectricSystem({
       <WrapperRightSwitch2>
         <WrapperForce>
           <WrapperTitle>
-            <Title>Force - gas & electric system simultaneously on.</Title>
+            <Title>
+              Force - gas & electric system simultaneously on for 15 minutes
+            </Title>
           </WrapperTitle>
         </WrapperForce>
-        <ImageWrapper
-          onClick={() => {
-            editState && handleRightSwitch();
-          }}
-        >
-          <Img src={toggleRightEnableDisable} />
-        </ImageWrapper>
+        <ImageAndButtonWrapper>
+          <Img
+            src={toggleRightEnableDisable}
+            onClick={() => {
+              editState && handleRightSwitch();
+            }}
+          />
+          <SaveButton
+            name={'save'}
+            onClick={() => {
+              handleSave();
+            }}
+          />
+        </ImageAndButtonWrapper>
       </WrapperRightSwitch2>
     </WrapperRightSwitch>
   );
@@ -76,9 +87,12 @@ const WrapperForce = styled.div`
 const WrapperTitle = styled.div`
   width: 206px;
   height: 20px;
+  ${flexboxCenter}
 `;
 
 const Title = styled.p`
+  width: auto;
+  height: auto;
   font-size: var(--space2);
   text-align: center;
   letter-spacing: 0.9px;
@@ -86,12 +100,15 @@ const Title = styled.p`
   text-transform: uppercase;
 `;
 
-const ImageWrapper = styled.div`
-  width: 124px;
+const ImageAndButtonWrapper = styled.div`
+  width: 264px;
   height: 28px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 `;
 
 const Img = styled.img`
-  width: 100%;
+  width: 124px;
   height: 100%;
 `;
