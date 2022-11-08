@@ -224,8 +224,8 @@ const OutsideRingGreenCircle = styled.span`
 `;
 
 const InsideFilledGreenCircle = styled.span`
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
 
   background-color: ${({ color }) => color === 0 && '#95ff45'};
 
