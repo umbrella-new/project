@@ -147,8 +147,8 @@ const OutsideRingGreenCircle = styled.span`
 `;
 
 const InsideFilledGreenCircle = styled.div`
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background-color: ${(props) => (props.color ? '#95ff45' : 'none')};
   border-radius: 50%;
 `;
