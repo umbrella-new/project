@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { flexboxCenter } from "../../../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function WindFactor({ contents, index }) {
+function WindFactor({ contents, index, selectedMeasurement }) {
   return (
     <ContainerWindFactors
       gradient={index === 0 ? true : index === 1 ? true : false}
@@ -12,8 +12,16 @@ function WindFactor({ contents, index }) {
 
       <ValueContainer>
         <SmallContainer>
-          <Wind> {contents.wind}miles/h</Wind>
-          <Temperature>{contents.temperature} °f</Temperature>
+          <Wind>
+            {selectedMeasurement ? contents.windMiles : contents.windKilo}{' '}
+            {selectedMeasurement ? 'miles/h' : 'kilometers/h'}
+          </Wind>
+          <Temperature>
+            {selectedMeasurement
+              ? contents.temperatureF
+              : contents.temperatureC}{' '}
+            {selectedMeasurement ? '°f' : '°c'}
+          </Temperature>
         </SmallContainer>
       </ValueContainer>
     </ContainerWindFactors>

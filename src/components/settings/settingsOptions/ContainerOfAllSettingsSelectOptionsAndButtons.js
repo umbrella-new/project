@@ -51,7 +51,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
     'units',
     'wind factor trigger',
     'snow sensor trigger',
-    'force & command',
+    'force & commands',
     'admin.',
   ];
   // useContext
@@ -144,7 +144,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             return;
         }
         break;
-      case 'force & command':
+      case 'force & commands':
         switch (buttonId) {
           case 0:
             dispatch(setSettingsEditButton());
@@ -246,7 +246,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             return;
         }
         break;
-      case 'force & command':
+      case 'force & commands':
         switch (buttonId) {
           case 0:
             dispatch(setSettingsEditButton());
@@ -357,7 +357,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             return;
         }
         break;
-      case 'force & command':
+      case 'force & commands':
         switch (buttonId) {
           case 0:
             dispatch(setSettingsEditButton());

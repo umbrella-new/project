@@ -21,6 +21,7 @@ function TgsTesSwitch() {
   const tesState = userState.isTesSwitch;
 
   const [options, setOptions] = useState(false);
+  const [buttonName, setButtonName] = useState('save');
 
   useEffect(() => {
     if (tesState) {
@@ -28,12 +29,14 @@ function TgsTesSwitch() {
     }
   }, [tesState]);
 
-  const handleSelect = (index) =>
+  const handleSelect = (index) => {
     index === 1 ? setOptions(true) : setOptions(false);
+    setButtonName('save');
+  };
   const { SetSavedSelection } = useContext(SettingsContext);
 
   const handleActivationOfTes = () => {
-    return SetSavedSelection(options);
+    return SetSavedSelection(options), setButtonName('saved');
   };
 
   return (
@@ -91,7 +94,7 @@ function TgsTesSwitch() {
               handleActivationOfTes();
             }}
           >
-            <ConfirmButton name={'save'} />
+            <ConfirmButton name={buttonName} />
           </WrapperButton>
         </Wrapper3>
       </Wrapper2>
@@ -143,7 +146,7 @@ const WrapperTitle = styled.div`
   width: 252px;
   height: 32px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: #233a54;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 16px;
   opacity: 1;
@@ -154,7 +157,6 @@ const WrapperTitle2 = styled.div`
   width: 246px;
   height: 26px;
 
-  border: 1px solid var(--unnamed-color-142033);
   border: 1px solid #142033;
   border-radius: 13px;
   opacity: 1;
@@ -164,7 +166,7 @@ const WrapperTitle2 = styled.div`
 const Title = styled.p`
   width: 120px;
   height: 18px;
-  margin-top: 6px;
+  margin-bottom: 1px;
 
   text-align: center;
   font-size: var(--space2);
@@ -172,8 +174,6 @@ const Title = styled.p`
   color: #ffffff;
   opacity: 1;
 `;
-
-const Form = styled.form``;
 
 const WrapperSelection = styled.div`
   width: 252px;
@@ -223,12 +223,10 @@ const OutsideRingGreenCircle = styled.span`
   background: #1b2b44;
 `;
 
-const InsideFilledGreenCircle = styled.div`
-  width: 12px;
-  height: 12px;
-  /* &:first-child {
-    background-color: #95ff45;
-  } */
+const InsideFilledGreenCircle = styled.span`
+  width: 10px;
+  height: 10px;
+
   background-color: ${({ color }) => color === 0 && '#95ff45'};
 
   ${({ options }) =>

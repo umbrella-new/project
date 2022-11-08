@@ -278,7 +278,7 @@ const WrapperTitleAndImg = styled.div`
 
 const SelectionShadowWrapper = styled.div`
   width: 252px;
-  height: auto;
+  height: 51px;
   margin-top: 4px;
 
   background: #142033;
@@ -314,6 +314,7 @@ const SelectionWrapper = styled.div`
 const SelectionIndentWrapper = styled.div`
   width: 195px;
   height: 38px;
+  margin-right: 10px;
 
   background: ${({ tesSwitch, index }) =>
     tesSwitch ? '#233a54' : index === 1 && '#3B3B3B'};
@@ -324,8 +325,8 @@ const SelectionIndentWrapper = styled.div`
   ${flexboxCenter}
 `;
 
-const Selection = styled.div`
-  font-size: var(--font-size7);
+const Selection = styled.p`
+  font-size: var(--space1);
   text-transform: uppercase;
   color: ${({ tesSwitch, index }) =>
     tesSwitch ? '#fff' : index === 1 && '#808080'};
@@ -344,7 +345,7 @@ const WrapperSelectAndConfirmButton = styled.div`
 const SelectWrapper = styled.div`
   width: 239px;
 
-  background: #1b2b44 0% 0% no-repeat padding-box;
+  background: #1b2b44;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 11px;
   opacity: 1;

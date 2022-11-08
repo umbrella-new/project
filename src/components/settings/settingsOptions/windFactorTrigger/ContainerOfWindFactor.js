@@ -1,14 +1,42 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import WindFactor from './WindFactor';
 
 function ContainerOfWindFactor() {
   const content = [
-    { title: 'low wind factor', wind: '15-24', temperature: '302' },
-    { title: 'high wind factor', wind: '38-82', temperature: '392' },
-    { title: 'med wind factor', wind: '25-37', temperature: '347' },
-    { title: 'extreme wind factor', wind: '53-65', temperature: '437' },
+    {
+      title: 'low wind factor',
+      windMiles: '15-24',
+      temperatureF: '302',
+      windKilo: '24-39',
+      temperatureC: '150',
+    },
+    {
+      title: 'high wind factor',
+      windMiles: '38-82',
+      temperatureF: '392',
+      windKilo: '61-84',
+      temperatureC: '200',
+    },
+    {
+      title: 'med wind factor',
+      windMiles: '25-37',
+      temperatureF: '347',
+      windKilo: '40-60',
+      temperatureC: '175',
+    },
+    {
+      title: 'extreme wind factor',
+      windMiles: '53-65',
+      temperatureF: '437',
+      windKilo: '85-105',
+      temperatureC: '225',
+    },
   ];
+  const state = useSelector(selectSettingsOfEss);
+  const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
 
   return (
     <Wrapper>
@@ -16,7 +44,11 @@ function ContainerOfWindFactor() {
         {content.map((value, index) => {
           return (
             <div key={index}>
-              <WindFactor contents={value} index={index} />
+              <WindFactor
+                contents={value}
+                index={index}
+                selectedMeasurement={unitsMeasurement}
+              />
             </div>
           );
         })}
