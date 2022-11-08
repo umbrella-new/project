@@ -4,7 +4,7 @@ import { selectFaults } from '../../../store/slices/faultsSlice';
 import { selectUserState } from '../../../store/slices/userSlice';
 
 import { flexboxCenter } from '../../../styles/commonStyles';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
 import Chart from './Chart';
@@ -31,7 +31,7 @@ function ChartContainer() {
 
   return (
     <Wrapper>
-      <BackgroundWrapper>
+      <BackgroundWrapper isFaults={isFaults}>
         <FileOptionTitleWrapper>
           <FileTitle inActive={true}>video monitoring</FileTitle>
           <FileTitle>graph</FileTitle>
@@ -45,7 +45,7 @@ function ChartContainer() {
         />
       </BackgroundWrapper>
 
-      <PositionAbsolute>
+      <PositionAbsolute isFaults={isFaults}>
         <ChartTitles />
         <ContentsWrapper>
           <ChartInfoContainer />
@@ -104,8 +104,12 @@ const BackgroundWrapper = styled.div`
   border-radius: 14px;
   ${flexboxCenter};
   position: relative;
-  margin-top: 0.2rem;
-  border
+  margin-top: 0.18rem;
+  ${(p) =>
+    p.isFaults &&
+    css`
+      margin-top: 0.35rem;
+    `}
 `;
 
 const FileOptionTitleWrapper = styled.div`
@@ -142,6 +146,12 @@ const PositionAbsolute = styled.div`
   position: absolute;
   top: 2.9rem;
   right: 0.44rem;
+
+  ${(p) =>
+    p.isFaults &&
+    css`
+      top: 3.1rem;
+    `}
 
   padding: 0.02rem 0.1rem 0.05rem 0.1rem;
 `;
