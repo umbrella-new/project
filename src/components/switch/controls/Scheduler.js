@@ -39,16 +39,11 @@ const Wrapper = styled.div`
   width: 270px;
   height: 50px;
   border-radius: 30px;
-  background: transparent
-    linear-gradient(180deg, var(--unnamed-color-233a54) 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
-  box-shadow: 0px 0px 1px var(--unnamed-color-000000);
-  border: 0.5px solid var(--unnamed-color-000000);
+
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  opacity: 1;
 
   display: flex;
   align-items: center;
@@ -69,12 +64,11 @@ const DateAndTimeWrapper = styled.div`
   width: 192px;
   height: 18px;
   /* UI Properties */
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px var(--unnamed-color-000000);
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 14px;
-  opacity: 1;
+
   font-size: 8px;
   ${flexboxCenter}
 `;
@@ -83,13 +77,8 @@ const CalendarButton = styled.button`
   width: 22px;
   height: 20px;
   background-color: transparent;
+  margin-top: 0.2rem;
   cursor: pointer;
 `;
 
 const Img = styled.img``;
-
-const SchedulerWrapper = styled.div`
-  position: absolute;
-  top: 1rem;
-  z-index: 10000;
-`;

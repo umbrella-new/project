@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { selectUserState } from '../../store/slices/userSlice';
 import { useLocation } from 'react-router-dom';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 import ControlBox from './controls/ControlBox';
@@ -27,7 +27,10 @@ const Switch = () => {
   const backgroundSvg = '/images/background-hat.svg';
 
   return (
-    <Wrapper isActivated={isActivated}>
+    <Wrapper
+      isActivated={isActivated}
+      margin={isEssSwitch ? false : location.pathname === `/` ? true : false}
+    >
       <BackgroundImg src={backgroundSvg} />
       <DisplayEnergyConsumption />
 
@@ -67,8 +70,11 @@ const Wrapper = styled.div`
   ${flexboxCenter}
 
   position: relative;
-
-  /* border: 1px solid blue; */
+  ${(p) =>
+    p.margin ||
+    css`
+      padding-bottom: 0.2rem;
+    `}/* border: 1px solid blue; */
 `;
 
 const BackgroundImg = styled.img`
