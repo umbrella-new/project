@@ -11,34 +11,26 @@ function TitleOfAllSettings() {
     settingsOptionsForceAndCommand,
   } = state.allSettingsOptions;
 
+  const settingsTitles = settingsOptionsUnits
+    ? 'units'
+    : settingsOptionsWindFactor
+    ? 'wind factor trigger'
+    : settingsOptionsSnowFactor
+    ? 'snow sensor trigger'
+    : settingsOptionsForceAndCommand
+    ? 'force & commands'
+    : 'administration settings';
+
   return (
     <>
       <Container>
         <SettingTitle>
           SETTINGS//SETTINGS OPTIONS//
-          <Span>
-            {settingsOptionsUnits
-              ? 'units'
-              : settingsOptionsWindFactor
-              ? 'wind factor trigger'
-              : settingsOptionsSnowFactor
-              ? 'snow sensor trigger'
-              : settingsOptionsForceAndCommand
-              ? 'force & command'
-              : 'administration settings'}
-          </Span>
+          <Span>{settingsTitles}</Span>
         </SettingTitle>
         <ContainerOptions>
           <UnitSettings>
-            {settingsOptionsUnits
-              ? 'units'
-              : settingsOptionsWindFactor
-              ? 'wind factor trigger'
-              : settingsOptionsSnowFactor
-              ? 'snow sensor trigger'
-              : settingsOptionsForceAndCommand
-              ? 'force & command'
-              : 'administration settings'}
+            {settingsTitles}
             <Dots>
               .................................................................................................
             </Dots>

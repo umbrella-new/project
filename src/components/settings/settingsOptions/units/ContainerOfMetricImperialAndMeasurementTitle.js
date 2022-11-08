@@ -49,6 +49,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
   const cancelState = state.buttonsOfSettings.settingsCancelButton;
 
+  // keeps track and render last state saved either imperial or metric
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
 
@@ -61,6 +62,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     }
   }, []);
 
+  // keeps track and render last state change of either imperial or metric  when pressing cancel button
   useEffect(() => {
     if (unitsMeasurement === false) {
       setMetricImperialToggle(0);

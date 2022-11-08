@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 
-// import DateAndWeather from "../DateAndWeather";
-// import Footer from "../Footer";
-// import Header from "../Header";
-// import Sidebar from "../Sidebar";
 import { flexboxCenter } from '../../styles/commonStyles';
 import Titles from './headings/Titles';
-// import TitleOfUnitsSettings from "./settingsOptions/units/TitleOfUnitsSettings";
 import SettingsOptionsAndInterfaceMode from './settingsOptions/SettingsOptionsAndInterfaceMode';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../store/slices/settingsOfEssSlice';

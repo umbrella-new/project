@@ -137,7 +137,7 @@ function OutsideTemperature({
               <SubTitle>burning chamber current temp</SubTitle>
             </SubTitleWrapper2>
           </SubTitleWrapper>
-          <SelectionShadowWrapper1>
+          <SelectionShadowWrapper>
             <SelectionWrapper1>
               <WrapperTitleAndImg>
                 <SelectionIndentWrapper1>
@@ -172,7 +172,7 @@ function OutsideTemperature({
                 </WrapperSelectAndConfirmButton>
               )}
             </SelectionWrapper1>
-          </SelectionShadowWrapper1>
+          </SelectionShadowWrapper>
         </SubTitleSelectionWrapper>
       )}
     </Wrapper>
@@ -266,7 +266,7 @@ const IndividualContainer = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: var(--font-size7);
+  font-size: var(--space1);
   margin-left: 10px;
   text-transform: uppercase;
   color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};
@@ -276,7 +276,7 @@ const Text = styled.p`
 
 const SelectionShadowWrapper = styled.div`
   width: 252px;
-  height: auto;
+  height: 51px;
   margin-top: 4px;
 
   background: #142033 0% 0% no-repeat padding-box;
@@ -290,7 +290,6 @@ const SelectionWrapper = styled.div`
   height: auto;
   padding-top: 4px;
   padding-bottom: 4px;
-  margin-bottom: 2px;
 
   background: transparent
     linear-gradient(
@@ -304,9 +303,6 @@ const SelectionWrapper = styled.div`
   border-radius: 33px;
   opacity: 1;
   ${flexboxCenter}
-
-  justify-content: space-around;
-  flex-direction: column;
 `;
 
 const WrapperTitleAndImg = styled.div`
@@ -317,6 +313,7 @@ const WrapperTitleAndImg = styled.div`
 const SelectionIndentWrapper = styled.div`
   width: 195px;
   height: 38px;
+  margin-right: 8px;
 
   background: ${({ color }) => (color ? ' #233a54' : '#3B3B3B')};
   box-shadow: inset 0px 0px 6px #000000;
@@ -326,19 +323,19 @@ const SelectionIndentWrapper = styled.div`
 `;
 
 const Selection = styled.p`
-  font-size: var(--font-size7);
+  font-size: var(--space1);
   text-transform: uppercase;
   color: ${({ color }) => (color ? '#ffff' : '#808080')};
 `;
 
 const Img = styled.img`
   margin-top: 6px;
-  margin-right: 4px;
+  margin-right: 5px;
   color: #808080 0% 0% no-repeat padding-box;
 `;
 
 const SubTitleSelectionWrapper = styled.div`
-  margin-top: 15px;
+  margin-top: 21px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -347,7 +344,7 @@ const SubTitleSelectionWrapper = styled.div`
 
 const SelectionShadowWrapper1 = styled.div`
   width: 252px;
-  height: auto;
+  height: 51px;
   margin-top: 4px;
 
   background: #142033 0% 0% no-repeat padding-box;
@@ -362,7 +359,6 @@ const SelectionWrapper1 = styled.div`
   height: auto;
   padding-top: 4px;
   padding-bottom: 4px;
-  margin-bottom: 2px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0% 0;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
@@ -370,14 +366,12 @@ const SelectionWrapper1 = styled.div`
   border-radius: 33px;
   opacity: 1;
   ${flexboxCenter}
-  justify-content: space-around;
-  flex-direction: column;
 `;
 const SelectionIndentWrapper1 = styled.div`
   width: 195px;
   height: 38px;
-  background: var(--unnamed-color-233a54) 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 6px var(--unnamed-color-000000);
+  margin-right: 8px;
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 22px;
@@ -385,8 +379,8 @@ const SelectionIndentWrapper1 = styled.div`
   ${flexboxCenter}
 `;
 
-const Selection1 = styled.div`
-  font-size: var(--font-size7);
+const Selection1 = styled.p`
+  font-size: var(--space1);
   text-transform: uppercase;
 `;
 
