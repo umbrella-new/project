@@ -20,6 +20,7 @@ import TgsTesSwitch from './systemConfiguration/TgsTesSwitch';
 import AddElementToBank from './AddElementToBank';
 import SystemIdentification from './SystemIdentification';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
+import { setForceGasAndElectric } from '../../../../store/slices/settingsOfSysSlice';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -78,6 +79,7 @@ function ContainerOfAdmin() {
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
+    setForceGasAndElectric(false);
 
     return function cleanup() {
       dispatch(setAdminAccess(false));
@@ -152,6 +154,10 @@ function ContainerOfAdmin() {
     if (toggleEnableDisableSwitch === enableSwitch) {
       return setToggleEnableDisableSwitch(disableSwitch);
     } else setToggleEnableDisableSwitch(enableSwitch);
+  };
+
+  const handleSave = () => {
+    return setForceGasAndElectric(true);
   };
 
   return (
@@ -289,6 +295,7 @@ function ContainerOfAdmin() {
                                   toggleRightEnableDisable={
                                     toggleEnableDisableSwitch
                                   }
+                                  handleSave={handleSave}
                                 />
 
                                 <WrapperTgsTesSwitch>

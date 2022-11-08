@@ -149,9 +149,9 @@ const SystemIdentification = () => {
     <Wrapper>
       <ContentWrapper>
         <InnerWrapper>
-          <TitleWrapper>
-            <TitleTop>system identification</TitleTop>
-          </TitleWrapper>
+          {/* <TitleWrapper> */}
+          <TitleTop>system identification</TitleTop>
+          {/* </TitleWrapper> */}
           {/* input location name and select heating system */}
           <Section>
             <ComponentWrapperHole>
@@ -439,15 +439,18 @@ const TitleWrapper = styled.div`
   border-radius: 16px;
 `;
 const TitleTop = styled.div`
-  ${flexboxCenter}
   width: 533px;
   height: 26px;
-  border: 1px solid #142033;
-  border-radius: 13px;
 
   font-size: 10px;
 
   text-transform: uppercase;
+
+  background: #233a54;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 16px;
+  opacity: 1;
+  ${flexboxCenter}
 `;
 
 const Section = styled.div`

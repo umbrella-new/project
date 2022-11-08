@@ -44,9 +44,9 @@ function TgsTesSwitch() {
       <Wrapper2>
         <Wrapper3>
           <WrapperTitle>
-            <WrapperTitle2>
-              <Title>system configuration</Title>
-            </WrapperTitle2>
+            {/* <WrapperTitle2> */}
+            <Title>system configuration</Title>
+            {/* </WrapperTitle2> */}
           </WrapperTitle>
 
           <WrapperSelection>

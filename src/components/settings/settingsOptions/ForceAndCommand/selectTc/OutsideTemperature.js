@@ -202,7 +202,6 @@ const SubTitleWrapper2 = styled.div`
   width: 246px;
   height: 26px;
 
-  border: 1px solid #142033;
   border-radius: 13px;
   opacity: 1;
   ${flexboxCenter}

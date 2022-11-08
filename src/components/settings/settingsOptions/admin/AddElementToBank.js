@@ -316,16 +316,17 @@ const TitleWrapper = styled.div`
   ${flexboxCenter}
   width: 539px;
   height: 32px;
-  background: #233a54 0% 0% no-repeat padding-box;
+  background: #233a54;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 16px;
 `;
+
 const Title = styled.div`
   ${flexboxCenter}
 
   width: 533px;
   height: 26px;
-  border: 1px solid #142033;
+
   border-radius: 13px;
   text-transform: uppercase;
   font-size: 10px;
