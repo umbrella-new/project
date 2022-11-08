@@ -173,7 +173,7 @@ const ButtonInner = styled.div`
 const ButtonInnerHole = styled.div`
   ${flexboxCenter};
 
-  width: 82px;
+  width: 80px;
   height: 20px;
 
   background: #1b2b44 0% 0% no-repeat padding-box;
@@ -203,7 +203,7 @@ const ButtonInnerHole = styled.div`
 const ButtonTop = styled.div`
   ${flexboxCenter};
 
-  width: 80px;
+  width: 78px;
   height: 18px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
