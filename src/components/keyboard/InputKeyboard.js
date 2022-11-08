@@ -103,9 +103,4 @@ const Wrapper = styled.div`
   opacity: 1;
 
   text-transform: none;
-
-  /* position: absolute;
-  z-index: 10000;
-  top: 10.5rem;
-  left: -10rem; */
 `;

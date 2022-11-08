@@ -13,8 +13,10 @@ const Header = () => {
   const switchName =
     sysState.switchName.length < 1
       ? 'switch'
-      : sysState.switchName +
-        ' ' +
+      : sysState.locationName +
+        '-' +
+        sysState.switchName +
+        '-' +
         sysState.switchSize +
         ' ' +
         sysState.application +

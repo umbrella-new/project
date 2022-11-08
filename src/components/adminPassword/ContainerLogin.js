@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAdminAccess, selectUserState } from '../../store/slices/userSlice';
+import {
+  setAdminAccess,
+  selectUserState,
+  handlePasswordPropagation,
+} from '../../store/slices/userSlice';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import InputKeyboard from '../keyboard/InputKeyboard';
@@ -61,8 +65,13 @@ function ContainerLogin({ setIsSettingOpen, isReadyToClose }) {
     }
   };
 
+  const handleClose = () => {
+    console.log('here');
+    dispatch(handlePasswordPropagation(false));
+  };
+
   return (
-    <LoginAndKeyboardWrapper>
+    <LoginAndKeyboardWrapper onClick={handleClose}>
       <Wrapper>
         <Wrapper1>
           <Wrapper2>
@@ -82,13 +91,6 @@ function ContainerLogin({ setIsSettingOpen, isReadyToClose }) {
                     onChange={handlePasswordChange}
                     onClick={() => setOpenKeyboard(true)}
                   />
-                  <Button onClick={togglePassword}>
-                    {passwordType === 'password' ? (
-                      <AiOutlineEyeInvisible />
-                    ) : (
-                      <AiOutlineEye />
-                    )}
-                  </Button>
                 </InputWrap>
               </ContainerInputButton>
               <Div>
@@ -122,6 +124,13 @@ function ContainerLogin({ setIsSettingOpen, isReadyToClose }) {
           name='password'
         />
       )}
+      <Button onClick={togglePassword}>
+        {passwordType === 'password' ? (
+          <AiOutlineEyeInvisible />
+        ) : (
+          <AiOutlineEye />
+        )}
+      </Button>
     </LoginAndKeyboardWrapper>
   );
 }
@@ -129,11 +138,13 @@ function ContainerLogin({ setIsSettingOpen, isReadyToClose }) {
 export default ContainerLogin;
 
 const LoginAndKeyboardWrapper = styled.div`
-  /* position: relative; */
+  width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  position: relative;
 `;
 
 const Wrapper = styled.div`
@@ -213,34 +224,35 @@ const InputWrap = styled.div`
   margin-top: 4px;
 
   font-size: 24px;
+
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 20px;
-  opacity: 1;
+
   ${flexboxCenter}
-  justify-content: space-between;
-  padding: 0 0.5rem;
+  justify-content: flex-start;
 `;
 
 const Input = styled.input`
-  width: 90%;
-  height: auto;
-  font-size: 20px;
-  background: #233a54 0% 0% no-repeat padding-box;
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  background: transparent;
   border-radius: 19px;
+  /* border: 1px solid red; */
 
-  opacity: 1;
-  &::placeholder {
-    font-size: 12px;
-
-    text-align: center;
+  ::placeholder {
+    text-align: left;
+    padding-left: 0.8rem;
   }
 `;
 
 const Button = styled.button`
   font-size: 24px;
   margin-top: 8px;
-  opacity: 1;
+  position: absolute;
+  top: 4.4rem;
+  right: 12.2rem;
 `;
 
 const WarningMessage = styled.p`
