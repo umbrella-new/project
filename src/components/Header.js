@@ -11,15 +11,17 @@ const Header = () => {
   const sysState = systemIdentificationState.sysIdentification;
 
   const switchName =
-    sysState.switchName +
-    ' ' +
-    sysState.switchSize +
-    ' ' +
-    sysState.application +
-    '-' +
-    sysState.heatingSystem.split(' - ')[0];
+    sysState.switchName.length < 1
+      ? 'switch'
+      : sysState.switchName +
+        ' ' +
+        sysState.switchSize +
+        ' ' +
+        sysState.application +
+        '-' +
+        sysState.heatingSystem.split(' - ')[0];
 
-  const machineId = sysState.sysId;
+  const machineId = sysState.sysId > 0 ? `id : ${sysState.sysId}` : 'id';
 
   return (
     <OutsideWrapper>
@@ -31,7 +33,7 @@ const Header = () => {
           </HeaderDisplayWrapper>
           <Logo src='/images/Umbrella-logo.png' alt='Logo Image' />
           <HeaderDisplayWrapper>
-            <MachineData>ID : {machineId}</MachineData>
+            <MachineData>{machineId}</MachineData>
           </HeaderDisplayWrapper>
         </HeaderTop>
       </HeaderHole>
