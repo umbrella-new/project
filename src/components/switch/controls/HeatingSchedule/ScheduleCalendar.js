@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { useDatepicker, START_DATE, useMonth } from '@datepicker-react/hooks';
 
+import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 import Month from './Month';
-
 import DatepickerContext from './datepickerContext';
 import SchedulerButton from './SchedulerButton';
 import TimePicker from './TimePicker';

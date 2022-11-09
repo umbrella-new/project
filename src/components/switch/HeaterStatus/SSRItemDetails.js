@@ -38,12 +38,12 @@ const SSRItemDetails = ({
             <ItemCurrentWrapper>
               <ItemCurrent isEnable={isEnable}>
                 <ItemData isDefault={true} isEnable={isEnable}>
-                  {spec.current}
+                  {spec.current} t
                 </ItemData>
               </ItemCurrent>
 
               <ItemCurrent isEnable={isEnable}>
-                <ItemData isEnable={isEnable}>{spec.currentCurrent}</ItemData>
+                <ItemData isEnable={isEnable}>{spec.currentCurrent} a</ItemData>
               </ItemCurrent>
             </ItemCurrentWrapper>
 

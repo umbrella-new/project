@@ -33,7 +33,6 @@ const AdminSSRItemDetails = ({
   const { specsStr, descriptionOptions, partNumberSuggestions } =
     descriptionState;
   const { specs } = data;
-  console.log(specs);
 
   const initialInputState = [
     {
@@ -68,11 +67,7 @@ const AdminSSRItemDetails = ({
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   useEffect(() => {
-    if (
-      inputDetails[0].partNumber !== '' &&
-      inputDetails[0].voltage > 0 &&
-      inputDetails[0].lengths > 0
-    ) {
+    if (inputDetails[0].partNumber !== '') {
       // 1. Make the specs as a string
       const specsString = !unitsMeasurement
         ? `${inputDetails[0].partNumber}-${inputDetails[0].current}/${
@@ -447,11 +442,11 @@ const AdminSSRItemDetails = ({
   };
 
   // For keyboard input
-  const handleSetInput = (index, name, input) => {
+  const handleSetInput = (index, input) => {
     // 1. Copy current inputDetails state
     const newInput = [...inputDetails];
     // 2. update new Input into requested index and name
-    newInput[index][name] = input.toUpperCase();
+    newInput[index].partNumber = input.toUpperCase();
     setInputDetails(newInput);
     setInputPartNumber(input.toUpperCase());
   };
@@ -529,11 +524,11 @@ const AdminSSRItemDetails = ({
                   placeholder='Input P / N'
                   onClick={() => {
                     isEnable && handleActivateKeypad(index);
-                    // isEditable && handleSetInput(index, 'partNumber', '');
+                    isEditable && handleSetInput(index, '');
                   }}
                   onChange={(event) => {
                     if (isEditable) {
-                      handleSetInput(index, 'partNumber', event.target.value);
+                      handleSetInput(index, event.target.value);
                       setSelectedSuggestionIdx(-1);
                     }
                   }}
