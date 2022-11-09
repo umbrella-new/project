@@ -21,6 +21,7 @@ const FaultsComments = ({ handleClose, faultsIndexNumber, name }) => {
     name === 'tgs' ? faultsState.tgs : faultsState.ess;
 
   console.log(actionTaken);
+
   const initialInputState = {
     name: null,
     comments: null,

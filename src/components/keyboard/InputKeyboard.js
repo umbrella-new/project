@@ -18,7 +18,7 @@ const InputKeyboard = ({
 
   const onChange = (input) => {
     if (column >= 0) {
-      handleOnSubmit(column, name, input);
+      handleOnSubmit(column, input);
     } else if (name === 'password') {
       setInput(input);
     } else {
@@ -33,7 +33,6 @@ const InputKeyboard = ({
   const onKeyPress = (button) => {
     if (button === '{enter}') {
       if (column >= 0) {
-        closeKeyboard();
       } else if (name === 'password') {
         handleSubmit();
       } else {
