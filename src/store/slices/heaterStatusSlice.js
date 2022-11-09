@@ -13,16 +13,15 @@ const heaterStatusSlice = createSlice({
   initialState: {
     ssr1: {
       ...ssrInitialState,
-      currentCurrent: 2.95,
       specs: [
         {
+          elementName: 'RS-CRIB RAIL HEATER',
           partNumber: 'TRSC-7L-2S-A48-P1',
           current: 2.95,
           wattage: 1400,
           voltage: 480,
           lengths: 7,
           currentCurrent: 2.2,
-          description: null,
         },
       ],
     },
@@ -31,13 +30,13 @@ const heaterStatusSlice = createSlice({
       currentCurrent: 0,
       specs: [
         {
+          elementName: 'RS-CRIB RAIL HEATER',
           partNumber: 'TRSC-10L-2S-A48-P1',
           current: 4.2,
           wattage: 2000,
           voltage: 480,
           lengths: 10,
           currentCurrent: 4.1,
-          description: null,
         },
       ],
 
@@ -47,13 +46,13 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
+          elementName: 'RS-CRIB RAIL HEATER',
           partNumber: 'TRSC-11L-2S-A48-P1',
           current: 4.6,
           wattage: 2200,
           voltage: 480,
           lengths: 11,
           currentCurrent: 8,
-          description: null,
         },
       ],
     },
@@ -61,13 +60,13 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
+          elementName: 'RS-Switch HEATER',
           partNumber: 'TRS-16L-2S-A48-P1',
           current: 6.7,
           wattage: 3200,
           voltage: 480,
           lengths: 16,
           currentCurrent: 6.1,
-          description: null,
         },
       ],
       currentCurrent: [10.65],
@@ -76,6 +75,7 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
+          elementName: 'RS-Switch HEATER',
           partNumber: 'TRS-20L-2S-A48-P1',
           current: 8.4,
           wattage: 4000,
@@ -90,6 +90,7 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
+          elementName: 'FLEXIBLE RAIL HEATER',
           partNumber: 'T-FLEX-24L-2S-A48-P1',
           current: 10,
           wattage: 4800,
@@ -104,13 +105,13 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
+          elementName: 'RS-Switch HEATER',
           partNumber: 'TRS-16L-2S-A48-P1',
           current: 13.4,
           wattage: 3200,
           voltage: 240,
           lengths: 16,
           currentCurrent: 13,
-          description: null,
         },
       ],
     },
@@ -118,13 +119,13 @@ const heaterStatusSlice = createSlice({
       ...ssrInitialState,
       specs: [
         {
+          elementName: 'RS-CRIB RAIL HEATER',
           partNumber: 'TRSC-8L-2S-A48-P1',
           current: 3.4,
           wattage: 1600,
           voltage: 480,
           lengths: 8,
           currentCurrent: 3,
-          description: null,
         },
       ],
     },

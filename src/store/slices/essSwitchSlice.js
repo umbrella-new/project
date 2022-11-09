@@ -6,7 +6,7 @@ const initialState = {
   heatingScheduleCalendar: { isDisplayed: false, id: null },
   instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
   snowSensor: { isReady: false, activated: false, defaultTemp: 350 },
-  optionalConstantTemp: { inputTemp: 0, apply: false },
+  optionalConstantTemp: { inputTemp: 0, apply: false, activated: false },
   heatingScheduleList: [
     {
       start: { date: null, time: null },

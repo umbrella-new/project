@@ -38,12 +38,7 @@ const HeatingSchedule = () => {
 
   const handleDispatch = (temp) => {
     if (!isTgsSwitchActivated) {
-      if (start.date) {
-        dispatch(heatingScheduleBeReady(temp));
-      } else {
-        // Change it to modal!! make it beautiful
-        window.alert('input schedule');
-      }
+      dispatch(heatingScheduleBeReady(temp));
     } else {
       // Activate Conflict Message Box
       dispatch(activateEsConflictMessage());

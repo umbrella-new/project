@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
-import { selectUnitsState } from '../../../store/slices/unitsSlice';
+
 import {
   flexboxCenter,
   ItemBackground,
@@ -25,37 +24,11 @@ const SSRItemDetails = ({
   openPasswordBox,
   overAmp,
 }) => {
-  const descriptionState = useSelector(selectDescription);
-  const { specsStr, descriptionOptions } = descriptionState;
-  const [description, setDescription] = useState([]);
-
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
-  const dispatch = useDispatch();
   // For mapping
   const { specs } = data;
-
-  // To make descriptions
-  useEffect(() => {
-    // 1. Make the specs as a string
-    const specsStrArr = specs.map(
-      (spec) =>
-        `${spec.partNumber}-${spec.current}/${spec.wattage}/${spec.voltage}/${spec.lengths}`
-    );
-
-    // 2. Find Index using indexOF
-    const descriptionIndex = specsStrArr.map((spec) => specsStr.indexOf(spec));
-    // 3. Set description state
-    const stateArr = descriptionIndex.map(
-      (dIndex) => descriptionOptions[dIndex]
-    );
-    setDescription(stateArr);
-
-    // Check the current with currentCurrent
-  }, [specs]);
-
-  // console.log(specs);
 
   return (
     <Wrapper>
@@ -95,14 +68,13 @@ const SSRItemDetails = ({
             <DescriptionAndButtonWrapper>
               <ItemDescription isEnable={isEnable}>
                 <ItemData isDescription={true} isEnable={isEnable}>
-                  {description[index] && description[index]}
+                  {`${spec.elementName} - ${spec.partNumber}`}
                   <br></br>
-                  {description[index] &&
-                    `${spec.current} A / ${spec.wattage} W / ${
-                      spec.voltage
-                    } v / ${(Number(spec.lengths) / 3.28048).toFixed(1)} m - ${
-                      spec.lengths
-                    } ft`}
+                  {`${spec.current} A / ${spec.wattage} W / ${
+                    spec.voltage
+                  } v / ${(Number(spec.lengths) / 3.28048).toFixed(1)} m - ${
+                    spec.lengths
+                  } ft`}
                 </ItemData>
               </ItemDescription>
 

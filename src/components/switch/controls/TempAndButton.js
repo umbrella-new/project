@@ -29,14 +29,17 @@ const TempAndButton = ({
   // Local state displaying the keypad
   const [openKeyPad, setOpenKeyPad] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
-  const [overHeat, setOverHeat] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [temp, setTemp] = useState(false);
 
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
   useEffect(() => {
     if (unitsMeasurement) {
       if (currTemp > 0) {
-        inputRef.current.value = `${Number(currTemp) * 1.8 + 32}\u00b0F`;
+        inputRef.current.value = `${Math.round(
+          Number(currTemp) * 1.8 + 32
+        )}\u00b0F`;
         if (!isEnable) {
           inputRef.current.value = ``;
         }
@@ -51,51 +54,30 @@ const TempAndButton = ({
     }
   });
 
+  console.log(isReady);
   // Button handler
   const handleSubmit = (event) => {
     event.preventDefault();
     // Check the user input and show the user message
-    inputRef.current.value.length === 0 && setAlertMessage(true);
 
-    const temp = Number(inputRef.current.value);
-    if (title === 'scheduler') {
-      if (temp !== 0) {
-        if (unitsMeasurement) {
-          buttonHandler((temp - 32) / 1.8);
-          inputRef.current.value = `${temp}\u00b0F`;
-        } else {
-          if (!isReady) {
-            buttonHandler(temp);
-            inputRef.current.value = `${temp}\u00b0C`;
-          } else {
-            buttonHandler(0);
-            inputRef.current.value = '';
-          }
-        }
-      }
+    if (inputRef.current.value.length === 0) {
+      setMessage('in order to finalize your optional constant temp program,');
+      setTemp(true);
+      setAlertMessage(true);
     } else {
-      if (temp !== 0) {
-        if (unitsMeasurement) {
-          if (temp > 302) {
-            setOverHeat(true);
-            setAlertMessage(true);
-            inputRef.current.value = '';
-          } else {
-            if (!isActivated) {
+      const temp = Number(inputRef.current.value);
+      if (title === 'scheduler') {
+        if (temp !== 0) {
+          if (unitsMeasurement) {
+            if (!isReady) {
               buttonHandler((temp - 32) / 1.8);
               inputRef.current.value = `${temp}\u00b0F`;
             } else {
               buttonHandler(0);
               inputRef.current.value = '';
             }
-          }
-        } else {
-          if (temp > 150) {
-            setOverHeat(true);
-            setAlertMessage(true);
-            inputRef.current.value = '';
           } else {
-            if (!isActivated) {
+            if (!isReady) {
               buttonHandler(temp);
               inputRef.current.value = `${temp}\u00b0C`;
             } else {
@@ -104,25 +86,72 @@ const TempAndButton = ({
             }
           }
         }
+      } else {
+        if (temp !== 0) {
+          if (unitsMeasurement) {
+            if (temp > 302) {
+              setMessage('Maximum temperature is 150\u00b0F (302\u00b0C)');
+              setTemp(true);
+              setAlertMessage(true);
+              inputRef.current.value = '';
+            } else {
+              if (!isReady) {
+                buttonHandler((temp - 32) / 1.8);
+                inputRef.current.value = `${temp}\u00b0F`;
+              } else {
+                buttonHandler(0);
+
+                inputRef.current.value = '';
+              }
+            }
+          } else {
+            if (temp > 150) {
+              setMessage('Maximum temperature is 150\u00b0F (302\u00b0C)');
+              setTemp(true);
+              setAlertMessage(true);
+              inputRef.current.value = '';
+            } else {
+              if (!isReady) {
+                buttonHandler(temp);
+                inputRef.current.value = `${temp}\u00b0C`;
+              } else {
+                buttonHandler(0);
+                inputRef.current.value = '';
+              }
+            }
+          }
+        }
       }
     }
   };
 
   const handleCheck = () => {
-    if (!isAble) {
+    if (!isAble.date) {
       alert('Please Set Schedule First');
       inputRef.current.value = '';
     }
   };
 
+  const handleSchedulerSet = () => {
+    setMessage('Please set schedule first');
+    setTemp(false);
+    setAlertMessage(true);
+  };
   // Handlers for keypad
   const onInputHandler = () => {
-    !isEnable || isActivated || isReady || setOpenKeyPad(true);
+    if (title === 'scheduler') {
+      !isEnable || isActivated || isReady || isAble.date
+        ? setOpenKeyPad(true)
+        : handleSchedulerSet();
+    } else {
+      !isEnable || isActivated || isReady || setOpenKeyPad(true);
+    }
   };
 
   // Virtual keyboard input handler
   const handleVirtualKeyboardInput = (input) => {
     const temp = Number(input);
+
     if (title === 'scheduler') {
       if (unitsMeasurement) {
         buttonHandler(Math.round((temp - 32) / 1.8));
@@ -137,7 +166,8 @@ const TempAndButton = ({
       if (unitsMeasurement) {
         if (temp > 302) {
           console.log(temp);
-          setOverHeat(true);
+          setMessage('Maximum temperature is 150\u00b0F (302\u00b0C)');
+          setTemp(true);
           setAlertMessage(true);
           setOpenKeyPad(false);
           inputRef.current.value = '';
@@ -148,7 +178,8 @@ const TempAndButton = ({
         }
       } else {
         if (temp > 150) {
-          setOverHeat(true);
+          setMessage('Maximum temperature is 150\u00b0F (302\u00b0C)');
+          setTemp(true);
           setAlertMessage(true);
           setOpenKeyPad(false);
           inputRef.current.value = '';
@@ -164,7 +195,6 @@ const TempAndButton = ({
   // Display Message box
   const handleHideMessage = () => {
     setAlertMessage(false);
-    setOverHeat(false);
     inputRef.current.focus();
   };
 
@@ -172,10 +202,6 @@ const TempAndButton = ({
     title === 'scheduler'
       ? 'heating schedule program'
       : 'optional constant temp';
-
-  const message = overHeat
-    ? 'Maximum temperature is 150\u00b0F (302\u00b0C)'
-    : 'in order to finalize your optional constant temp program,';
 
   const unit = unitsMeasurement ? `\u00b0F` : `\u00b0C`;
 
@@ -190,7 +216,7 @@ const TempAndButton = ({
             type='text'
             placeholder={unit}
             disabled={!isEnable}
-            onChange={handleCheck}
+            // onChange={handleCheck}
             disabled={isReady || isActivated || !isEnable}
           />
         </InputWrapper>
@@ -219,7 +245,7 @@ const TempAndButton = ({
         <KeyPadWrapper>
           <InputKeyPad
             handleOnSubmit={handleVirtualKeyboardInput}
-            title={title}
+            setMainInput={(input) => (inputRef.current.value = input)}
             closeKeyPad={() => setOpenKeyPad(false)}
           />
         </KeyPadWrapper>
@@ -229,6 +255,7 @@ const TempAndButton = ({
           onClose={handleHideMessage}
           title={messageBoxTitle}
           message={message}
+          temp={temp}
         />
       )}
     </Wrapper>

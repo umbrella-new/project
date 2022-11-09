@@ -5,26 +5,20 @@ import './keypad.css';
 import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
-const InputKeyPad = ({ closeKeyPad, handleOnSubmit, column, name }) => {
-  const [input, setInput] = useState('');
+const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
+  const [inputNum, setInputNum] = useState('');
   const keyboard = useRef();
 
   const onChange = (input) => {
-    setInput(input);
+    console.log(input);
+    setInputNum(input);
+    setMainInput(input);
   };
 
   const handleOnClick = () => {
-    const inputNumber = Number(input);
-
-    // 1. no name, no column
-    // 2. no column
-    // 3.
+    const inputNumber = Number(inputNum);
     if (name !== undefined) {
-      if (column !== undefined) {
-        inputNumber !== 0 && handleOnSubmit(column, name, inputNumber);
-      } else {
-        inputNumber !== 0 && handleOnSubmit(name, inputNumber);
-      }
+      inputNumber !== 0 && handleOnSubmit(name, inputNumber);
     } else {
       inputNumber !== 0 && handleOnSubmit(inputNumber);
     }
@@ -35,9 +29,9 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, column, name }) => {
     <Wrapper>
       <InputAndButtonWrapper>
         <Input
-          value={input}
+          value={inputNum}
           placeHoler='Please input numbers'
-          onChange={setInput}
+          onChange={setInputNum}
         />
       </InputAndButtonWrapper>
 

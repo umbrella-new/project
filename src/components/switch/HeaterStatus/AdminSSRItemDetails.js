@@ -13,7 +13,7 @@ import {
 } from '../../../styles/commonStyles';
 
 import InputKeyboard from '../../keyboard/InputKeyboard';
-import InputKeyPad from '../../keyboard/InputKeyPad';
+
 import SettingConfirmedMessage from '../../userMessages/SettingConfirmedMessage';
 import PartNumberSuggestion from './PartNumberSuggestion';
 import SettingButton from './SettingButton';
@@ -33,63 +33,17 @@ const AdminSSRItemDetails = ({
   const { specsStr, descriptionOptions, partNumberSuggestions } =
     descriptionState;
   const { specs } = data;
-  // const initialInputState =
-  //   specs.length === 1
-  //     ? [
-  //         data.specs[0],
-  //         {
-  //           partNumber: '',
-  //           current: '',
-  //           wattage: '',
-  //           voltage: '',
-  //           lengths: '',
-  //         },
-  //         {
-  //           partNumber: '',
-  //           current: '',
-  //           wattage: '',
-  //           voltage: '',
-  //           lengths: '',
-  //         },
-  //       ]
-  //     : specs.length === 2
-  //     ? [
-  //         data.specs[0],
-  //         data.specs[1],
-  //         {
-  //           partNumber: '',
-  //           current: '',
-  //           wattage: '',
-  //           voltage: '',
-  //           lengths: '',
-  //         },
-  //       ]
-  //     : data.specs;
+  console.log(specs);
 
   const initialInputState = [
     {
       partNumber: '',
-      current: '',
-      wattage: '',
-      voltage: '',
-      lengths: '',
-      currentCurrent: 0,
     },
     {
       partNumber: '',
-      current: '',
-      wattage: '',
-      voltage: '',
-      lengths: '',
-      currentCurrent: 0,
     },
     {
       partNumber: '',
-      current: '',
-      wattage: '',
-      voltage: '',
-      lengths: '',
-      currentCurrent: 0,
     },
   ];
 
@@ -97,7 +51,6 @@ const AdminSSRItemDetails = ({
   const initialKeypadState = false;
 
   const [inputDetails, setInputDetails] = useState(initialInputState);
-  const [activateKeypad, setActivateKeypad] = useState(initialKeypadState);
   const [activateKeyboard, setActivateKeyboard] = useState(initialKeypadState);
   const [hiddenNumber, setHiddenNumber] = useState(1);
 
@@ -251,11 +204,6 @@ const AdminSSRItemDetails = ({
             inputDetails[1],
             {
               partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
-              currentCurrent: '0',
             },
           ]);
           setDescription([description[0], description[1]]);
@@ -267,19 +215,9 @@ const AdminSSRItemDetails = ({
             inputDetails[0],
             {
               partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
-              currentCurrent: '0',
             },
             {
               partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
-              currentCurrent: '0',
             },
           ]);
           setDescription([description[0]]);
@@ -291,27 +229,12 @@ const AdminSSRItemDetails = ({
           setInputDetails([
             {
               partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
-              currentCurrent: '0',
             },
             {
               partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
-              currentCurrent: '0',
             },
             {
               partNumber: '',
-              current: '',
-              wattage: '',
-              voltage: '',
-              lengths: '',
-              currentCurrent: '0',
             },
           ]);
           setDescription([]);
@@ -516,20 +439,11 @@ const AdminSSRItemDetails = ({
   };
 
   // Activate keypad with input ID
-  const handleActivateKeypad = (index, name) => {
-    if (name === 'partNumber') {
-      // 1. set index and name
-      setInputId([index, name]);
-      // 2. Activate Keyboard
-      setActivateKeyboard(true);
-      setActivateKeypad(false);
-    } else {
-      // 1. set index and name
-      setInputId([index, name]);
-      // 2. Activate Keypad
-      setActivateKeypad(true);
-      setActivateKeyboard(false);
-    }
+  const handleActivateKeypad = (index) => {
+    // 1. set index and name
+    setInputId([index]);
+    // 2. Activate Keyboard
+    setActivateKeyboard(true);
   };
 
   // For keyboard input
@@ -537,32 +451,9 @@ const AdminSSRItemDetails = ({
     // 1. Copy current inputDetails state
     const newInput = [...inputDetails];
     // 2. update new Input into requested index and name
-    if (name === 'partNumber') {
-      newInput[index][name] = input.toUpperCase();
-      setInputDetails(newInput);
-      setInputPartNumber(input.toUpperCase());
-    } else {
-      newInput[index][name] = input;
-      setInputDetails(newInput);
-    }
-  };
-  // console.log(inputDetails[0].lengths);
-
-  // For virtual keypad input
-  const handleKeypadInput = (index, name, input) => {
-    // 1. Copy current inputDetails state
-    const newInput = [...inputDetails];
-    // 2. update new Input into requested index and name
-    if (name === 'partNumber') {
-      newInput[index][name] = input.toUpperCase();
-      setInputPartNumber(input.toUpperCase());
-      // 3. Set state
-      setInputDetails(newInput);
-    } else {
-      newInput[index][name] = input;
-      // 3. Set state
-      setInputDetails(newInput);
-    }
+    newInput[index][name] = input.toUpperCase();
+    setInputDetails(newInput);
+    setInputPartNumber(input.toUpperCase());
   };
 
   // ********************************auto complete*****************************
@@ -637,7 +528,7 @@ const AdminSSRItemDetails = ({
                   isEnable={isEnable}
                   placeholder='Input P / N'
                   onClick={() => {
-                    isEnable && handleActivateKeypad(index, 'partNumber');
+                    isEnable && handleActivateKeypad(index);
                     // isEditable && handleSetInput(index, 'partNumber', '');
                   }}
                   onChange={(event) => {
@@ -680,67 +571,21 @@ const AdminSSRItemDetails = ({
                 </AutoCompleteWrapper>
               )}
 
-              <ItemCurrent isEnable={isEnable}>
-                <ItemDataInput
-                  type='text'
-                  isEnable={isEnable}
-                  placeholder='Input Current'
-                  onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'current')
-                  }
-                  onChange={(event) =>
-                    handleSetInput(index, 'current', event.target.value)
-                  }
-                  value={element.current}
-                />
-              </ItemCurrent>
+              <ItemOuterWrapper isEnable={isEnable}>
+                <ItemData>----</ItemData>
+              </ItemOuterWrapper>
 
-              <ItemWattage isEnable={isEnable}>
-                <ItemDataInput
-                  type='text'
-                  isEnable={isEnable}
-                  placeholder='Input Wattage'
-                  onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'wattage')
-                  }
-                  onChange={(event) =>
-                    handleSetInput(index, 'wattage', event.target.value)
-                  }
-                  value={element.wattage}
-                />
-              </ItemWattage>
+              <ItemOuterWrapper isEnable={isEnable}>
+                <ItemData>----</ItemData>
+              </ItemOuterWrapper>
 
-              <ItemVoltage isEnable={isEnable}>
-                <ItemDataInput
-                  type='text'
-                  isEnable={isEnable}
-                  placeholder='input voltage'
-                  onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'voltage')
-                  }
-                  onChange={(event) =>
-                    isEnable &&
-                    handleSetInput(index, 'voltage', event.target.value)
-                  }
-                  value={element.voltage}
-                />
-              </ItemVoltage>
+              <ItemOuterWrapper isEnable={isEnable}>
+                <ItemData>----</ItemData>
+              </ItemOuterWrapper>
 
-              <ItemLength isEnable={isEnable}>
-                <ItemDataInput
-                  type='text'
-                  isEnable={isEnable}
-                  placeholder='input length'
-                  onClick={() =>
-                    isEditable && handleActivateKeypad(index, 'lengths')
-                  }
-                  onChange={(event) =>
-                    isEnable &&
-                    handleSetInput(index, 'lengths', event.target.value)
-                  }
-                  value={element.lengths}
-                />
-              </ItemLength>
+              <ItemOuterWrapper isEnable={isEnable}>
+                <ItemData>----</ItemData>
+              </ItemOuterWrapper>
 
               <DescriptionAndButtonWrapper>
                 <ItemDescription isEnable={isEnable}>
@@ -748,8 +593,6 @@ const AdminSSRItemDetails = ({
                     {description[index]
                       ? description[index]
                       : 'element not found'}
-                    {description[index] &&
-                      ` / ${inputDetails[index].current} a / ${inputDetails[index].wattage} w / ${inputDetails[index].voltage} v / ${inputDetails[index].lengths}`}
                   </ItemDataDescription>
                 </ItemDescription>
 
@@ -767,22 +610,11 @@ const AdminSSRItemDetails = ({
         ))}
       </ContentWrapper>
 
-      {activateKeypad && (
-        <KeypadWrapper positionTop={hiddenNumber}>
-          <InputKeyPad
-            closeKeyPad={() => setActivateKeypad(false)}
-            handleOnSubmit={handleKeypadInput}
-            column={inputId[0]}
-            name={inputId[1]}
-          />
-        </KeypadWrapper>
-      )}
-
       {activateKeyboard && (
         <KeyboardWrapper positionTop={hiddenNumber}>
           <InputKeyboard
             closeKeyboard={() => setActivateKeyboard(false)}
-            handleOnSubmit={handleKeypadInput}
+            handleOnSubmit={handleSetInput}
             column={inputId[0]}
             name={inputId[1]}
           />
@@ -895,7 +727,7 @@ const ItemPartNumber = styled.li`
     `}
 `;
 
-const ItemCurrent = styled.li`
+const ItemOuterWrapper = styled.li`
   ${flexboxCenter}
 
   width: 93px;
@@ -908,41 +740,7 @@ const ItemCurrent = styled.li`
       ${ItemBackgroundDisable}
     `}
 `;
-const ItemWattage = styled.li`
-  ${flexboxCenter}
-  width: 93px;
-  height: 20px;
-  ${ItemBackground}
-  ${(p) =>
-    p.isEnable ||
-    css`
-      ${ItemBackgroundDisable}
-    `}
-`;
-const ItemVoltage = styled.li`
-  ${flexboxCenter}
 
-  width: 93px;
-  height: 20px;
-  ${ItemBackground}
-  ${(p) =>
-    p.isEnable ||
-    css`
-      ${ItemBackgroundDisable}
-    `}
-`;
-const ItemLength = styled.li`
-  ${flexboxCenter}
-
-  width: 93px;
-  height: 20px;
-  ${ItemBackground}
-  ${(p) =>
-    p.isEnable ||
-    css`
-      ${ItemBackgroundDisable}
-    `}
-`;
 const ItemDescription = styled.li`
   ${flexboxCenter}
 
@@ -970,10 +768,9 @@ const ItemPartNumberInput = styled.input`
   }
 `;
 
-const ItemDataInput = styled.input`
+const ItemData = styled.div`
   font-size: 8px;
   text-align: center;
-
   width: 90px;
 
   background-color: transparent;

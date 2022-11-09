@@ -204,6 +204,7 @@ const TgsInstantHeat = () => {
           <InputKeyPad
             handleOnSubmit={handleVirtualKeyboardInput}
             closeKeyPad={handleKeypadClosed}
+            setMainInput={(input) => (inputRef.current.value = input)}
           />
         </KeyPadWrapper>
       )}

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 import MessageButton from './MessageButton';
 
-const InputTempMessage = ({ onClose, title, message }) => {
+const InputTempMessage = ({ onClose, title, message, temp }) => {
   return (
     <Wrapper>
       <MessageOuter>
@@ -14,11 +14,7 @@ const InputTempMessage = ({ onClose, title, message }) => {
 
           <MessageWrapper>
             <Message>{message}</Message>
-            <Message>
-              {title === 'default temperature' || (
-                <u>please input your temperature</u>
-              )}
-            </Message>
+            <Message>{temp && <u>please input your temperature</u>}</Message>
           </MessageWrapper>
           <ButtonWrapper>
             <MessageButton name='ok' buttonHandler={onClose} />

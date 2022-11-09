@@ -26,7 +26,7 @@ const ConstantHeat = () => {
   const { isEssSwitch } = userState;
   const dispatch = useDispatch();
 
-  const { apply } = state.optionalConstantTemp;
+  const { apply, activated } = state.optionalConstantTemp;
   const location = useLocation();
 
   const tgsState = useSelector(selectTgsSwitch);
@@ -46,6 +46,7 @@ const ConstantHeat = () => {
     : true;
 
   const handleDispatch = (temp) => {
+    console.log('body', temp);
     if (!isTgsSwitchActivated) {
       dispatch(constantTemp(temp));
     } else {
@@ -64,8 +65,8 @@ const ConstantHeat = () => {
       <TempAndButton
         isEnable={isEnable}
         buttonHandler={handleDispatch}
-        isActivated={apply}
-        isReady={false}
+        isActivated={activated}
+        isReady={apply}
         currTemp={inputTemp}
         isAble={true}
       />
