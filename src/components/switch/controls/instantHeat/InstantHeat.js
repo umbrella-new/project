@@ -17,11 +17,7 @@ import {
 import styled, { css } from 'styled-components';
 
 import InputKeyPad from '../../../keyboard/InputKeyPad';
-import {
-  activateTgsSwitchStatus,
-  selectTgsSwitch,
-} from '../../../../store/slices/tgsSwitchSlice';
-import { selectUnitsState } from '../../../../store/slices/unitsSlice';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import InputTempMessage from '../../../userMessages/InputTempMessage';
 
@@ -47,9 +43,9 @@ const InstantHeat = () => {
   useEffect(() => {
     if (instantHeatTemp > 0) {
       unitsMeasurement
-        ? (inputRef.current.value = `${
+        ? (inputRef.current.value = `${Math.round(
             Number(instantHeatTemp) * 1.8 + 32
-          }\u00b0F`)
+          )}\u00b0F`)
         : (inputRef.current.value = `${instantHeatTemp}\u00b0C`);
     }
   }, []);
@@ -95,7 +91,6 @@ const InstantHeat = () => {
             : (inputRef.current.value = `${temp}\u00b0C`);
         } else {
           dispatch(instantHeat(0));
-
           inputRef.current.value = ``;
         }
       } else {
@@ -142,6 +137,7 @@ const InstantHeat = () => {
               type='text'
               ref={inputRef}
               disabled={instantButtonToggler}
+              onChang={() => console.log(inputRef.current.value)}
             />
           </LabelAndInputInnerWrapper>
         </LabelAndInputOuterWrapper>

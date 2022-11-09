@@ -104,7 +104,7 @@ const TgsHeatingSchedule = () => {
         isReady={isReady}
         currTemp={inputTemp}
         title='scheduler'
-        isAble={start ? true : false}
+        isAble={start}
       />
 
       {heatingScheduleCalendar.isDisplayed && (
