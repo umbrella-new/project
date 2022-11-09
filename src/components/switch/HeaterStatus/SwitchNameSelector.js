@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { changeSwitchName } from "../../../store/slices/heaterStatusSlice";
-import { flexboxCenter } from "../../../styles/commonStyles";
-import InputKeyboard from "../../keyboard/InputKeyboard";
-import SwitchNameButton from "./SwitchNameButton";
-import SwitchNameRadioBox from "./SwitchNameRadioBox";
-import { switchNameSelect } from "../../../store/slices/constantData";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { changeSwitchName } from '../../../store/slices/heaterStatusSlice';
+import { flexboxCenter } from '../../../styles/commonStyles';
+import InputKeyboard from '../../keyboard/InputKeyboard';
+import SwitchNameButton from './SwitchNameButton';
+import SwitchNameRadioBox from './SwitchNameRadioBox';
+import { switchNameSelect } from '../../../store/slices/constantData';
 
 const SwitchNameSelector = ({ id }) => {
   // id is the column number to identify the column e.g 1 === first column
@@ -14,7 +14,7 @@ const SwitchNameSelector = ({ id }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [checked, setChecked] = useState(null);
   const [activateKeyboard, setActivateKeyboard] = useState(false);
-  const [switchNameInput, setSwitchNameInput] = useState("");
+  const [switchNameInput, setSwitchNameInput] = useState('');
 
   // Handler to change Checked state
   const handleChecker = (elem) => {
@@ -23,12 +23,13 @@ const SwitchNameSelector = ({ id }) => {
 
   // Display select box
   const displaySelectOptions = () => {
+    setActivateKeyboard(false);
     setIsClicked(!isClicked);
   };
 
   // Select box button handler
   const handleSelectOptionClick = (name) => {
-    if (name === "clear") {
+    if (name === 'clear') {
       setChecked(null);
     } else {
       setIsClicked(!isClicked);
@@ -47,8 +48,9 @@ const SwitchNameSelector = ({ id }) => {
   const handleInput = () => {
     // Activate Keyboard
     setActivateKeyboard(true);
+    setIsClicked(false);
     // Clear Input
-    setSwitchNameInput("");
+    setSwitchNameInput('');
   };
 
   // Apply Button handler(dispatch)
@@ -81,7 +83,7 @@ const SwitchNameSelector = ({ id }) => {
           <SelectBoxInnerWrapper isClicked={isClicked}>
             <SelectedTitleAndArrowWrapper isClicked={isClicked}>
               <SelectedTitle>
-                <Title>{checked ? checked : "s.t size"}</Title>
+                <Title>{checked ? checked : 's.t size'}</Title>
               </SelectedTitle>
 
               <ArrowWrapper onClick={displaySelectOptions}>
@@ -204,7 +206,7 @@ const SelectBoxWrapperHole = styled.div`
 `;
 const SelectBoxInnerWrapper = styled.div`
   width: 64px;
-  height: ${(p) => (p.isClicked ? "none" : "16px")};
+  height: ${(p) => (p.isClicked ? 'none' : '16px')};
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -216,11 +218,11 @@ const SelectBoxInnerWrapper = styled.div`
   ${flexboxCenter}
   flex-direction: column;
 
-  position: ${(p) => (p.isClicked ? "absolute" : "none")};
-  padding-bottom: ${(p) => (p.isClicked ? "0.1rem" : "0")};
-  z-index: ${(p) => (p.isClicked ? "100" : "0")};
-  top: ${(p) => (p.isClicked ? "0.06rem" : "none")};
-  left: ${(p) => (p.isClicked ? "0.02rem" : "none")};
+  position: ${(p) => (p.isClicked ? 'absolute' : 'none')};
+  padding-bottom: ${(p) => (p.isClicked ? '0.1rem' : '0')};
+  z-index: ${(p) => (p.isClicked ? '100' : '0')};
+  top: ${(p) => (p.isClicked ? '0.06rem' : 'none')};
+  left: ${(p) => (p.isClicked ? '0.02rem' : 'none')};
 `;
 
 const SelectedTitleAndArrowWrapper = styled.div`
@@ -231,8 +233,8 @@ const SelectedTitleAndArrowWrapper = styled.div`
 
   padding: 0 0.1rem;
 
-  margin: ${(p) => (p.isClicked ? "0.1rem " : "0")};
-  margin-left: ${(p) => (p.isClicked ? "0.2rem " : "0")};
+  margin: ${(p) => (p.isClicked ? '0.1rem ' : '0')};
+  margin-left: ${(p) => (p.isClicked ? '0.2rem ' : '0')};
 `;
 
 const SelectedTitle = styled.div`

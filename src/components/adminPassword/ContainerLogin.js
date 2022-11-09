@@ -66,7 +66,6 @@ function ContainerLogin({ setIsSettingOpen, isReadyToClose }) {
   };
 
   const handleClose = () => {
-    console.log('here');
     dispatch(handlePasswordPropagation(false));
   };
 

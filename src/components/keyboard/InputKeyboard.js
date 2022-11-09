@@ -37,12 +37,14 @@ const InputKeyboard = ({
       } else if (name === 'password') {
         handleSubmit();
       } else {
-        closeKeyboard();
+        // closeKeyboard();
       }
     } else if (button === '{shift}') {
       console.log(button);
       const layoutName = layout === 'default' ? 'shift' : 'default';
       setLayout(layoutName);
+    } else if (button === '{escape}') {
+      closeKeyboard();
     }
   };
 
@@ -55,37 +57,35 @@ const InputKeyboard = ({
         onKeyPress={(button) => onKeyPress(button)}
         theme={'hg-theme-default hg-layout-default myTheme'}
         display={{
-          '{escape}': '⎋',
-          '{tab}': '⇥',
+          '{escape}': 'x',
           '{backspace}': '⌫',
           '{enter}': '↵',
-          '{capslock}': '⇪',
           '{shift}': '⇧',
           '{shift}': '⇧',
-          '{controlleft}': '⌃',
-          '{controlright}': '⌃',
-          '{altleft}': '⌥',
-          '{altright}': '⌥',
-          '{metaleft}': '⌘',
-          '{metaright}': '⌘',
           '{space}': '   ',
         }}
         layout={{
           default: [
-            '0 1 2 3 4 5 6 7 8 9 - _ {backspace}',
+            '0 1 2 3 4 5 6 7 8 9 - {backspace} {escape}',
             'q w e r t y u i o p \\',
             'a s d f g h j k l {enter}',
             '{shift} z x c v b n m . / {shift}',
             '{space}',
           ],
           shift: [
-            '0 1 2 3 4 5 6 7 8 9 - _ {backspace}',
+            '0 1 2 3 4 5 6 7 8 9 - {backspace} {escape}',
             'Q W E R T Y U I O P \\',
             'A S D F G H J K L {enter}',
             '{shift} Z X C V B N M . / {shift}',
             '{space}',
           ],
         }}
+        buttonTheme={[
+          {
+            class: 'hg-red',
+            buttons: '{escape}',
+          },
+        ]}
       />
     </Wrapper>
   );

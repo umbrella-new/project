@@ -173,3 +173,8 @@ li.hg-candidate-box-list-item:active {
 .hg-candidate-box-btn-active {
   color: #444;
 }
+
+.simple-keyboard.hg-layout-default .hg-button.hg-red {
+  background: rgb(255, 0, 0, 0.7);
+  color: white;
+}
