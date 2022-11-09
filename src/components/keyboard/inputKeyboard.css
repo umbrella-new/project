@@ -1,13 +1,8 @@
 .hg-theme-default {
-  /* background: #142033 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 1px #000000;
-  opacity: 1; */
-
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border: 0.5px solid #142033;
   border-radius: 12px;
-  opacity: 1;
 
   border-radius: 5px;
   box-sizing: border-box;
