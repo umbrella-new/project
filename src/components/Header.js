@@ -16,8 +16,8 @@ const Header = () => {
 
   const tgsTesSettingState = useSelector(selectSettingsOfTgsTes);
   const { gasType } = tgsTesSettingState;
-  console.log(gasType);
   // true == ng / lp
+
   const switchName =
     sysState.switchName.length < 1
       ? 'switch'
