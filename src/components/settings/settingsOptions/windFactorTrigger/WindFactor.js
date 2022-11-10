@@ -1,7 +1,33 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 function WindFactor({ contents, index, selectedMeasurement }) {
+  const { windFactor, setWindFactor } = useContext(SettingsContext);
+
+  const handleTemp = (e, index) => {
+    e.stopPropagation();
+    const value = Number(e.target.value);
+
+    switch (index) {
+      case 0:
+        setWindFactor(() => ({ ...windFactor, lowWind: value }));
+        break;
+      case 1:
+        setWindFactor(() => ({ ...windFactor, highWind: value }));
+        break;
+      case 2:
+        setWindFactor(() => ({ ...windFactor, medWind: value }));
+        break;
+      case 3:
+        setWindFactor(() => ({ ...windFactor, extremeWind: value }));
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <ContainerWindFactors
       gradient={index === 0 ? true : index === 1 ? true : false}
@@ -17,9 +43,20 @@ function WindFactor({ contents, index, selectedMeasurement }) {
             {selectedMeasurement ? 'miles/h' : 'kilometers/h'}
           </Wind>
           <Temperature>
-            {selectedMeasurement
-              ? contents.temperatureF
-              : contents.temperatureC}{' '}
+            <Input
+              type='number'
+              placeholder='temp'
+              value={
+                index === 0
+                  ? windFactor.lowWind
+                  : index === 1
+                  ? windFactor.highWind
+                  : index === 2
+                  ? windFactor.medWind
+                  : windFactor.extremeWind
+              }
+              onChange={(e) => handleTemp(e, index)}
+            ></Input>
             {selectedMeasurement ? '°f' : '°c'}
           </Temperature>
         </SmallContainer>
@@ -100,4 +137,21 @@ const Temperature = styled.span`
   font-size: var(--space2);
   margin-right: var(--font-size6);
   text-transform: uppercase;
+`;
+
+const Input = styled.input`
+  width: 30px;
+  height: 15px;
+
+  font-size: var(--space2);
+  background-color: #233a54;
+  /* border-radius: 21px; */
+  opacity: 1;
+  text-transform: uppercase;
+
+  &::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;

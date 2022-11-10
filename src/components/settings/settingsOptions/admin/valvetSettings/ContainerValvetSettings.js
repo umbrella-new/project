@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import ValveSettings from './ValveSettings';
 import SelectGasType from '../selectGasType/ContainerSelectGasType';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputValveSettingsMessage from './InputValveSettingsMessage';
+import { useSelector } from 'react-redux';
+import { selectSettingsOfTgsTes } from '../../../../../store/slices/settingsOfTgsTesSlice';
 
 function ContainerValveSettings() {
   const title = 'warning';
@@ -12,6 +14,20 @@ function ContainerValveSettings() {
   const initialState = { first: '', second: '', third: '' };
   const [inputValue, setInputValue] = useState(initialState);
   const [warningMessage, setWarningMessage] = useState(false);
+
+  // redux from settingsTesTgs
+  const { valveInputs } = useSelector(selectSettingsOfTgsTes);
+
+  useEffect(() => {
+    setInputValue({
+      first: valveInputs.start,
+      second: valveInputs.min,
+      third: valveInputs.max,
+    });
+  }, []);
+
+  console.log(valveInputs);
+  console.log('hi', inputValue);
 
   const onClose = () => {
     setInputValue(initialState);

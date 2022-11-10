@@ -1,7 +1,20 @@
-import { useSelector } from 'react-redux';
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
+import {
+  selectSettingsOfEss,
+  setResetAllSettingsButtons,
+  setSettingsCancelButton,
+  setSettingsEditButton,
+} from '../../../../store/slices/settingsOfEssSlice';
+import {
+  selectSettingsOfTgsTes,
+  setTgsTesSettingsApplyWindFactor,
+} from '../../../../store/slices/settingsOfTgsTesSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
+import EditCancelApplyButtons from '../EditCancelApplyButtons';
 import WindFactor from './WindFactor';
 
 function ContainerOfWindFactor() {
@@ -35,11 +48,51 @@ function ContainerOfWindFactor() {
       temperatureC: '225',
     },
   ];
+
+  const { windFactor, setWindFactor } = useContext(SettingsContext);
+
+  const buttonsName = ['edit', 'cancel', 'apply'];
+  const height = '150px';
+
+  const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
+  const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+  const windFactorState = tgsTesState.windFactorTemp;
+
+  console.log('windFactor', windFactor);
+
+  useEffect(() => {
+    setWindFactor({
+      lowWind: windFactorState.low,
+      medWind: windFactorState.med,
+      highWind: windFactorState.high,
+      extremeWind: windFactorState.extreme,
+    });
+  }, []);
+
+  const handleButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setResetAllSettingsButtons());
+        dispatch(setTgsTesSettingsApplyWindFactor(windFactor));
+        break;
+      default:
+        return;
+    }
+  };
 
   return (
     <Wrapper>
+      {!settingsEditButton && <InvisibleDivForEditButton height={height} />}
       <FlexWrapper>
         {content.map((value, index) => {
           return (
@@ -53,6 +106,12 @@ function ContainerOfWindFactor() {
           );
         })}
       </FlexWrapper>
+      <WrapperButtons>
+        <EditCancelApplyButtons
+          handleClick={handleButtons}
+          buttonsName={buttonsName}
+        />
+      </WrapperButtons>
     </Wrapper>
   );
 }
@@ -61,7 +120,7 @@ export default ContainerOfWindFactor;
 
 const Wrapper = styled.div`
   width: 596px;
-  height: 212px;
+  height: auto;
   margin-left: -3px;
 
   background: #233a54 0% 0% no-repeat padding-box;
@@ -69,6 +128,7 @@ const Wrapper = styled.div`
   border-radius: 18px;
   opacity: 1;
   ${flexboxCenter};
+  flex-direction: column;
 `;
 
 const FlexWrapper = styled.div`
@@ -79,4 +139,14 @@ const FlexWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+`;
+
+const WrapperButtons = styled.div`
+  width: 578px;
+  height: auto;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 
-function InvisibleDivForEditButton() {
+function InvisibleDivForEditButton({ height }) {
   const [display, setDisplay] = useState(false);
 
   const handleMessage = (event) => {
@@ -19,7 +19,7 @@ function InvisibleDivForEditButton() {
   const editMessage = 'please select edit to allow changes';
 
   return (
-    <Div onClick={(e) => handleMessage(e)}>
+    <Div onClick={(e) => handleMessage(e)} height={height}>
       {display && (
         <SettingConfirmedMessage
           onClose={closeMessageBox}
@@ -33,9 +33,9 @@ function InvisibleDivForEditButton() {
 }
 
 const Div = styled.div`
-  height: 800px;
+  height: ${({ height }) => height};
   width: 592px;
-  background-color: transparent;
+  background-color: white;
   position: absolute;
   z-index: 10;
 `;

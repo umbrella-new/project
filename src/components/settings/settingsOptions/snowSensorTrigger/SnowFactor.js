@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { useRef } from 'react';
 import styled, { css } from 'styled-components';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 function SnowFactor({
@@ -8,10 +10,15 @@ function SnowFactor({
   tesSwitch,
   essSwitch,
   editState,
-  snowSensorRef,
+  snowSensorState,
+  tesSnowSensorState,
   metricImperialToggle,
-  tesSnowSensorRef,
 }) {
+  // useContext
+
+  const { setEssSnowSensor, setTgsSnowSensor, setTesSnowSensor } =
+    useContext(SettingsContext);
+
   return (
     <>
       {essSwitch ? (
@@ -28,7 +35,10 @@ function SnowFactor({
                     <Input
                       type='number'
                       placeholder='enter temperature'
-                      ref={snowSensorRef}
+                      value={snowSensorState}
+                      onChange={(e) => {
+                        setEssSnowSensor(e.target.value);
+                      }}
                     ></Input>
                   )}
                   ° c
@@ -60,7 +70,10 @@ function SnowFactor({
                             placeholder='enter temperature'
                             index={index}
                             tesSwitch={tesSwitch}
-                            ref={snowSensorRef}
+                            value={tesSnowSensorState}
+                            onChange={(e) => {
+                              setTgsSnowSensor(e.target.value);
+                            }}
                           ></Input>
                         )}
                         {editState &&
@@ -71,9 +84,16 @@ function SnowFactor({
                               placeholder='enter temperature'
                               index={index}
                               tesSwitch={tesSwitch}
-                              ref={
-                                index === 0 ? snowSensorRef : tesSnowSensorRef
+                              value={
+                                index === 0
+                                  ? snowSensorState
+                                  : tesSnowSensorState
                               }
+                              onChange={(e) => {
+                                index === 0
+                                  ? setTgsSnowSensor(e.target.value)
+                                  : setTesSnowSensor(e.target.value);
+                              }}
                             ></Input>
                           )}
                         {metricImperialToggle === 0 ? '°c' : '°F'}
