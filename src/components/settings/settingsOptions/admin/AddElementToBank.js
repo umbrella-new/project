@@ -54,14 +54,9 @@ const AddElementToBank = () => {
 
       // do unit application later
       dispatch(handleAddNewElement(inputElement));
-      setBorderColor(true);
-      setButtonName('saved');
-
-
     } else {
       // do unit application later
       dispatch(handleAddNewElement(inputElement));
-      setButtonColor(true);
     }
   };
 
