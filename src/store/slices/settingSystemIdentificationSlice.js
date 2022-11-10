@@ -6,7 +6,7 @@ const initialState = {
     'tgs - typhoon gas system',
     'tgs-tes - typhoon electric system',
   ],
-  switchSizeOptions: ['# 10', '# 15', '# 20', '# 50', '# 100'],
+  switchSizeOptions: ['#10', '#15', '#20', '#50', '#100'],
   ssrRatingOptions: [
     '10 amps',
     '15 amps',

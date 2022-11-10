@@ -5,23 +5,27 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../styles/commonStyles';
 
 import DateAndWeather from './DateAndWeather';
+import { selectSettingsOfTgsTes } from '../store/slices/settingsOfTgsTesSlice';
+import { selectUserState } from '../store/slices/userSlice';
 
 const Header = () => {
   const systemIdentificationState = useSelector(selectSystemIdentification);
   const sysState = systemIdentificationState.sysIdentification;
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
 
+  const tgsTesSettingState = useSelector(selectSettingsOfTgsTes);
+  const { gasType } = tgsTesSettingState;
+  console.log(gasType);
+  // true == ng / lp
   const switchName =
     sysState.switchName.length < 1
       ? 'switch'
-      : sysState.locationName +
-        '-' +
-        sysState.switchName +
-        '-' +
-        sysState.switchSize +
-        ' ' +
-        sysState.application +
-        '-' +
-        sysState.heatingSystem.split(' - ')[0];
+      : `${sysState.locationName}-${sysState.switchName} ${
+          sysState.switchSize
+        } ${sysState.application}-${sysState.heatingSystem.split(' - ')[0]} / ${
+          isEssSwitch || gasType ? 'NG' : 'LP'
+        }`;
 
   const machineId = sysState.sysId > 0 ? `id : ${sysState.sysId}` : 'id';
 
