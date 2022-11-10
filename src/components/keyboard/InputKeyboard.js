@@ -24,8 +24,10 @@ const InputKeyboard = ({
     } else {
       if (name) {
         handleOnSubmit(name, input);
+        closeKeyboard();
       } else {
         handleOnSubmit(input);
+        closeKeyboard();
       }
     }
   };
