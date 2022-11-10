@@ -18,9 +18,12 @@ function ContainerOfSnowSensor() {
   // useContext
 
   const {
-    essSnowSensorInput,
-    tgsSnowSensorInput,
-    tesSnowSensorInput,
+    essSnowSensor,
+    setEssSnowSensor,
+    tgsSnowSensor,
+    setTgsSnowSensor,
+    tesSnowSensor,
+    setTesSnowSensor,
     metricImperialToggle,
   } = useContext(SettingsContext);
 
@@ -48,8 +51,8 @@ function ContainerOfSnowSensor() {
           tesSwitch={tesSwitch}
           essSwitch={essSwitch}
           editState={editState}
-          snowSensorRef={essSwitch ? essSnowSensorInput : tgsSnowSensorInput}
-          tesSnowSensorRef={tesSnowSensorInput}
+          snowSensorState={essSwitch ? essSnowSensor : tgsSnowSensor}
+          tesSnowSensorState={tesSnowSensor}
           metricImperialToggle={metricImperialToggle}
         />
       </Wrapper1>

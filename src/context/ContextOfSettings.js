@@ -4,13 +4,29 @@ export const SettingsContext = createContext();
 
 const SettingsProvider = ({ children }) => {
   const initialState = { essSelectUnits: true };
+
   const [selectUnitsState, setSelectUnitsState] = useState(true);
   const [metricImperialToggle, setMetricImperialToggle] = useState();
   const [savedSelection, SetSavedSelection] = useState(false);
-  // Declaration of useReducer
+
+  // wind factor state
+  const [windFactor, setWindFactor] = useState({
+    lowWind: '',
+    medWind: '',
+    highWind: '',
+    extremeWind: '',
+  });
+
+  // snow sensor state
+  const [essSnowSensor, setEssSnowSensor] = useState();
+  const [tgsSnowSensor, setTgsSnowSensor] = useState();
+  const [tesSnowSensor, setTesSnowSensor] = useState();
+
   const essSnowSensorInput = useRef(null);
   const tgsSnowSensorInput = useRef(null);
   const tesSnowSensorInput = useRef(null);
+
+  // Declaration of useReducer
 
   const settingsReducer = (state, action) => {
     switch (action.type) {
@@ -45,6 +61,14 @@ const SettingsProvider = ({ children }) => {
         setMetricImperialToggle,
         savedSelection,
         SetSavedSelection,
+        windFactor,
+        setWindFactor,
+        essSnowSensor,
+        setEssSnowSensor,
+        tgsSnowSensor,
+        setTgsSnowSensor,
+        tesSnowSensor,
+        setTesSnowSensor,
       }}
     >
       {children}
