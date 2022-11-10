@@ -25,9 +25,9 @@ const Chart = () => {
 
   const { sysIdentification } = sysState;
 
-  // const unitValue = unitsMeasurement
-  //   ? 'HEATER TEMPERATURE (°F)'
-  //   : 'HEATER TEMPERATURE (°F)';
+  const unitValue = unitsMeasurement
+    ? 'HEATER TEMPERATURE (°F)'
+    : 'HEATER TEMPERATURE (°C)';
 
   const data = [
     {
@@ -147,8 +147,9 @@ const Chart = () => {
     // console.log(moment().subtract(1, 'days').format('MMMM dddd DD, YYYY'));
 
     if (active) {
+      const unit = unitsMeasurement ? '°F' : '°C';
       const payloadName1st = switchName;
-      const payloadName2nd = `( H.T- ${payload[0].value} °C, E.T- ${payload[1].value} °C, O.T- ${payload[2].value} °C )`;
+      const payloadName2nd = `( H.T- ${payload[0].value} ${unit}, E.T- ${payload[1].value} ${unit}, O.T- ${payload[2].value} ${unit} )`;
       const payloadName3rd = `${moment()
         .subtract(payload[0].payload.date, 'days')
         .format('MMMM dddd DD, YYYY')}`;
@@ -201,11 +202,10 @@ const Chart = () => {
             tickCount={7}
             ticks={[-100, 0, 150, 300, 450, 600, 700]}
             domain={['dataMin', 700]}
-            unit='°C'
+            unit={unitsMeasurement ? '°F' : '°C'}
             label={{
               fill: '#ffff',
-              // value: unitValue,
-              value: '',
+              value: unitValue,
               position: 'outsideLeft',
               angle: -90,
               dx: -45,
