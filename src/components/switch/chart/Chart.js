@@ -18,8 +18,8 @@ import { selectSettingsOfTgsTes } from '../../../store/slices/settingsOfTgsTesSl
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 const Chart = () => {
-  const unitState = useSelector(selectSettingsOfEss);
-  // const { unitsMeasurement } = unitState.buttonOfSettings;
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const sysState = useSelector(selectSystemIdentification);
 
@@ -205,7 +205,7 @@ const Chart = () => {
             label={{
               fill: '#ffff',
               // value: unitValue,
-              value: 'hothothot',
+              value: '',
               position: 'outsideLeft',
               angle: -90,
               dx: -45,
