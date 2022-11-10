@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { handleSSRDetails } from '../../../store/slices/heaterStatusSlice';
-import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
-import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
-import { setAdminAccess } from '../../../store/slices/userSlice';
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { handleSSRDetails } from "../../../store/slices/heaterStatusSlice";
+import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import { selectDescription } from "../../../store/slices/ssrDescriptionSlice";
+import { setAdminAccess } from "../../../store/slices/userSlice";
 
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 import {
   flexboxCenter,
   ItemBackground,
   ItemBackgroundDisable,
-} from '../../../styles/commonStyles';
+} from "../../../styles/commonStyles";
 
-import InputKeyboard from '../../keyboard/InputKeyboard';
+import InputKeyboard from "../../keyboard/InputKeyboard";
 
-import SettingConfirmedMessage from '../../userMessages/SettingConfirmedMessage';
-import PartNumberSuggestion from './PartNumberSuggestion';
-import SettingButton from './SettingButton';
-import SSRDetailButtonContainer from './SSRDetailButtonContainer';
+import SettingConfirmedMessage from "../../userMessages/SettingConfirmedMessage";
+import PartNumberSuggestion from "./PartNumberSuggestion";
+import SettingButton from "./SettingButton";
+import SSRDetailButtonContainer from "./SSRDetailButtonContainer";
 
 const AdminSSRItemDetails = ({
   isEnable,
@@ -30,19 +30,23 @@ const AdminSSRItemDetails = ({
   id,
 }) => {
   const descriptionState = useSelector(selectDescription);
-  const { specsStr, descriptionOptions, partNumberSuggestions } =
-    descriptionState;
+  const {
+    specsStr,
+    descriptionOptions,
+    partNumberSuggestions,
+    elementsOptions,
+  } = descriptionState;
   const { specs } = data;
 
   const initialInputState = [
     {
-      partNumber: '',
+      partNumber: "",
     },
     {
-      partNumber: '',
+      partNumber: "",
     },
     {
-      partNumber: '',
+      partNumber: "",
     },
   ];
 
@@ -54,11 +58,12 @@ const AdminSSRItemDetails = ({
   const [hiddenNumber, setHiddenNumber] = useState(1);
 
   const [inputId, setInputId] = useState(initialInputId);
-  const [description, setDescription] = useState(['', '', '']);
+  const [description, setDescription] = useState(["", "", ""]);
 
   // ******************* to deal with input value conditionally *********************
   const [isEditable, setIsEditable] = useState(true);
   // ******************* to deal with input value conditionally *********************
+
   const [activateMessageBox, setActivateMessageBox] = useState(false);
   const [message, setMessage] = useState(null);
   const dispatch = useDispatch();
@@ -67,7 +72,9 @@ const AdminSSRItemDetails = ({
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   useEffect(() => {
-    if (inputDetails[0].partNumber !== '') {
+    if (inputDetails[0].partNumber !== "") {
+      // 1. find index with partNumber in ssr
+
       // 1. Make the specs as a string
       const specsString = !unitsMeasurement
         ? `${inputDetails[0].partNumber}-${inputDetails[0].current}/${
@@ -82,12 +89,12 @@ const AdminSSRItemDetails = ({
       // 3. Set description state
       const copyArr =
         descriptionIndex === -1
-          ? ['', '', '']
-          : [descriptionOptions[descriptionIndex], '', ''];
+          ? ["", "", ""]
+          : [descriptionOptions[descriptionIndex], "", ""];
       setDescription(copyArr);
     } else {
       console.log(typeof inputDetails[0].lengths, inputDetails[0].lengths);
-      setDescription(['', '', '']);
+      setDescription(["", "", ""]);
     }
   }, [
     inputDetails[0].partNumber,
@@ -99,13 +106,13 @@ const AdminSSRItemDetails = ({
 
   useEffect(() => {
     if (
-      inputDetails[1].partNumber !== '' &&
+      inputDetails[1].partNumber !== "" &&
       inputDetails[1].current > 0 &&
       inputDetails[1].wattage > 0 &&
       inputDetails[1].voltage > 0 &&
       inputDetails[1].lengths > 0
     ) {
-      console.log('index 0');
+      console.log("index 0");
       // 1. Make the specs as a string
       const specsString = !unitsMeasurement
         ? `${inputDetails[1].partNumber}-${inputDetails[1].current}/${
@@ -121,11 +128,11 @@ const AdminSSRItemDetails = ({
       const copyArr = [
         description[0],
         descriptionOptions[descriptionIndex],
-        '',
+        "",
       ];
       setDescription(copyArr);
     } else {
-      setDescription([description[0], '', '']);
+      setDescription([description[0], "", ""]);
     }
   }, [
     inputDetails[1].partNumber,
@@ -137,7 +144,7 @@ const AdminSSRItemDetails = ({
 
   useEffect(() => {
     if (
-      inputDetails[2].partNumber !== '' &&
+      inputDetails[2].partNumber !== "" &&
       inputDetails[2].current > 0 &&
       inputDetails[2].wattage > 0 &&
       inputDetails[2].voltage > 0 &&
@@ -162,7 +169,7 @@ const AdminSSRItemDetails = ({
 
       setDescription(copyArr);
     } else {
-      setDescription([description[0], description[1], '']);
+      setDescription([description[0], description[1], ""]);
     }
   }, [
     inputDetails[2].partNumber,
@@ -173,7 +180,7 @@ const AdminSSRItemDetails = ({
   ]);
 
   const handleClick = (name) => {
-    if (name === 'add') {
+    if (name === "add") {
       switch (hiddenNumber) {
         case 1: {
           setHiddenNumber(2);
@@ -187,7 +194,7 @@ const AdminSSRItemDetails = ({
           return;
         }
       }
-    } else if (name === 'clear') {
+    } else if (name === "clear") {
       // Logic for Delete the column
       switch (hiddenNumber) {
         case 3: {
@@ -198,7 +205,7 @@ const AdminSSRItemDetails = ({
             inputDetails[0],
             inputDetails[1],
             {
-              partNumber: '',
+              partNumber: "",
             },
           ]);
           setDescription([description[0], description[1]]);
@@ -209,10 +216,10 @@ const AdminSSRItemDetails = ({
           setInputDetails([
             inputDetails[0],
             {
-              partNumber: '',
+              partNumber: "",
             },
             {
-              partNumber: '',
+              partNumber: "",
             },
           ]);
           setDescription([description[0]]);
@@ -223,13 +230,13 @@ const AdminSSRItemDetails = ({
           // Reset input state
           setInputDetails([
             {
-              partNumber: '',
+              partNumber: "",
             },
             {
-              partNumber: '',
+              partNumber: "",
             },
             {
-              partNumber: '',
+              partNumber: "",
             },
           ]);
           setDescription([]);
@@ -239,14 +246,14 @@ const AdminSSRItemDetails = ({
           return;
         }
       }
-    } else if (name === 'apply') {
+    } else if (name === "apply") {
       // name === 'apply' do Dispatch
       if (!unitsMeasurement) {
         if (inputDetails[0].current > 0) {
           switch (hiddenNumber) {
             case 1: {
               if (description[0].length > 5) {
-                console.log('case 1', description[0].length);
+                console.log("case 1", description[0].length);
                 dispatch(
                   handleSSRDetails({
                     data: [
@@ -268,7 +275,7 @@ const AdminSSRItemDetails = ({
                 setActivateMessageBox(true);
               } else {
                 setMessage(
-                  'element not found! please check again the input specifications'
+                  "element not found! please check again the input specifications"
                 );
                 setActivateMessageBox(true);
               }
@@ -277,7 +284,7 @@ const AdminSSRItemDetails = ({
             }
             case 2: {
               if (description[1].length > 5) {
-                console.log('case 2');
+                console.log("case 2");
                 dispatch(
                   handleSSRDetails({
                     data: [
@@ -309,7 +316,7 @@ const AdminSSRItemDetails = ({
                 setActivateMessageBox(true);
               } else {
                 setMessage(
-                  'element not found! please check again the input specifications'
+                  "element not found! please check again the input specifications"
                 );
                 setActivateMessageBox(true);
               }
@@ -318,7 +325,7 @@ const AdminSSRItemDetails = ({
             }
             default: {
               if (description[2].length > 5) {
-                console.log('case 3');
+                console.log("case 3");
                 dispatch(
                   handleSSRDetails({
                     data: [
@@ -360,7 +367,7 @@ const AdminSSRItemDetails = ({
                 setActivateMessageBox(true);
               } else {
                 setMessage(
-                  'element not found! please check again the input specifications'
+                  "element not found! please check again the input specifications"
                 );
                 setActivateMessageBox(true);
               }
@@ -381,7 +388,7 @@ const AdminSSRItemDetails = ({
                 );
               } else {
                 setMessage(
-                  'element not found! please check again the input specifications'
+                  "element not found! please check again the input specifications"
                 );
                 setActivateMessageBox(true);
               }
@@ -401,7 +408,7 @@ const AdminSSRItemDetails = ({
                 setActivateMessageBox(true);
               } else {
                 setMessage(
-                  'element not found! please check again the input specifications'
+                  "element not found! please check again the input specifications"
                 );
                 setActivateMessageBox(true);
               }
@@ -420,7 +427,7 @@ const AdminSSRItemDetails = ({
                 setActivateMessageBox(true);
               } else {
                 setMessage(
-                  'element not found! please check again the input specifications'
+                  "element not found! please check again the input specifications"
                 );
                 setActivateMessageBox(true);
               }
@@ -453,7 +460,7 @@ const AdminSSRItemDetails = ({
 
   // ********************************auto complete*****************************
   const [selectedSuggestionIdx, setSelectedSuggestionIdx] = useState(0);
-  const [inputPartNumber, setInputPartNumber] = useState('');
+  const [inputPartNumber, setInputPartNumber] = useState("");
   const [displaySuggestions, setDisplaySuggestions] = useState(false);
 
   let filteredSuggestions = partNumberSuggestions.filter((suggestion) =>
@@ -477,24 +484,24 @@ const AdminSSRItemDetails = ({
 
   const handleKeyDown = (event, index) => {
     switch (event.key) {
-      case 'Escape': {
-        setInputPartNumber('');
+      case "Escape": {
+        setInputPartNumber("");
         break;
       }
-      case 'Enter': {
+      case "Enter": {
         handleSelect(index, filteredSuggestions[selectedSuggestionIdx]);
-        setInputPartNumber('');
+        setInputPartNumber("");
         setSelectedSuggestionIdx(-1);
         setDisplaySuggestions(false);
         break;
       }
-      case 'ArrowUp': {
+      case "ArrowUp": {
         selectedSuggestionIdx <= -1
           ? setSelectedSuggestionIdx(-1)
           : setSelectedSuggestionIdx(selectedSuggestionIdx - 1);
         break;
       }
-      case 'ArrowDown': {
+      case "ArrowDown": {
         selectedSuggestionIdx >= filteredSuggestions.length
           ? setSelectedSuggestionIdx(filteredSuggestions.length - 1)
           : setSelectedSuggestionIdx(selectedSuggestionIdx + 1);
@@ -524,7 +531,7 @@ const AdminSSRItemDetails = ({
                   placeholder='Input P / N'
                   onClick={() => {
                     isEnable && handleActivateKeypad(index);
-                    isEditable && handleSetInput(index, '');
+                    isEditable && handleSetInput(index, "");
                   }}
                   onChange={(event) => {
                     if (isEditable) {
@@ -557,7 +564,7 @@ const AdminSSRItemDetails = ({
                           handleSelect={handleSelect}
                           handleClose={() => {
                             setDisplaySuggestions(false);
-                            setInputPartNumber('');
+                            setInputPartNumber("");
                           }}
                         />
                       );
@@ -587,7 +594,7 @@ const AdminSSRItemDetails = ({
                   <ItemDataDescription isDescription={true} isEnable={isEnable}>
                     {description[index]
                       ? description[index]
-                      : 'element not found'}
+                      : "element not found"}
                   </ItemDataDescription>
                 </ItemDescription>
 
@@ -630,7 +637,7 @@ const AdminSSRItemDetails = ({
             }
           }}
           title='ssr details settings'
-          message={message ? message : 'selections confirmed'}
+          message={message ? message : "selections confirmed"}
         />
       )}
     </Wrapper>
@@ -672,7 +679,7 @@ const ContentWrapper = styled.ul`
       opacity: 1;
     `}
 
-  border: ${(p) => (p.isFault ? '1px solid red' : '')};
+  border: ${(p) => (p.isFault ? "1px solid red" : "")};
 `;
 
 const ItemWrapper = styled.div`
