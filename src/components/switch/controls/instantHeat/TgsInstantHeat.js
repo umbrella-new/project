@@ -182,7 +182,7 @@ const TgsInstantHeat = () => {
         </LabelAndInputOuterWrapper>
       </ContentWrapper>
 
-      <ContentWrapperNotForm toggler={fanOnly}>
+      <ContentWrapperNotForm toggler={fanOnly} onClick={handleFanToggler}>
         <ActiveButtonWrapper>
           <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
@@ -264,7 +264,7 @@ const ContentWrapperNotForm = styled.div`
   width: 136px;
   height: 36px;
   border-radius: 27px;
-
+  cursor: pointer;
   ${(props) =>
     props.toggler
       ? css`

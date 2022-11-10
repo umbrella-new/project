@@ -10,7 +10,6 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
   const keyboard = useRef();
 
   const onChange = (input) => {
-    console.log(input);
     setInputNum(input);
     if (name) {
       setMainInput(name, input);
