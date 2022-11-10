@@ -54,7 +54,6 @@ const TempAndButton = ({
     }
   });
 
-  console.log(isReady);
   // Button handler
   const handleSubmit = (event) => {
     event.preventDefault();
