@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-function GasTypeConfirmButton() {
+function GasTypeConfirmButton({ handleButton, buttonColor }) {
   return (
     <Wrapper>
-      <Wrapper1 onClick={() => {}}>
+      <Wrapper1
+        onClick={() => {
+          handleButton();
+        }}
+        color={buttonColor}
+      >
         <ButtonHole>
-          <ButtonTop>
+          <ButtonTop color={buttonColor}>
             <ButtonName>confirm</ButtonName>
           </ButtonTop>
         </ButtonHole>
@@ -49,6 +54,9 @@ const Wrapper1 = styled.button`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
+  ${({ color }) =>
+    color &&
+    'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
@@ -87,6 +95,9 @@ const ButtonTop = styled.div`
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
   );
+  ${({ color }) =>
+    color &&
+    'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);

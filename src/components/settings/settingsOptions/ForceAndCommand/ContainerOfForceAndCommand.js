@@ -152,7 +152,7 @@ function ContainerOfForceAndCommand() {
 
   return (
     <Wrapper>
-      {!settingsEditButton && <InvisibleDivForEditButton />}
+      {/* {!settingsEditButton && <InvisibleDivForEditButton />} */}
       <Wrapper2>
         <Wrapper3>
           {essSwitch

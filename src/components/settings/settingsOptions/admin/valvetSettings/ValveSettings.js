@@ -1,9 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import { useState, useRef } from 'react';
 import ValveConfirmButton from './ValveConfirmButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
+import { setValveInputs } from '../../../../../store/slices/settingsOfTgsTesSlice';
+import InputKeyPad from '../../../../keyboard/InputKeyPad';
 
 function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const data = [
@@ -12,9 +14,15 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
     { title: 'max position:' },
   ];
 
+  const [buttonColor, setButtonColor] = useState(false);
+  const [activateKeypad, setActivateKeypad] = useState(false);
+  const [inputFocus, setInputFocus] = useState(null);
+  const [options, setOptions] = useState('');
+
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const editState = state.buttonsOfSettings.settingsEditButton;
+  const dispatch = useDispatch();
 
   const handleInputs = (e, index) => {
     e.stopPropagation();
@@ -30,10 +38,34 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
       setWarningMessage(true);
     }
   };
+  console.log('inputFocus', inputFocus);
+
+  const handleInput = (inputNumber) => {
+    console.log(inputNumber);
+
+    switch (inputFocus) {
+      case 0:
+        setInputValue(() => ({ ...inputValue, first: inputNumber }));
+        break;
+      case 1:
+        setInputValue(() => ({ ...inputValue, second: inputNumber }));
+        break;
+      case 2:
+        setInputValue(() => ({ ...inputValue, third: inputNumber }));
+        break;
+      default:
+        break;
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return inputValue;
+    return dispatch(setValveInputs(inputValue)), setButtonColor(true);
+  };
+
+  const handleDisplayKeyPad = (index) => {
+    options !== index && setOptions(index);
+    setActivateKeypad(true);
   };
 
   return (
@@ -60,6 +92,10 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                           <DataContainer>
                             <DataIndent>
                               <DataInput
+                                onClick={() => {
+                                  setInputFocus(index);
+                                  handleDisplayKeyPad(index);
+                                }}
                                 type='number'
                                 value={
                                   index === 0
@@ -75,12 +111,25 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                             </DataIndent>
                             <PercentageSign>%</PercentageSign>
                           </DataContainer>
+                          {activateKeypad && options === index && (
+                            <KeyboardWrapper index={options}>
+                              <PositionAbsoluteBox index={options}>
+                                <InputKeyPad
+                                  closeKeyPad={() => setActivateKeypad(false)}
+                                  handleOnSubmit={handleInput}
+                                />
+                              </PositionAbsoluteBox>
+                            </KeyboardWrapper>
+                          )}
                         </MapDiv>
                       );
                     })}
                   </WrapperIndent>
                   <WrapperButton>
-                    <ValveConfirmButton type='submit' />
+                    <ValveConfirmButton
+                      type='submit'
+                      buttonColor={buttonColor}
+                    />
                   </WrapperButton>
                 </Form>
               </WrapperData3>
@@ -312,4 +361,29 @@ const PercentageSign = styled.p`
 
 const WrapperButton = styled.div`
   margin-left: 6px;
+`;
+
+const KeyboardWrapper = styled.div`
+  ${({ index }) => (index === 0 ? 'height:100px' : 'height:100px')}
+`;
+
+const PositionAbsoluteBox = styled.div`
+  ${({ index }) =>
+    index === 0
+      ? css`
+          position: absolute;
+          top: 5rem;
+          right: 16rem;
+        `
+      : index === 1
+      ? css`
+          position: absolute;
+          top: 5rem;
+          right: 8rem;
+        `
+      : css`
+          position: absolute;
+          top: 5rem;
+          right: 1rem;
+        `}
 `;

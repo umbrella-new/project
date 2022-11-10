@@ -29,8 +29,7 @@ const AddElementToBank = () => {
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState('name');
-  const [borderColor, setBorderColor] = useState(false);
-  const [buttonName, setButtonName] = useState('save');
+  const [buttonColor, setButtonColor] = useState(false);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -52,15 +51,17 @@ const AddElementToBank = () => {
     console.log('I will dispatch!!!! wait!!!!');
     if (unitsMeasurement) {
       const copyObj = { ...inputElement };
+
       // do unit application later
       dispatch(handleAddNewElement(inputElement));
       setBorderColor(true);
       setButtonName('saved');
+
+
     } else {
       // do unit application later
       dispatch(handleAddNewElement(inputElement));
-      setBorderColor(true);
-      setButtonName('saved');
+      setButtonColor(true);
     }
   };
 
@@ -246,11 +247,11 @@ const AddElementToBank = () => {
           </SectionWrapper>
 
           <SectionWrapper>
-            <ButtonWrapper onClick={handleSave} color={borderColor}>
-              <ButtonInnerWrapper>
+            <ButtonWrapper onClick={handleSave}>
+              <ButtonInnerWrapper color={buttonColor}>
                 <ButtonHole>
-                  <ButtonTop>
-                    <Span>{buttonName}</Span>
+                  <ButtonTop color={buttonColor}>
+                    <Span>{'save'}</Span>
                   </ButtonTop>
                 </ButtonHole>
               </ButtonInnerWrapper>
@@ -511,7 +512,7 @@ const ButtonWrapper = styled.button`
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 19px;
-  border: ${({ color }) => color && '1px solid #95ff45'};
+  /* border: ${({ color }) => color && '1px solid #95ff45'}; */
 `;
 const ButtonInnerWrapper = styled.div`
   ${flexboxCenter}
@@ -523,6 +524,9 @@ const ButtonInnerWrapper = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
+  ${({ color }) =>
+    color &&
+    'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
 `;
 const ButtonHole = styled.div`
   ${flexboxCenter}
@@ -543,6 +547,9 @@ const ButtonTop = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
+  ${({ color }) =>
+    color &&
+    'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
 `;
 
 const KeyboardWrapper = styled.div`

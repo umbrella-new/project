@@ -24,6 +24,13 @@ function SysHeaderForceAndCommand({
               ? './images/greyTesButton.svg'
               : toggleButtonColor
           }
+          onClick={() => {
+            return essSwitch
+              ? handleSelect(index)
+              : !tesSwitch && index === 1 && !essSwitch
+              ? ''
+              : handleSelect(index);
+          }}
         />
       </ButtonHole>
       <Span></Span>

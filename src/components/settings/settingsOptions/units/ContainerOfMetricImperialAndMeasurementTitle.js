@@ -6,12 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   selectSettingsOfEss,
   setResetAllSettingsButtons,
+  setSettingsApplyUnitsButton,
+  setSettingsCancelButton,
+  setSettingsEditButton,
 } from '../../../../store/slices/settingsOfEssSlice';
 import { useEffect } from 'react';
 
 import { useContext } from 'react';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
+import EditCancelApplyButtons from '../EditCancelApplyButtons';
 
 function ContainerOfMetricImperialAndMeasurementTitle() {
   const measurementsArr = [
@@ -32,6 +36,9 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
       backgroundColor: '360',
     },
   ];
+
+  const buttonsName = ['edit', 'cancel', 'apply'];
+  const height = '230px';
 
   // useContext
   const {
@@ -81,9 +88,26 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     }
   };
 
+  const handleButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setSettingsApplyUnitsButton(selectUnitsState));
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
     <Wrapper>
-      {!settingsEditButton && <InvisibleDivForEditButton />}
+      {!settingsEditButton && <InvisibleDivForEditButton height={height} />}
       <Wrapper2 mode={mode}>
         <TitleOfSelectUnitsOfMeasurement />
         <ContainerMetricImperial>
@@ -101,6 +125,12 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
             );
           })}
         </ContainerMetricImperial>
+        <WrapperButtons>
+          <EditCancelApplyButtons
+            handleClick={handleButtons}
+            buttonsName={buttonsName}
+          />
+        </WrapperButtons>
       </Wrapper2>
     </Wrapper>
   );
@@ -108,7 +138,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
 
 const Wrapper = styled.div`
   width: 594px;
-  height: 267px;
+  height: 318px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
@@ -119,7 +149,7 @@ const Wrapper = styled.div`
 
 const Wrapper2 = styled.div`
   width: 592px;
-  height: 265px;
+  height: 316px;
 
   border: 0.5px solid black;
   border-radius: 12px 12px 18px 18px;
@@ -143,6 +173,15 @@ const ContainerMetricImperial = styled.div`
   width: 592px;
   /* ${flexboxCenter} */
   justify-content: space-around;
+  align-items: center;
+`;
+
+const WrapperButtons = styled.div`
+  width: 578px;
+  height: auto;
+
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
 `;
 
