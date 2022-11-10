@@ -54,6 +54,7 @@ const AdminSSRItemDetails = ({
   const initialKeypadState = false;
 
   const [inputDetails, setInputDetails] = useState(initialInputState);
+  const [elementSpec, setElementSpec] = useState([{}, {}, {}]);
   const [activateKeyboard, setActivateKeyboard] = useState(initialKeypadState);
   const [hiddenNumber, setHiddenNumber] = useState(1);
 
@@ -70,114 +71,58 @@ const AdminSSRItemDetails = ({
 
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
+  console.log("elements", elementSpec);
+  // console.log("partNumber", inputDetails);
 
   useEffect(() => {
     if (inputDetails[0].partNumber !== "") {
       // 1. find index with partNumber in ssr
-
-      // 1. Make the specs as a string
-      const specsString = !unitsMeasurement
-        ? `${inputDetails[0].partNumber}-${inputDetails[0].current}/${
-            inputDetails[0].wattage
-          }/${inputDetails[0].voltage}/${Math.round(
-            Number(inputDetails[0].lengths) * 3.28084
-          )}`
-        : `${inputDetails[0].partNumber}-${inputDetails[0].current}/${inputDetails[0].wattage}/${inputDetails[0].voltage}/${inputDetails[0].lengths}`;
-      // 2. Find Index using indexOF
-      console.log(specsString);
-      const descriptionIndex = specsStr.indexOf(specsString);
-      // 3. Set description state
-      const copyArr =
-        descriptionIndex === -1
-          ? ["", "", ""]
-          : [descriptionOptions[descriptionIndex], "", ""];
-      setDescription(copyArr);
+      const elementIdx = partNumberSuggestions.indexOf(
+        inputDetails[0].partNumber
+      );
+      console.log("idx", elementIdx);
+      if (elementIdx >= 0) {
+        // 2. Save element specs with idx from elementsOptions
+        setElementSpec([elementsOptions[elementIdx], {}, {}]);
+      } else {
+        setElementSpec([{}, {}, {}]);
+      }
     } else {
-      console.log(typeof inputDetails[0].lengths, inputDetails[0].lengths);
-      setDescription(["", "", ""]);
+      console.log("here");
     }
-  }, [
-    inputDetails[0].partNumber,
-    inputDetails[0].current,
-    inputDetails[0].wattage,
-    inputDetails[0].voltage,
-    inputDetails[0].lengths,
-  ]);
+  }, [inputDetails[0].partNumber]);
 
   useEffect(() => {
-    if (
-      inputDetails[1].partNumber !== "" &&
-      inputDetails[1].current > 0 &&
-      inputDetails[1].wattage > 0 &&
-      inputDetails[1].voltage > 0 &&
-      inputDetails[1].lengths > 0
-    ) {
-      console.log("index 0");
-      // 1. Make the specs as a string
-      const specsString = !unitsMeasurement
-        ? `${inputDetails[1].partNumber}-${inputDetails[1].current}/${
-            inputDetails[1].wattage
-          }/${inputDetails[1].voltage}/${Math.round(
-            Number(inputDetails[1].lengths) * 3.28084
-          )}`
-        : `${inputDetails[1].partNumber}-${inputDetails[1].current}/${inputDetails[1].wattage}/${inputDetails[1].voltage}/${inputDetails[1].lengths}`;
-      // 2. Find Index using indexOF
-      const descriptionIndex = specsStr.indexOf(specsString);
-      console.log(specsString);
-      // 3. Set description state
-      const copyArr = [
-        description[0],
-        descriptionOptions[descriptionIndex],
-        "",
-      ];
-      setDescription(copyArr);
-    } else {
-      setDescription([description[0], "", ""]);
+    if (inputDetails[1].partNumber !== "") {
+      // 1. find index with partNumber in ssr
+      const elementIdx = partNumberSuggestions.indexOf(
+        inputDetails[1].partNumber
+      );
+      console.log("idx", elementIdx);
+      if (elementIdx >= 0) {
+        // 2. Save element specs with idx from elementsOptions
+        setElementSpec([elementSpec[0], elementsOptions[elementIdx], {}]);
+      }
     }
-  }, [
-    inputDetails[1].partNumber,
-    inputDetails[1].current,
-    inputDetails[1].wattage,
-    inputDetails[1].voltage,
-    inputDetails[1].lengths,
-  ]);
+  }, [inputDetails[1].partNumber]);
 
   useEffect(() => {
-    if (
-      inputDetails[2].partNumber !== "" &&
-      inputDetails[2].current > 0 &&
-      inputDetails[2].wattage > 0 &&
-      inputDetails[2].voltage > 0 &&
-      inputDetails[2].lengths > 0
-    ) {
-      // 1. Make the specs as a string
-      const specsString = !unitsMeasurement
-        ? `${inputDetails[2].partNumber}-${inputDetails[2].current}/${
-            inputDetails[2].wattage
-          }/${inputDetails[2].voltage}/${Math.round(
-            Number(inputDetails[2].lengths) * 3.28084
-          )}`
-        : `${inputDetails[2].partNumber}-${inputDetails[2].current}/${inputDetails[2].wattage}/${inputDetails[2].voltage}/${inputDetails[2].lengths}`;
-      // 2. Find Index using indexOF
-      const descriptionIndex = specsStr.indexOf(specsString);
-      // 3. Set description state
-      const copyArr = [
-        description[0],
-        description[1],
-        descriptionOptions[descriptionIndex],
-      ];
-
-      setDescription(copyArr);
-    } else {
-      setDescription([description[0], description[1], ""]);
+    if (inputDetails[2].partNumber !== "") {
+      // 1. find index with partNumber in ssr
+      const elementIdx = partNumberSuggestions.indexOf(
+        inputDetails[2].partNumber
+      );
+      console.log("idx", elementIdx);
+      if (elementIdx >= 0) {
+        // 2. Save element specs with idx from elementsOptions
+        setElementSpec([
+          elementSpec[0],
+          elementSpec[1],
+          elementsOptions[elementIdx],
+        ]);
+      }
     }
-  }, [
-    inputDetails[2].partNumber,
-    inputDetails[2].current,
-    inputDetails[2].wattage,
-    inputDetails[2].voltage,
-    inputDetails[2].lengths,
-  ]);
+  }, [inputDetails[2].partNumber]);
 
   const handleClick = (name) => {
     if (name === "add") {
@@ -208,7 +153,7 @@ const AdminSSRItemDetails = ({
               partNumber: "",
             },
           ]);
-          setDescription([description[0], description[1]]);
+
           break;
         }
         case 2: {
@@ -226,20 +171,11 @@ const AdminSSRItemDetails = ({
           break;
         }
         case 1: {
+          console.log("까꿍");
           setHiddenNumber(1);
           // Reset input state
-          setInputDetails([
-            {
-              partNumber: "",
-            },
-            {
-              partNumber: "",
-            },
-            {
-              partNumber: "",
-            },
-          ]);
-          setDescription([]);
+          setInputDetails(initialInputState);
+          setElementSpec([{}, {}, {}]);
           break;
         }
         default: {
@@ -284,7 +220,7 @@ const AdminSSRItemDetails = ({
             }
             case 2: {
               if (description[1].length > 5) {
-                console.log("case 2");
+                // console.log("case 2");
                 dispatch(
                   handleSSRDetails({
                     data: [
@@ -325,7 +261,7 @@ const AdminSSRItemDetails = ({
             }
             default: {
               if (description[2].length > 5) {
-                console.log("case 3");
+                // console.log("case 3");
                 dispatch(
                   handleSSRDetails({
                     data: [
@@ -521,7 +457,7 @@ const AdminSSRItemDetails = ({
   return (
     <Wrapper>
       <ContentWrapper isEnable={isEnable} isFault={isFault}>
-        {inputDetails.map((element, index) => (
+        {elementSpec.map((element, index) => (
           <>
             <ItemWrapper key={index} column={index} hiddenNumber={hiddenNumber}>
               <ItemPartNumber isEnable={isEnable}>
@@ -574,7 +510,9 @@ const AdminSSRItemDetails = ({
               )}
 
               <ItemOuterWrapper isEnable={isEnable}>
-                <ItemData>----</ItemData>
+                <ItemData>
+                  {element.current ? element.current : "----"}
+                </ItemData>
               </ItemOuterWrapper>
 
               <ItemOuterWrapper isEnable={isEnable}>
