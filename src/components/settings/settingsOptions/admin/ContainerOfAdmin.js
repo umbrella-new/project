@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SystemHeader from './SystemHeader';
 import Control from './sysControl/Control';
 import {
   selectSettingsOfEss,
   setResetAllSettingsButtons,
+  setSettingsCancelButton,
+  setSettingsEditButton,
 } from '../../../../store/slices/settingsOfEssSlice';
 import ContainerLogin from '../../../adminPassword/ContainerLogin';
 import {
@@ -21,6 +23,13 @@ import AddElementToBank from './AddElementToBank';
 import SystemIdentification from './SystemIdentification';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 import { setForceGasAndElectric } from '../../../../store/slices/settingsOfSysSlice';
+import EditCancelApplyButtons from '../EditCancelApplyButtons';
+import {
+  selectSettingsOfTgsTes,
+  setGasType,
+  setValveInputs,
+} from '../../../../store/slices/settingsOfTgsTesSlice';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -44,11 +53,11 @@ function ContainerOfAdmin() {
   const tesSwitch = state.isTesSwitch;
   const essState = useSelector(selectSettingsOfEss);
   const mode = essState.interfaceMode;
-  const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+  const gasType = tgsTesState.gasType;
 
   // states
-  const [essExpandOrClose, setEssExpandOrClose] = useState('close');
-  const [tgsTesExpandOrClose, setTgsTesExpandOrClose] = useState(false);
+
   const [toggleSysButton, setToggleSysButton] = useState(sysButtonActive);
   const [toggleTgsButton, setToggleTgsButton] = useState(tgsButton);
   const [toggleTesButton, setToggleTesButton] = useState(tesButton);
@@ -75,12 +84,19 @@ function ContainerOfAdmin() {
       title: 'system commands',
     },
   ];
+
+  const buttonsName = ['edit', 'cancel', 'apply'];
+  const height = '150px';
+
+  const { activeSelect, setGasSelection, inputValue } =
+    useContext(SettingsContext);
+
   // useEffect
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
     setForceGasAndElectric(false);
-
+    setGasSelection(gasType ? 1 : 0);
     return function cleanup() {
       dispatch(setAdminAccess(false));
     };
@@ -88,6 +104,26 @@ function ContainerOfAdmin() {
 
   const handleSelect = (value) =>
     options !== value ? setOptions(value) : setOptions('');
+
+  // this handles the selection of gas type on dispatch
+  const handleTgsButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setResetAllSettingsButtons());
+        dispatch(setGasType(activeSelect));
+        dispatch(setValveInputs(inputValue));
+        break;
+      default:
+        return;
+    }
+  };
 
   useEffect(() => {
     if (!essSwitch) {
@@ -203,6 +239,12 @@ function ContainerOfAdmin() {
                             <SectionWrapper>
                               <AddElementToBank />
                             </SectionWrapper>
+                            <WrapperButtons>
+                              <EditCancelApplyButtons
+                                handleClick={handleTgsButtons}
+                                buttonsName={buttonsName}
+                              />
+                            </WrapperButtons>
                           </WrapperThermocoupleEss>
                         )}
                         {adminAccess && options === index && index === 1 ? (
@@ -216,6 +258,12 @@ function ContainerOfAdmin() {
                             <SectionWrapper>
                               <SystemIdentification />
                             </SectionWrapper>
+                            <WrapperButtons>
+                              <EditCancelApplyButtons
+                                handleClick={handleTgsButtons}
+                                buttonsName={buttonsName}
+                              />
+                            </WrapperButtons>
                           </Wrapper6>
                         ) : (
                           !adminAccess && (
@@ -253,6 +301,12 @@ function ContainerOfAdmin() {
                       {index === 0 && adminAccess && options === index && (
                         <ValveWrapper>
                           <ContainerValveSettings />
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleTgsButtons}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
                         </ValveWrapper>
                       )}
                       {tesSwitch &&
@@ -276,6 +330,12 @@ function ContainerOfAdmin() {
                                 <AddElementToBank />
                               </SectionWrapper1>
                             </WrapperThermocouple1>
+                            <WrapperButtons>
+                              <EditCancelApplyButtons
+                                handleClick={handleTgsButtons}
+                                buttonsName={buttonsName}
+                              />
+                            </WrapperButtons>
                           </WrapperThermocouple>
                         )}
                       {!adminAccess && index === 2 && (
@@ -308,6 +368,12 @@ function ContainerOfAdmin() {
                               <SystemIdentification />
                             </SectionWrapper>
                           </Wrapper6>
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleTgsButtons}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
                         </WrapperSys>
                       )}
                     </Wrapper5>
@@ -459,6 +525,7 @@ const ValveWrapper = styled.div`
   opacity: 1;
   ${flexboxCenter};
   align-items: flex-start;
+  flex-direction: column;
 `;
 
 const WrapperThermocoupleEss = styled.div`
@@ -506,6 +573,16 @@ const WrapperThermocouple1 = styled.div`
 
   display: flex;
   flex-direction: column;
+`;
+
+const WrapperButtons = styled.div`
+  width: 578px;
+  height: auto;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const WrapperSys = styled.div`

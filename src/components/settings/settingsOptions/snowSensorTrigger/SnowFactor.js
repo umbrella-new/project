@@ -64,7 +64,7 @@ function SnowFactor({
                   <ValueContainer index={index} tesSwitch={tesSwitch}>
                     <SmallContainer index={index} tesSwitch={tesSwitch}>
                       <Temperature>
-                        {editState && index === 0 && !tesSwitch && (
+                        {index === 0 && !tesSwitch && (
                           <Input
                             type='number'
                             placeholder='enter temperature'
@@ -76,26 +76,22 @@ function SnowFactor({
                             }}
                           ></Input>
                         )}
-                        {editState &&
-                          tesSwitch &&
-                          (index === 0 || index === 1) && (
-                            <Input
-                              type='number'
-                              placeholder='enter temperature'
-                              index={index}
-                              tesSwitch={tesSwitch}
-                              value={
-                                index === 0
-                                  ? snowSensorState
-                                  : tesSnowSensorState
-                              }
-                              onChange={(e) => {
-                                index === 0
-                                  ? setTgsSnowSensor(e.target.value)
-                                  : setTesSnowSensor(e.target.value);
-                              }}
-                            ></Input>
-                          )}
+                        {tesSwitch && (index === 0 || index === 1) && (
+                          <Input
+                            type='number'
+                            placeholder='enter temperature'
+                            index={index}
+                            tesSwitch={tesSwitch}
+                            value={
+                              index === 0 ? snowSensorState : tesSnowSensorState
+                            }
+                            onChange={(e) => {
+                              index === 0
+                                ? setTgsSnowSensor(e.target.value)
+                                : setTesSnowSensor(e.target.value);
+                            }}
+                          ></Input>
+                        )}
                         {metricImperialToggle === 0 ? '°c' : '°F'}
                       </Temperature>
                     </SmallContainer>

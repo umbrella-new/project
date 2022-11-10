@@ -3,17 +3,30 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import SnowFactor from './SnowFactor';
-import { setResetAllSettingsButtons } from '../../../../store/slices/settingsOfEssSlice';
+import {
+  setResetAllSettingsButtons,
+  setSettingsApplySnowSensorTriggerButton,
+  setSettingsCancelButton,
+  setSettingsEditButton,
+} from '../../../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../../../store/slices/userSlice';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { useContext } from 'react';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
+import EditCancelApplyButtons from '../EditCancelApplyButtons';
+import {
+  selectSettingsOfTgsTes,
+  setTgsTesSettingsApplySnowSensorButton,
+} from '../../../../store/slices/settingsOfTgsTesSlice';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
   const ess = ['ess-snow sensor trigger'];
   const temp = ['350'];
+
+  const buttonsName = ['edit', 'cancel', 'apply'];
+  const height = '150px';
 
   // useContext
 
@@ -32,14 +45,64 @@ function ContainerOfSnowSensor() {
   const state = useSelector(selectUserState);
   const tesSwitch = state.isTesSwitch;
   const essSwitch = state.isEssSwitch;
-  const editSlice = useSelector(selectSettingsOfEss);
-  const editState = editSlice.buttonsOfSettings.settingsEditButton;
+  const essState = useSelector(selectSettingsOfEss);
+  const editState = essState.buttonsOfSettings.settingsEditButton;
   const mode = state.interfaceMode;
-  const settingsEditButton = editSlice.buttonsOfSettings.settingsEditButton;
+  const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
+  const essSnowSensorState = essState.snowSensorState;
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+  const tgsTesSnowSensorState = tgsTesState.snowSensorTemp;
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
+    if (essSwitch) {
+      setEssSnowSensor(essSnowSensorState);
+    } else {
+      setTesSnowSensor(tgsTesSnowSensorState.tesTemp);
+      setTgsSnowSensor(tgsTesSnowSensorState.tgsTemp);
+    }
   }, []);
+
+  const handleEssButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setSettingsApplySnowSensorTriggerButton(essSnowSensor));
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleTgsTesButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setResetAllSettingsButtons());
+        dispatch(
+          setTgsTesSettingsApplySnowSensorButton({
+            tgsSnowSensor,
+            tesSnowSensor,
+          })
+        );
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
     <Wrapper essSwitch={essSwitch}>
       {!settingsEditButton && <InvisibleDivForEditButton />}
@@ -56,6 +119,12 @@ function ContainerOfSnowSensor() {
           metricImperialToggle={metricImperialToggle}
         />
       </Wrapper1>
+      <WrapperButtons>
+        <EditCancelApplyButtons
+          handleClick={essSwitch ? handleEssButtons : handleTgsTesButtons}
+          buttonsName={buttonsName}
+        />
+      </WrapperButtons>
     </Wrapper>
   );
 }
@@ -67,6 +136,7 @@ const Wrapper = styled.div`
   height: auto;
   ${({ essSwitch }) => essSwitch && 'width: auto'};
   ${flexboxCenter};
+  flex-direction: column;
   margin-left: -3px;
 `;
 
@@ -85,4 +155,14 @@ const Wrapper1 = styled.div`
   opacity: 1;
   ${flexboxCenter};
   justify-content: space-around;
+`;
+
+const WrapperButtons = styled.div`
+  width: 578px;
+  height: auto;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;

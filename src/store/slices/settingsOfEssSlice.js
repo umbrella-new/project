@@ -21,6 +21,7 @@ const initialState = {
     essEncloseTemp: null,
     essOutSideTemp: null,
   },
+  snowSensorState: null,
 };
 
 export const settingsOfEssSlice = createSlice({
@@ -91,18 +92,19 @@ export const settingsOfEssSlice = createSlice({
 
     // Buttons of Select options
     setSettingsApplyUnitsButton: (state, action) => {
-      console.log('action.payload', action.payload);
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
       state.buttonsOfSettings.settingsApplyButton = false;
       state.buttonsOfSettings.unitsMeasurement = action.payload;
     },
 
-    // setSettingsApplySnowSensorTriggerButton: (state) => {
-    //   state.buttonsOfSettings.settingsEditButton = false;
-    //   state.buttonsOfSettings.settingsCancelButton = false;
-    //   state.buttonsOfSettings.settingsApplyButton = true;
-    // },
+    setSettingsApplySnowSensorTriggerButton: (state, action) => {
+      console.log('action.payload', action.payload);
+      state.buttonsOfSettings.settingsEditButton = false;
+      state.buttonsOfSettings.settingsCancelButton = false;
+      state.buttonsOfSettings.settingsApplyButton = true;
+      state.snowSensorState = action.payload;
+    },
     setSettingsApplyForceCommandButton: (state, action) => {
       // todo ess select arts
       state.buttonsOfSettings.settingsEditButton = false;

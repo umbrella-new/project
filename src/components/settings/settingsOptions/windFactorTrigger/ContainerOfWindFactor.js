@@ -61,8 +61,6 @@ function ContainerOfWindFactor() {
   const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const windFactorState = tgsTesState.windFactorTemp;
 
-  console.log('windFactor', windFactor);
-
   useEffect(() => {
     setWindFactor({
       lowWind: windFactorState.low,
