@@ -17,7 +17,7 @@ const AddElementToBank = () => {
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const initialInputState = {
-    name: null,
+    elementName: null,
     partNumber: null,
     current: null,
     wattage: null,
@@ -52,17 +52,19 @@ const AddElementToBank = () => {
     console.log('I will dispatch!!!! wait!!!!');
     if (unitsMeasurement) {
       const copyObj = { ...inputElement };
-      copyObj.lengths = copyObj.lengths / 3.28084;
-      dispatch(handleAddNewElement(copyObj));
+      // do unit application later
+      dispatch(handleAddNewElement(inputElement));
       setBorderColor(true);
       setButtonName('saved');
     } else {
+      // do unit application later
       dispatch(handleAddNewElement(inputElement));
       setBorderColor(true);
       setButtonName('saved');
     }
   };
 
+  console.log(inputElement);
   return (
     <Wrapper>
       <ContentWrapper>
@@ -84,13 +86,16 @@ const AddElementToBank = () => {
                       placeholder='---------'
                       value={settingsEditButton && inputElement}
                       onClick={() => {
-                        setInputFocus('name');
+                        setInputFocus('elementName');
                         setActivateKeyboard(true);
                         setActivateKeypad(false);
                       }}
-                      name='name'
+                      name='elementName'
                       onChange={(event) =>
-                        handleInput('name', event.target.value.toUpperCase())
+                        handleInput(
+                          'elementName',
+                          event.target.value.toUpperCase()
+                        )
                       }
                       value={inputElement.name}
                     />
@@ -134,8 +139,8 @@ const AddElementToBank = () => {
             <DescriptionWrapperHole>
               <DescriptionWrapper>
                 <Description>
-                  {inputElement.partNumber && `${inputElement.partNumber} - `}
-                  {inputElement.name && inputElement.name}
+                  {inputElement.elementName && inputElement.elementName}
+                  {inputElement.partNumber && ` - ${inputElement.partNumber}`}
                   <br></br>
                   {inputElement.current && `${inputElement.current}`}
                   {inputElement.wattage && ` / ${inputElement.wattage}`}
@@ -271,6 +276,7 @@ const AddElementToBank = () => {
               name={inputFocus}
               closeKeyPad={() => setActivateKeypad(false)}
               handleOnSubmit={handleInput}
+              setMainInput={handleInput}
             />
           </PositionAbsoluteBox>
         </KeyboardWrapper>

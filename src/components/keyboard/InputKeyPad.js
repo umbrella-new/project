@@ -12,7 +12,11 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
   const onChange = (input) => {
     console.log(input);
     setInputNum(input);
-    setMainInput(input);
+    if (name) {
+      setMainInput(name, input);
+    } else {
+      setMainInput(input);
+    }
   };
 
   const handleOnClick = () => {
