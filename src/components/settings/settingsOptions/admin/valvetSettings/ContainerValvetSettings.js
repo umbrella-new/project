@@ -6,13 +6,17 @@ import { useEffect, useState } from 'react';
 import InputValveSettingsMessage from './InputValveSettingsMessage';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfTgsTes } from '../../../../../store/slices/settingsOfTgsTesSlice';
+import { useContext } from 'react';
+import { SettingsContext } from '../../../../../context/ContextOfSettings';
 
 function ContainerValveSettings() {
   const title = 'warning';
   const message = 'please input a number between 0 and 100';
 
   const initialState = { first: '', second: '', third: '' };
-  const [inputValue, setInputValue] = useState(initialState);
+  // const [inputValue, setInputValue] = useState(initialState);
+
+  const { inputValue, setInputValue } = useContext(SettingsContext);
   const [warningMessage, setWarningMessage] = useState(false);
 
   // redux from settingsTesTgs
@@ -25,9 +29,6 @@ function ContainerValveSettings() {
       third: valveInputs.max,
     });
   }, []);
-
-  console.log(valveInputs);
-  console.log('hi', inputValue);
 
   const onClose = () => {
     setInputValue(initialState);

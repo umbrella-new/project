@@ -22,9 +22,13 @@ const SettingsProvider = ({ children }) => {
   const [tgsSnowSensor, setTgsSnowSensor] = useState();
   const [tesSnowSensor, setTesSnowSensor] = useState();
 
-  const essSnowSensorInput = useRef(null);
-  const tgsSnowSensorInput = useRef(null);
-  const tesSnowSensorInput = useRef(null);
+  // admin tgs valve settings
+  const valveStates = { first: '', second: '', third: '' };
+  const [inputValue, setInputValue] = useState(valveStates);
+
+  //admin tgs select gas type
+  const [activeSelect, setActiveSelect] = useState(null);
+  const [gasSelection, setGasSelection] = useState(0);
 
   // Declaration of useReducer
 
@@ -52,9 +56,6 @@ const SettingsProvider = ({ children }) => {
       value={{
         settingState,
         settingDispatch,
-        essSnowSensorInput,
-        tgsSnowSensorInput,
-        tesSnowSensorInput,
         selectUnitsState,
         setSelectUnitsState,
         metricImperialToggle,
@@ -69,6 +70,12 @@ const SettingsProvider = ({ children }) => {
         setTgsSnowSensor,
         tesSnowSensor,
         setTesSnowSensor,
+        activeSelect,
+        setActiveSelect,
+        gasSelection,
+        setGasSelection,
+        inputValue,
+        setInputValue,
       }}
     >
       {children}

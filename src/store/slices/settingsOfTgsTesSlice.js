@@ -13,6 +13,10 @@ const initialState = {
     high: null,
     extreme: null,
   },
+  snowSensorTemp: {
+    tgsTemp: null,
+    tesTemp: null,
+  },
   tgsTesSelectTelemetry: {
     tgsHeaterTemp: null,
     tesHeaterTemp: null,
@@ -21,6 +25,7 @@ const initialState = {
     tgsTesBurningChamberTemp: null,
   },
   valveInputs: { start: null, min: null, max: null },
+  gasType: null,
 };
 
 export const settingsOfTgsTesSlice = createSlice({
@@ -34,16 +39,16 @@ export const settingsOfTgsTesSlice = createSlice({
     // },
 
     setTgsTesSettingsApplyWindFactor: (state, action) => {
-      console.log('action.payload', action.payload);
       state.windFactorTemp.low = action.payload.lowWind;
       state.windFactorTemp.med = action.payload.medWind;
       state.windFactorTemp.high = action.payload.highWind;
       state.windFactorTemp.extreme = action.payload.extremeWind;
     },
-    // setTgsTesSettingsApplySnowSensorButton: (state, action) => {
-    //   state.buttonsOfSettings.settingsEditButton = false;
-    //   state.buttonsOfSettings.settingsCancelButton = false;
-    // },
+    setTgsTesSettingsApplySnowSensorButton: (state, action) => {
+      console.log('action.payload', action.payload);
+      state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
+      state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
+    },
     setTgsTesSettingsApplyForceAndCommandButton: (state, action) => {
       // state.buttonsOfSettings.settingsEditButton = false;
       // state.buttonsOfSettings.settingsCancelButton = false;
@@ -65,9 +70,13 @@ export const settingsOfTgsTesSlice = createSlice({
     //   state.buttonsOfSettings.settingsCancelButton = false;
     // },
     setValveInputs: (state, action) => {
+      console.log('state', action.payload);
       state.valveInputs.start = action.payload.first;
       state.valveInputs.min = action.payload.second;
       state.valveInputs.max = action.payload.third;
+    },
+    setGasType: (state, action) => {
+      state.gasType = action.payload;
     },
   },
 });
@@ -83,6 +92,7 @@ export const {
   setTgsTesSettingsApplyAdminButton,
   setValveInputs,
   setTgsTesSettingsApplyWindFactor,
+  setGasType,
 } = settingsOfTgsTesSlice.actions;
 export const selectSettingsOfTgsTes = (state) => state.settingsOfTgsTes;
 export default settingsOfTgsTesSlice;

@@ -38,11 +38,8 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
       setWarningMessage(true);
     }
   };
-  console.log('inputFocus', inputFocus);
 
   const handleInput = (inputNumber) => {
-    console.log(inputNumber);
-
     switch (inputFocus) {
       case 0:
         setInputValue(() => ({ ...inputValue, first: inputNumber }));
@@ -60,7 +57,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return dispatch(setValveInputs(inputValue)), setButtonColor(true);
+    return setButtonColor(true);
   };
 
   const handleDisplayKeyPad = (index) => {
@@ -83,7 +80,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
             <WrapperData2>
               <WrapperData3>
                 <SmallTitle>gas value position</SmallTitle>
-                <Form onSubmit={editState && handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                   <WrapperIndent>
                     {data.map((value, index) => {
                       return (
@@ -117,6 +114,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                                 <InputKeyPad
                                   closeKeyPad={() => setActivateKeypad(false)}
                                   handleOnSubmit={handleInput}
+                                  setMainInput={handleInput}
                                 />
                               </PositionAbsoluteBox>
                             </KeyboardWrapper>

@@ -1,5 +1,7 @@
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { SettingsContext } from '../../../../../context/ContextOfSettings';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import GasTypeConfirmButton from './GasTypeConfirmButton';
 import GasTypeHeader from './GasTypeHeader';
@@ -8,23 +10,35 @@ import SelectGasType from './SelectGasType';
 function ContainerSelectGasType() {
   const gasType = ['lp-propane', 'ng-natural gas'];
 
+  // useContext
+  const { setActiveSelect, gasSelection, setGasSelection } =
+    useContext(SettingsContext);
+
   // states
-  const [gasSelection, setGasSelection] = useState(0);
-  const [activeSelect, setActiveSelect] = useState(true);
+  // const [gasSelection, setGasSelection] = useState(0);
+  // const [activeSelect, setActiveSelect] = useState(null);
   const [buttonColor, setButtonColor] = useState(false);
+
+  useEffect(() => {}, []);
 
   // functions
   const handleToggle = (index) => {
     if (index !== gasSelection) return setGasSelection(index);
   };
 
-  const handleSelect = (index) => {
-    if (index === 0) return setActiveSelect(!activeSelect);
-    else return setActiveSelect(!activeSelect);
-  };
+  // const handleSelect = () => {
+  //   return setActiveSelect(!activeSelect);
+  // };
 
   const handleButton = () => {
-    return setButtonColor(true);
+    setButtonColor(true);
+    if (gasSelection === 1) {
+      setActiveSelect(true);
+    } else {
+      setActiveSelect(false);
+    }
+
+    return;
   };
 
   return (
@@ -34,7 +48,7 @@ function ContainerSelectGasType() {
         <SelectGasType
           gasType={gasType}
           gasSelection={gasSelection}
-          handleSelect={handleSelect}
+          // handleSelect={handleSelect}
           handleToggle={handleToggle}
         />
         <WrapperButton>

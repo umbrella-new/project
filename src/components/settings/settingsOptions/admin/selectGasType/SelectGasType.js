@@ -20,7 +20,7 @@ function SelectGasType({ gasType, gasSelection, handleSelect, handleToggle }) {
                   <OutsideRingGreenCircle
                     onClick={() => {
                       editState && handleToggle(index);
-                      editState && handleSelect(index);
+                      // editState && handleSelect(index);
                     }}
                     mode={mode}
                   >
