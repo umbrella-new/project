@@ -27,9 +27,11 @@ import EditCancelApplyButtons from '../EditCancelApplyButtons';
 import {
   selectSettingsOfTgsTes,
   setGasType,
+  setThermocouple,
   setValveInputs,
 } from '../../../../store/slices/settingsOfTgsTesSlice';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
+import { handleAddNewElement } from '../../../../store/slices/ssrDescriptionSlice';
 
 function ContainerOfAdmin() {
   const tgsButton = './images/blueTgsButton.svg';
@@ -63,8 +65,10 @@ function ContainerOfAdmin() {
   const [toggleTesButton, setToggleTesButton] = useState(tesButton);
   const [toggleEssButton, setToggleEssButton] = useState(essButton);
   const [options, setOptions] = useState('');
+  const [toggleThermocoupleImg, setToggleThermocoupleImg] =
+    useState(disableSwitch);
   const [toggleThermocoupleSwitch, setToggleThermocoupleSwitch] =
-    useState(enableSwitch);
+    useState(null);
   const [toggleEnableDisableSwitch, setToggleEnableDisableSwitch] =
     useState(enableSwitch);
 
@@ -88,7 +92,7 @@ function ContainerOfAdmin() {
   const buttonsName = ['edit', 'cancel', 'apply'];
   const height = '150px';
 
-  const { activeSelect, setGasSelection, inputValue } =
+  const { activeSelect, setGasSelection, inputValue, inputElement } =
     useContext(SettingsContext);
 
   // useEffect
@@ -119,6 +123,25 @@ function ContainerOfAdmin() {
         dispatch(setResetAllSettingsButtons());
         dispatch(setGasType(activeSelect));
         dispatch(setValveInputs(inputValue));
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleTesButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        dispatch(setResetAllSettingsButtons());
+        dispatch(setThermocouple(toggleThermocoupleSwitch));
+        dispatch(handleAddNewElement(inputElement));
         break;
       default:
         return;
@@ -181,9 +204,15 @@ function ContainerOfAdmin() {
   }, [options]);
 
   const handleThermocoupleSwitch = () => {
-    if (toggleThermocoupleSwitch === enableSwitch) {
-      return setToggleThermocoupleSwitch(disableSwitch);
-    } else setToggleThermocoupleSwitch(enableSwitch);
+    if (toggleThermocoupleImg === enableSwitch) {
+      return (
+        setToggleThermocoupleImg(disableSwitch),
+        setToggleThermocoupleSwitch(false)
+      );
+    } else {
+      setToggleThermocoupleImg(enableSwitch);
+      setToggleThermocoupleSwitch(true);
+    }
   };
 
   const handleForceGasElectricSwitch = () => {
@@ -229,7 +258,7 @@ function ContainerOfAdmin() {
                               <WrapperThermocouple2>
                                 <Thermocouple
                                   toggleLeftEnableDisable={
-                                    toggleThermocoupleSwitch
+                                    toggleThermocoupleImg
                                   }
                                   handleLeftSwitch={handleThermocoupleSwitch}
                                 />
@@ -319,7 +348,7 @@ function ContainerOfAdmin() {
                                 <WrapperThermocouple2>
                                   <Thermocouple
                                     toggleLeftEnableDisable={
-                                      toggleThermocoupleSwitch
+                                      toggleThermocoupleImg
                                     }
                                     handleLeftSwitch={handleThermocoupleSwitch}
                                   />
@@ -332,7 +361,7 @@ function ContainerOfAdmin() {
                             </WrapperThermocouple1>
                             <WrapperButtons>
                               <EditCancelApplyButtons
-                                handleClick={handleTgsButtons}
+                                handleClick={handleTesButtons}
                                 buttonsName={buttonsName}
                               />
                             </WrapperButtons>
@@ -558,6 +587,7 @@ const WrapperThermocouple = styled.div`
   border-radius: 14px;
   opacity: 1;
   ${flexboxCenter};
+  flex-direction: column;
 `;
 
 const WrapperThermocouple1 = styled.div`
