@@ -26,6 +26,7 @@ const initialState = {
   },
   valveInputs: { start: null, min: null, max: null },
   gasType: null,
+  thermocouple: null,
 };
 
 export const settingsOfTgsTesSlice = createSlice({
@@ -70,7 +71,6 @@ export const settingsOfTgsTesSlice = createSlice({
     //   state.buttonsOfSettings.settingsCancelButton = false;
     // },
     setValveInputs: (state, action) => {
-      console.log('state', action.payload);
       state.valveInputs.start = action.payload.first;
       state.valveInputs.min = action.payload.second;
       state.valveInputs.max = action.payload.third;
@@ -78,6 +78,11 @@ export const settingsOfTgsTesSlice = createSlice({
     setGasType: (state, action) => {
       state.gasType = action.payload;
     },
+    //admin: this is used for ess and tes
+    setThermocouple: (state, action) => {
+      state.thermocouple = action.payload;
+    },
+    setAddElementToBank: (state, action) => {},
   },
 });
 
@@ -93,6 +98,8 @@ export const {
   setValveInputs,
   setTgsTesSettingsApplyWindFactor,
   setGasType,
+  setThermocouple,
+  setAddElementToBank,
 } = settingsOfTgsTesSlice.actions;
 export const selectSettingsOfTgsTes = (state) => state.settingsOfTgsTes;
 export default settingsOfTgsTesSlice;

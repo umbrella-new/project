@@ -217,6 +217,7 @@ const ssrDescriptionSlice = createSlice({
   },
   reducers: {
     handleAddNewElement: (state, action) => {
+      console.log('actions', action.payload);
       state.elementsOptions = [...state.elementsOptions, action.payload];
       state.partNumberSuggestions = [
         ...state.partNumberSuggestions,

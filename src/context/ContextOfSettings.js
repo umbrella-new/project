@@ -30,6 +30,17 @@ const SettingsProvider = ({ children }) => {
   const [activeSelect, setActiveSelect] = useState(null);
   const [gasSelection, setGasSelection] = useState(0);
 
+  // admin tes add element to bank
+  const initialInputState = {
+    elementName: null,
+    partNumber: null,
+    current: null,
+    wattage: null,
+    voltage: null,
+    lengths: null,
+  };
+  const [inputElement, setInputElement] = useState(initialInputState);
+
   // Declaration of useReducer
 
   const settingsReducer = (state, action) => {
@@ -76,6 +87,8 @@ const SettingsProvider = ({ children }) => {
         setGasSelection,
         inputValue,
         setInputValue,
+        inputElement,
+        setInputElement,
       }}
     >
       {children}
