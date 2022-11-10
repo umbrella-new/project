@@ -11,26 +11,33 @@ import {
   handleAddNewElement,
   selectDescription,
 } from '../../../../store/slices/ssrDescriptionSlice';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
+import { useContext } from 'react';
+import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 
 const AddElementToBank = () => {
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
-  const initialInputState = {
-    elementName: null,
-    partNumber: null,
-    current: null,
-    wattage: null,
-    voltage: null,
-    lengths: null,
-  };
+  // const initialInputState = {
+  //   elementName: null,
+  //   partNumber: null,
+  //   current: null,
+  //   wattage: null,
+  //   voltage: null,
+  //   lengths: null,
+  // };
+  // const [inputElement, setInputElement] = useState(initialInputState);
+
+  // useContext
+  const { inputElement, setInputElement } = useContext(SettingsContext);
+
   // useState
-  const [inputElement, setInputElement] = useState(initialInputState);
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState('name');
   const [buttonColor, setButtonColor] = useState(false);
-
+  const [messageBoxForBankInputs, setMessageBoxForBankInput] = useState(false);
   // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
@@ -48,19 +55,34 @@ const AddElementToBank = () => {
   };
 
   const handleSave = () => {
-    console.log('I will dispatch!!!! wait!!!!');
-    if (unitsMeasurement) {
-      const copyObj = { ...inputElement };
-
-      // do unit application later
-      dispatch(handleAddNewElement(inputElement));
-    } else {
-      // do unit application later
-      dispatch(handleAddNewElement(inputElement));
-    }
+    if (inputElement.current === null) {
+      return setMessageBoxForBankInput(true);
+    } else if (inputElement.elementName === null) {
+      return setMessageBoxForBankInput(true);
+    } else if (inputElement.lengths === null) {
+      return setMessageBoxForBankInput(true);
+    } else if (inputElement.partNumber === null) {
+      return setMessageBoxForBankInput(true);
+    } else if (inputElement.voltage === null) {
+      return setMessageBoxForBankInput(true);
+    } else if (inputElement.wattage === null) {
+      return setMessageBoxForBankInput(true);
+    } else setButtonColor(true);
+    // if (unitsMeasurement) {
+    // const copyObj = { ...inputElement };
+    // do unit application later
+    // dispatch(handleAddNewElement(inputElement));
+    // } else {
+    // do unit application later
+    // dispatch(handleAddNewElement(inputElement));
+    // }
   };
 
-  console.log(inputElement);
+  const handleMessageBox = () => {
+    console.log('hello');
+    setMessageBoxForBankInput(false);
+  };
+
   return (
     <Wrapper>
       <ContentWrapper>
@@ -276,6 +298,14 @@ const AddElementToBank = () => {
             />
           </PositionAbsoluteBox>
         </KeyboardWrapper>
+      )}
+
+      {messageBoxForBankInputs && (
+        <SettingConfirmedMessage
+          title={'element missing'}
+          message={"please fill all the element's spec"}
+          onClose={handleMessageBox}
+        />
       )}
     </Wrapper>
   );
