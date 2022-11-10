@@ -30,7 +30,7 @@ function ForceGasElectricSystem({
             }}
           />
           <SaveButton
-            name={'save'}
+            name={'activate'}
             onClick={() => {
               handleSave();
             }}

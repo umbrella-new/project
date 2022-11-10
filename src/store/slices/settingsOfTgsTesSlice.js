@@ -7,6 +7,12 @@ const initialState = {
   //   settingsApplyButton: false,
   // },
   unitsMeasurement: false,
+  windFactorTemp: {
+    low: null,
+    med: null,
+    high: null,
+    extreme: null,
+  },
   tgsTesSelectTelemetry: {
     tgsHeaterTemp: null,
     tesHeaterTemp: null,
@@ -14,16 +20,25 @@ const initialState = {
     tgsTesOutSideTemp: null,
     tgsTesBurningChamberTemp: null,
   },
+  valveInputs: { start: null, min: null, max: null },
 };
 
 export const settingsOfTgsTesSlice = createSlice({
   name: 'settingsOfTgsTes',
   initialState,
   reducers: {
-    setTgsTesSettingsApplyUnitsButton: (state, action) => {
-      state.buttonsOfSettings.unitsMeasurement = action.payload;
-      // state.buttonsOfSettings.settingsEditButton = false;
-      // state.buttonsOfSettings.settingsCancelButton = false;
+    // setTgsTesSettingsApplyUnitsButton: (state, action) => {
+    //   state.buttonsOfSettings.unitsMeasurement = action.payload;
+    //   state.buttonsOfSettings.settingsEditButton = false;
+    //   state.buttonsOfSettings.settingsCancelButton = false;
+    // },
+
+    setTgsTesSettingsApplyWindFactor: (state, action) => {
+      console.log('action.payload', action.payload);
+      state.windFactorTemp.low = action.payload.lowWind;
+      state.windFactorTemp.med = action.payload.medWind;
+      state.windFactorTemp.high = action.payload.highWind;
+      state.windFactorTemp.extreme = action.payload.extremeWind;
     },
     // setTgsTesSettingsApplySnowSensorButton: (state, action) => {
     //   state.buttonsOfSettings.settingsEditButton = false;
@@ -49,6 +64,11 @@ export const settingsOfTgsTesSlice = createSlice({
     //   state.buttonsOfSettings.settingsEditButton = false;
     //   state.buttonsOfSettings.settingsCancelButton = false;
     // },
+    setValveInputs: (state, action) => {
+      state.valveInputs.start = action.payload.first;
+      state.valveInputs.min = action.payload.second;
+      state.valveInputs.max = action.payload.third;
+    },
   },
 });
 
@@ -61,6 +81,8 @@ export const {
   setTgsTesSettingsApplySnowSensorButton,
   setTgsTesSettingsApplyForceAndCommandButton,
   setTgsTesSettingsApplyAdminButton,
+  setValveInputs,
+  setTgsTesSettingsApplyWindFactor,
 } = settingsOfTgsTesSlice.actions;
 export const selectSettingsOfTgsTes = (state) => state.settingsOfTgsTes;
 export default settingsOfTgsTesSlice;

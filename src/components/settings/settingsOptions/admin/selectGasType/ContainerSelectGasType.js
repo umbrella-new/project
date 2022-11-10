@@ -6,11 +6,12 @@ import GasTypeHeader from './GasTypeHeader';
 import SelectGasType from './SelectGasType';
 
 function ContainerSelectGasType() {
-  const gasType = ['lpg-propane', 'ng-natural gas'];
+  const gasType = ['lp-propane', 'ng-natural gas'];
 
   // states
   const [gasSelection, setGasSelection] = useState(0);
   const [activeSelect, setActiveSelect] = useState(true);
+  const [buttonColor, setButtonColor] = useState(false);
 
   // functions
   const handleToggle = (index) => {
@@ -20,6 +21,10 @@ function ContainerSelectGasType() {
   const handleSelect = (index) => {
     if (index === 0) return setActiveSelect(!activeSelect);
     else return setActiveSelect(!activeSelect);
+  };
+
+  const handleButton = () => {
+    return setButtonColor(true);
   };
 
   return (
@@ -33,7 +38,10 @@ function ContainerSelectGasType() {
           handleToggle={handleToggle}
         />
         <WrapperButton>
-          <GasTypeConfirmButton />
+          <GasTypeConfirmButton
+            handleButton={handleButton}
+            buttonColor={buttonColor}
+          />
         </WrapperButton>
       </Wrapper2>
     </Wrapper>

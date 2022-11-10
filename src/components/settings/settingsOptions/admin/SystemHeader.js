@@ -30,6 +30,13 @@ function SystemHeader({
               ? './images/greyTesButton.svg'
               : toggleButtonColor
           }
+          onClick={() => {
+            return adminAccess && essSwitch
+              ? handleSelect(index)
+              : adminAccess && !tesSwitch && index === 1
+              ? ''
+              : adminAccess && handleSelect(index);
+          }}
         />
       </ButtonHole>
       <Span></Span>
