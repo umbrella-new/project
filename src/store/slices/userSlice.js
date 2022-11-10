@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import moment from 'moment';
 // this slice is for the user information
-
-// const date = new Date();
 
 const initialState = {
   isEssSwitch: false,
@@ -12,7 +10,7 @@ const initialState = {
   isAdministrator: false,
   adminPassword: 'ATEF61',
   dateAndWeather: {
-    date: null,
+    date: moment().format('MMMM dddd DD, YYYY'),
     weather: null,
     iconSrc: '/images/weather-sunny.svg',
   },

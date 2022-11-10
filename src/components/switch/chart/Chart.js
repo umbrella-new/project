@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 import {
   ResponsiveContainer,
   LineChart,
@@ -9,106 +7,157 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+
+import moment from 'moment';
+
 import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { selectSystemIdentification } from '../../../store/slices/settingSystemIdentificationSlice';
+import { selectSettingsOfTgsTes } from '../../../store/slices/settingsOfTgsTesSlice';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 const Chart = () => {
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
+
+  const sysState = useSelector(selectSystemIdentification);
+
+  const { sysIdentification } = sysState;
+
+  // const unitValue = unitsMeasurement
+  //   ? 'HEATER TEMPERATURE (°F)'
+  //   : 'HEATER TEMPERATURE (°F)';
+
   const data = [
     {
       name: '1',
       HT: -50,
       ET: 400,
       OT: 200,
+      date: 13,
     },
     {
       name: '2',
       HT: 300,
       ET: 398,
       OT: 210,
+      date: 12,
     },
     {
       name: '3',
       HT: 100,
       ET: 400,
       OT: 290,
+      date: 11,
     },
     {
       name: '4',
       HT: 270,
       ET: 398,
       OT: 200,
+      date: 10,
     },
     {
       name: '5',
       HT: 180,
       ET: 480,
       OT: 181,
+      date: 9,
     },
     {
       name: '6',
       HT: 390,
       ET: 380,
       OT: 250,
+      date: 8,
     },
     {
       name: '7',
       HT: 340,
       ET: 400,
       OT: 210,
+      date: 7,
     },
     {
       name: '8',
       HT: -50,
       ET: 400,
       OT: 200,
+      date: 6,
     },
     {
       name: '9',
       HT: 300,
       ET: 398,
       OT: 210,
+      date: 5,
     },
     {
       name: '10',
       HT: 100,
       ET: 400,
       OT: 290,
+      date: 4,
     },
     {
       name: '11',
       HT: 270,
       ET: 398,
       OT: 200,
+      date: 3,
     },
     {
       name: '12',
       HT: 180,
       ET: 700,
       OT: 181,
+      date: 2,
     },
     {
       name: '13',
       HT: 390,
       ET: 380,
       OT: 250,
+      date: 1,
     },
     {
       name: '14',
       HT: 340,
       ET: 700,
       OT: 210,
+      date: 0,
     },
   ];
 
   const CustomTooltip = ({ active, payload, label }) => {
+    const switchName =
+      sysIdentification.switchName.length < 1
+        ? 'switch information'
+        : sysIdentification.locationName +
+          '-' +
+          sysIdentification.switchName +
+          '-' +
+          sysIdentification.switchSize +
+          ' ' +
+          sysIdentification.application +
+          '-' +
+          sysIdentification.heatingSystem.split(' - ')[0];
+
+    // console.log(moment().subtract(1, 'days').format('MMMM dddd DD, YYYY'));
+
     if (active) {
-      const payloadName1st = `WE-COVE-O2 #10 S.T.ESS: ${payload[0].value} °C`;
-      const payloadName2nd = `WE-COVE-O2 #10 S.T.ESS: ${payload[1].value} °C`;
-      const payloadName3rd = `WE-COVE-O2 #10 S.T.ESS: ${payload[2].value}  °C`;
+      const payloadName1st = switchName;
+      const payloadName2nd = `( H.T- ${payload[0].value} °C, E.T- ${payload[1].value} °C, O.T- ${payload[2].value} °C )`;
+      const payloadName3rd = `${moment()
+        .subtract(payload[0].payload.date, 'days')
+        .format('MMMM dddd DD, YYYY')}`;
+
       return (
         <PayloadWrapper className='custom-tooltip'>
+          <PayloadItem className='label'>{payloadName1st}</PayloadItem>
           <PayloadItem className='label'>{payloadName2nd}</PayloadItem>
           <PayloadItem className='label'>{payloadName3rd}</PayloadItem>
-          <PayloadItem className='label'>{payloadName1st}</PayloadItem>
         </PayloadWrapper>
       );
     }
@@ -155,7 +204,8 @@ const Chart = () => {
             unit='°C'
             label={{
               fill: '#ffff',
-              value: 'HEATER TEMPERATURE (°C)',
+              // value: unitValue,
+              value: '',
               position: 'outsideLeft',
               angle: -90,
               dx: -45,
@@ -193,10 +243,6 @@ const Chart = () => {
 };
 
 export default Chart;
-
-const LegendCss = styled.div`
-  position: absolute;
-`;
 
 const PayloadWrapper = styled.div`
   ${flexboxCenter}

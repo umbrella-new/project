@@ -26,6 +26,8 @@ const InstantHeat = () => {
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
+  console.log(unitsMeasurement);
+
   const dispatch = useDispatch();
   const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
   const tgsState = useSelector(selectTgsSwitch);
