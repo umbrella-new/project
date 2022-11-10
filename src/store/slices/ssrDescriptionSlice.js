@@ -217,14 +217,7 @@ const ssrDescriptionSlice = createSlice({
   },
   reducers: {
     handleAddNewElement: (state, action) => {
-      state.descriptionOptions = [
-        ...state.descriptionOptions,
-        `${action.payload.name} - ${action.payload.partNumber}`,
-      ];
-      state.specsStr = [
-        ...state.specsStr,
-        `${action.payload.partNumber}-${action.payload.current}/${action.payload.wattage}/${action.payload.voltage}/${action.payload.lengths}`,
-      ];
+      state.elementsOptions = [...state.elementsOptions, action.payload];
       state.partNumberSuggestions = [
         ...state.partNumberSuggestions,
         action.payload.partNumber,

@@ -30,13 +30,10 @@ const AdminSSRItemDetails = ({
   id,
 }) => {
   const descriptionState = useSelector(selectDescription);
-  const {
-    specsStr,
-    descriptionOptions,
-    partNumberSuggestions,
-    elementsOptions,
-  } = descriptionState;
+  const { partNumberSuggestions, elementsOptions } = descriptionState;
   const { specs } = data;
+
+  console.log(elementsOptions);
 
   const initialInputState = [
     {
