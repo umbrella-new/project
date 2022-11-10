@@ -6,7 +6,7 @@ import { selectSettingsOfEss } from '../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../store/slices/userSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
 
-const DisplayBox = ({ currData, label, unit }) => {
+const DisplayBox = ({ currData, label, unit, name }) => {
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
@@ -29,10 +29,16 @@ const DisplayBox = ({ currData, label, unit }) => {
               <DisplayUnit>{unit}</DisplayUnit>
             ) : location.pathname !== '/' ? (
               <DisplayUnit>{unit}</DisplayUnit>
-            ) : label === 'energy consumption' ? (
-              <DisplayUnit>
-                M<Sup>3</Sup>
-              </DisplayUnit>
+            ) : name === 'energyConsumption' ? (
+              unitsMeasurement ? (
+                <DisplayUnit>
+                  ft<Sup>3</Sup>
+                </DisplayUnit>
+              ) : (
+                <DisplayUnit>
+                  M<Sup>3</Sup>
+                </DisplayUnit>
+              )
             ) : (
               <DisplayUnit>{unit}</DisplayUnit>
             )}
