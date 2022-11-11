@@ -8,35 +8,48 @@ import { useContext } from 'react';
 import { SettingsContext } from '../../../../../context/ContextOfSettings';
 import { selectUserState } from '../../../../../store/slices/userSlice';
 
-function TgsTesSwitch() {
+function SystemConfiguration() {
   const tgsTesDescription = [
     'tgs-typhoon gas system',
     'tes-typhoon electric system',
   ];
 
+  // redux
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const editState = state.buttonsOfSettings.settingsEditButton;
   const userState = useSelector(selectUserState);
   const tesState = userState.isTesSwitch;
 
+  // states
   const [options, setOptions] = useState(false);
   const [buttonName, setButtonName] = useState('save');
 
+  // useContext
+  const { SetSavedSelection, sysConfiguration, setSysConfiguration } =
+    useContext(SettingsContext);
+  // useEffect
   useEffect(() => {
     if (tesState) {
       setOptions(true);
     }
   }, [tesState]);
 
+  useEffect(() => {
+    setSysConfiguration(false);
+  }, []);
+
+  // toggles the green circle and button name
   const handleSelect = (index) => {
     index === 1 ? setOptions(true) : setOptions(false);
     setButtonName('save');
   };
-  const { SetSavedSelection } = useContext(SettingsContext);
-
+  // handles save button to activate or deactivate the use of Tes system depending on customer need and change button name.
   const handleActivationOfTes = () => {
-    return SetSavedSelection(options), setButtonName('saved');
+    SetSavedSelection(options);
+    setSysConfiguration(true);
+    setButtonName('saved');
+    return;
   };
 
   return (
@@ -44,9 +57,7 @@ function TgsTesSwitch() {
       <Wrapper2>
         <Wrapper3>
           <WrapperTitle>
-            {/* <WrapperTitle2> */}
             <Title>system configuration</Title>
-            {/* </WrapperTitle2> */}
           </WrapperTitle>
 
           <WrapperSelection>
@@ -90,11 +101,16 @@ function TgsTesSwitch() {
             </ControlContainer>
           </WrapperSelection>
           <WrapperButton
-            onClick={() => {
-              handleActivationOfTes();
-            }}
+          // onClick={() => {
+          //   handleActivationOfTes();
+          // }}
           >
-            <ConfirmButton name={buttonName} />
+            <ConfirmButton
+              name={buttonName}
+              buttonColor={sysConfiguration}
+              handleClick={handleActivationOfTes}
+              editState={editState}
+            />
           </WrapperButton>
         </Wrapper3>
       </Wrapper2>
@@ -102,7 +118,7 @@ function TgsTesSwitch() {
   );
 }
 
-export default TgsTesSwitch;
+export default SystemConfiguration;
 
 const Wrapper = styled.div`
   width: 270px;
