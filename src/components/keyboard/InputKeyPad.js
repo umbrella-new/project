@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
-import Keyboard from 'react-simple-keyboard';
-import './keypad.css';
+import React, { useRef, useState } from "react";
+import Keyboard from "react-simple-keyboard";
+import "./keypad.css";
 
-import styled from 'styled-components';
-import { flexboxCenter } from '../../styles/commonStyles';
+import styled from "styled-components";
+import { flexboxCenter } from "../../styles/commonStyles";
 
 const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
-  const [inputNum, setInputNum] = useState('');
+  const [inputNum, setInputNum] = useState("");
   const keyboard = useRef();
 
   const onChange = (input) => {
@@ -41,10 +41,10 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         onChange={onChange}
-        theme={'hg-theme-default hg-layout-default myTheme'}
-        display={{ '{bksp}': '⌫' }}
+        theme={"hg-theme-default hg-layout-default myTheme"}
+        display={{ "{bksp}": "⌫" }}
         layout={{
-          default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 .'],
+          default: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 ."],
         }}
       />
       <ButtonWrapper>
