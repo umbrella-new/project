@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
-import { selectDescription } from '../../../store/slices/ssrDescriptionSlice';
 
 import {
   flexboxCenter,
@@ -108,8 +106,10 @@ const ContentWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.1rem 0;
 
+  padding: 0.1rem 0;
+  border-radius: 12px;
+  border: 0.5px solid #000000;
   ${(p) =>
     p.isEnable
       ? css`
@@ -117,18 +117,12 @@ const ContentWrapper = styled.ul`
             linear-gradient(180deg, #233a54 0%, #060d19 100%) 0% 0% no-repeat
             padding-box;
           box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
-          border: 0.5px solid #000000;
-          border-radius: 12px;
-          opacity: 1;
         `
       : css`
           background: transparent
             linear-gradient(180deg, #565656 0%, #1d1d1d 100%) 0% 0% no-repeat
             padding-box;
           box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
-          border: 0.5px solid #000000;
-          border-radius: 12px;
-          opacity: 1;
         `}
 
   border: ${(p) => (p.isFault ? '1px solid red' : '')};
@@ -144,11 +138,11 @@ const ItemWrapper = styled.div`
     ${(p) =>
       p.hiddenNumber !== 1 &&
       css`
-        margin-bottom: 0.2rem;
+        margin-bottom: 0rem;
       `}
   }
   &:nth-child(2) {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0rem;
   }
 `;
 
