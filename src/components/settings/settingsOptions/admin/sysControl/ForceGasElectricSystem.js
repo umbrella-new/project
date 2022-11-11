@@ -1,5 +1,7 @@
+import { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { SettingsContext } from '../../../../../context/ContextOfSettings';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import SaveButton from './SaveButton';
@@ -8,9 +10,17 @@ function ForceGasElectricSystem({
   handleRightSwitch,
   toggleRightEnableDisable,
   handleSave,
+  buttonColor,
 }) {
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
+
+  // useContext
+  // const {} = useContext(SettingsContext);
+
+  useEffect(() => {
+    handleSave(false);
+  }, []);
 
   return (
     <WrapperRightSwitch>
@@ -30,10 +40,13 @@ function ForceGasElectricSystem({
             }}
           />
           <SaveButton
-            name={'activate'}
-            onClick={() => {
-              handleSave();
-            }}
+            name={buttonColor ? 'activated' : 'activate'}
+            // onClick={() => {
+            //   editState && handleSave(true);
+            // }}
+            editState={editState}
+            handleClick={handleSave}
+            buttonColor={buttonColor}
           />
         </ImageAndButtonWrapper>
       </WrapperRightSwitch2>

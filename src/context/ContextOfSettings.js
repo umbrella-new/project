@@ -5,9 +5,9 @@ export const SettingsContext = createContext();
 const SettingsProvider = ({ children }) => {
   const initialState = { essSelectUnits: true };
 
+  // units
   const [selectUnitsState, setSelectUnitsState] = useState(true);
   const [metricImperialToggle, setMetricImperialToggle] = useState();
-  const [savedSelection, SetSavedSelection] = useState(false);
 
   // wind factor state
   const [windFactor, setWindFactor] = useState({
@@ -22,15 +22,20 @@ const SettingsProvider = ({ children }) => {
   const [tgsSnowSensor, setTgsSnowSensor] = useState();
   const [tesSnowSensor, setTesSnowSensor] = useState();
 
-  // admin tgs valve settings
+  // admin: sys: system configuration save button state
+
+  const [sysConfiguration, setSysConfiguration] = useState(false);
+  const [savedSelection, SetSavedSelection] = useState(null);
+
+  // admin: tgs: valve settings
   const valveStates = { first: '', second: '', third: '' };
   const [inputValue, setInputValue] = useState(valveStates);
 
-  //admin tgs select gas type
+  //admin: tgs: select gas type
   const [activeSelect, setActiveSelect] = useState(null);
   const [gasSelection, setGasSelection] = useState(0);
 
-  // admin tes add element to bank
+  // admin: tes: add element to bank
   const initialInputState = {
     elementName: null,
     partNumber: null,
@@ -40,6 +45,20 @@ const SettingsProvider = ({ children }) => {
     lengths: null,
   };
   const [inputElement, setInputElement] = useState(initialInputState);
+
+  // admin: sys : system Identification
+  const initialSysInputState = {
+    locationName: '',
+    switchName: '',
+    heatingSystem: '',
+    application: '',
+    switchSize: '',
+    ssrRating: '',
+    sysId: '',
+    additionalRating: '',
+  };
+  const [sysIdentification, setSysIdentification] = useState(false);
+  const [inputData, setInputData] = useState(initialSysInputState);
 
   // Declaration of useReducer
 
@@ -71,8 +90,8 @@ const SettingsProvider = ({ children }) => {
         setSelectUnitsState,
         metricImperialToggle,
         setMetricImperialToggle,
-        savedSelection,
-        SetSavedSelection,
+        sysConfiguration,
+        setSysConfiguration,
         windFactor,
         setWindFactor,
         essSnowSensor,
@@ -89,6 +108,12 @@ const SettingsProvider = ({ children }) => {
         setInputValue,
         inputElement,
         setInputElement,
+        sysIdentification,
+        setSysIdentification,
+        inputData,
+        setInputData,
+        savedSelection,
+        SetSavedSelection,
       }}
     >
       {children}

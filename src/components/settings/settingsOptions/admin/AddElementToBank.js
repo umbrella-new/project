@@ -79,7 +79,6 @@ const AddElementToBank = () => {
   };
 
   const handleMessageBox = () => {
-    console.log('hello');
     setMessageBoxForBankInput(false);
   };
 

@@ -8,12 +8,12 @@ export const settingsOfSysSlice = createSlice({
   name: 'settingsOfSys',
   initialState,
   reducers: {
-    setForceGasAndElectric: (state, action) => {
+    setForceGasAndElectricSystem: (state, action) => {
       state.forceGasElectricState = action.payload;
     },
   },
 });
 
-export const { setForceGasAndElectric } = settingsOfSysSlice.actions;
+export const { setForceGasAndElectricSystem } = settingsOfSysSlice.actions;
 export const SelectSettingsOfSys = (state) => state.settingsOfSys;
 export default settingsOfSysSlice;

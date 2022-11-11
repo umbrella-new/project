@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import {
   handleAdditionalSSRRating,
@@ -14,24 +16,24 @@ import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessa
 import SysIdRadioBox from './SysIdRadioBox';
 
 const SystemIdentification = () => {
-  const initialInputState = {
-    locationName: '',
-    switchName: '',
-    heatingSystem: '',
-    application: '',
-    switchSize: '',
-    ssrRating: '',
-    sysId: '',
-    additionalRating: '',
-  };
+  // const initialInputState = {
+  //   locationName: '',
+  //   switchName: '',
+  //   heatingSystem: '',
+  //   application: '',
+  //   switchSize: '',
+  //   ssrRating: '',
+  //   sysId: '',
+  //   additionalRating: '',
+  // };
 
   const initialSelectBox = {
     heatingSystem: false,
     switchSize: false,
     ssrRating: false,
   };
-
-  const [inputData, setInputData] = useState(initialInputState);
+  // states
+  // const [inputData, setInputData] = useState(initialInputState);
   const [focusedName, setFocusedName] = useState(null);
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [displaySelectBox, setDisplaySelectBox] = useState(initialSelectBox);
@@ -40,11 +42,15 @@ const SystemIdentification = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [activateMessageBox, setActivateMessageBox] = useState(false);
   const [message, setMessage] = useState(null);
-  const [isReadyToSave, setIsReadytoSave] = useState(false);
+  const [isReadyToSave, setIsReadyToSave] = useState(false);
   const [keyboardPosition, setKeyboardPosition] = useState(null);
   const [displayAdditionalInput, setDisplayingAdditionalInput] =
     useState(false);
   const [buttonNames, setButtonNames] = useState(['edit system', 'save']);
+
+  // useContext
+  const { sysIdentification, setSysIdentification, inputData, setInputData } =
+    useContext(SettingsContext);
 
   const systemIdState = useSelector(selectSystemIdentification);
   const { heatingSysOptions, switchSizeOptions, ssrRatingOptions } =
@@ -55,6 +61,10 @@ const SystemIdentification = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    return setSysIdentification(false);
+  }, []);
+
+  useEffect(() => {
     inputData.locationName !== '' &&
       inputData.heatingSystem !== '' &&
       inputData.switchName !== '' &&
@@ -62,7 +72,7 @@ const SystemIdentification = () => {
       inputData.switchSize !== '' &&
       inputData.ssrRating !== '' &&
       inputData.sysId !== '' &&
-      setIsReadytoSave(true);
+      setIsReadyToSave(true);
   }, [inputData]);
 
   useEffect(() => {
@@ -74,7 +84,8 @@ const SystemIdentification = () => {
       if (isEditable) {
         if (isReadyToSave) {
           setButtonNames(['edit system', 'saved']);
-          dispatch(handleAdditionalSystemIdentification(inputData));
+          setSysIdentification(true);
+
           setIsEditable(!isEditable);
           setIsSaved(!isSaved);
           // setMessage('selection confirmed');
@@ -362,14 +373,16 @@ const SystemIdentification = () => {
 
           <Section>
             <ButtonGroupWrapper>
-              {buttonNames.map((name) => (
+              {buttonNames.map((name, index) => (
                 <ButtonWrapper
                   onClick={() => settingsEditButton && handleButtonClick(name)}
                   isEditable={isEditable}
                   isSaved={isSaved}
                 >
                   <ButtonHole>
-                    <ButtonTop>{name}</ButtonTop>
+                    <ButtonTop isSaved={isSaved} index={index === 1}>
+                      {name}
+                    </ButtonTop>
                   </ButtonHole>
                 </ButtonWrapper>
               ))}
@@ -596,11 +609,12 @@ const ButtonWrapper = styled.button`
   }
   &:last-child {
     ${({ isSaved }) =>
-      isSaved
-        ? css`
-            border: 1px solid #95ff45;
-          `
-        : 'none'}
+      isSaved &&
+      css`
+        background: transparent
+          linear-gradient(180deg, #1e7fc1 0%, #001640 100%) 0% 0% no-repeat
+          padding-box;
+      `}
   }
   ${flexboxCenter}
 `;
@@ -615,8 +629,6 @@ const ButtonHole = styled.div`
   border-radius: 18px;
 `;
 const ButtonTop = styled.div`
-  ${flexboxCenter}
-
   width: 114px;
   height: 14px;
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
@@ -624,6 +636,14 @@ const ButtonTop = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
+
+  ${({ isSaved, index }) =>
+    isSaved &&
+    index &&
+    css`
+      background: transparent linear-gradient(180deg, #1e7fc1 0%, #001640 100%)
+        0% 0% no-repeat padding-box;
+    `}
 
   ${flexboxCenter}
   font-size: 10px;
