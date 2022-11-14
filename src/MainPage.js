@@ -1,19 +1,20 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Sidebar from './components/sidebar/Sidebar';
-import Switch from './components/switch/Switch';
-import Settings from './components/settings/Settings';
-import Faults from './components/faults/Faults';
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Sidebar from "./components/sidebar/Sidebar";
+import Switch from "./components/switch/Switch";
+import Settings from "./components/settings/Settings";
+import Faults from "./components/faults/Faults";
 
 const MainPage = () => {
   return (
     <Wrapper>
       <Header />
-      <Title src={'/images/embrellaTitle-sm.svg'} />
+      <Title src={"/images/embrellaTitle-sm.svg"} />
 
       <BrowserRouter>
         <MainContentsWrapper>

@@ -1,18 +1,22 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
-import { handleTurnOffTheHeater } from '../../store/slices/essSwitchSlice';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled, { css } from "styled-components";
+import { handleTurnOffTheHeater } from "../../store/slices/essSwitchSlice";
 import {
+  handleDisplayForceMessageBox,
+  handleDisplayForceStatusBox,
   handleForceButtonActivated,
   handleForceSelection,
-  handleTimerOn,
+  handleMaxHeatWithTimerOn,
   selectFaults,
-} from '../../store/slices/faultsSlice';
-import { flexboxCenter } from '../../styles/commonStyles';
+} from "../../store/slices/faultsSlice";
+import { handleTimer } from "../../store/slices/timerSlice";
 
-import MessageButton from '../userMessages/MessageButton';
+import { flexboxCenter } from "../../styles/commonStyles";
 
-const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
+import MessageButton from "../userMessages/MessageButton";
+
+const SelectForce = ({ title, handleClose }) => {
   const faultsState = useSelector(selectFaults);
   const options = faultsState.ess.forceOptions;
   const dispatch = useDispatch();
@@ -24,20 +28,30 @@ const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
   };
 
   const handleConfirm = () => {
+    dispatch(handleForceSelection(selectedOne));
     switch (selectedOne) {
       case options[0]: {
-        // Max heat => keep the current heating status
+        // Max heat for 3 days => max heat display box
+        // 1. call the timer with 72 hours
+        dispatch(handleTimer(72));
+        // 2.display the box, timer on with time set
+        dispatch(handleMaxHeatWithTimerOn(selectedOne));
         break;
       }
       case options[1]: {
         // Max heat with 12 hrs timer
-        dispatch(handleTimerOn());
+        // display the box, timer on with time set
+        dispatch(handleTimer(12));
+        // 2.display the box, timer on with time set
+        dispatch(handleMaxHeatWithTimerOn(selectedOne));
         break;
       }
       case options[2]: {
         // turn off all electric heater and show the message
         dispatch(handleTurnOffTheHeater());
-        handleAlertMessageBox();
+        // Display force status box
+        dispatch(handleDisplayForceStatusBox(true));
+
         break;
       }
       default: {
@@ -45,9 +59,9 @@ const SelectForce = ({ title, handleClose, handleAlertMessageBox }) => {
       }
     }
     // Common dispatch and close the selection box
-    dispatch(handleForceSelection(selectedOne));
+
     dispatch(handleForceButtonActivated(true));
-    handleClose();
+    handleClose(handleDisplayForceMessageBox(false));
   };
 
   return (
@@ -123,7 +137,6 @@ const MessageInner = styled.div`
   border-radius: 9px;
 
   padding: var(--space3);
-
   display: flex;
   flex-direction: column;
   align-items: center;

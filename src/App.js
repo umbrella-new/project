@@ -1,10 +1,11 @@
-import GlobalStyle from './styles/GlobalStyles';
-import styled from 'styled-components';
-import MainPage from './MainPage';
-import { flexboxCenter } from './styles/commonStyles';
+import GlobalStyle from "./styles/GlobalStyles";
 
-import { Provider } from 'react-redux';
-import store from './store/store';
+import styled from "styled-components";
+import MainPage from "./MainPage";
+import { flexboxCenter } from "./styles/commonStyles";
+
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 function App() {
   return (

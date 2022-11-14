@@ -1,21 +1,21 @@
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { selectFaults } from '../../../store/slices/faultsSlice';
-import { selectUserState } from '../../../store/slices/userSlice';
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { selectFaults } from "../../../store/slices/faultsSlice";
+import { selectUserState } from "../../../store/slices/userSlice";
 
-import { flexboxCenter } from '../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
+import { flexboxCenter } from "../../../styles/commonStyles";
+import styled, { css } from "styled-components";
 
-import MaxHeat12HrsTimer from '../../faults/MaxHeat12HrsTimer';
-import Chart from './Chart';
-import ChartInfoContainer from './ChartInfoContainer';
-import ChartTitles from './ChartTitles';
-import DisplayStatus from './DisplayStatus';
-import Legend from './Legend';
+import Chart from "./Chart";
+import ChartInfoContainer from "./ChartInfoContainer";
+import ChartTitles from "./ChartTitles";
+import DisplayStatus from "./DisplayStatus";
+import Legend from "./Legend";
+import DisplayForceSelectionBox from "../../faults/DisplayForceSelectionBox";
 
 function ChartContainer() {
   const faultsState = useSelector(selectFaults);
-  const { maxHeatFor12hrsTimer } = faultsState.ess;
+  const { displayForce } = faultsState.ess;
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
   const location = useLocation();
@@ -25,7 +25,7 @@ function ChartContainer() {
 
   const isFaults = isEssSwitch
     ? essFault
-    : location.pathname === '/'
+    : location.pathname === "/"
     ? tgsFault
     : essFault;
 
@@ -39,8 +39,8 @@ function ChartContainer() {
         <SvgImg
           src={
             isFaults
-              ? '/images/chart-background-faults.svg'
-              : '/images/chart-background-noFaults.svg'
+              ? "/images/chart-background-faults.svg"
+              : "/images/chart-background-noFaults.svg"
           }
         />
       </BackgroundWrapper>
@@ -73,15 +73,15 @@ function ChartContainer() {
         <InnerWrapper></InnerWrapper>
       </InvisibleWrapper> */}
 
-      {maxHeatFor12hrsTimer && isEssSwitch && (
+      {displayForce && isEssSwitch && (
         <TimerWrapperPositionAbsolute>
-          <MaxHeat12HrsTimer />
+          <DisplayForceSelectionBox />
         </TimerWrapperPositionAbsolute>
       )}
 
-      {maxHeatFor12hrsTimer && !isEssSwitch && location.pathname !== '/' && (
+      {displayForce && !isEssSwitch && location.pathname !== "/" && (
         <TimerWrapperPositionAbsolute>
-          <MaxHeat12HrsTimer />
+          <DisplayForceSelectionBox />
         </TimerWrapperPositionAbsolute>
       )}
     </Wrapper>
@@ -201,8 +201,8 @@ const ChartWrapper3 = styled.div`
 
 const TimerWrapperPositionAbsolute = styled.div`
   position: absolute;
-  top: 5rem;
-  right: 0.3rem;
+  top: 5.5rem;
+  right: 0.55rem;
 `;
 
 const InvisibleWrapper = styled.div`

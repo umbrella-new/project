@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   // buttonsOfSettings: {
@@ -35,7 +35,7 @@ const initialState = {
 };
 
 export const settingsOfTgsTesSlice = createSlice({
-  name: 'settingsOfTgsTes',
+  name: "settingsOfTgsTes",
   initialState,
   reducers: {
     // setTgsTesSettingsApplyUnitsButton: (state, action) => {
@@ -51,6 +51,7 @@ export const settingsOfTgsTesSlice = createSlice({
       state.windFactorTemp.extreme = action.payload.extremeWind;
     },
     setTgsTesSettingsApplySnowSensorButton: (state, action) => {
+
       state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
       state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
     },
@@ -84,6 +85,7 @@ export const settingsOfTgsTesSlice = createSlice({
     },
     //admin: this is used for ess and tes
     setThermocouple: (state, action) => {
+      console.log("slice", action.payload);
       state.thermocouple = action.payload;
     },
     setTgsAts: (state, action) => {

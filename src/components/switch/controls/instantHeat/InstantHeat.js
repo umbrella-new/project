@@ -54,6 +54,7 @@ const InstantHeat = () => {
     }
   }, []);
 
+  // Add one condition of thermocouple
   const handleOnSubmit = (event) => {
     event.preventDefault();
     if (!isTgsSwitchActivated) {
@@ -122,7 +123,7 @@ const InstantHeat = () => {
   };
 
   const unit = unitsMeasurement ? `\u00b0F` : `\u00b0C`;
-
+  const a = true;
   return (
     <Wrapper isActivated={instantButtonToggler}>
       <InnerWrapper
@@ -131,7 +132,7 @@ const InstantHeat = () => {
       >
         <LabelAndInputOuterWrapper
           isActivated={instantButtonToggler}
-          onClick={onInputHandler}
+          onClick={() => thermocouple || onInputHandler()}
         >
           <LabelAndInputInnerWrapper isActivated={instantButtonToggler}>
             <Label>instant heat</Label>
@@ -140,8 +141,9 @@ const InstantHeat = () => {
               placeholder={unit}
               type='text'
               ref={inputRef}
+              // during heater working input disabled!
               disabled={instantButtonToggler}
-              onChang={() => console.log(inputRef.current.value)}
+              // onChang={() => inputRef.current.value}
             />
           </LabelAndInputInnerWrapper>
         </LabelAndInputOuterWrapper>
