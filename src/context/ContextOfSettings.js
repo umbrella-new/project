@@ -5,9 +5,9 @@ export const SettingsContext = createContext();
 const SettingsProvider = ({ children }) => {
   const initialState = { essSelectUnits: true };
 
+  // units
   const [selectUnitsState, setSelectUnitsState] = useState(true);
   const [metricImperialToggle, setMetricImperialToggle] = useState();
-  const [savedSelection, SetSavedSelection] = useState(false);
 
   // wind factor state
   const [windFactor, setWindFactor] = useState({
@@ -22,15 +22,33 @@ const SettingsProvider = ({ children }) => {
   const [tgsSnowSensor, setTgsSnowSensor] = useState();
   const [tesSnowSensor, setTesSnowSensor] = useState();
 
-  // admin tgs valve settings
+  // force & commands: Ess: Ats
+  const [essAtsState, setEssAtsState] = useState(null);
+
+  // force & commands: sys:
+
+  // force & commands: Tgs: Ats
+  const [tgsAtsState, setTgsAtsState] = useState(null);
+
+  // force & commands: Tes: Ats
+  const [tesAtsState, setTesAtsState] = useState(null);
+
+  // admin: sys: system configuration save button state
+  const [sysConfiguration, setSysConfiguration] = useState(false);
+  const [savedSelection, SetSavedSelection] = useState(null);
+
+  // admin: tgs: gas type
+  const [gasTypeButtonColor, setGasTypeButtonColor] = useState(false);
+
+  // admin: tgs: valve settings
   const valveStates = { first: '', second: '', third: '' };
   const [inputValue, setInputValue] = useState(valveStates);
 
-  //admin tgs select gas type
+  //admin: tgs: select gas type
   const [activeSelect, setActiveSelect] = useState(null);
   const [gasSelection, setGasSelection] = useState(0);
 
-  // admin tes add element to bank
+  // admin: tes: add element to bank
   const initialInputState = {
     elementName: null,
     partNumber: null,
@@ -40,6 +58,30 @@ const SettingsProvider = ({ children }) => {
     lengths: null,
   };
   const [inputElement, setInputElement] = useState(initialInputState);
+
+  // admin: Tgs : valve settings
+  const [valveButtonColor, setValveButtonColor] = useState(false);
+
+  // admin : tes : thermocouple
+  // const [tesThermocoupleButtonColor, setTEsThermocoupleButtonColor] =
+  //   useState(false);
+
+  // admin : tes :add element to bank
+  const [saveButtonColor, setSaveButtonColor] = useState(false);
+
+  // admin: sys : system Identification
+  const initialSysInputState = {
+    locationName: '',
+    switchName: '',
+    heatingSystem: '',
+    application: '',
+    switchSize: '',
+    ssrRating: '',
+    sysId: '',
+    additionalRating: '',
+  };
+  const [sysIdentification, setSysIdentification] = useState(false);
+  const [inputData, setInputData] = useState(initialSysInputState);
 
   // Declaration of useReducer
 
@@ -71,8 +113,8 @@ const SettingsProvider = ({ children }) => {
         setSelectUnitsState,
         metricImperialToggle,
         setMetricImperialToggle,
-        savedSelection,
-        SetSavedSelection,
+        sysConfiguration,
+        setSysConfiguration,
         windFactor,
         setWindFactor,
         essSnowSensor,
@@ -89,6 +131,24 @@ const SettingsProvider = ({ children }) => {
         setInputValue,
         inputElement,
         setInputElement,
+        sysIdentification,
+        setSysIdentification,
+        inputData,
+        setInputData,
+        savedSelection,
+        SetSavedSelection,
+        saveButtonColor,
+        setSaveButtonColor,
+        valveButtonColor,
+        setValveButtonColor,
+        gasTypeButtonColor,
+        setGasTypeButtonColor,
+        essAtsState,
+        setEssAtsState,
+        tgsAtsState,
+        setTgsAtsState,
+        tesAtsState,
+        setTesAtsState,
       }}
     >
       {children}

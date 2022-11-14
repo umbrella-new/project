@@ -22,6 +22,7 @@ const initialState = {
     essOutSideTemp: null,
   },
   snowSensorState: null,
+  selectAtsState: null,
 };
 
 export const settingsOfEssSlice = createSlice({
@@ -76,11 +77,6 @@ export const settingsOfEssSlice = createSlice({
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsApplyButton = false;
     },
-    setSettingsApplyButton: (state) => {
-      state.buttonsOfSettings.settingsApplyButton = false;
-      state.buttonsOfSettings.settingsEditButton = false;
-      state.buttonsOfSettings.settingsCancelButton = false;
-    },
 
     setApplyButtonToTrue: (state) => {
       state.buttonsOfSettings.settingsApplyButton = true;
@@ -114,15 +110,16 @@ export const settingsOfEssSlice = createSlice({
       state.selectTelemetry.essEncloseTemp = action.payload.essEncloseTemp;
       state.selectTelemetry.essOutSideTemp = action.payload.essOutsideTemp;
     },
-    setSettingsApplyAdminButton: (state) => {
-      state.buttonsOfSettings.settingsEditButton = false;
-      state.buttonsOfSettings.settingsCancelButton = false;
-      state.buttonsOfSettings.settingsApplyButton = false;
-    },
+
     setResetAllSettingsButtons: (state) => {
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
       state.buttonsOfSettings.settingsApplyButton = false;
+    },
+
+    setAts: (state, action) => {
+      console.log(action.payload);
+      state.selectAtsState = action.payload;
     },
   },
 });
@@ -139,18 +136,17 @@ export const {
   setSysButtonExpandAndClose,
   setSettingsEditButton,
   setSettingsCancelButton,
-  setSettingsApplyButton,
   setSettingsApplyUnitsButton,
   setSettingsApplyWindFactorTriggerButton,
   setSettingsApplySnowSensorTriggerButton,
   setSettingsApplyForceCommandButton,
-  setSettingsApplyAdminButton,
   setEditButtonToFalse,
   setCancelButtonToFalse,
   setApplyButtonToFalse,
   setSettingsClearButton,
   setApplyAndClearButtonToFalse,
   setApplyButtonToTrue,
+  setAts,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

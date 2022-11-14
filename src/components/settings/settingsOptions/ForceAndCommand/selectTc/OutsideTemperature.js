@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../../../../store/slices/userSlice';
 import RadioBox from '../RadioBox';
-import ConfirmButton from '../ConfirmButton';
+import TcConfirmButton from '../TcConfirmButton';
 
 function OutsideTemperature({
   handleChecked,
@@ -116,7 +116,7 @@ function OutsideTemperature({
                 ))}
               </SelectWrapper>
               <WrapperButton>
-                <ConfirmButton
+                <TcConfirmButton
                   onConfirm={onConfirmHandler}
                   essOutsideTemp={essOutsideTempName}
                   tgsTesOutsideTemp={tgsTesOutsideTempName}
@@ -164,7 +164,7 @@ function OutsideTemperature({
                     ))}
                   </SelectWrapper>
                   <WrapperButton>
-                    <ConfirmButton
+                    <TcConfirmButton
                       onConfirm={onConfirmHandler}
                       burningChamberTemp={burningChamberTempName}
                     />
@@ -302,6 +302,7 @@ const SelectionWrapper = styled.div`
   border-radius: 33px;
   opacity: 1;
   ${flexboxCenter}
+  flex-direction: column;
 `;
 
 const WrapperTitleAndImg = styled.div`

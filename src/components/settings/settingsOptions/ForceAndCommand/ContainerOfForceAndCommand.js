@@ -4,13 +4,26 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSettingsOfEss,
+  setAts,
   setResetAllSettingsButtons,
+  setSettingsCancelButton,
+  setSettingsEditButton,
 } from '../../../../store/slices/settingsOfEssSlice';
 import SystemHeaderForceAndCommand from './SysHeaderForceAndCommand';
-import SelectArts from './selectArts/SelectArts';
+import SelectAts from './selectArts/SelectAts';
 import SelectTc from './selectTc/SelectTc';
 import { selectUserState } from '../../../../store/slices/userSlice';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
+import EditCancelApplyButtons from '../EditCancelApplyButtons';
+import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
+import { useContext } from 'react';
+import { SettingsContext } from '../../../../context/ContextOfSettings';
+import {
+  selectSettingsOfTgsTes,
+  setTesAts,
+  setTgsAts,
+} from '../../../../store/slices/settingsOfTgsTesSlice';
+import ApplyButtonInvisibleDiv from '../editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
 
 function ContainerOfForceAndCommand() {
   // button images of TGS TES ESS SYS
@@ -23,6 +36,7 @@ function ContainerOfForceAndCommand() {
   const tesButton = './images/blueTesButton.svg';
   const tesButtonActive = './images/greenTesButton.svg';
 
+  // the contents of select ATS of GP and EBP of Ess, Tgs and Tes
   const essGpEbp = [
     'block and do not allow ess to operate when on ebp-emergency backup power',
     'reactivates ess when powered by ebp emergency backup power',
@@ -37,14 +51,33 @@ function ContainerOfForceAndCommand() {
     'block and do not allow tgs to operate when on ebp emergency backup power',
   ];
 
+  // the names of 3 main buttons to make changes
+  const buttonsName = ['edit', 'cancel', 'apply'];
+
   // redux
   const dispatch = useDispatch();
   const stateOfEssTgs = useSelector(selectUserState);
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+  const state = useSelector(selectSettingsOfEss);
   const essSwitch = stateOfEssTgs.isEssSwitch;
   const tesSwitch = stateOfEssTgs.isTesSwitch;
-  const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
+  const settingsApplyButton = state.buttonsOfSettings.settingsApplyButton;
+  // states for select ATS
+  const atsEssState = state.selectAtsState;
+  const atsTesState = tgsTesState.allSelects.selectAtsTesState;
+  const atsTgsState = tgsTesState.allSelects.selectAtsTgsState;
+
+  // useContext
+  const {
+    essAtsState,
+    setEssAtsState,
+    tgsAtsState,
+    setTgsAtsState,
+    tesAtsState,
+    setTesAtsState,
+  } = useContext(SettingsContext);
 
   // State buttons of Sys, Ess, Tgs and Tes
   const [toggleSysButtonColor, setToggleSysButtonColor] =
@@ -52,8 +85,17 @@ function ContainerOfForceAndCommand() {
   const [toggleEssButtonColor, setToggleEssButtonColor] = useState(essButton);
   const [toggleTgsButtonColor, setToggleTgsButtonColor] = useState(tgsButton);
   const [toggleTesButtonColor, setToggleTesButtonColor] = useState(tesButton);
-  // expand and close states
 
+  // states for messageBox
+  const [messageBox, setMessageBox] = useState(false);
+  const [messageBoxContent, setMessageBoxContent] = useState({});
+
+  // state handling the color of ats confirm button
+  const [essAtsConfirmButton, setEssAtsConfirmButton] = useState(false);
+  const [tgsAtsConfirmButton, setTgsAtsConfirmButton] = useState(false);
+  const [tesAtsConfirmButton, setTesAtsConfirmButton] = useState(false);
+
+  // expand and close states
   const [options, setOptions] = useState('');
 
   const essHeaders = [
@@ -87,6 +129,9 @@ function ContainerOfForceAndCommand() {
 
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
+    setEssAtsState(atsEssState);
+    setTgsAtsState(atsTgsState);
+    setTesAtsState(atsTesState);
   }, []);
 
   useEffect(() => {
@@ -150,9 +195,213 @@ function ContainerOfForceAndCommand() {
     }
   }, [options]);
 
+  // handles Ess dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleEssDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+          dispatch(setAts(essAtsState));
+          setEssAtsConfirmButton(false);
+        }
+        setMessageBox(true);
+        handleEssMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles Ess: Sys dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleEssSysDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        // if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+        //   dispatch(setAts(essAtsState));
+        // }
+        setMessageBox(true);
+        handleEssMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles the Tgs dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleTgsDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        if (tgsAtsConfirmButton && !isNaN(+tgsAtsState)) {
+          dispatch(setTgsAts(tgsAtsState));
+          setTgsAtsConfirmButton(false);
+        }
+        setMessageBox(true);
+        handleTgsMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles the Tes dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleTesDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        if (tesAtsConfirmButton && !isNaN(+atsTesState)) {
+          dispatch(setTesAts(tesAtsState));
+          setTesAtsConfirmButton(false);
+        }
+        setMessageBox(true);
+        handleTesMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles the Tgs Tes Sys dispatch once pressed on Apply button, Edit button or Cancel button
+
+  const handleTgsTesSysDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        // if (forceGasElectric) {
+        //   dispatch(setForceGasAndElectricSystem(forceGasElectric));
+        // }
+        // if (sysIdentification) {
+        //   dispatch(handleAdditionalSystemIdentification(inputData));
+        // }
+        // if (sysConfiguration) {
+        //   dispatch(handleTesSwitch(savedSelection));
+        // }
+        setMessageBox(true);
+        handleTgsTesSysMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // this variable is usd in the 5 functions below
+  const messageDescription = 'settings have been applied';
+  const noModification = 'no modifications done';
+  // force & commands : Ess :  message box shows what was changed
+  const handleEssMessageBox = () => {
+    const titleSelectAts = 'select ats';
+    if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+      setMessageBoxContent({
+        title: [titleSelectAts],
+        content: messageDescription,
+      });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
+    }
+    return;
+  };
+
+  // force & commands : Ess : Sys: message box shows what was changed
+  const handleEssSysMessageBox = () => {
+    const titleSelectTc = 'select t/c telemetry';
+    if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+      setMessageBoxContent({
+        title: [titleSelectTc],
+        content: messageDescription,
+      });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
+    }
+    return;
+  };
+
+  // force & commands : Tgs : message box shows what was changed
+  const handleTgsMessageBox = () => {
+    const titleSelectAts = 'select ats';
+    if (tgsAtsConfirmButton && !isNaN(+tgsAtsState)) {
+      setMessageBoxContent({
+        title: [titleSelectAts],
+        content: messageDescription,
+      });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
+    }
+    return;
+  };
+
+  // force & commands : Tes : message box shows what was changed
+  const handleTesMessageBox = () => {
+    const titleSelectAts = 'select ats';
+    if (tesAtsConfirmButton && !isNaN(+atsTesState)) {
+      setMessageBoxContent({
+        title: [titleSelectAts],
+        content: messageDescription,
+      });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
+    }
+    return;
+  };
+
+  // force & commands : sys : message box shows what was changed
+  const handleTgsTesSysMessageBox = () => {
+    //   const titleSelectAts = 'select ats';
+    // if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+    //   setMessageBoxContent({
+    //     title: [titleSelectAts],
+    //     content: messageDescription,
+    //   });
+    // }
+    // else {
+    //   setMessageBoxContent({ title: [noModification], content: '' });
+    // }
+    // return;
+  };
+
+  const handleCloseMessageBox = () => {
+    setMessageBox(false);
+    setOptions('');
+    return;
+  };
+
   return (
     <Wrapper>
-      {/* {!settingsEditButton && <InvisibleDivForEditButton />} */}
       <Wrapper2>
         <Wrapper3>
           {essSwitch
@@ -163,7 +412,13 @@ function ContainerOfForceAndCommand() {
                       changeBorder0={options === index && index === 0}
                       changeBorder1={options === index && index === 1}
                     >
+                      {/* Ess and Sys headers */}
                       <Wrapper6>
+                        {settingsApplyButton && (
+                          <WrapperApplyButton>
+                            <ApplyButtonInvisibleDiv />
+                          </WrapperApplyButton>
+                        )}
                         <SystemHeaderForceAndCommand
                           name={value.title}
                           toggleButtonColor={value.button}
@@ -173,31 +428,64 @@ function ContainerOfForceAndCommand() {
                           essSwitch={essSwitch}
                         />
                       </Wrapper6>
+                      {/* Ess contents */}
                       {options === index && index === 0 && (
                         <NewWrapper>
-                          {/* <WrapperSelectTcSelect> */}
                           <FlexWrapper>
-                            <SelectArts
+                            {!settingsEditButton && (
+                              <InvisibleDivForEditButton height={'234px'} />
+                            )}
+                            <SelectAts
                               propIndex={index}
                               essSwitch={essSwitch}
                               essGpEbp={essGpEbp}
-                              tesGpEbp={tesGpEbp}
-                              tgsGpEbp={tgsGpEbp}
+                              buttonColor={essAtsConfirmButton}
+                              setButtonColor={setEssAtsConfirmButton}
+                              editState={settingsEditButton}
+                              atsState={essAtsState}
+                              setAtsState={setEssAtsState}
                             />
                           </FlexWrapper>
-                          {/* </WrapperSelectTcSelect> */}
+
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleEssDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
+                          {messageBox && (
+                            <SettingAppliedMessage
+                              title={'change options'}
+                              message={messageBoxContent}
+                              onClose={handleCloseMessageBox}
+                            />
+                          )}
                         </NewWrapper>
                       )}
-
+                      {/* Ess: Sys contents */}
                       {options === index && index === 1 && (
                         <NewWrapper>
-                          {/* <WrapperSelectTcSelect> */}
+                          {!settingsEditButton && (
+                            <InvisibleDivForEditButton height={'192px'} />
+                          )}
                           <SelectTc
                             ess={'ess'}
                             tgs={['tgs', 'tes']}
                             essSwitch={essSwitch}
                           />
-                          {/* </WrapperSelectTcSelect> */}
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleEssDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
+                          {messageBox && (
+                            <SettingAppliedMessage
+                              title={'change options'}
+                              message={messageBoxContent}
+                              onClose={handleCloseMessageBox}
+                            />
+                          )}
                         </NewWrapper>
                       )}
                     </WrapperEss5>
@@ -212,7 +500,13 @@ function ContainerOfForceAndCommand() {
                       changeBorder1={options === index && index === 1}
                       changeBorder2={options === index && index === 2}
                     >
+                      {/* Tgs, Tes and Sys headers */}
                       <Wrapper6>
+                        {settingsApplyButton && (
+                          <WrapperApplyButton>
+                            <ApplyButtonInvisibleDiv />
+                          </WrapperApplyButton>
+                        )}
                         <SystemHeaderForceAndCommand
                           name={value.title}
                           toggleButtonColor={value.button}
@@ -223,54 +517,103 @@ function ContainerOfForceAndCommand() {
                           essSwitch={essSwitch}
                         />
                       </Wrapper6>
+                      {/* Tgs contents */}
                       {options === index && index === 0 && (
                         <NewWrapper1>
                           <NewWrapper>
-                            {/* <WrapperSelectTcSelect> */}
                             <FlexWrapper>
-                              <SelectArts
+                              {!settingsEditButton && (
+                                <InvisibleDivForEditButton height={'230px'} />
+                              )}
+                              <SelectAts
                                 propIndex={index}
                                 essSwitch={essSwitch}
                                 tgsGpEbp={tgsGpEbp}
-                                essGpEbp={essGpEbp}
-                                tesGpEbp={tesGpEbp}
+                                buttonColor={tgsAtsConfirmButton}
+                                setButtonColor={setTgsAtsConfirmButton}
+                                editState={settingsEditButton}
+                                atsState={tgsAtsState}
+                                setAtsState={setTgsAtsState}
                               />
                             </FlexWrapper>
-                            {/* </WrapperSelectTcSelect> */}
+                            <WrapperButtons>
+                              <EditCancelApplyButtons
+                                handleClick={handleTgsDispatches}
+                                buttonsName={buttonsName}
+                              />
+                            </WrapperButtons>
+                            {messageBox && (
+                              <SettingAppliedMessage
+                                title={'change options'}
+                                message={messageBoxContent}
+                                onClose={handleCloseMessageBox}
+                              />
+                            )}
                           </NewWrapper>
                         </NewWrapper1>
                       )}
-
+                      {/* Tes contents */}
                       {tesSwitch && options === index && index === 1 && (
                         <NewWrapper1>
                           <NewWrapper>
-                            {/* <WrapperSelectTcSelect> */}
                             <FlexWrapper>
-                              <SelectArts
+                              {!settingsEditButton && (
+                                <InvisibleDivForEditButton height={'284px'} />
+                              )}
+                              <SelectAts
                                 propIndex={index}
                                 essSwitch={essSwitch}
-                                tgsGpEbp={tgsGpEbp}
-                                essGpEbp={essGpEbp}
+                                buttonColor={tesAtsConfirmButton}
+                                setButtonColor={setTesAtsConfirmButton}
+                                editState={settingsEditButton}
+                                atsState={tesAtsState}
+                                setAtsState={setTesAtsState}
                                 tesGpEbp={tesGpEbp}
                               />
                             </FlexWrapper>
-                            {/* </WrapperSelectTcSelect> */}
+                            <WrapperButtons>
+                              <EditCancelApplyButtons
+                                handleClick={handleTesDispatches}
+                                buttonsName={buttonsName}
+                              />
+                            </WrapperButtons>
+                            {messageBox && (
+                              <SettingAppliedMessage
+                                title={'change options'}
+                                message={messageBoxContent}
+                                onClose={handleCloseMessageBox}
+                              />
+                            )}
                           </NewWrapper>
                         </NewWrapper1>
                       )}
-
+                      {/* Tgs and Tes: Sys Contents */}
                       {options === index && index === 2 && (
                         <NewWrapper1
                           changeBorder2={options === index && index === 2}
                         >
                           <NewWrapper>
-                            {/* <WrapperSelectTcSelect> */}
+                            {!settingsEditButton && (
+                              <InvisibleDivForEditButton height={'284px'} />
+                            )}
                             <SelectTc
                               tgs={['tgs', 'tes']}
                               ess={'ess'}
                               essSwitch={essSwitch}
                             />
-                            {/* </WrapperSelectTcSelect> */}
+                            <WrapperButtons>
+                              <EditCancelApplyButtons
+                                handleClick={handleTgsDispatches}
+                                buttonsName={buttonsName}
+                              />
+                            </WrapperButtons>
+                            {messageBox && (
+                              <SettingAppliedMessage
+                                title={'change options'}
+                                message={messageBoxContent}
+                                onClose={handleCloseMessageBox}
+                              />
+                            )}
                           </NewWrapper>
                         </NewWrapper1>
                       )}
@@ -393,6 +736,12 @@ const Wrapper6 = styled.div`
   border-radius: 16px;
 `;
 
+const WrapperApplyButton = styled.div`
+  width: 558px;
+  height: 48px;
+  position: absolute;
+`;
+
 const NewWrapper1 = styled.div`
   width: 556px;
   height: auto;
@@ -430,8 +779,18 @@ const NewWrapper = styled.div`
   border: none;
   opacity: 1;
   ${flexboxCenter}
-  flex-direction:row;
+  flex-direction:column;
   align-items: flex-start;
+`;
+
+const WrapperButtons = styled.div`
+  width: 578px;
+  height: auto;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const WrapperSelectTcSelect = styled.div`

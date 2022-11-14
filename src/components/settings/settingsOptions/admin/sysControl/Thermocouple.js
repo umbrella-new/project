@@ -1,9 +1,13 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 
-function Thermocouple({ handleLeftSwitch, toggleLeftEnableDisable }) {
+function Thermocouple({
+  handleLeftSwitch,
+  toggleLeftEnableDisable,
+  changeButtonColor,
+}) {
   // redux
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
@@ -21,13 +25,22 @@ function Thermocouple({ handleLeftSwitch, toggleLeftEnableDisable }) {
             </Title>
           </WrapperSubTitle>
         </NoThermocoupleWrapper>
-        <ImageWrapper
+        {/* <ImageWrapper> */}
+        <WrapperButton
           onClick={() => {
             editState && handleLeftSwitch();
           }}
+          borderColor={editState}
+          color={changeButtonColor}
         >
-          <Img src={toggleLeftEnableDisable} />
-        </ImageWrapper>
+          <ButtonHole>
+            <ButtonTop color={changeButtonColor}>
+              <ButtonName>{changeButtonColor ? 'applied' : 'apply'}</ButtonName>
+            </ButtonTop>
+          </ButtonHole>
+        </WrapperButton>
+        {/* <Img src={toggleLeftEnableDisable} /> */}
+        {/* </ImageWrapper> */}
       </WrapperLeftSwitch2>
     </WrapperLeftSwitch>
   );
@@ -99,12 +112,100 @@ const WrapperSubTitle = styled.div`
   height: 29px;
 `;
 
-const ImageWrapper = styled.div`
-  width: 124px;
-  height: 28px;
+// const ImageWrapper = styled.div`
+//   width: 124px;
+//   height: 28px;
+// `;
+
+// const Img = styled.img`
+//   width: 100%;
+//   height: 100%;
+// `;
+
+const WrapperButton = styled.button`
+  cursor: pointer;
+  height: 35px;
+  width: 119px;
+  border-radius: 25px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(0, 0, 0);
+  border-radius: 37px;
+  background-image: -webkit-linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  );
+  ${({ color }) =>
+    color &&
+    css`
+      background: transparent linear-gradient(180deg, #1e7fc1 0%, #001640 100%);
+    `};
+  opacity: 1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  border: ${({ borderColor, index }) =>
+    borderColor && index === 0 ? '1.5px solid #95ff45' : 'none'};
+  ${flexboxCenter};
+`;
+const ButtonHole = styled.div`
+  width: 111px;
+  height: 27px;
+
+  border-radius: 20px;
+
+  background: #233a54;
+  border-color: #707070;
+  box-shadow: inset 0 0 6px #000000;
+  opacity: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
+const ButtonTop = styled.div`
+  width: 109px;
+  height: 25px;
+  margin-bottom: 0.5px;
+  border-radius: 25px;
+
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(0, 0, 0);
+
+  background-image: -webkit-linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgb(35, 58, 84) 100%
+  );
+  ${({ color }) =>
+    color &&
+    css`
+      background: transparent linear-gradient(180deg, #1e7fc1 0%, #001640 100%);
+    `};
+  opacity: 1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonName = styled.span`
+  height: 12px;
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+  color: #ffffff;
+  opacity: 1;
 `;

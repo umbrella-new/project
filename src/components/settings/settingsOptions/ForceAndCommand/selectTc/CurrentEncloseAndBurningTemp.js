@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import RadioBox from '../RadioBox';
-import ConfirmButton from '../ConfirmButton';
+import TcConfirmButton from '../TcConfirmButton';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 
@@ -141,7 +141,7 @@ function CurrentEncloseAndBurningTemp({
                       ))}
                     </SelectWrapper>
                     <WrapperButton>
-                      <ConfirmButton
+                      <TcConfirmButton
                         onConfirm={onConfirmHandler}
                         essHeaterTemp={essHeaterTempName}
                         tgsHeaterTemp={tgsHeaterTempName}
@@ -165,7 +165,7 @@ function CurrentEncloseAndBurningTemp({
                       ))}
                     </SelectWrapper>
                     <WrapperButton>
-                      <ConfirmButton
+                      <TcConfirmButton
                         onConfirm={onConfirmHandler}
                         essEncloseTemp={essEncloseTempName}
                         tesHeaterTemp={tesHeaterTempName}
@@ -188,7 +188,7 @@ function CurrentEncloseAndBurningTemp({
                       ))}
                     </SelectWrapper>
                     <WrapperButton>
-                      <ConfirmButton
+                      <TcConfirmButton
                         onConfirm={onConfirmHandler}
                         tgsTesEncloseTemp={tgsTesEncloseTempName}
                       />
@@ -307,6 +307,18 @@ const SelectionWrapper = styled.div`
   border: 0.5px solid #000000;
   border-radius: 33px;
   opacity: 1;
+  ${({ index }) =>
+    index === 0
+      ? css`
+          z-index: 23;
+        `
+      : index === 1
+      ? css`
+          z-index: 21;
+        `
+      : css`
+          z-index: 22;
+        `}
   ${flexboxCenter}
   justify-content: space-around;
   flex-direction: column;

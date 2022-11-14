@@ -30,13 +30,14 @@ const AddElementToBank = () => {
   // const [inputElement, setInputElement] = useState(initialInputState);
 
   // useContext
-  const { inputElement, setInputElement } = useContext(SettingsContext);
+  const { inputElement, setInputElement, setSaveButtonColor, saveButtonColor } =
+    useContext(SettingsContext);
 
   // useState
   const [activateKeyboard, setActivateKeyboard] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState('name');
-  const [buttonColor, setButtonColor] = useState(false);
+
   const [messageBoxForBankInputs, setMessageBoxForBankInput] = useState(false);
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -67,7 +68,7 @@ const AddElementToBank = () => {
       return setMessageBoxForBankInput(true);
     } else if (inputElement.wattage === null) {
       return setMessageBoxForBankInput(true);
-    } else setButtonColor(true);
+    } else setSaveButtonColor(true);
     // if (unitsMeasurement) {
     // const copyObj = { ...inputElement };
     // do unit application later
@@ -79,7 +80,6 @@ const AddElementToBank = () => {
   };
 
   const handleMessageBox = () => {
-    console.log('hello');
     setMessageBoxForBankInput(false);
   };
 
@@ -265,9 +265,9 @@ const AddElementToBank = () => {
 
           <SectionWrapper>
             <ButtonWrapper onClick={handleSave}>
-              <ButtonInnerWrapper color={buttonColor}>
+              <ButtonInnerWrapper color={saveButtonColor}>
                 <ButtonHole>
-                  <ButtonTop color={buttonColor}>
+                  <ButtonTop color={saveButtonColor}>
                     <Span>{'save'}</Span>
                   </ButtonTop>
                 </ButtonHole>
