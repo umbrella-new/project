@@ -22,10 +22,23 @@ const SettingsProvider = ({ children }) => {
   const [tgsSnowSensor, setTgsSnowSensor] = useState();
   const [tesSnowSensor, setTesSnowSensor] = useState();
 
-  // admin: sys: system configuration save button state
+  // force & commands: Ess: Ats
+  const [essAtsState, setEssAtsState] = useState(null);
 
+  // force & commands: sys:
+
+  // force & commands: Tgs: Ats
+  const [tgsAtsState, setTgsAtsState] = useState(null);
+
+  // force & commands: Tes: Ats
+  const [tesAtsState, setTesAtsState] = useState(null);
+
+  // admin: sys: system configuration save button state
   const [sysConfiguration, setSysConfiguration] = useState(false);
   const [savedSelection, SetSavedSelection] = useState(null);
+
+  // admin: tgs: gas type
+  const [gasTypeButtonColor, setGasTypeButtonColor] = useState(false);
 
   // admin: tgs: valve settings
   const valveStates = { first: '', second: '', third: '' };
@@ -45,6 +58,16 @@ const SettingsProvider = ({ children }) => {
     lengths: null,
   };
   const [inputElement, setInputElement] = useState(initialInputState);
+
+  // admin: Tgs : valve settings
+  const [valveButtonColor, setValveButtonColor] = useState(false);
+
+  // admin : tes : thermocouple
+  // const [tesThermocoupleButtonColor, setTEsThermocoupleButtonColor] =
+  //   useState(false);
+
+  // admin : tes :add element to bank
+  const [saveButtonColor, setSaveButtonColor] = useState(false);
 
   // admin: sys : system Identification
   const initialSysInputState = {
@@ -114,6 +137,18 @@ const SettingsProvider = ({ children }) => {
         setInputData,
         savedSelection,
         SetSavedSelection,
+        saveButtonColor,
+        setSaveButtonColor,
+        valveButtonColor,
+        setValveButtonColor,
+        gasTypeButtonColor,
+        setGasTypeButtonColor,
+        essAtsState,
+        setEssAtsState,
+        tgsAtsState,
+        setTgsAtsState,
+        tesAtsState,
+        setTesAtsState,
       }}
     >
       {children}

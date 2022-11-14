@@ -51,6 +51,7 @@ const Label = styled.span`
   width: 70%;
   letter-spacing: 0.8px;
   /* border: 1px solid red; */
+  z-index: 100;
 `;
 const OptionChecker = styled.div`
   ${flexboxCenter}
@@ -59,10 +60,12 @@ const OptionChecker = styled.div`
   width: 14px;
   border: 1px solid #95ff45;
   border-radius: 50%;
+  z-index: 100;
 `;
 const CheckedCircle = styled.div`
   border-radius: 50%;
   height: 6px;
   width: 6px;
   background-color: ${(p) => (p.checked ? '#95ff45' : 'none')};
+  z-index: 100;
 `;

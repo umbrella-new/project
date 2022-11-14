@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectUserState } from '../../../../store/slices/userSlice';
-function ConfirmButton({
+function TcConfirmButton({
   onConfirm,
   essOutsideTemp,
   essEncloseTemp,
@@ -58,7 +58,7 @@ function ConfirmButton({
   );
 }
 
-export default ConfirmButton;
+export default TcConfirmButton;
 
 const Wrapper = styled.div`
   width: 85px;

@@ -1,11 +1,12 @@
 import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import ValveConfirmButton from './ValveConfirmButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { setValveInputs } from '../../../../../store/slices/settingsOfTgsTesSlice';
 import InputKeyPad from '../../../../keyboard/InputKeyPad';
+import { SettingsContext } from '../../../../../context/ContextOfSettings';
 
 function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const data = [
@@ -14,7 +15,9 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
     { title: 'max position:' },
   ];
 
-  const [buttonColor, setButtonColor] = useState(false);
+  const { valveButtonColor, setValveButtonColor } = useContext(SettingsContext);
+
+  // const [valveButtonColor, setValveButtonColor] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState(null);
   const [options, setOptions] = useState('');
@@ -57,7 +60,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return setButtonColor(true);
+    return setValveButtonColor(true);
   };
 
   const handleDisplayKeyPad = (index) => {
@@ -126,7 +129,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                   <WrapperButton>
                     <ValveConfirmButton
                       type='submit'
-                      buttonColor={buttonColor}
+                      buttonColor={valveButtonColor}
                     />
                   </WrapperButton>
                 </Form>

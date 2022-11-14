@@ -3,7 +3,11 @@ import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 
-function Thermocouple({ handleLeftSwitch, toggleLeftEnableDisable }) {
+function Thermocouple({
+  handleLeftSwitch,
+  toggleLeftEnableDisable,
+  changeButtonColor,
+}) {
   // redux
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
@@ -27,10 +31,11 @@ function Thermocouple({ handleLeftSwitch, toggleLeftEnableDisable }) {
             editState && handleLeftSwitch();
           }}
           borderColor={editState}
+          color={changeButtonColor}
         >
           <ButtonHole>
-            <ButtonTop>
-              <ButtonName>{'apply'}</ButtonName>
+            <ButtonTop color={changeButtonColor}>
+              <ButtonName>{changeButtonColor ? 'applied' : 'apply'}</ButtonName>
             </ButtonTop>
           </ButtonHole>
         </WrapperButton>

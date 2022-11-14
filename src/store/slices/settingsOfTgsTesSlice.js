@@ -27,6 +27,11 @@ const initialState = {
   valveInputs: { start: null, min: null, max: null },
   gasType: null,
   thermocouple: null,
+  allSelects: {
+    selectAtsTgsState: null,
+    selectAtsTesState: null,
+    selectTcSysState: null,
+  },
 };
 
 export const settingsOfTgsTesSlice = createSlice({
@@ -46,7 +51,6 @@ export const settingsOfTgsTesSlice = createSlice({
       state.windFactorTemp.extreme = action.payload.extremeWind;
     },
     setTgsTesSettingsApplySnowSensorButton: (state, action) => {
-      console.log('action.payload', action.payload);
       state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
       state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
     },
@@ -82,7 +86,13 @@ export const settingsOfTgsTesSlice = createSlice({
     setThermocouple: (state, action) => {
       state.thermocouple = action.payload;
     },
-    setAddElementToBank: (state, action) => {},
+    setTgsAts: (state, action) => {
+      console.log('tgs ats', action.payload);
+      state.allSelects.selectAtsTgsState = action.payload;
+    },
+    setTesAts: (state, action) => {
+      state.allSelects.selectAtsTesState = action.payload;
+    },
   },
 });
 
@@ -99,7 +109,8 @@ export const {
   setTgsTesSettingsApplyWindFactor,
   setGasType,
   setThermocouple,
-  setAddElementToBank,
+  setTgsAts,
+  setTesAts,
 } = settingsOfTgsTesSlice.actions;
 export const selectSettingsOfTgsTes = (state) => state.settingsOfTgsTes;
 export default settingsOfTgsTesSlice;
