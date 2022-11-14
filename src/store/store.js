@@ -1,18 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
-import heaterStatusSlice from './slices/heaterStatusSlice';
-import essSwitchSlice from './slices/essSwitchSlice';
-import userSlice from './slices/userSlice';
-import tgsSwitchSlice from './slices/tgsSwitchSlice';
-import settingsOfEssSlice from './slices/settingsOfEssSlice';
-import chartSlice from './slices/chartSlice';
-import faultsSlice from './slices/faultsSlice';
-import forceAndCommandStatusSlice from './slices/forceAndCommandSlice';
-import ssrDescriptionSlice from './slices/ssrDescriptionSlice';
-import unitsSlice from './slices/unitsSlice';
-import settingsOfTgsTesSlice from './slices/settingsOfTgsTesSlice';
-import settingsOfTgsSlice from './slices/settingsOfTgsSlice';
-import settingsSystemIdentificationSlice from './slices/settingSystemIdentificationSlice';
-import settingsOfSysSlice from './slices/settingsOfSysSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import heaterStatusSlice from "./slices/heaterStatusSlice";
+import essSwitchSlice from "./slices/essSwitchSlice";
+import userSlice from "./slices/userSlice";
+import tgsSwitchSlice from "./slices/tgsSwitchSlice";
+import settingsOfEssSlice from "./slices/settingsOfEssSlice";
+import chartSlice from "./slices/chartSlice";
+import faultsSlice from "./slices/faultsSlice";
+import forceAndCommandStatusSlice from "./slices/forceAndCommandSlice";
+import ssrDescriptionSlice from "./slices/ssrDescriptionSlice";
+import unitsSlice from "./slices/unitsSlice";
+import settingsOfTgsTesSlice from "./slices/settingsOfTgsTesSlice";
+import settingsOfTgsSlice from "./slices/settingsOfTgsSlice";
+import settingsSystemIdentificationSlice from "./slices/settingSystemIdentificationSlice";
+import settingsOfSysSlice from "./slices/settingsOfSysSlice";
+import timerSlice from "./slices/timerSlice";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     settingsOfTgs: settingsOfTgsSlice.reducer,
     systemIdentification: settingsSystemIdentificationSlice.reducer,
     settingsOfSys: settingsOfSysSlice.reducer,
+    timer: timerSlice.reducer,
   },
 });
 

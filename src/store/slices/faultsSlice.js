@@ -1,30 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   faults: true,
   ess: {
     // from the backend
     faultsTypes: [
-      'GROUND FAULT',
-      'SSR FAULT',
-      'THERMOCOUPLE FAILURE',
-      'SSR LOAD EXCEED',
+      "GROUND FAULT",
+      "SSR FAULT",
+      "THERMOCOUPLE FAILURE",
+      "SSR LOAD EXCEED",
     ],
     message: [
-      'GROUND FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
-      'SSR FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
-      'THERMOCOUPLE FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
-      'SSR LOAD EXCEED - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      "GROUND FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
+      "SSR FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
+      "THERMOCOUPLE FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
+      "SSR LOAD EXCEED - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
     ],
     comments: [],
     forceOptions: [
-      'max heat',
-      'max heat for 12 hours',
-      'change and replace t/c',
+      "max heat for 3 days",
+      "max heat for 12 hours",
+      "change and replace t/c",
     ],
-    maxHeatFor12hrsTimer: false,
+
+    maxHeatWithTimer: false,
+    setTime: null,
+    displayForce: false,
+    // 1. maxheat for 72hrs / 2. maxheat for 12hrs / 3. systme off
     selectedForce: null,
 
+    // for button stylings
     isForceButtonClicked: false,
     isForceButtonActivated: false,
     displayForceSelectionBox: false,
@@ -32,10 +37,11 @@ const initialState = {
     resetCounter: 3,
     activatedResetButton: { faultsIdx: null, status: false },
     attendButtonClicked: { faultsIdx: null, status: false },
+    // storage for written action taken
     actionTaken: [],
   },
   tgs: {
-    faultsTypes: ['TIMEOUT FAULT', 'HP/LP FAULT', 'BMS FAULT'],
+    faultsTypes: ["TIMEOUT FAULT", "HP/LP FAULT", "BMS FAULT"],
     message: [
       // 'TIMEOUT FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
       // 'HP/LP FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
@@ -49,22 +55,39 @@ const initialState = {
 };
 
 const faultsSlice = createSlice({
-  name: 'faultsState',
+  name: "faultsState",
   initialState,
   reducers: {
     handleForceSelection: (state, action) => {
+      // Grap the selected force option
       state.ess.selectedForce = action.payload;
     },
-    handleTimerOn: (state) => {
-      state.ess.maxHeatFor12hrsTimer = true;
+
+    handleMaxHeatWithTimerOn: (state, action) => {
+      // set selected force option
+      state.ess.selectedForce = action.payload;
+      // display force selection working box in switch
+      state.ess.displayForce = true;
+      // for Styling
       state.ess.isForceButtonActivated = true;
     },
-    handleTimerOff: (state) => {
-      state.ess.maxHeatFor12hrsTimer = false;
+    handleMaxHeatWithTimerOff: (state) => {
+      // turn off timer
+      state.ess.maxHeatWithTimer = false;
+      // no show the force selection working box
+      state.ess.displayForce = false;
+      // Stop the Timer
+      // turn off the heater!!
     },
+    handleDisplayForceStatusBox: (state, action) => {
+      // display force selection working box
+      state.displayForce = action.payload;
+    },
+
     handleForceButtonClick: (state, action) => {
       state.ess.isForceButtonClicked = action.payload;
     },
+
     handleDisplayForceMessageBox: (state, action) => {
       state.ess.displayForceMessageBox = action.payload;
     },
@@ -129,8 +152,8 @@ export default faultsSlice;
 export const selectFaults = (state) => state.faultsState;
 export const {
   handleForceSelection,
-  handleTimerOn,
-  handleTimerOff,
+  handleMaxHeatWithTimerOn,
+  handleMaxHeatWithTimerOff,
   handleDisplayForceSelectionBox,
   handleDisplayForceMessageBox,
   handleForceButtonClick,
@@ -140,4 +163,5 @@ export const {
   handleEsAttendButtonClick,
   handleGsAttendButtonClick,
   handleEsRecordActionTaken,
+  handleDisplayForceStatusBox,
 } = faultsSlice.actions;
