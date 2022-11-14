@@ -11,13 +11,18 @@ function ContainerSelectGasType() {
   const gasType = ['lp-propane', 'ng-natural gas'];
 
   // useContext
-  const { setActiveSelect, gasSelection, setGasSelection } =
-    useContext(SettingsContext);
+  const {
+    setActiveSelect,
+    gasSelection,
+    setGasSelection,
+    gasTypeButtonColor,
+    setGasTypeButtonColor,
+  } = useContext(SettingsContext);
 
   // states
   // const [gasSelection, setGasSelection] = useState(0);
   // const [activeSelect, setActiveSelect] = useState(null);
-  const [buttonColor, setButtonColor] = useState(false);
+  // const [gasTypeButtonColor, setGasTypeButtonColor] = useState(false);
 
   useEffect(() => {}, []);
 
@@ -31,7 +36,7 @@ function ContainerSelectGasType() {
   // };
 
   const handleButton = () => {
-    setButtonColor(true);
+    setGasTypeButtonColor(true);
     if (gasSelection === 1) {
       setActiveSelect(true);
     } else {
@@ -54,7 +59,7 @@ function ContainerSelectGasType() {
         <WrapperButton>
           <GasTypeConfirmButton
             handleButton={handleButton}
-            buttonColor={buttonColor}
+            buttonColor={gasTypeButtonColor}
           />
         </WrapperButton>
       </Wrapper2>

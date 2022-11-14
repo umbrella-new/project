@@ -37,6 +37,7 @@ import { setForceGasAndElectricSystem } from '../../../../store/slices/settingsO
 import { handleAdditionalSystemIdentification } from '../../../../store/slices/settingSystemIdentificationSlice';
 import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
+import ApplyButtonInvisibleDiv from '../editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
 
 function ContainerOfAdmin() {
   // all the buttons for headers. blue and green.
@@ -61,6 +62,7 @@ function ContainerOfAdmin() {
   const tesSwitch = state.isTesSwitch;
   const essState = useSelector(selectSettingsOfEss);
   const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
+  const settingsApplyButton = essState.buttonsOfSettings.settingsApplyButton;
   const mode = essState.interfaceMode;
   const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const gasType = tgsTesState.gasType;
@@ -84,7 +86,9 @@ function ContainerOfAdmin() {
   const [toggleThermocoupleImg, setToggleThermocoupleImg] =
     useState(disableSwitch);
   const [toggleThermocoupleSwitch, setToggleThermocoupleSwitch] =
-    useState(null);
+    useState(false);
+  const [checkPrevThermocoupleState, setCheckPrevThermocoupleState] =
+    useState(false);
   const [toggleEnableDisableSwitch, setToggleEnableDisableSwitch] =
     useState(disableSwitch);
   const [forceGasElectric, setForceGasAndElectric] = useState(false);
@@ -120,6 +124,12 @@ function ContainerOfAdmin() {
     sysIdentification,
     inputData,
     sysConfiguration,
+    saveButtonColor,
+    valveButtonColor,
+    setValveButtonColor,
+    gasTypeButtonColor,
+    setGasTypeButtonColor,
+    setSaveButtonColor,
   } = useContext(SettingsContext);
 
   // useEffect to set the selections to what was selected previously
@@ -128,6 +138,9 @@ function ContainerOfAdmin() {
     setToggleSysButton(sysButtonActive);
     setForceGasAndElectric(false);
     setGasSelection(gasType ? 1 : 0);
+    setValveButtonColor(false);
+    setGasTypeButtonColor(false);
+    setSaveButtonColor(false);
     return function cleanup() {
       dispatch(setAdminAccess(false));
     };
@@ -136,6 +149,56 @@ function ContainerOfAdmin() {
   // set toggle for to close or expand the contents of each system
   const handleSelect = (value) =>
     options !== value ? setOptions(value) : setOptions('');
+
+  // handles Ess dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleEssDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        if (toggleThermocoupleSwitch !== checkPrevThermocoupleState) {
+          setCheckPrevThermocoupleState(!checkPrevThermocoupleState);
+          dispatch(setThermocouple(toggleThermocoupleSwitch));
+        }
+        if (saveButtonColor) {
+          dispatch(handleAddNewElement(inputElement));
+        }
+        setMessageBox(true);
+        handleEssMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles Ess Sys dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleEssSysDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        break;
+      case 2:
+        if (sysIdentification) {
+          dispatch(handleAdditionalSystemIdentification(inputData));
+        }
+        setMessageBox(true);
+        handleEssSysMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
 
   // handles the Tgs dispatch once pressed on Apply button, Edit button or Cancel button
   const handleTgsDispatches = (value) => {
@@ -148,9 +211,15 @@ function ContainerOfAdmin() {
         dispatch(setSettingsCancelButton());
         break;
       case 2:
+        if (gasTypeButtonColor) {
+          dispatch(setGasType(activeSelect));
+        }
+        if (valveButtonColor) {
+          dispatch(setValveInputs(inputValue));
+        }
+        setMessageBox(true);
+        handleTgsMessageBox();
         dispatch(setResetAllSettingsButtons());
-        dispatch(setGasType(activeSelect));
-        dispatch(setValveInputs(inputValue));
         break;
       default:
         return;
@@ -168,8 +237,12 @@ function ContainerOfAdmin() {
         dispatch(setSettingsCancelButton());
         break;
       case 2:
-        dispatch(setThermocouple(toggleThermocoupleSwitch));
-        dispatch(handleAddNewElement(inputElement));
+        if (toggleThermocoupleSwitch) {
+          dispatch(setThermocouple(toggleThermocoupleSwitch));
+        }
+        if (saveButtonColor) {
+          dispatch(handleAddNewElement(inputElement));
+        }
         setMessageBox(true);
         handleTesMessageBox();
         dispatch(setResetAllSettingsButtons());
@@ -179,9 +252,9 @@ function ContainerOfAdmin() {
     }
   };
 
-  // handles the Sys dispatch once pressed on Apply button, Edit button or Cancel button
+  // handles the Tgs Tes Sys dispatch once pressed on Apply button, Edit button or Cancel button
 
-  const handleSysDispatches = (value) => {
+  const handleTgsTesSysDispatches = (value) => {
     const buttonsIndex = Number(value);
     switch (buttonsIndex) {
       case 0:
@@ -268,15 +341,7 @@ function ContainerOfAdmin() {
 
   // thermocouple in tes content
   const handleThermocoupleSwitch = () => {
-    if (toggleThermocoupleImg === enableSwitch) {
-      return (
-        setToggleThermocoupleImg(disableSwitch),
-        setToggleThermocoupleSwitch(false)
-      );
-    } else {
-      setToggleThermocoupleImg(enableSwitch);
-      setToggleThermocoupleSwitch(true);
-    }
+    setToggleThermocoupleSwitch(!toggleThermocoupleSwitch);
   };
 
   // for gas electric in sys content
@@ -286,50 +351,137 @@ function ContainerOfAdmin() {
     } else setToggleEnableDisableSwitch(enableSwitch);
   };
 
+  // this variable is usd in the 5 functions below
+  const messageDescription = 'settings have been applied';
+
+  // admin : Ess : message box shows what was changed
+  const handleEssMessageBox = () => {
+    const titleThermocouple = 'thermocouple';
+    const titleAddElementToBank = 'add element to bank';
+    if (
+      toggleThermocoupleSwitch !== checkPrevThermocoupleState &&
+      saveButtonColor
+    ) {
+      setMessageBoxContent({
+        title: [titleThermocouple, titleAddElementToBank],
+        content: messageDescription,
+      });
+    } else if (toggleThermocoupleSwitch !== checkPrevThermocoupleState) {
+      setMessageBoxContent({
+        title: [titleThermocouple],
+        content: messageDescription,
+      });
+    } else if (saveButtonColor) {
+      setMessageBoxContent({
+        title: [titleAddElementToBank],
+        content: messageDescription,
+      });
+    }
+    return;
+  };
+
+  // admin : Ess : Sys : message box shows what was changed
+  const handleEssSysMessageBox = () => {
+    const titleOfIdentification = 'system identification';
+    if (sysIdentification) {
+      setMessageBoxContent({
+        title: [titleOfIdentification],
+        content: messageDescription,
+      });
+    }
+    return;
+  };
+
+  // admin : Tgs : message box shows what was changed
+  const handleTgsMessageBox = () => {
+    const titleValveSettings = 'valve settings';
+    const titleSelectGasType = 'select gas type';
+    if (gasTypeButtonColor && valveButtonColor) {
+      setMessageBoxContent({
+        title: [titleValveSettings, titleSelectGasType],
+        content: messageDescription,
+      });
+    } else if (gasTypeButtonColor) {
+      setMessageBoxContent({
+        title: [titleSelectGasType],
+        content: messageDescription,
+      });
+    } else if (valveButtonColor) {
+      setMessageBoxContent({
+        title: [titleValveSettings],
+        content: messageDescription,
+      });
+    }
+    return;
+  };
+
   // admin : Tes : message box shows what was changed
-  const handleTesMessageBox = () => {};
+  const handleTesMessageBox = () => {
+    const titleThermocouple = 'thermocouple';
+    const titleAddElementToBank = 'add element to bank';
+    if (
+      toggleThermocoupleSwitch !== checkPrevThermocoupleState &&
+      saveButtonColor
+    ) {
+      setMessageBoxContent({
+        title: [titleThermocouple, titleAddElementToBank],
+        content: messageDescription,
+      });
+    } else if (toggleThermocoupleSwitch !== checkPrevThermocoupleState) {
+      setMessageBoxContent({
+        title: [titleThermocouple],
+        content: messageDescription,
+      });
+    } else if (saveButtonColor) {
+      setMessageBoxContent({
+        title: [titleAddElementToBank],
+        content: messageDescription,
+      });
+    }
+    return;
+  };
 
   // admin : sys : message box shows what was changed
-  const titleOfForce =
-    'force - gas & electric system simultaneously on for 15 minutes';
-  const titleOfConfiguration = 'system configuration';
-  const titleOfIdentification = 'system identification';
-  const adminMessageOfDescription = 'settings has been applied';
+
   const handleSysMessageBox = () => {
+    const titleOfForce =
+      'force - gas & electric system simultaneously on for 15 minutes';
+    const titleOfConfiguration = 'system configuration';
+    const titleOfIdentification = 'system identification';
     if (forceGasElectric && sysIdentification && sysConfiguration) {
       setMessageBoxContent({
         title: [titleOfForce, titleOfConfiguration, titleOfIdentification],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     } else if (forceGasElectric && sysIdentification) {
       setMessageBoxContent({
         title: [titleOfForce, titleOfIdentification],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     } else if (forceGasElectric && sysConfiguration) {
       setMessageBoxContent({
         title: [titleOfForce, titleOfConfiguration],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     } else if (sysIdentification && sysConfiguration) {
       setMessageBoxContent({
         title: [titleOfConfiguration, titleOfIdentification],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     } else if (forceGasElectric) {
       setMessageBoxContent({
         title: [titleOfForce],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     } else if (sysIdentification) {
       setMessageBoxContent({
         title: [titleOfIdentification],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     } else if (sysConfiguration) {
       setMessageBoxContent({
         title: [titleOfConfiguration],
-        content: adminMessageOfDescription,
+        content: messageDescription,
       });
     }
     return;
@@ -358,6 +510,12 @@ function ContainerOfAdmin() {
                         changeBorder2={options === index && index === 2}
                       >
                         <EssWrapper>
+                          {/* invisible div to display message box if the changes done weren't applied */}
+                          {settingsApplyButton && (
+                            <WrapperApplyButton>
+                              <ApplyButtonInvisibleDiv />
+                            </WrapperApplyButton>
+                          )}
                           {/* headers of ess and sys */}
                           <SystemHeader
                             name={value.title}
@@ -374,14 +532,12 @@ function ContainerOfAdmin() {
                         {adminAccess && index === 0 && options === index && (
                           <WrapperThermocoupleEss>
                             {!settingsEditButton && (
-                              <InvisibleDivForEditButton height={esHeight} />
+                              <InvisibleDivForEditButton height={'284px'} />
                             )}
                             <SectionWrapperEss>
                               <WrapperThermocouple2>
                                 <Thermocouple
-                                  toggleLeftEnableDisable={
-                                    toggleThermocoupleImg
-                                  }
+                                  changeButtonColor={toggleThermocoupleSwitch}
                                   handleLeftSwitch={handleThermocoupleSwitch}
                                 />
                               </WrapperThermocouple2>
@@ -392,25 +548,25 @@ function ContainerOfAdmin() {
                             </SectionWrapper>
                             <WrapperButtons>
                               <EditCancelApplyButtons
-                                handleClick={handleTgsDispatches}
+                                handleClick={handleEssDispatches}
                                 buttonsName={buttonsName}
                               />
                             </WrapperButtons>
+                            {messageBox && (
+                              <SettingAppliedMessage
+                                title={'change options'}
+                                message={messageBoxContent}
+                                onClose={handleCloseMessageBox}
+                              />
+                            )}
                           </WrapperThermocoupleEss>
                         )}
                         {/* content of general sys*/}
                         {adminAccess && options === index && index === 1 ? (
                           <Wrapper6>
                             {!settingsEditButton && (
-                              <InvisibleDivForEditButton
-                                height={essSysHeight}
-                              />
+                              <InvisibleDivForEditButton height={'158px'} />
                             )}
-                            <SectionWrapper>
-                              <ControlWrapper>
-                                <Control />
-                              </ControlWrapper>
-                            </SectionWrapper>
 
                             <SectionWrapper>
                               <SystemIdentification />
@@ -418,10 +574,17 @@ function ContainerOfAdmin() {
                             {/* the 3 buttons edit cancel and apply */}
                             <WrapperButtons>
                               <EditCancelApplyButtons
-                                handleClick={handleTgsDispatches}
+                                handleClick={handleEssSysDispatches}
                                 buttonsName={buttonsName}
                               />
                             </WrapperButtons>
+                            {messageBox && (
+                              <SettingAppliedMessage
+                                title={'change options'}
+                                message={messageBoxContent}
+                                onClose={handleCloseMessageBox}
+                              />
+                            )}
                           </Wrapper6>
                         ) : (
                           !adminAccess && (
@@ -444,8 +607,14 @@ function ContainerOfAdmin() {
                       changeBorder1={options === index && index === 1}
                       changeBorder2={options === index && index === 2}
                     >
-                      {/* tgs tes and sys  headers*/}
                       <TgsTesSysWrapper>
+                        {/* invisible div to display message box if the changes done weren't applied */}
+                        {settingsApplyButton && (
+                          <WrapperApplyButton>
+                            <ApplyButtonInvisibleDiv />
+                          </WrapperApplyButton>
+                        )}
+                        {/* tgs tes and sys  headers*/}
                         <SystemHeader
                           handleSelect={handleSelect}
                           name={data.title}
@@ -470,6 +639,13 @@ function ContainerOfAdmin() {
                               buttonsName={buttonsName}
                             />
                           </WrapperButtons>
+                          {messageBox && (
+                            <SettingAppliedMessage
+                              title={'change options'}
+                              message={messageBoxContent}
+                              onClose={handleCloseMessageBox}
+                            />
+                          )}
                         </ValveWrapper>
                       )}
                       {/* tes content */}
@@ -485,9 +661,7 @@ function ContainerOfAdmin() {
                               <SectionWrapperEss>
                                 <WrapperThermocouple2>
                                   <Thermocouple
-                                    toggleLeftEnableDisable={
-                                      toggleThermocoupleImg
-                                    }
+                                    changeButtonColor={toggleThermocoupleSwitch}
                                     handleLeftSwitch={handleThermocoupleSwitch}
                                   />
                                 </WrapperThermocouple2>
@@ -503,6 +677,13 @@ function ContainerOfAdmin() {
                                 buttonsName={buttonsName}
                               />
                             </WrapperButtons>
+                            {messageBox && (
+                              <SettingAppliedMessage
+                                title={'change options'}
+                                message={messageBoxContent}
+                                onClose={handleCloseMessageBox}
+                              />
+                            )}
                           </WrapperThermocouple>
                         )}
                       {!adminAccess && index === 2 && (
@@ -545,13 +726,13 @@ function ContainerOfAdmin() {
                            */}
                           <WrapperButtons>
                             <EditCancelApplyButtons
-                              handleClick={handleSysDispatches}
+                              handleClick={handleTgsTesSysDispatches}
                               buttonsName={buttonsName}
                             />
                           </WrapperButtons>
                           {messageBox && (
                             <SettingAppliedMessage
-                              title={'settings changes'}
+                              title={'change options'}
                               message={messageBoxContent}
                               onClose={handleCloseMessageBox}
                             />
@@ -679,6 +860,12 @@ const EssWrapper = styled.div`
   width: 560px;
   height: 56px;
   padding: 1px;
+`;
+
+const WrapperApplyButton = styled.div`
+  width: 558px;
+  height: 48px;
+  position: absolute;
 `;
 
 const TgsTesSysWrapper = styled.div`

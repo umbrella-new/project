@@ -8,12 +8,10 @@ import {
   selectSettingsOfEss,
   setSettingsEditButton,
   setSettingsCancelButton,
-  setSettingsApplyButton,
   setSettingsApplyUnitsButton,
   setSettingsApplyWindFactorTriggerButton,
   setSettingsApplySnowSensorTriggerButton,
   setSettingsApplyForceCommandButton,
-  setSettingsApplyAdminButton,
   setEditButtonToFalse,
   setCancelButtonToFalse,
   setApplyButtonToFalse,
@@ -128,7 +126,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(
               handleSnowSensorDefaultTemp(
                 metricImperialToggle === 1
@@ -154,7 +151,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 2:
             // todo finalize the ess select arts dispatch
-            dispatch(setSettingsApplyButton());
+
             dispatch(
               setSettingsApplyForceCommandButton({
                 essHeaterTemp,
@@ -176,8 +173,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
-            dispatch(setSettingsApplyAdminButton());
             break;
           default:
             return;
@@ -199,7 +194,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(setSettingsApplyUnitsButton(selectUnitsState));
 
             break;
@@ -231,7 +225,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(
               handleTgsSnowSensorDefaultTemp(
                 metricImperialToggle === 1
@@ -255,7 +248,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(
               setTgsSettingsApplyForceAndCommandButton({
                 tgsTesOutsideTemp,
@@ -279,7 +271,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(handleTesSwitch(savedSelection));
             break;
           default:
@@ -302,7 +293,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(setSettingsApplyUnitsButton(selectUnitsState));
             break;
           default:
@@ -333,7 +323,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(
               handleSnowSensorDefaultTemp(
                 metricImperialToggle === 1
@@ -366,7 +355,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             dispatch(setSettingsCancelButton());
             break;
           case 2:
-            dispatch(setSettingsApplyButton());
             dispatch(
               setTgsTesSettingsApplyForceAndCommandButton({
                 tgsTesOutsideTemp,
@@ -392,7 +380,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             break;
           case 2:
             console.log('savedSelection', savedSelection);
-            dispatch(setSettingsApplyButton());
+
             dispatch(handleTesSwitch(savedSelection));
             break;
           default:

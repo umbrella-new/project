@@ -1,19 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 import Button from './Button';
+import ApplyButtonInvisibleDiv from './editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
 
 function EditCancelApplyButtons({ handleClick, buttonsName }) {
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
   const dispatch = useDispatch();
   const editState = state.buttonsOfSettings.settingsEditButton;
+  const settingsApplyButton = state.buttonsOfSettings.settingsApplyButton;
 
   return (
     <ContainerButtons mode={mode}>
       {buttonsName.map((name, index) => {
         return (
           <div key={index}>
+            {/* {settingsApplyButton && (
+              <WrapperApplyButton index={index}>
+                <ApplyButtonInvisibleDiv />
+              </WrapperApplyButton>
+            )} */}
             <Button
               id={index}
               handleClick={handleClick}
@@ -43,3 +50,8 @@ const ContainerButtons = styled.div`
   justify-content: space-between;
   padding: 0 1px;
 `;
+// const WrapperApplyButton = styled.div`
+//   width: 78px;
+//   height: 35px;
+//   position: absolute;
+// `;

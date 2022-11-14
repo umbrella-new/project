@@ -5,15 +5,25 @@ import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import SelectBox from './SelectBox';
 import SubTitles from './SubTitles';
-import ConfirmButton from '../ConfirmButton';
+import ConfirmButton from '../../ConfirmButton';
 
-function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
+function SelectAts({
+  propIndex,
+  essSwitch,
+  essGpEbp,
+  tesGpEbp,
+  tgsGpEbp,
+  buttonColor,
+  setButtonColor,
+  editState,
+  atsState,
+  setAtsState,
+}) {
   const switchOnImage = './images/greenOnOffSwitch.png';
   const switchOffImage = './images/redOnOffSwitch.png';
 
   // states
   const [switchImage, setSwitchImage] = useState(switchOffImage);
-  const [gpEbpPowering, setGpEbpPowering] = useState(null);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -26,8 +36,12 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
     } else return setSwitchImage(switchOffImage);
   };
 
+  const handleClick = () => {
+    setButtonColor(true);
+  };
+
   const handleToggle = (index) => {
-    if (index !== gpEbpPowering) return setGpEbpPowering(index);
+    if (index !== atsState) return setAtsState(index);
   };
 
   return (
@@ -35,7 +49,7 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
       <Wrapper2>
         <TitleWrapper>
           {/* <TitleWrapper2> */}
-          <Title>select arts</Title>
+          <Title>select ats</Title>
           <GreenConnectionSignal src={'./images/ConnectionSignal.svg'} />
           {/* </TitleWrapper2> */}
         </TitleWrapper>
@@ -46,7 +60,7 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
           <SelectBox
             mode={mode}
             handleToggle={handleToggle}
-            gpEbpPowering={gpEbpPowering}
+            gpEbpPowering={atsState}
             tgsGpEbp={tgsGpEbp}
             tesGpEbp={tesGpEbp}
             essGpEbp={essGpEbp}
@@ -55,14 +69,19 @@ function SelectArts({ propIndex, essSwitch, essGpEbp, tesGpEbp, tgsGpEbp }) {
           />
         </FlexSelections>
         <WrapperButton>
-          <ConfirmButton />
+          <ConfirmButton
+            buttonColor={buttonColor}
+            handleClick={handleClick}
+            name={buttonColor ? 'applied' : 'apply'}
+            editState={editState}
+          />
         </WrapperButton>
       </Wrapper2>
     </Wrapper>
   );
 }
 
-export default SelectArts;
+export default SelectAts;
 
 const Wrapper = styled.div`
   width: 275px;
