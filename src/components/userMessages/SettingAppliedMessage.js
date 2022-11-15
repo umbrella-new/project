@@ -13,12 +13,12 @@ const SettingAppliedMessage = ({ onClose, title, message }) => {
           </HeaderWrapper>
 
           <MessageWrapper>
-            {message.title?.map((value) => {
+            {message.title?.map((value, index) => {
               return (
-                <>
+                <div key={index}>
                   <MessageTitle>{value}</MessageTitle>
                   <MessageDescription>{message.content}</MessageDescription>
-                </>
+                </div>
               );
             })}
           </MessageWrapper>

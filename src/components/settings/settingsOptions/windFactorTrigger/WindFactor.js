@@ -3,9 +3,16 @@ import styled from 'styled-components';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
-function WindFactor({ contents, index, selectedMeasurement }) {
+function WindFactor({
+  contents,
+  index,
+  selectedMeasurement,
+  handleKeypad,
+  setInputFocus,
+}) {
   const { windFactor, setWindFactor } = useContext(SettingsContext);
 
+  // saves the entered data of input fields into useState which is held in useContext
   const handleTemp = (e, index) => {
     e.stopPropagation();
     const value = Number(e.target.value);
@@ -55,6 +62,10 @@ function WindFactor({ contents, index, selectedMeasurement }) {
                   ? windFactor.medWind
                   : windFactor.extremeWind
               }
+              onClick={() => {
+                handleKeypad(index);
+                setInputFocus(index);
+              }}
               onChange={(e) => handleTemp(e, index)}
             ></Input>
             {selectedMeasurement ? '°f' : '°c'}

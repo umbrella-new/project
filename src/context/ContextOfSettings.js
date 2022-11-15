@@ -16,6 +16,8 @@ const SettingsProvider = ({ children }) => {
     highWind: '',
     extremeWind: '',
   });
+  // // wind factor state
+  // const [windInputValue, setWindInputValue] = useState();
 
   // snow sensor state
   const [essSnowSensor, setEssSnowSensor] = useState();
@@ -25,13 +27,14 @@ const SettingsProvider = ({ children }) => {
   // force & commands: Ess: Ats
   const [essAtsState, setEssAtsState] = useState(null);
 
-  // force & commands: sys:
-
   // force & commands: Tgs: Ats
   const [tgsAtsState, setTgsAtsState] = useState(null);
 
   // force & commands: Tes: Ats
   const [tesAtsState, setTesAtsState] = useState(null);
+
+  // force & commands: Ess and Tgs/Tes: Tc Telemetry outside temperature indexOf internet and thermocouple
+  const [temperatureSelection, setTemperatureSelection] = useState('');
 
   // admin: sys: system configuration save button state
   const [sysConfiguration, setSysConfiguration] = useState(false);
@@ -149,6 +152,8 @@ const SettingsProvider = ({ children }) => {
         setTgsAtsState,
         tesAtsState,
         setTesAtsState,
+        temperatureSelection,
+        setTemperatureSelection,
       }}
     >
       {children}

@@ -36,8 +36,6 @@ function CurrentEncloseAndBurningTemp({
   const essHeaterTemp = selectTcState.essHeaterTemp.select;
   const essEncloseTemp = selectTcState.essEncloseTemp.select;
 
-  // console.log('tgsTesEncloseTemp', tgsTesEncloseTemp);
-
   return (
     <FlexWrapper>
       {data.map((value, index) => {
@@ -84,10 +82,11 @@ function CurrentEncloseAndBurningTemp({
                       essSwitch={essSwitch}
                       index={index}
                     >
+                      {/* the subTitle of each tc element such as heater and enclosure */}
                       {essSwitch && index === 0
                         ? essHeaterTemp
                         : essSwitch && index === 1 && essEncloseTemp}
-                      {!tesSwitch && index === 0
+                      {!tesSwitch && !essSwitch && index === 0
                         ? tgsHeaterTemp
                         : !tesSwitch && index === 2 && tgsTesOutsideTemp}
                       {tesSwitch && index === 0
@@ -97,6 +96,7 @@ function CurrentEncloseAndBurningTemp({
                         : tesSwitch && index === 2 && tgsTesEncloseTemp}
                     </Selection>
                   </SelectionIndentWrapper>
+                  {/* white triangle. onClick it will display the dropdown for one of the heaters or enclose */}
                   {essSwitch ? (
                     <Img
                       src={'./images/whiteTriangle.svg'}
@@ -108,10 +108,7 @@ function CurrentEncloseAndBurningTemp({
                       }
                     />
                   ) : !tesSwitch && index === 1 ? (
-                    <Img
-                      src={'./images/greyTriangle.svg'}
-                      // onClick={() => displayOptions(tesHeaterTempName)}
-                    />
+                    <Img src={'./images/greyTriangle.svg'} />
                   ) : (
                     <Img
                       src={'./images/whiteTriangle.svg'}
@@ -131,6 +128,7 @@ function CurrentEncloseAndBurningTemp({
                 (isClicked.tgsHeaterTemp && index === 0) ? (
                   <WrapperSelectAndConfirmButton>
                     <SelectWrapper>
+                      {/* dropdown selections for either Ess heater or Tgs heater */}
                       {select.map((option) => (
                         <RadioBox
                           data={`${option}`}
@@ -154,6 +152,7 @@ function CurrentEncloseAndBurningTemp({
                 {(isClicked.essEncloseTemp && index === 1) ||
                 (isClicked.tesHeaterTemp && index === 1) ? (
                   <WrapperSelectAndConfirmButton>
+                    {/* dropdown selections either for either Ess enclose temp or tes heater */}
                     <SelectWrapper>
                       {select.map((option) => (
                         <RadioBox
@@ -177,6 +176,7 @@ function CurrentEncloseAndBurningTemp({
                 )}
                 {isClicked.tgsTesEncloseTemp && index === 2 && (
                   <WrapperSelectAndConfirmButton>
+                    {/* dropdown selections for Tgs and Tes Heater or Tgs Heater*/}
                     <SelectWrapper>
                       {select.map((option) => (
                         <RadioBox
@@ -188,6 +188,7 @@ function CurrentEncloseAndBurningTemp({
                       ))}
                     </SelectWrapper>
                     <WrapperButton>
+                      {/* onClick, it will close the dropdown */}
                       <TcConfirmButton
                         onConfirm={onConfirmHandler}
                         tgsTesEncloseTemp={tgsTesEncloseTempName}
@@ -244,12 +245,9 @@ const SubTitleWrapper2 = styled.div`
   width: 246px;
   height: 26px;
 
-  /* border: 1px solid
-    ${({ tesSwitch, index }) =>
-    !tesSwitch && index === 1 ? '#808080' : '#142033'}; */
-  /* border: ${({ essSwitch }) => essSwitch && '1px solid #142033'}; */
   border-radius: 13px;
   opacity: 1;
+
   ${flexboxCenter}
 `;
 
@@ -307,21 +305,11 @@ const SelectionWrapper = styled.div`
   border: 0.5px solid #000000;
   border-radius: 33px;
   opacity: 1;
-  ${({ index }) =>
-    index === 0
-      ? css`
-          z-index: 23;
-        `
-      : index === 1
-      ? css`
-          z-index: 21;
-        `
-      : css`
-          z-index: 22;
-        `}
+
   ${flexboxCenter}
   justify-content: space-around;
   flex-direction: column;
+  z-index: 2;
 `;
 const SelectionIndentWrapper = styled.div`
   width: 195px;
@@ -334,7 +322,7 @@ const SelectionIndentWrapper = styled.div`
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 22px;
   opacity: 1;
-  ${flexboxCenter}
+  ${flexboxCenter}/* z-index: 20; */
 `;
 
 const Selection = styled.p`

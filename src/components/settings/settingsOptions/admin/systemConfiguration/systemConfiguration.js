@@ -28,7 +28,8 @@ function SystemConfiguration() {
   // useContext
   const { SetSavedSelection, sysConfiguration, setSysConfiguration } =
     useContext(SettingsContext);
-  // useEffect
+
+  // sets the green circles to either Tgs and Tes or Tgs only
   useEffect(() => {
     if (tesState) {
       setOptions(true);

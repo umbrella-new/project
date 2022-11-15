@@ -66,6 +66,8 @@ function SelectTc({ ess, tgs, essSwitch }) {
     e.stopPropagation();
     setChecked(elem);
   };
+
+  // the function saves the selected data of each dropdown to local state above
   const displayOptions = (data) => {
     if (essSwitch) {
       if (data === 'essOutsideTemp') {
@@ -113,6 +115,7 @@ function SelectTc({ ess, tgs, essSwitch }) {
     }
   };
 
+  // this will dispatch the local state above of saved selections and send it to force and command slice. the setState setIsClicked will handle the closure of dropdown
   const onConfirmCurrentEssHeaterTempHandler = (id) => {
     essSwitch
       ? dispatch(setEssTcTemp({ id: id, data: checked }))
@@ -169,9 +172,6 @@ function SelectTc({ ess, tgs, essSwitch }) {
             selectTcState={selectTcState}
           />
         </Wrapper>
-        {/* <WrapperButton>
-            <ButtonSelect />
-          </WrapperButton> */}
       </WrapperTelemetry2>
     </WrapperTelemetry1>
     // </WrapperTelemetry>

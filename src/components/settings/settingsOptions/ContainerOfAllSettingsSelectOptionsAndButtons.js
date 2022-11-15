@@ -85,312 +85,312 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
   const tgsTesEncloseTemp = forceCommandState.tgsTesEncloseTemp;
   const tesHeaterTemp = forceCommandState.tesHeaterTemp;
 
-  const handleEssEditCancelApplyButtons = (buttonId) => {
-    switch (settingsState) {
-      case 'units':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
-            break;
-          default:
-            return;
-        }
-        break;
-      // case 'wind factor trigger':
-      //   switch (buttonId) {
-      //     case 0:
-      //       dispatch(setSettingsEditButton());
-      //       break;
-      //     case 1:
-      //       dispatch(setSettingsCancelButton());
-      //       break;
-      //     case 2:
-      //       dispatch(setSettingsApplyWindFactorTriggerButton());
-      //       break;
-      //     default:
-      //       return;
-      //   }
-      //   break;
-      case 'snow sensor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(
-              handleSnowSensorDefaultTemp(
-                metricImperialToggle === 1
-                  ? Math.round(
-                      (Number(essSnowSensorInput.current.value - 32) * 5) / 9
-                    )
-                  : Number(essSnowSensorInput.current.value)
-              )
-            );
+  // const handleEssEditCancelApplyButtons = (buttonId) => {
+  //   switch (settingsState) {
+  //     case 'units':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(setSettingsApplyUnitsButton(selectUnitsState));
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     // case 'wind factor trigger':
+  //     //   switch (buttonId) {
+  //     //     case 0:
+  //     //       dispatch(setSettingsEditButton());
+  //     //       break;
+  //     //     case 1:
+  //     //       dispatch(setSettingsCancelButton());
+  //     //       break;
+  //     //     case 2:
+  //     //       dispatch(setSettingsApplyWindFactorTriggerButton());
+  //     //       break;
+  //     //     default:
+  //     //       return;
+  //     //   }
+  //     //   break;
+  //     case 'snow sensor trigger':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(
+  //             handleSnowSensorDefaultTemp(
+  //               metricImperialToggle === 1
+  //                 ? Math.round(
+  //                     (Number(essSnowSensorInput.current.value - 32) * 5) / 9
+  //                   )
+  //                 : Number(essSnowSensorInput.current.value)
+  //             )
+  //           );
 
-            break;
-          default:
-            return;
-        }
-        break;
-      case 'force & commands':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            // todo finalize the ess select arts dispatch
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     case 'force & commands':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           // todo finalize the ess select arts dispatch
 
-            dispatch(
-              setSettingsApplyForceCommandButton({
-                essHeaterTemp,
-                essEncloseTemp,
-                essOutsideTemp,
-              })
-            );
-            break;
-          default:
-            return;
-        }
-        break;
-      case 'admin.':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            break;
-          default:
-            return;
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  //           dispatch(
+  //             setSettingsApplyForceCommandButton({
+  //               essHeaterTemp,
+  //               essEncloseTemp,
+  //               essOutsideTemp,
+  //             })
+  //           );
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     case 'admin.':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  const handleTgsEditCancelApplyButtons = (buttonId) => {
-    switch (settingsState) {
-      case 'units':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
+  // const handleTgsEditCancelApplyButtons = (buttonId) => {
+  //   switch (settingsState) {
+  //     case 'units':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(setSettingsApplyUnitsButton(selectUnitsState));
 
-            break;
-          default:
-            return;
-        }
-        break;
-      // case 'wind factor trigger':
-      //   switch (buttonId) {
-      //     case 0:
-      //       dispatch(setTgsSettingsEditButton());
-      //       break;
-      //     case 1:
-      //       dispatch(setTgsSettingsCancelButton());
-      //       break;
-      //     case 2:
-      //       dispatch(setTgsSettingsApplySnowFactorButton());
-      //       break;
-      //     default:
-      //       return;
-      //   }
-      //   break;
-      case 'snow sensor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(
-              handleTgsSnowSensorDefaultTemp(
-                metricImperialToggle === 1
-                  ? Math.round(
-                      (Number(tgsSnowSensorInput.current.value - 32) * 5) / 9
-                    )
-                  : Number(tgsSnowSensorInput.current.value)
-              )
-            );
-            break;
-          default:
-            return;
-        }
-        break;
-      case 'force & commands':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(
-              setTgsSettingsApplyForceAndCommandButton({
-                tgsTesOutsideTemp,
-                burningChamberTemp,
-                tgsHeaterTemp,
-                tgsTesEncloseTemp,
-              })
-            );
-            break;
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     // case 'wind factor trigger':
+  //     //   switch (buttonId) {
+  //     //     case 0:
+  //     //       dispatch(setTgsSettingsEditButton());
+  //     //       break;
+  //     //     case 1:
+  //     //       dispatch(setTgsSettingsCancelButton());
+  //     //       break;
+  //     //     case 2:
+  //     //       dispatch(setTgsSettingsApplySnowFactorButton());
+  //     //       break;
+  //     //     default:
+  //     //       return;
+  //     //   }
+  //     //   break;
+  //     case 'snow sensor trigger':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(
+  //             handleTgsSnowSensorDefaultTemp(
+  //               metricImperialToggle === 1
+  //                 ? Math.round(
+  //                     (Number(tgsSnowSensorInput.current.value - 32) * 5) / 9
+  //                   )
+  //                 : Number(tgsSnowSensorInput.current.value)
+  //             )
+  //           );
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     case 'force & commands':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(
+  //             setTgsSettingsApplyForceAndCommandButton({
+  //               tgsTesOutsideTemp,
+  //               burningChamberTemp,
+  //               tgsHeaterTemp,
+  //               tgsTesEncloseTemp,
+  //             })
+  //           );
+  //           break;
 
-          default:
-            return;
-        }
-        break;
-      case 'admin.':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(handleTesSwitch(savedSelection));
-            break;
-          default:
-            return;
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     case 'admin.':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(handleTesSwitch(savedSelection));
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  const handleTgsTesEditCancelApplyButtons = (buttonId) => {
-    switch (settingsState) {
-      case 'units':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(setSettingsApplyUnitsButton(selectUnitsState));
-            break;
-          default:
-            return;
-        }
-        break;
-      // case 'wind factor trigger':
-      //   switch (buttonId) {
-      //     case 0:
-      //       dispatch(setTgsTesSettingsEditButton());
-      //       break;
-      //     case 1:
-      //       dispatch(setTgsTesSettingsCancelButton());
-      //       break;
-      //     case 2:
-      //       dispatch(setTgsTesSettingsApplyButton());
-      //       break;
-      //     default:
-      //       return;
-      //   }
-      //   break;
-      case 'snow sensor trigger':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(
-              handleSnowSensorDefaultTemp(
-                metricImperialToggle === 1
-                  ? Math.round(
-                      (Number(tesSnowSensorInput.current.value - 32) * 5) / 9
-                    )
-                  : Number(tesSnowSensorInput.current.value)
-              )
-            );
-            dispatch(
-              handleTgsSnowSensorDefaultTemp(
-                metricImperialToggle === 1
-                  ? Math.round(
-                      (Number(tgsSnowSensorInput.current.value - 32) * 5) / 9
-                    )
-                  : Number(tgsSnowSensorInput.current.value)
-              )
-            );
-            break;
-          default:
-            return;
-        }
-        break;
-      case 'force & commands':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            dispatch(
-              setTgsTesSettingsApplyForceAndCommandButton({
-                tgsTesOutsideTemp,
-                burningChamberTemp,
-                tgsHeaterTemp,
-                tesHeaterTemp,
-                tgsTesEncloseTemp,
-              })
-            );
+  // const handleTgsTesEditCancelApplyButtons = (buttonId) => {
+  //   switch (settingsState) {
+  //     case 'units':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(setSettingsApplyUnitsButton(selectUnitsState));
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     // case 'wind factor trigger':
+  //     //   switch (buttonId) {
+  //     //     case 0:
+  //     //       dispatch(setTgsTesSettingsEditButton());
+  //     //       break;
+  //     //     case 1:
+  //     //       dispatch(setTgsTesSettingsCancelButton());
+  //     //       break;
+  //     //     case 2:
+  //     //       dispatch(setTgsTesSettingsApplyButton());
+  //     //       break;
+  //     //     default:
+  //     //       return;
+  //     //   }
+  //     //   break;
+  //     case 'snow sensor trigger':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(
+  //             handleSnowSensorDefaultTemp(
+  //               metricImperialToggle === 1
+  //                 ? Math.round(
+  //                     (Number(tesSnowSensorInput.current.value - 32) * 5) / 9
+  //                   )
+  //                 : Number(tesSnowSensorInput.current.value)
+  //             )
+  //           );
+  //           dispatch(
+  //             handleTgsSnowSensorDefaultTemp(
+  //               metricImperialToggle === 1
+  //                 ? Math.round(
+  //                     (Number(tgsSnowSensorInput.current.value - 32) * 5) / 9
+  //                   )
+  //                 : Number(tgsSnowSensorInput.current.value)
+  //             )
+  //           );
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     case 'force & commands':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           dispatch(
+  //             setTgsTesSettingsApplyForceAndCommandButton({
+  //               tgsTesOutsideTemp,
+  //               burningChamberTemp,
+  //               tgsHeaterTemp,
+  //               tesHeaterTemp,
+  //               tgsTesEncloseTemp,
+  //             })
+  //           );
 
-            break;
-          default:
-            return;
-        }
-        break;
-      case 'admin.':
-        switch (buttonId) {
-          case 0:
-            dispatch(setSettingsEditButton());
-            break;
-          case 1:
-            dispatch(setSettingsCancelButton());
-            break;
-          case 2:
-            console.log('savedSelection', savedSelection);
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     case 'admin.':
+  //       switch (buttonId) {
+  //         case 0:
+  //           dispatch(setSettingsEditButton());
+  //           break;
+  //         case 1:
+  //           dispatch(setSettingsCancelButton());
+  //           break;
+  //         case 2:
+  //           console.log('savedSelection', savedSelection);
 
-            dispatch(handleTesSwitch(savedSelection));
-            break;
-          default:
-            return;
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  //           dispatch(handleTesSwitch(savedSelection));
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <Wrapper mode={mode}>
@@ -406,7 +406,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
           setSettingsState={setSettingsState}
         />
       </>
-      <EditCancelApplyButtons
+      {/* <EditCancelApplyButtons
         handleClick={
           essState
             ? handleEssEditCancelApplyButtons
@@ -415,7 +415,7 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
             : handleTgsEditCancelApplyButtons
         }
         buttonsName={buttonsName}
-      />
+      /> */}
     </Wrapper>
   );
 }

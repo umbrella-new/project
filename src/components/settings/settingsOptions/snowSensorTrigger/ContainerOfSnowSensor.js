@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { flexboxCenter } from '../../../../styles/commonStyles';
@@ -52,7 +52,11 @@ function ContainerOfSnowSensor() {
   const essSnowSensorState = essState.snowSensorState;
   const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const tgsTesSnowSensorState = tgsTesState.snowSensorTemp;
+  // const cancelState = essState.buttonsOfSettings.settingsCancelButton;
+  // const applyState = essState.buttonsOfSettings.settingsApplyButton;
 
+  // sets back previous data entered in the input fields
+  // onClick of cancel button, it will clear the input fields
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     if (essSwitch) {
@@ -63,6 +67,7 @@ function ContainerOfSnowSensor() {
     }
   }, []);
 
+  // 3 buttons(edit, cancel and apply).dispatch the input fields for Ess into ess slice when apply button is clicked
   const handleEssButtons = (value) => {
     const buttonsIndex = Number(value);
     switch (buttonsIndex) {
@@ -71,15 +76,18 @@ function ContainerOfSnowSensor() {
         break;
       case 1:
         dispatch(setSettingsCancelButton());
+        setEssSnowSensor('');
         break;
       case 2:
         dispatch(setSettingsApplySnowSensorTriggerButton(essSnowSensor));
+        dispatch(setResetAllSettingsButtons());
         break;
       default:
         return;
     }
   };
 
+  // 3 buttons(edit, cancel and apply). Dispatch the input fields for tgs tes or tgs only into tgs tes slice when apply button is clicked
   const handleTgsTesButtons = (value) => {
     const buttonsIndex = Number(value);
     switch (buttonsIndex) {
@@ -88,6 +96,8 @@ function ContainerOfSnowSensor() {
         break;
       case 1:
         dispatch(setSettingsCancelButton());
+        setTesSnowSensor('');
+        setTgsSnowSensor('');
         break;
       case 2:
         dispatch(setResetAllSettingsButtons());
@@ -102,10 +112,15 @@ function ContainerOfSnowSensor() {
         return;
     }
   };
+  console.log('essSnowSensor', essSnowSensor);
 
   return (
     <Wrapper essSwitch={essSwitch}>
-      {!settingsEditButton && <InvisibleDivForEditButton />}
+      {!settingsEditButton &&
+        (tgsSnowSensor !== null || tesSnowSensor !== null) &&
+        essSnowSensor !== null && (
+          <InvisibleDivForEditButton height={'100px'} />
+        )}
       <Wrapper1 essSwitch={essSwitch}>
         <SnowFactor
           tgsTes={tgsTes}
@@ -119,7 +134,7 @@ function ContainerOfSnowSensor() {
           metricImperialToggle={metricImperialToggle}
         />
       </Wrapper1>
-      <WrapperButtons>
+      <WrapperButtons position={essSwitch}>
         <EditCancelApplyButtons
           handleClick={essSwitch ? handleEssButtons : handleTgsTesButtons}
           buttonsName={buttonsName}
@@ -133,9 +148,18 @@ export default ContainerOfSnowSensor;
 
 const Wrapper = styled.div`
   width: 596px;
-  height: auto;
-  ${({ essSwitch }) => essSwitch && 'width: auto'};
+  height: 106px;
   ${flexboxCenter};
+  ${({ essSwitch }) =>
+    essSwitch
+      ? css`
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+        `
+      : css`
+          justify-content: flex-start;
+        `};
   flex-direction: column;
   margin-left: -3px;
 `;
@@ -163,6 +187,15 @@ const WrapperButtons = styled.div`
   margin-bottom: 10px;
 
   display: flex;
-  justify-content: flex-end;
+  ${({ position }) =>
+    position
+      ? css`
+          justify-content: flex-start;
+          margin-left: 1rem;
+        `
+      : css`
+          justify-content: flex-end;
+        `};
+
   align-items: center;
 `;

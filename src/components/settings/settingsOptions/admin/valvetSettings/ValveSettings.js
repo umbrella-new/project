@@ -27,6 +27,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const editState = state.buttonsOfSettings.settingsEditButton;
   const dispatch = useDispatch();
 
+  // saves the 3 input fields to useContext state
   const handleInputs = (e, index) => {
     e.stopPropagation();
     const value = Number(e.target.value);
@@ -42,6 +43,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
     }
   };
 
+  // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
   const handleInput = (inputNumber) => {
     switch (inputFocus) {
       case 0:
@@ -58,11 +60,13 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
     }
   };
 
+  // this changes the save button which the apply button depends to know if theres a change or not
   const handleSubmit = (e) => {
     e.preventDefault();
     return setValveButtonColor(true);
   };
 
+  // handles the keypad
   const handleDisplayKeyPad = (index) => {
     options !== index && setOptions(index);
     setActivateKeypad(true);

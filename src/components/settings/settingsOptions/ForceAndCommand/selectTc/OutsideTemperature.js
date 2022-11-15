@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { selectUserState } from '../../../../../store/slices/userSlice';
 import RadioBox from '../RadioBox';
 import TcConfirmButton from '../TcConfirmButton';
+import { SettingsContext } from '../../../../../context/ContextOfSettings';
 
 function OutsideTemperature({
   handleChecked,
@@ -23,30 +24,45 @@ function OutsideTemperature({
   const whiteTriangle = './images/whiteTriangle.svg';
   const greyTriangle = './images/greyTriangle.svg';
 
-  // states
-  const [temperatureSelection, setTemperatureSelection] = useState(0);
-  const [activeSelect, setActiveSelect] = useState(false);
+  // useContext
+  const { temperatureSelection, setTemperatureSelection } =
+    useContext(SettingsContext);
+
+  //  useState
+  const [activeSelect, setActiveSelect] = useState(true);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
+  const stateOfEssTgs = useSelector(selectUserState);
+
   const mode = state.interfaceMode;
 
-  const stateOfEssTgs = useSelector(selectUserState);
   const essSwitch = stateOfEssTgs.isEssSwitch;
 
   const editState = state.buttonsOfSettings.settingsEditButton;
 
-  const essOutsideTemp = selectTcState.essOutSideTemp.select;
+  const essOutsideTemp = selectTcState.essOutsideTemp.select;
   const tgsTesOutsideTemp = selectTcState.tgsTesOutsideTemp.select;
   const burningChamber = selectTcState.burningChamberTemp.select;
 
+  // set backs the last selection of outside temperature
+  useEffect(() => {
+    setTemperatureSelection(temperatureSelection);
+    if (temperatureSelection === 1) {
+      setActiveSelect(true);
+    } else {
+      setActiveSelect(false);
+    }
+  }, []);
+
+  // handles the toggle of outside temperature: internet or thermocouple
   const handleToggle = (index) => {
     if (index !== temperatureSelection) return setTemperatureSelection(index);
   };
 
-  const handleSelect = (index) => {
-    if (index === 0) return setActiveSelect(!activeSelect);
-    else return setActiveSelect(!activeSelect);
+  // handles enable or disable the select t/c dropdown of outside temperature
+  const handleSelect = () => {
+    setActiveSelect(!activeSelect);
   };
 
   return (
@@ -60,11 +76,13 @@ function OutsideTemperature({
         {tempMeasurementSelection.map((data, index) => {
           return (
             <ContainerOfSelections key={index}>
+              {/* the green circles for internet and thermocouple */}
               <ContainerOfCircles>
                 <OutsideRingGreenCircle
+                  // sets the selection of internet or thermocouple and also enable or disable dropdown
                   onClick={() => {
                     editState && handleToggle(index);
-                    editState && handleSelect(index);
+                    editState && handleSelect();
                   }}
                   mode={mode}
                 >
@@ -86,13 +104,14 @@ function OutsideTemperature({
         <SelectionWrapper color={activeSelect}>
           <WrapperTitleAndImg>
             <SelectionIndentWrapper color={activeSelect}>
+              {/* check if there's a selection of tc. if not it will display 'select t/c' by default */}
               <Selection color={activeSelect}>
                 {!activeSelect && 'select t/c'}
                 {!activeSelect || (essSwitch && essOutsideTemp)}
                 {!activeSelect || (!essSwitch && tgsTesOutsideTemp)}
               </Selection>
             </SelectionIndentWrapper>
-
+            {/* enable or disable the triangle image. onClick it will dropdown if its enabled. logic for tgs + tes and ess */}
             <Img
               src={`${activeSelect ? whiteTriangle : greyTriangle}`}
               onClick={() =>
@@ -105,6 +124,7 @@ function OutsideTemperature({
           {(activeSelect && isClicked.essOutsideTemp) ||
           (activeSelect && isClicked.tgsTesOutsideTemp) ? (
             <WrapperSelectAndConfirmButton>
+              {/* dropbox */}
               <SelectWrapper>
                 {select.map((option) => (
                   <RadioBox
@@ -116,6 +136,7 @@ function OutsideTemperature({
                 ))}
               </SelectWrapper>
               <WrapperButton>
+                {/* confirm button. it closes the dropbox onClick */}
                 <TcConfirmButton
                   onConfirm={onConfirmHandler}
                   essOutsideTemp={essOutsideTempName}
@@ -143,7 +164,7 @@ function OutsideTemperature({
                 <SelectionIndentWrapper1>
                   <Selection1>{!essSwitch && burningChamber}</Selection1>
                 </SelectionIndentWrapper1>
-
+                {/* img triangle for burning chamber. onClick the dropdown will appear */}
                 <Img
                   src={'./images/whiteTriangle.svg'}
                   onClick={() =>
@@ -153,6 +174,7 @@ function OutsideTemperature({
               </WrapperTitleAndImg>
               {isClicked.burningChamberTemp && (
                 <WrapperSelectAndConfirmButton>
+                  {/* dropbox */}
                   <SelectWrapper>
                     {select.map((option) => (
                       <RadioBox
@@ -164,6 +186,7 @@ function OutsideTemperature({
                     ))}
                   </SelectWrapper>
                   <WrapperButton>
+                    {/* confirm button. it closes the dropbox onClick */}
                     <TcConfirmButton
                       onConfirm={onConfirmHandler}
                       burningChamberTemp={burningChamberTempName}
@@ -366,6 +389,7 @@ const SelectionWrapper1 = styled.div`
   border-radius: 33px;
   opacity: 1;
   ${flexboxCenter}
+  flex-direction: column;
 `;
 const SelectionIndentWrapper1 = styled.div`
   width: 195px;

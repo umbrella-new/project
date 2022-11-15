@@ -8,6 +8,7 @@ import {
   setResetAllSettingsButtons,
   setSettingsCancelButton,
   setSettingsEditButton,
+  setTelemetry,
 } from '../../../../store/slices/settingsOfEssSlice';
 import SystemHeaderForceAndCommand from './SysHeaderForceAndCommand';
 import SelectAts from './selectArts/SelectAts';
@@ -22,8 +23,13 @@ import {
   selectSettingsOfTgsTes,
   setTesAts,
   setTgsAts,
+  setTgsTesTelemetry,
 } from '../../../../store/slices/settingsOfTgsTesSlice';
 import ApplyButtonInvisibleDiv from '../editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
+import {
+  selectForceAndCommand,
+  setTgsTesTcTemp,
+} from '../../../../store/slices/forceAndCommandSlice';
 
 function ContainerOfForceAndCommand() {
   // button images of TGS TES ESS SYS
@@ -59,15 +65,25 @@ function ContainerOfForceAndCommand() {
   const stateOfEssTgs = useSelector(selectUserState);
   const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const state = useSelector(selectSettingsOfEss);
+  const TcState = useSelector(selectForceAndCommand);
   const essSwitch = stateOfEssTgs.isEssSwitch;
   const tesSwitch = stateOfEssTgs.isTesSwitch;
   const mode = state.interfaceMode;
   const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
   const settingsApplyButton = state.buttonsOfSettings.settingsApplyButton;
-  // states for select ATS
+  // states for select ATS in Ess, Tgs and Tes of force and commands
   const atsEssState = state.selectAtsState;
   const atsTesState = tgsTesState.allSelects.selectAtsTesState;
   const atsTgsState = tgsTesState.allSelects.selectAtsTgsState;
+  // states of Tc telemetry of Ess and Tgs/Tes
+  const essHeater = TcState.essHeaterTemp;
+  const essEnclose = TcState.essEncloseTemp;
+  const essOutside = TcState.essOutsideTemp;
+  const burningChamber = TcState.burningChamberTemp;
+  const tgsHeater = TcState.tgsHeaterTemp;
+  const tesHeater = TcState.tesHeaterTemp;
+  const tgsTesEnclose = TcState.tgsTesEncloseTemp;
+  const tgsTesOutside = TcState.tgsTesOutsideTemp;
 
   // useContext
   const {
@@ -77,6 +93,7 @@ function ContainerOfForceAndCommand() {
     setTgsAtsState,
     tesAtsState,
     setTesAtsState,
+    temperatureSelection,
   } = useContext(SettingsContext);
 
   // State buttons of Sys, Ess, Tgs and Tes
@@ -95,7 +112,7 @@ function ContainerOfForceAndCommand() {
   const [tgsAtsConfirmButton, setTgsAtsConfirmButton] = useState(false);
   const [tesAtsConfirmButton, setTesAtsConfirmButton] = useState(false);
 
-  // expand and close states
+  // keewp track of expand or close button states
   const [options, setOptions] = useState('');
 
   const essHeaders = [
@@ -127,6 +144,7 @@ function ContainerOfForceAndCommand() {
   const handleSelect = (index) =>
     options !== index ? setOptions(index) : setOptions('');
 
+  // set the last saved states of select Ats
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setEssAtsState(atsEssState);
@@ -134,6 +152,7 @@ function ContainerOfForceAndCommand() {
     setTesAtsState(atsTesState);
   }, []);
 
+  // sets each button tgs, tes, sys or ess to either blue or green
   useEffect(() => {
     if (!essSwitch) {
       switch (options) {
@@ -158,7 +177,6 @@ function ContainerOfForceAndCommand() {
         }
 
         case 2: {
-          console.log('2');
           setToggleSysButtonColor(sysButtonActive);
           setToggleTgsButtonColor(tgsButton);
           setToggleTesButtonColor(tesButton);
@@ -230,11 +248,13 @@ function ContainerOfForceAndCommand() {
         dispatch(setSettingsCancelButton());
         break;
       case 2:
-        // if (essAtsConfirmButton && !isNaN(+atsEssState)) {
-        //   dispatch(setAts(essAtsState));
-        // }
+        if (temperatureSelection === 1 && (essHeater || essEnclose)) {
+          dispatch(setTelemetry({ essHeater, essEnclose, essOutside }));
+        } else {
+          dispatch(setTelemetry({ essHeater, essEnclose, essOutside: null }));
+        }
         setMessageBox(true);
-        handleEssMessageBox();
+        handleEssSysMessageBox();
         dispatch(setResetAllSettingsButtons());
         break;
       default:
@@ -302,15 +322,30 @@ function ContainerOfForceAndCommand() {
         dispatch(setSettingsCancelButton());
         break;
       case 2:
-        // if (forceGasElectric) {
-        //   dispatch(setForceGasAndElectricSystem(forceGasElectric));
-        // }
-        // if (sysIdentification) {
-        //   dispatch(handleAdditionalSystemIdentification(inputData));
-        // }
-        // if (sysConfiguration) {
-        //   dispatch(handleTesSwitch(savedSelection));
-        // }
+        if (
+          temperatureSelection === 1 &&
+          (burningChamber || tgsHeater || tesHeater || tgsTesEnclose)
+        ) {
+          dispatch(
+            setTgsTesTelemetry({
+              burningChamber,
+              tgsHeater,
+              tesHeater,
+              tgsTesEnclose,
+              tgsTesOutside,
+            })
+          );
+        } else {
+          dispatch(
+            setTgsTesTelemetry({
+              burningChamber,
+              tgsHeater,
+              tesHeater,
+              tgsTesEnclose,
+              tgsTesOutside: null,
+            })
+          );
+        }
         setMessageBox(true);
         handleTgsTesSysMessageBox();
         dispatch(setResetAllSettingsButtons());
@@ -320,7 +355,7 @@ function ContainerOfForceAndCommand() {
     }
   };
 
-  // this variable is usd in the 5 functions below
+  // theses variables are usd in the 5 functions below
   const messageDescription = 'settings have been applied';
   const noModification = 'no modifications done';
   // force & commands : Ess :  message box shows what was changed
@@ -340,7 +375,7 @@ function ContainerOfForceAndCommand() {
   // force & commands : Ess : Sys: message box shows what was changed
   const handleEssSysMessageBox = () => {
     const titleSelectTc = 'select t/c telemetry';
-    if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+    if (!isNaN(+temperatureSelection) || essHeater || essEnclose) {
       setMessageBoxContent({
         title: [titleSelectTc],
         content: messageDescription,
@@ -381,17 +416,19 @@ function ContainerOfForceAndCommand() {
 
   // force & commands : sys : message box shows what was changed
   const handleTgsTesSysMessageBox = () => {
-    //   const titleSelectAts = 'select ats';
-    // if (essAtsConfirmButton && !isNaN(+atsEssState)) {
-    //   setMessageBoxContent({
-    //     title: [titleSelectAts],
-    //     content: messageDescription,
-    //   });
-    // }
-    // else {
-    //   setMessageBoxContent({ title: [noModification], content: '' });
-    // }
-    // return;
+    const titleSelectTc = 'select t/c telemetry';
+    if (
+      !isNaN(+temperatureSelection) &&
+      (burningChamber || tgsHeater || tesHeater || tgsTesEnclose)
+    ) {
+      setMessageBoxContent({
+        title: [titleSelectTc],
+        content: messageDescription,
+      });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
+    }
+    return;
   };
 
   const handleCloseMessageBox = () => {
@@ -475,7 +512,7 @@ function ContainerOfForceAndCommand() {
                           />
                           <WrapperButtons>
                             <EditCancelApplyButtons
-                              handleClick={handleEssDispatches}
+                              handleClick={handleEssSysDispatches}
                               buttonsName={buttonsName}
                             />
                           </WrapperButtons>
@@ -603,7 +640,7 @@ function ContainerOfForceAndCommand() {
                             />
                             <WrapperButtons>
                               <EditCancelApplyButtons
-                                handleClick={handleTgsDispatches}
+                                handleClick={handleTgsTesSysDispatches}
                                 buttonsName={buttonsName}
                               />
                             </WrapperButtons>
