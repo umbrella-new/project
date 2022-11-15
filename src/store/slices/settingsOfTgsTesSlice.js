@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
+const selectInitialState = { select: 'tc-01' };
 const initialState = {
   // buttonsOfSettings: {
   //   settingsEditButton: false,
@@ -32,10 +33,17 @@ const initialState = {
     selectAtsTesState: null,
     selectTcSysState: null,
   },
+  tgsTesTelemetry: {
+    tgsTesOutsideTemp: selectInitialState,
+    burningChamberTemp: selectInitialState,
+    tgsHeaterTemp: selectInitialState,
+    tesHeaterTemp: selectInitialState,
+    tgsTesEncloseTemp: selectInitialState,
+  },
 };
 
 export const settingsOfTgsTesSlice = createSlice({
-  name: "settingsOfTgsTes",
+  name: 'settingsOfTgsTes',
   initialState,
   reducers: {
     // setTgsTesSettingsApplyUnitsButton: (state, action) => {
@@ -51,7 +59,6 @@ export const settingsOfTgsTesSlice = createSlice({
       state.windFactorTemp.extreme = action.payload.extremeWind;
     },
     setTgsTesSettingsApplySnowSensorButton: (state, action) => {
-
       state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
       state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
     },
@@ -85,7 +92,7 @@ export const settingsOfTgsTesSlice = createSlice({
     },
     //admin: this is used for ess and tes
     setThermocouple: (state, action) => {
-      console.log("slice", action.payload);
+      console.log('slice', action.payload);
       state.thermocouple = action.payload;
     },
     setTgsAts: (state, action) => {
@@ -94,6 +101,14 @@ export const settingsOfTgsTesSlice = createSlice({
     },
     setTesAts: (state, action) => {
       state.allSelects.selectAtsTesState = action.payload;
+    },
+    setTgsTesTelemetry: (state, action) => {
+      console.log('actions', action.payload);
+      state.tgsTesTelemetry.tgsTesOutsideTemp = action.payload.tgsTesOutside;
+      state.tgsTesTelemetry.burningChamberTemp = action.payload.burningChamber;
+      state.tgsTesTelemetry.tgsHeaterTemp = action.payload.tgsHeater;
+      state.tgsTesTelemetry.tesHeaterTemp = action.payload.tesHeater;
+      state.tgsTesTelemetry.tgsTesEncloseTemp = action.payload.tgsTesEnclose;
     },
   },
 });
@@ -113,6 +128,7 @@ export const {
   setThermocouple,
   setTgsAts,
   setTesAts,
+  setTgsTesTelemetry,
 } = settingsOfTgsTesSlice.actions;
 export const selectSettingsOfTgsTes = (state) => state.settingsOfTgsTes;
 export default settingsOfTgsTesSlice;

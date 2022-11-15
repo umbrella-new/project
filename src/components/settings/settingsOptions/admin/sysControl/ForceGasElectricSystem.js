@@ -1,7 +1,6 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { SettingsContext } from '../../../../../context/ContextOfSettings';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import SaveButton from './SaveButton';
@@ -14,9 +13,6 @@ function ForceGasElectricSystem({
 }) {
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
-
-  // useContext
-  // const {} = useContext(SettingsContext);
 
   useEffect(() => {
     handleSave(false);

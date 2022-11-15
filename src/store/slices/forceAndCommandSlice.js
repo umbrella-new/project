@@ -5,7 +5,7 @@ const selectInitialState = { select: 'tc-01' };
 const initialState = {
   essHeaterTemp: selectInitialState,
   essEncloseTemp: selectInitialState,
-  essOutSideTemp: selectInitialState,
+  essOutsideTemp: selectInitialState,
   tgsTesOutsideTemp: selectInitialState,
   burningChamberTemp: selectInitialState,
   tgsHeaterTemp: selectInitialState,

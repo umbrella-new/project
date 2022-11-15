@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import {
   selectSettingsOfEss,
@@ -13,6 +14,7 @@ import {
   setTgsTesSettingsApplyWindFactor,
 } from '../../../../store/slices/settingsOfTgsTesSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
+import InputKeyPad from '../../../keyboard/InputKeyPad';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 import EditCancelApplyButtons from '../EditCancelApplyButtons';
 import WindFactor from './WindFactor';
@@ -49,18 +51,28 @@ function ContainerOfWindFactor() {
     },
   ];
 
+  // useContext
   const { windFactor, setWindFactor } = useContext(SettingsContext);
-
+  // const { windInputValue, setWindInputValue } = useContext(SettingsContext);
+  // the 3 buttons
   const buttonsName = ['edit', 'cancel', 'apply'];
+  // for invisible div
   const height = '150px';
+  // useState
+  const [activateKeypad, setActivateKeypad] = useState(false);
+  const [options, setOptions] = useState('');
+  const [inputFocus, setInputFocus] = useState(null);
 
+  // Redux
   const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
   const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
-  const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const windFactorState = tgsTesState.windFactorTemp;
+  const cancelState = state.buttonsOfSettings.settingsCancelButton;
 
+  // set backs the data into input fields to what was entered previously
   useEffect(() => {
     setWindFactor({
       lowWind: windFactorState.low,
@@ -70,6 +82,7 @@ function ContainerOfWindFactor() {
     });
   }, []);
 
+  // 3 buttons(edit, cancel and apply). dispatch on click of apply button. it will sends the data to tgs tes slice which ess and tgs/tes will share the slice since they never operate at the same time so no need to seperate them into 2 slices
   const handleButtons = (value) => {
     const buttonsIndex = Number(value);
     switch (buttonsIndex) {
@@ -78,6 +91,12 @@ function ContainerOfWindFactor() {
         break;
       case 1:
         dispatch(setSettingsCancelButton());
+        setWindFactor({
+          lowWind: '',
+          medWind: '',
+          highWind: '',
+          extremeWind: '',
+        });
         break;
       case 2:
         dispatch(setResetAllSettingsButtons());
@@ -88,22 +107,71 @@ function ContainerOfWindFactor() {
     }
   };
 
+  // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
+  const handleInput = (inputNumber) => {
+    const value = Number(inputNumber);
+    switch (inputFocus) {
+      case 0:
+        setWindFactor(() => ({ ...windFactor, lowWind: value }));
+        break;
+      case 1:
+        setWindFactor(() => ({ ...windFactor, highWind: value }));
+        break;
+      case 2:
+        setWindFactor(() => ({ ...windFactor, medWind: value }));
+        break;
+      case 3:
+        setWindFactor(() => ({ ...windFactor, extremeWind: value }));
+        break;
+      default:
+        break;
+    }
+  };
+
+  // handles the keypad
+  const handleDisplayKeyPad = (index) => {
+    options !== index && setOptions(index);
+    setActivateKeypad(true);
+  };
+
   return (
     <Wrapper>
-      {!settingsEditButton && <InvisibleDivForEditButton height={height} />}
+      {!settingsEditButton &&
+        (windFactorState.low !== null ||
+          windFactorState.med !== null ||
+          windFactorState.high !== null ||
+          windFactorState.extreme) && (
+          <InvisibleDivForEditButton height={height} />
+        )}
       <FlexWrapper>
         {content.map((value, index) => {
           return (
             <div key={index}>
-              <WindFactor
-                contents={value}
-                index={index}
-                selectedMeasurement={unitsMeasurement}
-              />
+              <>
+                <WindFactor
+                  contents={value}
+                  index={index}
+                  selectedMeasurement={unitsMeasurement}
+                  handleKeypad={handleDisplayKeyPad}
+                  setInputFocus={setInputFocus}
+                />
+              </>
+              {activateKeypad && options === index && (
+                <KeyboardWrapper index={options}>
+                  {/* <PositionAbsoluteBox index={options}> */}
+                  <InputKeyPad
+                    closeKeyPad={() => setActivateKeypad(false)}
+                    handleOnSubmit={handleInput}
+                    setMainInput={handleInput}
+                  />
+                  {/* </PositionAbsoluteBox> */}
+                </KeyboardWrapper>
+              )}
             </div>
           );
         })}
       </FlexWrapper>
+
       <WrapperButtons>
         <EditCancelApplyButtons
           handleClick={handleButtons}
@@ -137,6 +205,38 @@ const FlexWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
+`;
+
+const KeyboardWrapper = styled.div`
+  position: absolute;
+  height: 100px;
+  width: auto;
+  z-index: 2;
+  ${({ index }) =>
+    index === 0
+      ? css`
+          position: absolute;
+          top: 6rem;
+          right: 19rem;
+        `
+      : index === 1
+      ? css`
+          position: absolute;
+          top: 13rem;
+          right: 19rem;
+        `
+      : index === 2
+      ? css`
+          position: absolute;
+          top: 6rem;
+          right: 0rem;
+        `
+      : css`
+          position: absolute;
+          top: 13rem;
+          right: 0rem;
+        `}
 `;
 
 const WrapperButtons = styled.div`

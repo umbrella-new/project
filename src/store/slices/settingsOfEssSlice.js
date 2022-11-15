@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const selectInitialState = { select: 'tc-01' };
+
 const initialState = {
   interfaceMode: false,
   allSettingsOptions: {
@@ -23,6 +25,11 @@ const initialState = {
   },
   snowSensorState: null,
   selectAtsState: null,
+  telemetry: {
+    essHeaterTemp: selectInitialState,
+    essEncloseTemp: selectInitialState,
+    essOutSideTemp: null,
+  },
 };
 
 export const settingsOfEssSlice = createSlice({
@@ -118,8 +125,12 @@ export const settingsOfEssSlice = createSlice({
     },
 
     setAts: (state, action) => {
-      console.log(action.payload);
       state.selectAtsState = action.payload;
+    },
+    setTelemetry: (state, action) => {
+      state.telemetry.essHeaterTemp = action.payload.essHeater;
+      state.telemetry.essEncloseTemp = action.payload.essEnclose;
+      state.telemetry.essOutSideTemp = action.payload.essOutside;
     },
   },
 });
@@ -147,6 +158,7 @@ export const {
   setApplyAndClearButtonToFalse,
   setApplyButtonToTrue,
   setAts,
+  setTelemetry,
 } = settingsOfEssSlice.actions;
 
 export const selectSettingsOfEss = (state) => state.settingsOfEss;

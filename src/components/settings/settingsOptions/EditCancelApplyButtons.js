@@ -16,11 +16,6 @@ function EditCancelApplyButtons({ handleClick, buttonsName }) {
       {buttonsName.map((name, index) => {
         return (
           <div key={index}>
-            {/* {settingsApplyButton && (
-              <WrapperApplyButton index={index}>
-                <ApplyButtonInvisibleDiv />
-              </WrapperApplyButton>
-            )} */}
             <Button
               id={index}
               handleClick={handleClick}

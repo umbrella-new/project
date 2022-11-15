@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { flexboxCenter } from '../../../../../styles/commonStyles';
 import ValveSettings from './ValveSettings';
 import SelectGasType from '../selectGasType/ContainerSelectGasType';
 import { useEffect, useState } from 'react';
@@ -14,7 +13,6 @@ function ContainerValveSettings() {
   const message = 'please input a number between 0 and 100';
 
   const initialState = { first: '', second: '', third: '' };
-  // const [inputValue, setInputValue] = useState(initialState);
 
   const { inputValue, setInputValue } = useContext(SettingsContext);
   const [warningMessage, setWarningMessage] = useState(false);
@@ -22,6 +20,7 @@ function ContainerValveSettings() {
   // redux from settingsTesTgs
   const { valveInputs } = useSelector(selectSettingsOfTgsTes);
 
+  // sets back the previous entered data
   useEffect(() => {
     setInputValue({
       first: valveInputs.start,
@@ -36,7 +35,6 @@ function ContainerValveSettings() {
   };
 
   return (
-    // <Wrapper>
     <Wrapper>
       <WrapperValveSettings>
         <ValveSettings
@@ -59,7 +57,6 @@ function ContainerValveSettings() {
         </>
       )}
     </Wrapper>
-    /* </Wrapper> */
   );
 }
 
@@ -92,5 +89,3 @@ const WrapperSelectGasType = styled.div`
   margin-top: 3px;
   margin-bottom: 3px;
 `;
-
-// const WrapperMessage = styled.div``;

@@ -70,8 +70,7 @@ function ContainerOfAdmin() {
   // the names of 3 main buttons to make changes
   const buttonsName = ['edit', 'cancel', 'apply'];
   // the height of invisible div for editing
-  const esHeight = '150px';
-  const essSysHeight = '150px';
+
   const tgsHeight = '235px';
   const tesHeight = '312px';
   const sysHeight = '362px';
@@ -102,7 +101,7 @@ function ContainerOfAdmin() {
     { title: 'system commands', button: toggleSysButton },
   ];
 
-  // Ess Sys headers information
+  // Ess and Sys headers information
   const essHeaders = [
     {
       button: toggleEssButton,
@@ -132,7 +131,7 @@ function ContainerOfAdmin() {
     setSaveButtonColor,
   } = useContext(SettingsContext);
 
-  // useEffect to set the selections to what was selected previously
+  // useEffect sets back the selections to previous selection
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     setToggleSysButton(sysButtonActive);
@@ -283,7 +282,7 @@ function ContainerOfAdmin() {
     }
   };
 
-  // toggles the the expend & close buttons and changes the color of Ess Tgs Tes and sys buttons accordingly
+  // toggles the the expend & close buttons and changes the color of Ess Tgs Tes and sys buttons to either blue or green
   useEffect(() => {
     if (!essSwitch) {
       switch (options) {
