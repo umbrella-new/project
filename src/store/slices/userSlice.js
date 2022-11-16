@@ -3,8 +3,8 @@ import moment from 'moment';
 // this slice is for the user information
 
 const initialState = {
-  isEssSwitch: false,
-  isTesSwitch: true,
+  isEssSwitch: true,
+  isTesSwitch: false,
   isExpanded: false,
   isPasswordOpen: false,
   isAdministrator: false,

@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import Keyboard from "react-simple-keyboard";
-import "./keypad.css";
+import React, { useRef, useState } from 'react';
+import Keyboard from 'react-simple-keyboard';
+import './keypad.css';
 
-import styled from "styled-components";
-import { flexboxCenter } from "../../styles/commonStyles";
+import styled from 'styled-components';
+import { flexboxCenter } from '../../styles/commonStyles';
 
 const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
-  const [inputNum, setInputNum] = useState("");
+  const [inputNum, setInputNum] = useState('');
   const keyboard = useRef();
 
   const onChange = (input) => {
@@ -41,10 +41,10 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         onChange={onChange}
-        theme={"hg-theme-default hg-layout-default myTheme"}
-        display={{ "{bksp}": "⌫" }}
+        theme={'hg-theme-default hg-layout-default myTheme'}
+        display={{ '{bksp}': '⌫' }}
         layout={{
-          default: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 ."],
+          default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 .'],
         }}
       />
       <ButtonWrapper>
@@ -81,12 +81,14 @@ const Wrapper = styled.div`
   background: transparent linear-gradient(180deg, #233A54 0%, #060D19 100%) 0% 0% no-repeat padding-box;
   border: 1px solid #142033;
   opacity: 1;
+  z-index: 100;
 `;
 
 const InputAndButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  z-index: 100;
 `;
 
 const Input = styled.input`
@@ -102,12 +104,14 @@ const Input = styled.input`
     color: #fff;
   }
   margin-bottom: 0.4rem;
+  z-index: 100;
 `;
 
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  z-index: 100;
 `;
 
 const EnterButtonWrapper = styled.button`
@@ -124,6 +128,7 @@ const EnterButtonWrapper = styled.button`
   box-shadow: inset 0px 0px 3px #000000;
   border: 0.5px solid #142033;
   border-radius: 12px;
+  z-index: 100;
 `;
 
 const ButtonOuter = styled.div`
@@ -135,6 +140,7 @@ const ButtonOuter = styled.div`
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 1px #000000;
   border-radius: 10px;
+  z-index: 100;
 `;
 
 const ButtonHole = styled.div`
@@ -148,6 +154,7 @@ const ButtonHole = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 9px;
+  z-index: 100;
 `;
 
 const ButtonInner = styled.div`
@@ -157,6 +164,7 @@ const ButtonInner = styled.div`
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 1px #000000;
   border-radius: 7px;
+  z-index: 100;
 `;
 
 const ButtonTop = styled.div`
@@ -171,9 +179,11 @@ const ButtonTop = styled.div`
   opacity: 1;
 
   ${flexboxCenter}
+  z-index:100;
 `;
 
 const ButtonName = styled.span`
   font-size: 16px;
   text-align: center;
+  z-index: 100;
 `;

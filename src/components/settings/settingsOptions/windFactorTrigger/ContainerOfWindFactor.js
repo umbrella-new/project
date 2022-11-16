@@ -172,61 +172,73 @@ function ContainerOfWindFactor() {
   };
 
   return (
-    <Wrapper>
-      {!settingsEditButton &&
-        (windFactorState.low !== null ||
-          windFactorState.med !== null ||
-          windFactorState.high !== null ||
-          windFactorState.extreme) && (
-          <InvisibleDivForEditButton height={height} />
-        )}
-      <FlexWrapper>
-        {content.map((value, index) => {
-          return (
-            <div key={index}>
-              <>
-                <WindFactor
-                  contents={value}
-                  index={index}
-                  selectedMeasurement={unitsMeasurement}
-                  handleKeypad={handleDisplayKeyPad}
-                  setInputFocus={setInputFocus}
-                />
-              </>
-              {activateKeypad && options === index && (
-                <KeyboardWrapper index={options}>
-                  {/* <PositionAbsoluteBox index={options}> */}
-                  <InputKeyPad
-                    closeKeyPad={() => setActivateKeypad(false)}
-                    handleOnSubmit={handleInput}
-                    setMainInput={handleInput}
+    <Wrapper1>
+      <Wrapper>
+        {!settingsEditButton &&
+          (windFactorState.low !== null ||
+            windFactorState.med !== null ||
+            windFactorState.high !== null ||
+            windFactorState.extreme) && (
+            <InvisibleDivForEditButton height={height} />
+          )}
+        <FlexWrapper>
+          {content.map((value, index) => {
+            return (
+              <div key={index}>
+                <>
+                  <WindFactor
+                    contents={value}
+                    index={index}
+                    selectedMeasurement={unitsMeasurement}
+                    handleKeypad={handleDisplayKeyPad}
+                    setInputFocus={setInputFocus}
                   />
-                  {/* </PositionAbsoluteBox> */}
-                </KeyboardWrapper>
-              )}
-            </div>
-          );
-        })}
-      </FlexWrapper>
+                </>
+                {activateKeypad && options === index && (
+                  <KeyboardWrapper index={options}>
+                    {/* <PositionAbsoluteBox index={options}> */}
+                    <InputKeyPad
+                      closeKeyPad={() => setActivateKeypad(false)}
+                      handleOnSubmit={handleInput}
+                      setMainInput={handleInput}
+                    />
+                    {/* </PositionAbsoluteBox> */}
+                  </KeyboardWrapper>
+                )}
+              </div>
+            );
+          })}
+        </FlexWrapper>
 
+        {messageBox && (
+          <SettingAppliedMessage
+            title={'change options'}
+            message={messageBoxContent}
+            onClose={handleCloseMessageBox}
+          />
+        )}
+      </Wrapper>
       <WrapperButtons>
         <EditCancelApplyButtons
           handleClick={handleButtons}
           buttonsName={buttonsName}
         />
       </WrapperButtons>
-      {messageBox && (
-        <SettingAppliedMessage
-          title={'change options'}
-          message={messageBoxContent}
-          onClose={handleCloseMessageBox}
-        />
-      )}
-    </Wrapper>
+    </Wrapper1>
   );
 }
 
 export default ContainerOfWindFactor;
+
+const Wrapper1 = styled.div`
+  width: 596px;
+  height: 383px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
 
 const Wrapper = styled.div`
   width: 596px;
@@ -286,7 +298,7 @@ const KeyboardWrapper = styled.div`
 const WrapperButtons = styled.div`
   width: 578px;
   height: auto;
-  margin-bottom: 10px;
+  margin-left: 1rem;
 
   display: flex;
   justify-content: flex-end;

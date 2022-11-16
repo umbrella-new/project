@@ -51,6 +51,8 @@ function ContainerOfAdmin() {
   const essButtonActive = './images/greenEssButton.svg';
   const sysButton = './images/blueSysButton.svg';
   const sysButtonActive = './images/greenSysButton.svg';
+  const sfButton = './images/blueSfButton.svg';
+  const sfButtonActive = './images/greenSfButton.svg';
   // enable disable switches
   const enableSwitch = './images/greenEnableSwitch.png';
   const disableSwitch = './images/redDisableSwitch.png';
@@ -83,6 +85,7 @@ function ContainerOfAdmin() {
   const [toggleTgsButton, setToggleTgsButton] = useState(tgsButton);
   const [toggleTesButton, setToggleTesButton] = useState(tesButton);
   const [toggleEssButton, setToggleEssButton] = useState(essButton);
+  const [toggleSfButton, setToggleSfButton] = useState(sfButton);
   const [options, setOptions] = useState('');
   const [toggleThermocoupleImg, setToggleThermocoupleImg] =
     useState(disableSwitch);
@@ -113,6 +116,7 @@ function ContainerOfAdmin() {
       button: toggleSysButton,
       title: 'system commands',
     },
+    { button: toggleSfButton, title: 'simulate faults' },
   ];
 
   // useContext
@@ -996,7 +1000,7 @@ const WrapperThermocouple1 = styled.div`
 `;
 
 const WrapperButtons = styled.div`
-  width: 578px;
+  width: 542px;
   height: auto;
   margin-bottom: 10px;
 

@@ -102,7 +102,6 @@ export const settingsOfEssSlice = createSlice({
     },
 
     setSettingsApplySnowSensorTriggerButton: (state, action) => {
-      console.log('action.payload', action.payload);
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
       state.buttonsOfSettings.settingsApplyButton = true;

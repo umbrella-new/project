@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../../styles/commonStyles';
 import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -30,6 +30,7 @@ function OutsideTemperature({
 
   //  useState
   const [activeSelect, setActiveSelect] = useState(true);
+  const [zIndex, setZIndex] = useState(false);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -101,7 +102,7 @@ function OutsideTemperature({
       </ControlContainer>
 
       <SelectionShadowWrapper>
-        <SelectionWrapper color={activeSelect}>
+        <SelectionWrapper color={activeSelect} zIndex={zIndex}>
           <WrapperTitleAndImg>
             <SelectionIndentWrapper color={activeSelect}>
               {/* check if there's a selection of tc. if not it will display 'select t/c' by default */}
@@ -116,8 +117,9 @@ function OutsideTemperature({
               src={`${activeSelect ? whiteTriangle : greyTriangle}`}
               onClick={() =>
                 activeSelect && essSwitch
-                  ? displayOptions(essOutsideTempName)
-                  : activeSelect && displayOptions(tgsTesOutsideTempName)
+                  ? (displayOptions(essOutsideTempName), setZIndex(false))
+                  : activeSelect &&
+                    (displayOptions(tgsTesOutsideTempName), setZIndex(false))
               }
             />
           </WrapperTitleAndImg>
@@ -159,7 +161,7 @@ function OutsideTemperature({
             </SubTitleWrapper2>
           </SubTitleWrapper>
           <SelectionShadowWrapper>
-            <SelectionWrapper1>
+            <SelectionWrapper1 zIndex={zIndex}>
               <WrapperTitleAndImg>
                 <SelectionIndentWrapper1>
                   <Selection1>{!essSwitch && burningChamber}</Selection1>
@@ -168,7 +170,8 @@ function OutsideTemperature({
                 <Img
                   src={'./images/whiteTriangle.svg'}
                   onClick={() =>
-                    editState && displayOptions(burningChamberTempName)
+                    editState &&
+                    (displayOptions(burningChamberTempName), setZIndex(true))
                   }
                 />
               </WrapperTitleAndImg>
@@ -260,6 +263,7 @@ const ContainerOfSelections = styled.div`
 const ContainerOfCircles = styled.div``;
 
 const OutsideRingGreenCircle = styled.span`
+  cursor: pointer;
   width: 22px;
   height: 22px;
   margin-left: 4px;
@@ -271,6 +275,7 @@ const OutsideRingGreenCircle = styled.span`
 `;
 
 const InsideFilledGreenCircle = styled.div`
+  cursor: pointer;
   width: 14px;
   height: 14px;
   background-color: ${(props) => (props.color ? '#95ff45' : 'none')};
@@ -326,6 +331,11 @@ const SelectionWrapper = styled.div`
   opacity: 1;
   ${flexboxCenter}
   flex-direction: column;
+  ${({ zIndex }) =>
+    !zIndex &&
+    css`
+      z-index: 2;
+    `}
 `;
 
 const WrapperTitleAndImg = styled.div`
@@ -352,6 +362,7 @@ const Selection = styled.p`
 `;
 
 const Img = styled.img`
+  cursor: pointer;
   margin-top: 6px;
   margin-right: 5px;
   color: #808080 0% 0% no-repeat padding-box;
@@ -425,9 +436,11 @@ const SelectWrapper = styled.div`
   flex-direction: column;
   /* space between options and button */
   margin-bottom: 0.2rem;
+  /* z-index: 100; */
 `;
 
 const WrapperButton = styled.div`
+  cursor: pointer;
   display: flex;
   justify-content: flex-end;
 `;

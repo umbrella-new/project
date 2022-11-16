@@ -15,6 +15,7 @@ function SettingsOptionsAndInterfaceMode() {
 const Wrapper = styled.div`
   width: 284px;
   height: 383px;
+  margin-bottom: 5px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;

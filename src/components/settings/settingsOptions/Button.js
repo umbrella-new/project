@@ -1,20 +1,34 @@
 import styled from 'styled-components';
+import { flexboxCenter } from '../../../styles/commonStyles';
 
 const Button = ({ name, handleClick, id, editState }) => {
   return (
     <Wrapper onClick={() => handleClick(id)} borderColor={editState} index={id}>
-      <ButtonHole>
-        <ButtonTop>
-          <ButtonName>{name}</ButtonName>
-        </ButtonTop>
-      </ButtonHole>
+      <Wrapper1>
+        <ButtonHole>
+          <ButtonTop>
+            <ButtonName>{name}</ButtonName>
+          </ButtonTop>
+        </ButtonHole>
+      </Wrapper1>
     </Wrapper>
   );
 };
 
 export default Button;
 
-const Wrapper = styled.button`
+const Wrapper = styled.div`
+  width: 80px;
+  height: 37px;
+
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 19px;
+  opacity: 1;
+  ${flexboxCenter}
+`;
+
+const Wrapper1 = styled.button`
   cursor: pointer;
   height: 35px;
   width: 78px;

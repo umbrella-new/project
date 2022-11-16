@@ -4,6 +4,7 @@ import RadioBox from '../RadioBox';
 import TcConfirmButton from '../TcConfirmButton';
 import { useSelector } from 'react-redux';
 import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSlice';
+import { useState } from 'react';
 
 function CurrentEncloseAndBurningTemp({
   data,
@@ -22,6 +23,9 @@ function CurrentEncloseAndBurningTemp({
   tgsTesEncloseTempName,
   selectTcState,
 }) {
+  // useState
+  const [zIndex, setZIndex] = useState();
+
   // redux
   const state = useSelector(selectSettingsOfEss);
   const editState = state.buttonsOfSettings.settingsEditButton;
@@ -70,6 +74,7 @@ function CurrentEncloseAndBurningTemp({
                 tesSwitch={tesSwitch}
                 essSwitch={essSwitch}
                 index={index}
+                zIndex={zIndex}
               >
                 <WrapperTitleAndImg>
                   <SelectionIndentWrapper
@@ -103,8 +108,10 @@ function CurrentEncloseAndBurningTemp({
                       onClick={(e) =>
                         editState &&
                         (index === 0
-                          ? displayOptions(essHeaterTempName, e)
-                          : displayOptions(essEncloseTempName, e))
+                          ? (displayOptions(essHeaterTempName, e),
+                            setZIndex(index))
+                          : (displayOptions(essEncloseTempName, e),
+                            setZIndex(index)))
                       }
                     />
                   ) : !tesSwitch && index === 1 ? (
@@ -115,11 +122,14 @@ function CurrentEncloseAndBurningTemp({
                       onClick={(e) =>
                         editState &&
                         (index === 0
-                          ? displayOptions(tgsHeaterTempName, e)
+                          ? (displayOptions(tgsHeaterTempName, e),
+                            setZIndex(index))
                           : index === 1
-                          ? displayOptions(tesHeaterTempName, e)
+                          ? (displayOptions(tesHeaterTempName, e),
+                            setZIndex(index))
                           : index === 2 &&
-                            displayOptions(tgsTesEncloseTempName, e))
+                            (displayOptions(tgsTesEncloseTempName, e),
+                            setZIndex(index)))
                       }
                     />
                   )}
@@ -309,7 +319,11 @@ const SelectionWrapper = styled.div`
   ${flexboxCenter}
   justify-content: space-around;
   flex-direction: column;
-  z-index: 2;
+  ${({ zIndex, index }) =>
+    zIndex === index &&
+    css`
+      z-index: 2;
+    `};
 `;
 const SelectionIndentWrapper = styled.div`
   width: 195px;
