@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import SnowFactor from './SnowFactor';
@@ -19,6 +19,8 @@ import {
   selectSettingsOfTgsTes,
   setTgsTesSettingsApplySnowSensorButton,
 } from '../../../../store/slices/settingsOfTgsTesSlice';
+import InputValveSettingsMessage from '../admin/valvetSettings/InputValveSettingsMessage';
+import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
@@ -40,17 +42,22 @@ function ContainerOfSnowSensor() {
     metricImperialToggle,
   } = useContext(SettingsContext);
 
+  // useState
+  const [messageBox, setMessageBox] = useState(false);
+  const [messageBoxContent, setMessageBoxContent] = useState({});
+  const [options, setOptions] = useState('');
+
   // redux
   const dispatch = useDispatch();
   const state = useSelector(selectUserState);
+  const essState = useSelector(selectSettingsOfEss);
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const tesSwitch = state.isTesSwitch;
   const essSwitch = state.isEssSwitch;
-  const essState = useSelector(selectSettingsOfEss);
   const editState = essState.buttonsOfSettings.settingsEditButton;
-  const mode = state.interfaceMode;
+  const mode = essState.interfaceMode;
   const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
   const essSnowSensorState = essState.snowSensorState;
-  const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const tgsTesSnowSensorState = tgsTesState.snowSensorTemp;
   // const cancelState = essState.buttonsOfSettings.settingsCancelButton;
   // const applyState = essState.buttonsOfSettings.settingsApplyButton;
@@ -79,8 +86,13 @@ function ContainerOfSnowSensor() {
         setEssSnowSensor('');
         break;
       case 2:
-        dispatch(setSettingsApplySnowSensorTriggerButton(essSnowSensor));
-        dispatch(setResetAllSettingsButtons());
+        if (typeof essSnowSensor === 'number') {
+          dispatch(setSettingsApplySnowSensorTriggerButton(essSnowSensor));
+          dispatch(setResetAllSettingsButtons());
+        }
+        setMessageBox(true);
+        handleSnowSensorMessageBox();
+
         break;
       default:
         return;
@@ -88,6 +100,7 @@ function ContainerOfSnowSensor() {
   };
 
   // 3 buttons(edit, cancel and apply). Dispatch the input fields for tgs tes or tgs only into tgs tes slice when apply button is clicked
+
   const handleTgsTesButtons = (value) => {
     const buttonsIndex = Number(value);
     switch (buttonsIndex) {
@@ -100,25 +113,64 @@ function ContainerOfSnowSensor() {
         setTgsSnowSensor('');
         break;
       case 2:
-        dispatch(setResetAllSettingsButtons());
-        dispatch(
-          setTgsTesSettingsApplySnowSensorButton({
-            tgsSnowSensor,
-            tesSnowSensor,
-          })
-        );
+        if (
+          typeof tgsSnowSensor == 'number' &&
+          typeof tesSnowSensor == 'number'
+        ) {
+          dispatch(setResetAllSettingsButtons());
+          dispatch(
+            setTgsTesSettingsApplySnowSensorButton({
+              tgsSnowSensor,
+              tesSnowSensor,
+            })
+          );
+        }
+        setMessageBox(true);
+        handleSnowSensorMessageBox();
+
         break;
       default:
         return;
     }
   };
-  console.log('essSnowSensor', essSnowSensor);
 
+  const handleSnowSensorMessageBox = () => {
+    if (
+      typeof essSnowSensor === 'number' ||
+      (typeof tgsSnowSensor === 'number' && typeof tesSnowSensor === 'number')
+    ) {
+      setMessageBoxContent({
+        title: ['snow sensor trigger'],
+        content: 'settings have been applied',
+      });
+    } else {
+      setMessageBoxContent({
+        title: ['input fields incomplete'],
+        content: 'please field all the input fields',
+      });
+    }
+    return;
+  };
+
+  const handleCloseMessageBox = () => {
+    setMessageBox(false);
+    return;
+  };
+
+  // (tgsSnowSensor !== null && tesSnowSensor !== null) || (
+  //   <InvisibleDivForEditButton height={'100px'} />
+  // )
+
+  console.log('essSnowSensor', essSnowSensor);
   return (
     <Wrapper essSwitch={essSwitch}>
-      {!settingsEditButton &&
-        (tgsSnowSensor !== null || tesSnowSensor !== null) &&
-        essSnowSensor !== null && (
+      {essSwitch && !settingsEditButton && essSnowSensor !== null && (
+        <InvisibleDivForEditButton height={'100px'} />
+      )}
+      {!essSwitch &&
+        !settingsEditButton &&
+        tgsSnowSensor !== null &&
+        tesSnowSensor !== null && (
           <InvisibleDivForEditButton height={'100px'} />
         )}
       <Wrapper1 essSwitch={essSwitch}>
@@ -129,8 +181,8 @@ function ContainerOfSnowSensor() {
           tesSwitch={tesSwitch}
           essSwitch={essSwitch}
           editState={editState}
-          snowSensorState={essSwitch ? essSnowSensor : tgsSnowSensor}
-          tesSnowSensorState={tesSnowSensor}
+          options={options}
+          setOptions={setOptions}
           metricImperialToggle={metricImperialToggle}
         />
       </Wrapper1>
@@ -140,6 +192,13 @@ function ContainerOfSnowSensor() {
           buttonsName={buttonsName}
         />
       </WrapperButtons>
+      {messageBox && (
+        <SettingAppliedMessage
+          title={'change options'}
+          message={messageBoxContent}
+          onClose={handleCloseMessageBox}
+        />
+      )}
     </Wrapper>
   );
 }

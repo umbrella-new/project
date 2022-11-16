@@ -222,9 +222,10 @@ function ContainerOfForceAndCommand() {
         break;
       case 1:
         dispatch(setSettingsCancelButton());
+        setEssAtsConfirmButton(false);
         break;
       case 2:
-        if (essAtsConfirmButton && !isNaN(+atsEssState)) {
+        if (essAtsConfirmButton && typeof essAtsState === 'number') {
           dispatch(setAts(essAtsState));
           setEssAtsConfirmButton(false);
         }
@@ -271,6 +272,7 @@ function ContainerOfForceAndCommand() {
         break;
       case 1:
         dispatch(setSettingsCancelButton());
+        setTgsAtsConfirmButton(false);
         break;
       case 2:
         if (tgsAtsConfirmButton && !isNaN(+tgsAtsState)) {
@@ -295,6 +297,7 @@ function ContainerOfForceAndCommand() {
         break;
       case 1:
         dispatch(setSettingsCancelButton());
+        setTesAtsConfirmButton(false);
         break;
       case 2:
         if (tesAtsConfirmButton && !isNaN(+atsTesState)) {
@@ -358,6 +361,7 @@ function ContainerOfForceAndCommand() {
   // theses variables are usd in the 5 functions below
   const messageDescription = 'settings have been applied';
   const noModification = 'no modifications done';
+  const errorMessage = 'error';
   // force & commands : Ess :  message box shows what was changed
   const handleEssMessageBox = () => {
     const titleSelectAts = 'select ats';
@@ -365,6 +369,11 @@ function ContainerOfForceAndCommand() {
       setMessageBoxContent({
         title: [titleSelectAts],
         content: messageDescription,
+      });
+    } else if (!essAtsConfirmButton) {
+      setMessageBoxContent({
+        title: [errorMessage],
+        content: 'please select and press apply to make changes',
       });
     } else {
       setMessageBoxContent({ title: [noModification], content: '' });
@@ -375,7 +384,8 @@ function ContainerOfForceAndCommand() {
   // force & commands : Ess : Sys: message box shows what was changed
   const handleEssSysMessageBox = () => {
     const titleSelectTc = 'select t/c telemetry';
-    if (!isNaN(+temperatureSelection) || essHeater || essEnclose) {
+    if (typeof temperatureSelection === 'number' && (essHeater || essEnclose)) {
+      console.log('temperatureSelection', temperatureSelection);
       setMessageBoxContent({
         title: [titleSelectTc],
         content: messageDescription,
@@ -394,6 +404,11 @@ function ContainerOfForceAndCommand() {
         title: [titleSelectAts],
         content: messageDescription,
       });
+    } else if (!tgsAtsConfirmButton) {
+      setMessageBoxContent({
+        title: [errorMessage],
+        content: 'please select and press apply to make changes',
+      });
     } else {
       setMessageBoxContent({ title: [noModification], content: '' });
     }
@@ -408,6 +423,11 @@ function ContainerOfForceAndCommand() {
         title: [titleSelectAts],
         content: messageDescription,
       });
+    } else if (!tesAtsConfirmButton) {
+      setMessageBoxContent({
+        title: [errorMessage],
+        content: 'please select and press apply to make changes',
+      });
     } else {
       setMessageBoxContent({ title: [noModification], content: '' });
     }
@@ -418,7 +438,7 @@ function ContainerOfForceAndCommand() {
   const handleTgsTesSysMessageBox = () => {
     const titleSelectTc = 'select t/c telemetry';
     if (
-      !isNaN(+temperatureSelection) &&
+      typeof temperatureSelection === 'number' &&
       (burningChamber || tgsHeater || tesHeater || tgsTesEnclose)
     ) {
       setMessageBoxContent({

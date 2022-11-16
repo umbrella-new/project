@@ -23,11 +23,16 @@ function SystemConfiguration() {
 
   // states
   const [options, setOptions] = useState(false);
-  const [buttonName, setButtonName] = useState('save');
+  // const [buttonName, setButtonName] = useState('save');
 
   // useContext
-  const { SetSavedSelection, sysConfiguration, setSysConfiguration } =
-    useContext(SettingsContext);
+  const {
+    SetSavedSelection,
+    sysConfiguration,
+    setSysConfiguration,
+    configurationButtonName,
+    setConfigurationButtonName,
+  } = useContext(SettingsContext);
 
   // sets the green circles to either Tgs and Tes or Tgs only
   useEffect(() => {
@@ -43,13 +48,14 @@ function SystemConfiguration() {
   // toggles the green circle and button name
   const handleSelect = (index) => {
     index === 1 ? setOptions(true) : setOptions(false);
-    setButtonName('save');
+    setConfigurationButtonName('save');
+    setSysConfiguration(false);
   };
   // handles save button to activate or deactivate the use of Tes system depending on customer need and change button name.
   const handleActivationOfTes = () => {
     SetSavedSelection(options);
     setSysConfiguration(true);
-    setButtonName('saved');
+    setConfigurationButtonName('saved');
     return;
   };
 
@@ -107,7 +113,7 @@ function SystemConfiguration() {
           // }}
           >
             <ConfirmButton
-              name={buttonName}
+              name={configurationButtonName}
               buttonColor={sysConfiguration}
               handleClick={handleActivationOfTes}
               editState={editState}

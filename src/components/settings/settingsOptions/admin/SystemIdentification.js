@@ -39,18 +39,23 @@ const SystemIdentification = () => {
   const [displaySelectBox, setDisplaySelectBox] = useState(initialSelectBox);
   const [isChecked, setIsChecked] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
   const [activateMessageBox, setActivateMessageBox] = useState(false);
   const [message, setMessage] = useState(null);
   const [isReadyToSave, setIsReadyToSave] = useState(false);
   const [keyboardPosition, setKeyboardPosition] = useState(null);
   const [displayAdditionalInput, setDisplayingAdditionalInput] =
     useState(false);
-  const [buttonNames, setButtonNames] = useState(['edit system', 'save']);
+  // const [buttonNames, setButtonNames] = useState(['edit system', 'save']);
 
   // useContext
-  const { sysIdentification, setSysIdentification, inputData, setInputData } =
-    useContext(SettingsContext);
+  const {
+    sysIdentification,
+    setSysIdentification,
+    inputData,
+    setInputData,
+    buttonNames,
+    setButtonNames,
+  } = useContext(SettingsContext);
 
   const systemIdState = useSelector(selectSystemIdentification);
   const { heatingSysOptions, switchSizeOptions, ssrRatingOptions } =
@@ -85,11 +90,7 @@ const SystemIdentification = () => {
         if (isReadyToSave) {
           setButtonNames(['edit system', 'saved']);
           setSysIdentification(true);
-
           setIsEditable(!isEditable);
-          setIsSaved(!isSaved);
-          // setMessage('selection confirmed');
-          // setActivateMessageBox(true);
         } else {
           setMessage('please fill in all fields');
           setActivateMessageBox(true);
@@ -102,6 +103,8 @@ const SystemIdentification = () => {
       // do send all input data
       setDisplaySelectBox(initialSelectBox);
       setIsEditable(!isEditable);
+      setSysIdentification(false);
+      setButtonNames(['edit system', 'save']);
     }
   };
 
@@ -377,10 +380,10 @@ const SystemIdentification = () => {
                 <ButtonWrapper
                   onClick={() => settingsEditButton && handleButtonClick(name)}
                   isEditable={isEditable}
-                  isSaved={isSaved}
+                  color={sysIdentification}
                 >
                   <ButtonHole>
-                    <ButtonTop isSaved={isSaved} index={index === 1}>
+                    <ButtonTop color={sysIdentification} index={index === 1}>
                       {name}
                     </ButtonTop>
                   </ButtonHole>
@@ -608,8 +611,8 @@ const ButtonWrapper = styled.button`
         : 'none'}
   }
   &:last-child {
-    ${({ isSaved }) =>
-      isSaved &&
+    ${({ color }) =>
+      color &&
       css`
         background: transparent
           linear-gradient(180deg, #1e7fc1 0%, #001640 100%) 0% 0% no-repeat
@@ -637,8 +640,8 @@ const ButtonTop = styled.div`
   border: 0.5px solid #000000;
   border-radius: 25px;
 
-  ${({ isSaved, index }) =>
-    isSaved &&
+  ${({ color, index }) =>
+    color &&
     index &&
     css`
       background: transparent linear-gradient(180deg, #1e7fc1 0%, #001640 100%)

@@ -17,6 +17,8 @@ function ContainerSelectGasType() {
     setGasSelection,
     gasTypeButtonColor,
     setGasTypeButtonColor,
+    gasButtonName,
+    setGasButtonName,
   } = useContext(SettingsContext);
 
   // states
@@ -38,6 +40,7 @@ function ContainerSelectGasType() {
   // it sets the state to which determines if this machine uses lp or ng in term the title of machine will change accordingly.sets the confirm button to light blue and crucial for apply button to determine if there's a change to trigger the right dispatch.
   const handleButton = () => {
     setGasTypeButtonColor(true);
+    setGasButtonName('confirmed');
     if (gasSelection === 1) {
       setActiveSelect(true);
     } else {
@@ -61,6 +64,7 @@ function ContainerSelectGasType() {
           <GasTypeConfirmButton
             handleButton={handleButton}
             buttonColor={gasTypeButtonColor}
+            buttonName={gasButtonName}
           />
         </WrapperButton>
       </Wrapper2>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-function GasTypeConfirmButton({ handleButton, buttonColor }) {
+function GasTypeConfirmButton({ handleButton, buttonColor, buttonName }) {
   return (
     <Wrapper>
       <Wrapper1
@@ -11,7 +11,7 @@ function GasTypeConfirmButton({ handleButton, buttonColor }) {
       >
         <ButtonHole>
           <ButtonTop color={buttonColor}>
-            <ButtonName>confirm</ButtonName>
+            <ButtonName>{buttonName}</ButtonName>
           </ButtonTop>
         </ButtonHole>
       </Wrapper1>

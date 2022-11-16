@@ -34,7 +34,9 @@ import {
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import { handleAddNewElement } from '../../../../store/slices/ssrDescriptionSlice';
 import { setForceGasAndElectricSystem } from '../../../../store/slices/settingsOfSysSlice';
-import { handleAdditionalSystemIdentification } from '../../../../store/slices/settingSystemIdentificationSlice';
+import settingsSystemIdentificationSlice, {
+  handleAdditionalSystemIdentification,
+} from '../../../../store/slices/settingSystemIdentificationSlice';
 import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 import ApplyButtonInvisibleDiv from '../editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
@@ -129,6 +131,13 @@ function ContainerOfAdmin() {
     gasTypeButtonColor,
     setGasTypeButtonColor,
     setSaveButtonColor,
+    setSysIdentification,
+    setSysConfiguration,
+    setButtonNames,
+    setSaveButtonName,
+    setConfigurationButtonName,
+    setValveButtonName,
+    setGasButtonName,
   } = useContext(SettingsContext);
 
   // useEffect sets back the selections to previous selection
@@ -144,143 +153,6 @@ function ContainerOfAdmin() {
       dispatch(setAdminAccess(false));
     };
   }, []);
-
-  // set toggle for to close or expand the contents of each system
-  const handleSelect = (value) =>
-    options !== value ? setOptions(value) : setOptions('');
-
-  // handles Ess dispatch once pressed on Apply button, Edit button or Cancel button
-  const handleEssDispatches = (value) => {
-    const buttonsIndex = Number(value);
-    switch (buttonsIndex) {
-      case 0:
-        dispatch(setSettingsEditButton());
-        break;
-      case 1:
-        dispatch(setSettingsCancelButton());
-        break;
-      case 2:
-        if (toggleThermocoupleSwitch !== checkPrevThermocoupleState) {
-          setCheckPrevThermocoupleState(!checkPrevThermocoupleState);
-          dispatch(setThermocouple(toggleThermocoupleSwitch));
-        }
-        if (saveButtonColor) {
-          dispatch(handleAddNewElement(inputElement));
-        }
-        setMessageBox(true);
-        handleEssMessageBox();
-        dispatch(setResetAllSettingsButtons());
-        break;
-      default:
-        return;
-    }
-  };
-
-  // handles Ess Sys dispatch once pressed on Apply button, Edit button or Cancel button
-  const handleEssSysDispatches = (value) => {
-    const buttonsIndex = Number(value);
-    switch (buttonsIndex) {
-      case 0:
-        dispatch(setSettingsEditButton());
-        break;
-      case 1:
-        dispatch(setSettingsCancelButton());
-        break;
-      case 2:
-        if (sysIdentification) {
-          dispatch(handleAdditionalSystemIdentification(inputData));
-        }
-        setMessageBox(true);
-        handleEssSysMessageBox();
-        dispatch(setResetAllSettingsButtons());
-        break;
-      default:
-        return;
-    }
-  };
-
-  // handles the Tgs dispatch once pressed on Apply button, Edit button or Cancel button
-  const handleTgsDispatches = (value) => {
-    const buttonsIndex = Number(value);
-    switch (buttonsIndex) {
-      case 0:
-        dispatch(setSettingsEditButton());
-        break;
-      case 1:
-        dispatch(setSettingsCancelButton());
-        break;
-      case 2:
-        if (gasTypeButtonColor) {
-          dispatch(setGasType(activeSelect));
-        }
-        if (valveButtonColor) {
-          dispatch(setValveInputs(inputValue));
-        }
-        setMessageBox(true);
-        handleTgsMessageBox();
-        dispatch(setResetAllSettingsButtons());
-        break;
-      default:
-        return;
-    }
-  };
-
-  // handles the Tes dispatch once pressed on Apply button, Edit button or Cancel button
-  const handleTesDispatches = (value) => {
-    const buttonsIndex = Number(value);
-    switch (buttonsIndex) {
-      case 0:
-        dispatch(setSettingsEditButton());
-        break;
-      case 1:
-        dispatch(setSettingsCancelButton());
-        break;
-      case 2:
-        if (toggleThermocoupleSwitch) {
-          dispatch(setThermocouple(toggleThermocoupleSwitch));
-        }
-        if (saveButtonColor) {
-          dispatch(handleAddNewElement(inputElement));
-        }
-        setMessageBox(true);
-        handleTesMessageBox();
-        dispatch(setResetAllSettingsButtons());
-        break;
-      default:
-        return;
-    }
-  };
-
-  // handles the Tgs Tes Sys dispatch once pressed on Apply button, Edit button or Cancel button
-
-  const handleTgsTesSysDispatches = (value) => {
-    const buttonsIndex = Number(value);
-    switch (buttonsIndex) {
-      case 0:
-        dispatch(setSettingsEditButton());
-        break;
-      case 1:
-        dispatch(setSettingsCancelButton());
-        break;
-      case 2:
-        if (forceGasElectric) {
-          dispatch(setForceGasAndElectricSystem(forceGasElectric));
-        }
-        if (sysIdentification) {
-          dispatch(handleAdditionalSystemIdentification(inputData));
-        }
-        if (sysConfiguration) {
-          dispatch(handleTesSwitch(savedSelection));
-        }
-
-        setMessageBox(true);
-        handleSysMessageBox();
-        dispatch(setResetAllSettingsButtons());
-        break;
-      default:
-        return;
-    }
-  };
 
   // toggles the the expend & close buttons and changes the color of Ess Tgs Tes and sys buttons to either blue or green
   useEffect(() => {
@@ -338,6 +210,175 @@ function ContainerOfAdmin() {
     }
   }, [options]);
 
+  // set toggle for to close or expand the contents of each system
+  const handleSelect = (value) =>
+    options !== value ? setOptions(value) : setOptions('');
+
+  // handles Ess dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleEssDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        setToggleThermocoupleSwitch(false);
+        setSaveButtonColor(false);
+        setSaveButtonName('save');
+        break;
+      case 2:
+        if (toggleThermocoupleSwitch !== checkPrevThermocoupleState) {
+          setCheckPrevThermocoupleState(!checkPrevThermocoupleState);
+          dispatch(setThermocouple(toggleThermocoupleSwitch));
+        }
+        if (saveButtonColor) {
+          dispatch(handleAddNewElement(inputElement));
+          setSaveButtonColor(false);
+          setSaveButtonName('save');
+        }
+        setMessageBox(true);
+        handleEssMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles Ess Sys dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleEssSysDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        setSysIdentification(false);
+        setButtonNames(['edit system', 'save']);
+        break;
+      case 2:
+        if (sysIdentification) {
+          dispatch(handleAdditionalSystemIdentification(inputData));
+          setButtonNames(['edit system', 'save']);
+          setSysIdentification(false);
+        }
+        setMessageBox(true);
+        handleEssSysMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles the Tgs dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleTgsDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        setValveButtonColor(false);
+        setGasTypeButtonColor(false);
+        setValveButtonName('confirm');
+        setGasButtonName('confirm');
+        break;
+      case 2:
+        if (gasTypeButtonColor) {
+          dispatch(setGasType(activeSelect));
+          setGasTypeButtonColor(false);
+          setGasButtonName('confirm');
+        }
+        if (valveButtonColor) {
+          dispatch(setValveInputs(inputValue));
+          setValveButtonColor(false);
+          setValveButtonName('confirm');
+        }
+        setMessageBox(true);
+        handleTgsMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles the Tes dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleTesDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        setSaveButtonColor(false);
+        setToggleThermocoupleSwitch(false);
+        setSaveButtonName('save');
+        break;
+      case 2:
+        if (toggleThermocoupleSwitch) {
+          dispatch(setThermocouple(toggleThermocoupleSwitch));
+          setToggleThermocoupleSwitch(false);
+        }
+        if (saveButtonColor) {
+          dispatch(handleAddNewElement(inputElement));
+          setSaveButtonColor(false);
+          setSaveButtonName('save');
+        }
+        setMessageBox(true);
+        handleTesMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
+  // handles the Tgs Tes Sys dispatch once pressed on Apply button, Edit button or Cancel button
+  const handleTgsTesSysDispatches = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        setForceGasAndElectric(false);
+        setButtonNames(['edit system', 'save']);
+        setSysIdentification(false);
+        setSysConfiguration(false);
+        setConfigurationButtonName('save');
+        break;
+      case 2:
+        if (forceGasElectric) {
+          dispatch(setForceGasAndElectricSystem(forceGasElectric));
+          setForceGasAndElectric(false);
+        }
+        if (sysIdentification) {
+          dispatch(handleAdditionalSystemIdentification(inputData));
+          setSysIdentification(false);
+          setButtonNames(['edit system', 'save']);
+        }
+        if (sysConfiguration) {
+          dispatch(handleTesSwitch(savedSelection));
+          setSysConfiguration(false);
+          setConfigurationButtonName('save');
+        }
+
+        setMessageBox(true);
+        handleSysMessageBox();
+        dispatch(setResetAllSettingsButtons());
+        break;
+      default:
+        return;
+    }
+  };
+
   // thermocouple in tes content
   const handleThermocoupleSwitch = () => {
     setToggleThermocoupleSwitch(!toggleThermocoupleSwitch);
@@ -350,8 +391,9 @@ function ContainerOfAdmin() {
     } else setToggleEnableDisableSwitch(enableSwitch);
   };
 
-  // this variable is usd in the 5 functions below
+  // these variables are used in the 5 functions below
   const messageDescription = 'settings have been applied';
+  const noModification = 'no modifications done';
 
   // admin : Ess : message box shows what was changed
   const handleEssMessageBox = () => {
@@ -375,6 +417,8 @@ function ContainerOfAdmin() {
         title: [titleAddElementToBank],
         content: messageDescription,
       });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
     }
     return;
   };
@@ -387,6 +431,8 @@ function ContainerOfAdmin() {
         title: [titleOfIdentification],
         content: messageDescription,
       });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
     }
     return;
   };
@@ -410,6 +456,8 @@ function ContainerOfAdmin() {
         title: [titleValveSettings],
         content: messageDescription,
       });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
     }
     return;
   };
@@ -436,12 +484,13 @@ function ContainerOfAdmin() {
         title: [titleAddElementToBank],
         content: messageDescription,
       });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
     }
     return;
   };
 
   // admin : sys : message box shows what was changed
-
   const handleSysMessageBox = () => {
     const titleOfForce =
       'force - gas & electric system simultaneously on for 15 minutes';
@@ -482,6 +531,8 @@ function ContainerOfAdmin() {
         title: [titleOfConfiguration],
         content: messageDescription,
       });
+    } else {
+      setMessageBoxContent({ title: [noModification], content: '' });
     }
     return;
   };

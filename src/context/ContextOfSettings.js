@@ -50,6 +50,7 @@ const SettingsProvider = ({ children }) => {
   //admin: tgs: select gas type
   const [activeSelect, setActiveSelect] = useState(null);
   const [gasSelection, setGasSelection] = useState(0);
+  const [gasButtonName, setGasButtonName] = useState('confirm');
 
   // admin: tes: add element to bank
   const initialInputState = {
@@ -64,6 +65,7 @@ const SettingsProvider = ({ children }) => {
 
   // admin: Tgs : valve settings
   const [valveButtonColor, setValveButtonColor] = useState(false);
+  const [valveButtonName, setValveButtonName] = useState('confirm');
 
   // admin : tes : thermocouple
   // const [tesThermocoupleButtonColor, setTEsThermocoupleButtonColor] =
@@ -71,6 +73,11 @@ const SettingsProvider = ({ children }) => {
 
   // admin : tes :add element to bank
   const [saveButtonColor, setSaveButtonColor] = useState(false);
+  const [saveButtonName, setSaveButtonName] = useState('save');
+
+  // admin : sys: system configuration
+  const [configurationButtonName, setConfigurationButtonName] =
+    useState('save');
 
   // admin: sys : system Identification
   const initialSysInputState = {
@@ -85,6 +92,7 @@ const SettingsProvider = ({ children }) => {
   };
   const [sysIdentification, setSysIdentification] = useState(false);
   const [inputData, setInputData] = useState(initialSysInputState);
+  const [buttonNames, setButtonNames] = useState(['edit system', 'save']);
 
   // Declaration of useReducer
 
@@ -154,6 +162,16 @@ const SettingsProvider = ({ children }) => {
         setTesAtsState,
         temperatureSelection,
         setTemperatureSelection,
+        buttonNames,
+        setButtonNames,
+        saveButtonName,
+        setSaveButtonName,
+        configurationButtonName,
+        setConfigurationButtonName,
+        gasButtonName,
+        setGasButtonName,
+        valveButtonName,
+        setValveButtonName,
       }}
     >
       {children}

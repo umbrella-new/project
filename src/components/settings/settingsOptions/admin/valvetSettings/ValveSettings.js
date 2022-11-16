@@ -15,7 +15,12 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
     { title: 'max position:' },
   ];
 
-  const { valveButtonColor, setValveButtonColor } = useContext(SettingsContext);
+  const {
+    valveButtonColor,
+    setValveButtonColor,
+    valveButtonName,
+    setValveButtonName,
+  } = useContext(SettingsContext);
 
   // const [valveButtonColor, setValveButtonColor] = useState(false);
   const [activateKeypad, setActivateKeypad] = useState(false);
@@ -45,25 +50,29 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
 
   // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
   const handleInput = (inputNumber) => {
-    switch (inputFocus) {
-      case 0:
-        setInputValue(() => ({ ...inputValue, first: inputNumber }));
-        break;
-      case 1:
-        setInputValue(() => ({ ...inputValue, second: inputNumber }));
-        break;
-      case 2:
-        setInputValue(() => ({ ...inputValue, third: inputNumber }));
-        break;
-      default:
-        break;
+    const value = Number(inputNumber);
+    if (value >= 0 && value <= 100) {
+      switch (inputFocus) {
+        case 0:
+          setInputValue(() => ({ ...inputValue, first: inputNumber }));
+          break;
+        case 1:
+          setInputValue(() => ({ ...inputValue, second: inputNumber }));
+          break;
+        case 2:
+          setInputValue(() => ({ ...inputValue, third: inputNumber }));
+          break;
+        default:
+          setWarningMessage(true);
+          break;
+      }
     }
   };
 
   // this changes the save button which the apply button depends to know if theres a change or not
   const handleSubmit = (e) => {
     e.preventDefault();
-    return setValveButtonColor(true);
+    return setValveButtonColor(true), setValveButtonName('confirmed');
   };
 
   // handles the keypad
@@ -134,6 +143,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                     <ValveConfirmButton
                       type='submit'
                       buttonColor={valveButtonColor}
+                      buttonName={valveButtonName}
                     />
                   </WrapperButton>
                 </Form>

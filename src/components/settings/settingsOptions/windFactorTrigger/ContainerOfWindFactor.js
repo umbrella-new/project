@@ -15,6 +15,7 @@ import {
 } from '../../../../store/slices/settingsOfTgsTesSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import InputKeyPad from '../../../keyboard/InputKeyPad';
+import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 import EditCancelApplyButtons from '../EditCancelApplyButtons';
 import WindFactor from './WindFactor';
@@ -62,6 +63,8 @@ function ContainerOfWindFactor() {
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [options, setOptions] = useState('');
   const [inputFocus, setInputFocus] = useState(null);
+  const [messageBox, setMessageBox] = useState(false);
+  const [messageBoxContent, setMessageBoxContent] = useState({});
 
   // Redux
   const dispatch = useDispatch();
@@ -99,8 +102,17 @@ function ContainerOfWindFactor() {
         });
         break;
       case 2:
-        dispatch(setResetAllSettingsButtons());
-        dispatch(setTgsTesSettingsApplyWindFactor(windFactor));
+        if (
+          typeof windFactor.lowWind === 'number' &&
+          typeof windFactor.highWind === 'number' &&
+          typeof windFactor.medWind === 'number' &&
+          typeof windFactor.extremeWind === 'number'
+        ) {
+          dispatch(setResetAllSettingsButtons());
+          dispatch(setTgsTesSettingsApplyWindFactor(windFactor));
+        }
+        setMessageBox(true);
+        handleWindFactorMessageBox();
         break;
       default:
         return;
@@ -126,6 +138,31 @@ function ContainerOfWindFactor() {
       default:
         break;
     }
+  };
+
+  const handleWindFactorMessageBox = () => {
+    if (
+      typeof windFactor.lowWind === 'number' &&
+      typeof windFactor.highWind === 'number' &&
+      typeof windFactor.medWind === 'number' &&
+      typeof windFactor.extremeWind === 'number'
+    ) {
+      setMessageBoxContent({
+        title: ['wind factor trigger'],
+        content: 'settings have been applied',
+      });
+    } else {
+      setMessageBoxContent({
+        title: ['input fields incomplete'],
+        content: 'please field all the input fields',
+      });
+    }
+    return;
+  };
+
+  const handleCloseMessageBox = () => {
+    setMessageBox(false);
+    return;
   };
 
   // handles the keypad
@@ -178,6 +215,13 @@ function ContainerOfWindFactor() {
           buttonsName={buttonsName}
         />
       </WrapperButtons>
+      {messageBox && (
+        <SettingAppliedMessage
+          title={'change options'}
+          message={messageBoxContent}
+          onClose={handleCloseMessageBox}
+        />
+      )}
     </Wrapper>
   );
 }

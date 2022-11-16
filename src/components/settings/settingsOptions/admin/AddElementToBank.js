@@ -30,8 +30,14 @@ const AddElementToBank = () => {
   // const [inputElement, setInputElement] = useState(initialInputState);
 
   // useContext
-  const { inputElement, setInputElement, setSaveButtonColor, saveButtonColor } =
-    useContext(SettingsContext);
+  const {
+    inputElement,
+    setInputElement,
+    setSaveButtonColor,
+    saveButtonColor,
+    saveButtonName,
+    setSaveButtonName,
+  } = useContext(SettingsContext);
 
   // useState
   const [activateKeyboard, setActivateKeyboard] = useState(false);
@@ -68,7 +74,10 @@ const AddElementToBank = () => {
       return setMessageBoxForBankInput(true);
     } else if (inputElement.wattage === null) {
       return setMessageBoxForBankInput(true);
-    } else setSaveButtonColor(true);
+    } else {
+      setSaveButtonColor(true);
+      setSaveButtonName('saved');
+    }
     // if (unitsMeasurement) {
     // const copyObj = { ...inputElement };
     // do unit application later
@@ -268,7 +277,7 @@ const AddElementToBank = () => {
               <ButtonInnerWrapper color={saveButtonColor}>
                 <ButtonHole>
                   <ButtonTop color={saveButtonColor}>
-                    <Span>{'save'}</Span>
+                    <Span>{saveButtonName}</Span>
                   </ButtonTop>
                 </ButtonHole>
               </ButtonInnerWrapper>
