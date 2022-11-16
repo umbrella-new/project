@@ -17,9 +17,6 @@ function ImperialMetricMeasurementReader({
 
   const { settingsEditButton } = state.buttonsOfSettings;
 
-  // console.log('unitsMeasurement', unitsMeasurement);
-  // console.log('index', index);
-  // console.log('metricImperialToggle', metricImperialToggle);
   return (
     <div>
       <Wrapper>

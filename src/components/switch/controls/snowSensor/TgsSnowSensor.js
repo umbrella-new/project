@@ -28,7 +28,6 @@ const TgsSnowSensor = () => {
     isActivated && dispatch(FanOnlyActivator());
   }, [isActivated]);
 
-  // console.log(isReady);
   const dispatch = useDispatch();
 
   const CONTROLLER_NAME = 'snow sensor program';

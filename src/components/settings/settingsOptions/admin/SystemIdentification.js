@@ -686,6 +686,7 @@ const RadioBoxContentWrapper = styled.ul`
 const KeyboardWrapper = styled.div`
   height: 100px;
   position: relative;
+  z-index: 100;
 `;
 
 const PositionAbsoluteBox = styled.div`
@@ -707,4 +708,5 @@ const PositionAbsoluteBox = styled.div`
     css`
       top: -2rem;
     `}
+    z-index:100;
 `;

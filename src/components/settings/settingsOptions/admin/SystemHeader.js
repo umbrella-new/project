@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from '../ForceAndCommand/ButtonCloseAndExpand';
@@ -21,8 +21,16 @@ function SystemHeader({
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
 
+  console.log('index', index);
+  console.log('options', options);
+
   return (
-    <Wrapper tesSwitchFalse={tesSwitchFalse} mode={mode}>
+    <Wrapper
+      tesSwitchFalse={tesSwitchFalse}
+      mode={mode}
+      index={index}
+      options={options}
+    >
       <ButtonHole>
         <Img
           src={
@@ -91,6 +99,15 @@ const Wrapper = styled.div`
       : 'transparent linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%)'};
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;
+
+  background: ${({ index }) =>
+    index === 2 &&
+    css`transparent
+          linear-gradient(180deg, #50412e 0%, #ff920c 100%) 0% 0% no-repeat
+          padding-box`};
+  box-shadow: ${({ index }) =>
+    index === 2 && css`inset 0px 0px 2px #ffffff5e, 0px 0px 2px #000000`};
+
   border-radius: 27px;
   opacity: 1;
   ${flexboxCenter};

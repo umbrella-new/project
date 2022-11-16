@@ -379,7 +379,8 @@ const WrapperButton = styled.div`
 `;
 
 const KeyboardWrapper = styled.div`
-  ${({ index }) => (index === 0 ? 'height:100px' : 'height:100px')}
+  height: 100px;
+  z-index: 100;
 `;
 
 const PositionAbsoluteBox = styled.div`
@@ -401,4 +402,5 @@ const PositionAbsoluteBox = styled.div`
           top: 5rem;
           right: 1rem;
         `}
+  z-index:100;
 `;

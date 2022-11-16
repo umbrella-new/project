@@ -385,7 +385,6 @@ function ContainerOfForceAndCommand() {
   const handleEssSysMessageBox = () => {
     const titleSelectTc = 'select t/c telemetry';
     if (typeof temperatureSelection === 'number' && (essHeater || essEnclose)) {
-      console.log('temperatureSelection', temperatureSelection);
       setMessageBoxContent({
         title: [titleSelectTc],
         content: messageDescription,
@@ -841,7 +840,7 @@ const NewWrapper = styled.div`
 `;
 
 const WrapperButtons = styled.div`
-  width: 578px;
+  width: 542px;
   height: auto;
   margin-bottom: 10px;
 

@@ -595,6 +595,7 @@ const KeyboardWrapper = styled.div`
       : css`
           height: 0px;
         `}
+  z-index:100;
 `;
 
 const PositionAbsoluteBox = styled.div`
@@ -610,4 +611,5 @@ const PositionAbsoluteBox = styled.div`
           top: -10rem;
           left: 40%;
         `}
+  z-index:100;
 `;

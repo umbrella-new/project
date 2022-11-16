@@ -34,10 +34,10 @@ export default EditCancelApplyButtons;
 const ContainerButtons = styled.div`
   width: 270px;
   height: 37px;
-  background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')};
+  /* background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')}; */
   /* background: #233a54 0% 0% no-repeat padding-box; */
-  box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 19px;
+  /* box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 19px; */
   opacity: 1;
 
   display: flex;

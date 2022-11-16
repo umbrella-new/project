@@ -157,57 +157,65 @@ function ContainerOfSnowSensor() {
     return;
   };
 
-  // (tgsSnowSensor !== null && tesSnowSensor !== null) || (
-  //   <InvisibleDivForEditButton height={'100px'} />
-  // )
-
-  console.log('essSnowSensor', essSnowSensor);
   return (
-    <Wrapper essSwitch={essSwitch}>
-      {essSwitch && !settingsEditButton && essSnowSensor !== null && (
-        <InvisibleDivForEditButton height={'100px'} />
-      )}
-      {!essSwitch &&
-        !settingsEditButton &&
-        tgsSnowSensor !== null &&
-        tesSnowSensor !== null && (
+    <Wrapper2>
+      <Wrapper essSwitch={essSwitch}>
+        {essSwitch && !settingsEditButton && essSnowSensor !== null && (
           <InvisibleDivForEditButton height={'100px'} />
         )}
-      <Wrapper1 essSwitch={essSwitch}>
-        <SnowFactor
-          tgsTes={tgsTes}
-          ess={ess}
-          temp={temp}
-          tesSwitch={tesSwitch}
-          essSwitch={essSwitch}
-          editState={editState}
-          options={options}
-          setOptions={setOptions}
-          metricImperialToggle={metricImperialToggle}
-        />
-      </Wrapper1>
+        {!essSwitch &&
+          !settingsEditButton &&
+          tgsSnowSensor !== null &&
+          tesSnowSensor !== null && (
+            <InvisibleDivForEditButton height={'100px'} />
+          )}
+        <Wrapper1 essSwitch={essSwitch}>
+          <SnowFactor
+            tgsTes={tgsTes}
+            ess={ess}
+            temp={temp}
+            tesSwitch={tesSwitch}
+            essSwitch={essSwitch}
+            editState={editState}
+            options={options}
+            setOptions={setOptions}
+            metricImperialToggle={metricImperialToggle}
+          />
+        </Wrapper1>
+        {messageBox && (
+          <SettingAppliedMessage
+            title={'change options'}
+            message={messageBoxContent}
+            onClose={handleCloseMessageBox}
+          />
+        )}
+      </Wrapper>
       <WrapperButtons position={essSwitch}>
         <EditCancelApplyButtons
           handleClick={essSwitch ? handleEssButtons : handleTgsTesButtons}
           buttonsName={buttonsName}
         />
       </WrapperButtons>
-      {messageBox && (
-        <SettingAppliedMessage
-          title={'change options'}
-          message={messageBoxContent}
-          onClose={handleCloseMessageBox}
-        />
-      )}
-    </Wrapper>
+    </Wrapper2>
   );
 }
 
 export default ContainerOfSnowSensor;
 
+const Wrapper2 = styled.div`
+  width: 596px;
+  height: 383px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
 const Wrapper = styled.div`
   width: 596px;
   height: 106px;
+  margin-right: 3px;
   ${flexboxCenter};
   ${({ essSwitch }) =>
     essSwitch
@@ -228,6 +236,7 @@ const Wrapper1 = styled.div`
   height: 106px;
   padding-top: 4px;
   padding-bottom: 4px;
+
   ${({ essSwitch }) => essSwitch && 'width: auto'};
   ${({ essSwitch }) => essSwitch && 'padding-left: 6px'};
   ${({ essSwitch }) => essSwitch && 'padding-right: 6px'};
@@ -241,9 +250,8 @@ const Wrapper1 = styled.div`
 `;
 
 const WrapperButtons = styled.div`
-  width: 578px;
+  width: auto;
   height: auto;
-  margin-bottom: 10px;
 
   display: flex;
   ${({ position }) =>
