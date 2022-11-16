@@ -59,6 +59,7 @@ export const settingsOfTgsTesSlice = createSlice({
       state.windFactorTemp.extreme = action.payload.extremeWind;
     },
     setTgsTesSettingsApplySnowSensorButton: (state, action) => {
+      console.log('setTgsTesSettingsApplySnowSensorButton', action.payload);
       state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
       state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
     },

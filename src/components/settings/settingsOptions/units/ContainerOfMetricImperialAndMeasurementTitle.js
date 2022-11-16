@@ -16,6 +16,8 @@ import { useContext } from 'react';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 import EditCancelApplyButtons from '../EditCancelApplyButtons';
+import { useState } from 'react';
+import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 
 function ContainerOfMetricImperialAndMeasurementTitle() {
   const measurementsArr = [
@@ -47,6 +49,10 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     metricImperialToggle,
     setMetricImperialToggle,
   } = useContext(SettingsContext);
+
+  // useState
+  const [messageBox, setMessageBox] = useState(false);
+  const [messageBoxContent, setMessageBoxContent] = useState({});
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -99,10 +105,30 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
         break;
       case 2:
         dispatch(setSettingsApplyUnitsButton(selectUnitsState));
+        setMessageBox(true);
+        handleEssSysMessageBox();
+        dispatch(setResetAllSettingsButtons());
         break;
       default:
         return;
     }
+  };
+
+  const handleEssSysMessageBox = () => {
+    const messageDescription = 'settings have been applied';
+    const titleOfIdentification = 'select units of measurement';
+
+    setMessageBoxContent({
+      title: [titleOfIdentification],
+      content: messageDescription,
+    });
+
+    return;
+  };
+
+  const handleCloseMessageBox = () => {
+    setMessageBox(false);
+    return;
   };
 
   return (
@@ -131,6 +157,13 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
             buttonsName={buttonsName}
           />
         </WrapperButtons>
+        {messageBox && (
+          <SettingAppliedMessage
+            title={'change options'}
+            message={messageBoxContent}
+            onClose={handleCloseMessageBox}
+          />
+        )}
       </Wrapper2>
     </Wrapper>
   );

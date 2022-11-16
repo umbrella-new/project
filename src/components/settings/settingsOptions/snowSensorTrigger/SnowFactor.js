@@ -12,8 +12,8 @@ function SnowFactor({
   tesSwitch,
   essSwitch,
   editState,
-  snowSensorState,
-  tesSnowSensorState,
+  options,
+  setOptions,
   metricImperialToggle,
 }) {
   // useContext
@@ -23,11 +23,11 @@ function SnowFactor({
     setTesSnowSensor,
     tgsSnowSensor,
     tesSnowSensor,
+    essSnowSensor,
   } = useContext(SettingsContext);
 
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState(null);
-  const [options, setOptions] = useState('');
 
   // handles the keypad
   const handleDisplayKeyPad = (index) => {
@@ -35,20 +35,20 @@ function SnowFactor({
     setActivateKeypad(true);
   };
 
-  // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
+  // handles the input field to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
   const handleInput = (inputNumber) => {
     const value = Number(inputNumber);
     setEssSnowSensor(value);
   };
 
-  // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
+  // handles the 2 input fields to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
   const handleInputs = (inputNumber) => {
     switch (inputFocus) {
       case 0:
-        setTgsSnowSensor(() => ({ ...tgsSnowSensor, first: inputNumber }));
+        setTgsSnowSensor(inputNumber);
         break;
       case 1:
-        setTesSnowSensor(() => ({ ...tesSnowSensor, second: inputNumber }));
+        setTesSnowSensor(inputNumber);
         break;
       default:
         break;
@@ -70,7 +70,7 @@ function SnowFactor({
                   <Input
                     type='number'
                     placeholder='enter temperature'
-                    value={snowSensorState}
+                    value={essSnowSensor}
                     onChange={(e) => {
                       setEssSnowSensor(e.target.value);
                     }}
@@ -119,12 +119,14 @@ function SnowFactor({
                             placeholder='enter temperature'
                             index={index}
                             tesSwitch={tesSwitch}
-                            value={tesSnowSensorState}
+                            value={tgsSnowSensor}
                             onChange={(e) => {
+                              // handleInputs(e.target.value);
                               setTgsSnowSensor(e.target.value);
                             }}
                             onClick={() => {
-                              handleDisplayKeyPad();
+                              handleDisplayKeyPad(index);
+                              setInputFocus(index);
                               setOptions(index);
                             }}
                           ></Input>
@@ -135,29 +137,28 @@ function SnowFactor({
                             placeholder='enter temperature'
                             index={index}
                             tesSwitch={tesSwitch}
-                            value={
-                              index === 0 ? snowSensorState : tesSnowSensorState
-                            }
+                            value={index === 0 ? tgsSnowSensor : tesSnowSensor}
                             onChange={(e) => {
                               index === 0
                                 ? setTgsSnowSensor(e.target.value)
                                 : setTesSnowSensor(e.target.value);
                             }}
                             onClick={() => {
-                              handleDisplayKeyPad();
+                              handleDisplayKeyPad(index);
+                              setInputFocus(index);
                               setOptions(index);
                             }}
                           ></Input>
                         )}
                         {metricImperialToggle === 0 ? '°c' : '°F'}
                       </Temperature>
-                      {activateKeypad && (
+                      {activateKeypad && options === index && (
                         <KeyboardWrapper>
                           <PositionAbsoluteBox index={options}>
                             <InputKeyPad
                               closeKeyPad={() => setActivateKeypad(false)}
-                              handleOnSubmit={handleInput}
-                              setMainInput={handleInput}
+                              handleOnSubmit={handleInputs}
+                              setMainInput={handleInputs}
                             />
                           </PositionAbsoluteBox>
                         </KeyboardWrapper>

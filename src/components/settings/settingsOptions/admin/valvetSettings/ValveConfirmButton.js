@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-function ValveConfirmButton({ buttonColor }) {
+function ValveConfirmButton({ buttonColor, buttonName }) {
   return (
     <Wrapper>
       <Wrapper1 buttonColor={buttonColor}>
         <ButtonHole>
           <ButtonTop buttonColor={buttonColor}>
-            <ButtonName>confirm</ButtonName>
+            <ButtonName>{buttonName}</ButtonName>
           </ButtonTop>
         </ButtonHole>
       </Wrapper1>
