@@ -108,6 +108,7 @@ const ContainerOfEachSelectMeasurement = styled.div`
 `;
 
 const SelectBox = styled.div`
+  cursor: pointer;
   width: 36px;
   height: 20px;
   margin-left: 1px;
@@ -118,6 +119,7 @@ const SelectBox = styled.div`
 `;
 
 const ContainerOfEachOptions = styled.div`
+  cursor: pointer;
   width: 215px;
   height: 22px;
   margin-left: 8px;

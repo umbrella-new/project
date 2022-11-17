@@ -348,6 +348,7 @@ const Selection = styled.p`
 `;
 
 const Img = styled.img`
+  cursor: pointer;
   margin-top: 6px;
   margin-right: 4px;
 `;

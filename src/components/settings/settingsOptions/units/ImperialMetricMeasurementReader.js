@@ -117,6 +117,7 @@ const ContainerOfTitle = styled.div`
   align-items: center;
 `;
 const OutsideRingGreenCircle = styled.span`
+  cursor: pointer;
   width: 22px;
   height: 22px;
   margin-left: 4px;
@@ -129,6 +130,7 @@ const OutsideRingGreenCircle = styled.span`
 `;
 
 const InsideFilledGreenCircle = styled.div`
+  cursor: pointer;
   width: 14px;
   height: 14px;
   background-color: ${(props) => (props.color ? '#95ff45' : 'none')};

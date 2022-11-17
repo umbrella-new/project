@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import ButtonCloseAndExpand from './ButtonCloseAndExpand';
 
@@ -69,6 +69,7 @@ const Wrapper = styled.div`
       : 'transparent linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(35, 58, 84) 100%)'};
 
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
+
   border: 1px solid #142033;
   border-radius: 27px;
   opacity: 1;
@@ -81,6 +82,7 @@ const ButtonHole = styled.div`
 `;
 
 const Img = styled.img`
+  cursor: pointer;
   margin-left: 5px;
 `;
 

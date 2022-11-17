@@ -123,6 +123,7 @@ const ContainerDarkLight = styled.div`
 const ContainerImages = styled.div``;
 
 const OutsideRingGreenCircle = styled.span`
+  cursor: pointer;
   width: 24px;
   height: 24px;
   margin-left: 4px;
@@ -136,6 +137,7 @@ const OutsideRingGreenCircle = styled.span`
 `;
 
 const InsideFilledGreenCircle = styled.div`
+  cursor: pointer;
   width: 16px;
   height: 16px;
   background-color: ${(props) => (props.color ? '#95ff45' : 'none')};

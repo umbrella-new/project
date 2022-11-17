@@ -1,11 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const ButtonCloseAndExpand = ({ name, tesSwitchFalse }) => {
+const ButtonCloseAndExpand = ({ name, tesSwitchFalse, color }) => {
   return (
-    <Wrapper tesSwitchFalse={tesSwitchFalse}>
-      <ButtonHole tesSwitchFalse={tesSwitchFalse}>
-        <ButtonTop tesSwitchFalse={tesSwitchFalse}>
-          <ButtonName tesSwitchFalse={tesSwitchFalse}>{name}</ButtonName>
+    <Wrapper tesSwitchFalse={tesSwitchFalse} color={color}>
+      <ButtonHole tesSwitchFalse={tesSwitchFalse} color={color}>
+        <ButtonTop tesSwitchFalse={tesSwitchFalse} color={color}>
+          <ButtonName tesSwitchFalse={tesSwitchFalse} color={color}>
+            {name}
+          </ButtonName>
         </ButtonTop>
       </ButtonHole>
     </Wrapper>
@@ -29,11 +31,7 @@ const Wrapper = styled.button`
   border-width: 0.5px;
   border-color: rgb(0, 0, 0);
   border-radius: 37px;
-  /* background-image: -webkit-linear-gradient(
-    90deg,
-    rgb(0, 0, 0) 0%,
-    rgb(35, 58, 84) 100%
-  ); */
+
   background: ${({ tesSwitchFalse }) =>
     tesSwitchFalse
       ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
@@ -42,8 +40,14 @@ const Wrapper = styled.button`
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: ${({ tesSwitchFalse }) =>
     tesSwitchFalse ? '0 0 2px #3B3B3B' : ' 0 0 2px rgb(0, 0, 0, 100%)'};
-  /* 0 0 2px rgba(0, 0, 0, 100%); */
-  /* box-shadow: 0 0 2px #3b3b3b; */
+
+  ${({ color }) =>
+    color &&
+    css`
+      background: transparent linear-gradient(180deg, #ff920c 0%, #50412e 100%);
+      box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+      border: 1px solid #000000;
+    `};
 `;
 
 const ButtonHole = styled.div`
@@ -67,6 +71,13 @@ const ButtonHole = styled.div`
     tesSwitchFalse ? 'inset 0 0 6px #3B3B3B' : 'inset 0 0 6px #000000'};
   opacity: 1;
   padding: 0;
+
+  ${({ color }) =>
+    color &&
+    css`
+      background: #ff920c 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 1px #000000;
+    `};
 `;
 
 const ButtonTop = styled.div`
@@ -78,11 +89,6 @@ const ButtonTop = styled.div`
   border-width: 0.5px;
   border-color: rgb(0, 0, 0);
 
-  /* background-image: -webkit-linear-gradient(
-    90deg,
-    rgb(0, 0, 0) 0%,
-    rgb(35, 58, 84) 100%
-  ); */
   background: ${({ tesSwitchFalse }) =>
     tesSwitchFalse
       ? 'transparent linear-gradient(180deg, #565656 0%, #1D1D1D 100%)'
@@ -90,6 +96,14 @@ const ButtonTop = styled.div`
   opacity: 1;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  ${({ color }) =>
+    color &&
+    css`
+      background: transparent linear-gradient(180deg, #ff920c 0%, #50412e 100%)
+        0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
+      border: 1px solid #000000;
+    `};
 
   display: flex;
   align-items: center;
@@ -104,4 +118,9 @@ const ButtonName = styled.span`
   letter-spacing: 0.8px;
   color: #ffffff;
   opacity: 1;
+  ${({ color }) =>
+    color &&
+    css`
+      color: #233a54;
+    `};
 `;
