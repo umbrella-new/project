@@ -394,7 +394,9 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
 
   return (
     <Wrapper mode={mode}>
-      <TitleOfSettingsOptions />
+      <WrapperTitle>
+        <TitleOfSettingsOptions />
+      </WrapperTitle>
       <>
         {applyState && (
           <Div>
@@ -406,16 +408,6 @@ function ContainerOfAllSettingsSelectOptionsAndButtons() {
           setSettingsState={setSettingsState}
         />
       </>
-      {/* <EditCancelApplyButtons
-        handleClick={
-          essState
-            ? handleEssEditCancelApplyButtons
-            : tesState
-            ? handleTgsTesEditCancelApplyButtons
-            : handleTgsEditCancelApplyButtons
-        }
-        buttonsName={buttonsName}
-      /> */}
     </Wrapper>
   );
 }
@@ -428,9 +420,11 @@ const Wrapper = styled.div`
   border-radius: 4px;
   opacity: 1;
 
-  ${flexboxCenter}
+  display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  align-items: center;
+  justify-content: flex-start;
+  row-gap: 6px;
 
   box-sizing: border-box;
 
@@ -445,8 +439,12 @@ const Wrapper = styled.div`
   box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
 
+const WrapperTitle = styled.div`
+  margin-top: 6px;
+`;
+
 const Div = styled.div`
-  height: 140px;
+  height: 176px;
   width: 270px;
   position: absolute;
 `;

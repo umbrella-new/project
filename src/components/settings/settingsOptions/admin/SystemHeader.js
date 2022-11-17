@@ -21,15 +21,13 @@ function SystemHeader({
   const state = useSelector(selectSettingsOfEss);
   const mode = state.interfaceMode;
 
-  console.log('index', index);
-  console.log('options', options);
-
   return (
     <Wrapper
       tesSwitchFalse={tesSwitchFalse}
       mode={mode}
       index={index}
       options={options}
+      color={essSwitch ? index === 2 : index === 3}
     >
       <ButtonHole>
         <Img
@@ -47,9 +45,17 @@ function SystemHeader({
           }}
         />
       </ButtonHole>
-      <Span></Span>
-      <ContainerTitle tesSwitchFalse={tesSwitchFalse}>
-        <P tesSwitchFalse={tesSwitchFalse}>{name}</P>
+      <Span color={essSwitch ? index === 2 : index === 3}></Span>
+      <ContainerTitle
+        tesSwitchFalse={tesSwitchFalse}
+        color={essSwitch ? index === 2 : index === 3}
+      >
+        <P
+          tesSwitchFalse={tesSwitchFalse}
+          color={essSwitch ? index === 2 : index === 3}
+        >
+          {name}
+        </P>
       </ContainerTitle>
 
       <ContainerButton
@@ -61,9 +67,13 @@ function SystemHeader({
             : adminAccess && handleSelect(index);
         }}
         tesSwitchFalse={tesSwitchFalse}
+        color={essSwitch ? index === 2 : index === 3}
       >
         {essSwitch ? (
-          <ButtonCloseAndExpand name={options === index ? 'close' : 'expand'} />
+          <ButtonCloseAndExpand
+            name={options === index ? 'close' : 'expand'}
+            color={essSwitch ? index === 2 : index === 3}
+          />
         ) : (
           <ButtonCloseAndExpand
             name={
@@ -78,6 +88,7 @@ function SystemHeader({
                 : 'close'
             }
             tesSwitchFalse={tesSwitchFalse}
+            color={essSwitch ? index === 2 : index === 3}
           />
         )}
       </ContainerButton>
@@ -100,14 +111,18 @@ const Wrapper = styled.div`
   box-shadow: inset 0px 0px 2px rgb(255, 255, 255, 0.1);
   border: 1px solid #142033;
 
-  background: ${({ index }) =>
-    index === 2 &&
+  background: ${({ color }) =>
+    color &&
     css`transparent
-          linear-gradient(180deg, #50412e 0%, #ff920c 100%) 0% 0% no-repeat
-          padding-box`};
-  box-shadow: ${({ index }) =>
-    index === 2 && css`inset 0px 0px 2px #ffffff5e, 0px 0px 2px #000000`};
+          linear-gradient(180deg,  #ff920c 0%, #50412e 100%)`};
+  box-shadow: ${({ color }) =>
+    color === 2 && css`inset 0px 0px 2px #ffffff5e, 0px 0px 2px #000000`};
 
+  ${({ color }) =>
+    color &&
+    css`
+      border: 0.5px solid #000000;
+    `}
   border-radius: 27px;
   opacity: 1;
   ${flexboxCenter};
@@ -120,12 +135,18 @@ const ButtonHole = styled.div`
 
 const Img = styled.img`
   margin-left: 5px;
+  cursor: pointer;
 `;
 
 const Span = styled.span`
   content: '';
   flex: 1;
   border-bottom: solid 2px #ffff;
+  ${({ color }) =>
+    color &&
+    css`
+      border-bottom: 2px solid #233a54;
+    `}
   margin: auto 0.25em;
 `;
 
@@ -135,13 +156,22 @@ const ContainerTitle = styled.div`
   margin-right: 4px;
   margin-left: 2px;
 
-  /* background: #233a54 0% 0% no-repeat padding-box; */
   background: ${({ tesSwitchFalse }) =>
     tesSwitchFalse ? '#3B3B3B' : '#233a54'};
   box-shadow: inset 0px 0px 4px #000000;
-  /* border: 1px solid #142033; */
   border: ${({ tesSwitchFalse }) =>
     tesSwitchFalse ? '1px solid #3B3B3B' : '1px solid #142033'};
+  ${({ color }) =>
+    color &&
+    css`
+      background: #ff920c;
+      border: 1px solid #ff920c;
+      box-shadow: inset 0px 0px 2px #000000;
+    `};
+  /* background: #FF920C 0% 0% no-repeat padding-box;
+
+border: 1px solid #FF920C; */
+
   border-radius: 25px;
   opacity: 1;
   ${flexboxCenter};
@@ -152,6 +182,11 @@ const P = styled.p`
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: #ffffff;
+  ${({ color }) =>
+    color &&
+    css`
+      color: #233a54;
+    `}
   opacity: 1;
 `;
 
@@ -162,9 +197,14 @@ const ContainerButton = styled.div`
 
   background: ${({ tesSwitchFalse }) =>
     tesSwitchFalse ? '#3B3B3B' : '#1b2b44'};
-
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 19px;
   opacity: 1;
+  ${({ color }) =>
+    color &&
+    css`
+      background: #ff920c 0% 0% no-repeat padding-box;
+      box-shadow: inset 0px 0px 1px #000000;
+    `};
   ${flexboxCenter}
 `;

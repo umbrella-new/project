@@ -1,9 +1,14 @@
 import styled from 'styled-components';
-import { flexboxCenter } from '../../../../styles/commonStyles';
+import {
+  flexboxCenter,
+  justifyContentSpaceEvenly,
+  // justifyContentSpaceBetween,
+  // alignItemsFlexStart,
+} from '../../../../styles/commonStyles';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SystemHeader from './SystemHeader';
-import Control from './sysControl/Control';
+// import Control from './sysControl/Control';
 import {
   selectSettingsOfEss,
   setResetAllSettingsButtons,
@@ -37,9 +42,10 @@ import { setForceGasAndElectricSystem } from '../../../../store/slices/settingsO
 import settingsSystemIdentificationSlice, {
   handleAdditionalSystemIdentification,
 } from '../../../../store/slices/settingSystemIdentificationSlice';
-import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
+// import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 import ApplyButtonInvisibleDiv from '../editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
+import SimulateFaults from './simulateFaults/SimulateFaults';
 
 function ContainerOfAdmin() {
   // all the buttons for headers. blue and green.
@@ -58,17 +64,26 @@ function ContainerOfAdmin() {
   const disableSwitch = './images/redDisableSwitch.png';
   const notActiveSwitch = './images/greyEnableDisableSwitch.png';
 
+  const faultsTitles = [
+    'ess - simulate faults',
+    'tgs - simulate faults',
+    'tes - simulate faults',
+  ];
+
   // Redux
   const dispatch = useDispatch();
   const state = useSelector(selectUserState);
+  const essState = useSelector(selectSettingsOfEss);
+  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+
   const adminAccess = state.isAdministrator;
   const essSwitch = state.isEssSwitch;
   const tesSwitch = state.isTesSwitch;
-  const essState = useSelector(selectSettingsOfEss);
+
   const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
   const settingsApplyButton = essState.buttonsOfSettings.settingsApplyButton;
   const mode = essState.interfaceMode;
-  const tgsTesState = useSelector(selectSettingsOfTgsTes);
+
   const gasType = tgsTesState.gasType;
 
   // the names of 3 main buttons to make changes
@@ -87,8 +102,7 @@ function ContainerOfAdmin() {
   const [toggleEssButton, setToggleEssButton] = useState(essButton);
   const [toggleSfButton, setToggleSfButton] = useState(sfButton);
   const [options, setOptions] = useState('');
-  const [toggleThermocoupleImg, setToggleThermocoupleImg] =
-    useState(disableSwitch);
+
   const [toggleThermocoupleSwitch, setToggleThermocoupleSwitch] =
     useState(false);
   const [checkPrevThermocoupleState, setCheckPrevThermocoupleState] =
@@ -104,6 +118,7 @@ function ContainerOfAdmin() {
     { title: 'typhoon gas system', button: toggleTgsButton },
     { title: 'typhoon electrical system', button: toggleTesButton },
     { title: 'system commands', button: toggleSysButton },
+    { title: 'simulate faults', button: toggleSfButton },
   ];
 
   // Ess and Sys headers information
@@ -166,6 +181,7 @@ function ContainerOfAdmin() {
           setToggleSysButton(sysButton);
           setToggleTgsButton(tgsButton);
           setToggleTesButton(tesButton);
+          setToggleSfButton(sfButton);
           break;
         }
         case 0: {
@@ -186,6 +202,13 @@ function ContainerOfAdmin() {
           setToggleTesButton(tesButton);
           break;
         }
+        case 3: {
+          setToggleSfButton(sfButtonActive);
+          setToggleSysButton(sysButton);
+          setToggleTgsButton(tgsButton);
+          setToggleTesButton(tesButton);
+          break;
+        }
         default:
           return;
       }
@@ -194,18 +217,25 @@ function ContainerOfAdmin() {
         case '': {
           setToggleEssButton(essButton);
           setToggleSysButton(sysButton);
+          setToggleSfButton(sfButton);
           break;
         }
         case 0: {
           setToggleEssButton(essButtonActive);
-
           setToggleSysButton(sysButton);
+          setToggleSfButton(sfButton);
           break;
         }
         case 1: {
-          setToggleEssButton(essButton);
-
           setToggleSysButton(sysButtonActive);
+          setToggleEssButton(essButton);
+          setToggleSfButton(sfButton);
+          break;
+        }
+        case 2: {
+          setToggleSfButton(sfButtonActive);
+          setToggleEssButton(essButton);
+          setToggleSysButton(sysButton);
           break;
         }
         default:
@@ -549,7 +579,6 @@ function ContainerOfAdmin() {
 
   return (
     <Wrapper>
-      {/* {!settingsEditButton && <InvisibleDivForEditButton />} */}
       <Wrapper2>
         <Wrapper3 mode={mode}>
           {/* ess system */}
@@ -616,7 +645,7 @@ function ContainerOfAdmin() {
                           </WrapperThermocoupleEss>
                         )}
                         {/* content of general sys*/}
-                        {adminAccess && options === index && index === 1 ? (
+                        {adminAccess && options === index && index === 1 && (
                           <Wrapper6>
                             {!settingsEditButton && (
                               <InvisibleDivForEditButton height={'158px'} />
@@ -640,6 +669,26 @@ function ContainerOfAdmin() {
                               />
                             )}
                           </Wrapper6>
+                        )}
+                        {/* simulate faults */}
+                        {adminAccess && index === 2 && options === index ? (
+                          <WrapperSf>
+                            <WrapperSf1>
+                              {faultsTitles?.map((value, index) => {
+                                return (
+                                  <WrapperContent
+                                    key={Math.floor(Math.random() * 1555555)}
+                                  >
+                                    <SimulateFaults
+                                      titles={value}
+                                      index={index}
+                                      color={index === 1 || index === 2}
+                                    />
+                                  </WrapperContent>
+                                );
+                              })}
+                            </WrapperSf1>
+                          </WrapperSf>
                         ) : (
                           !adminAccess && (
                             <LoginWrapper>
@@ -707,7 +756,7 @@ function ContainerOfAdmin() {
                         index === 1 &&
                         adminAccess &&
                         options === index && (
-                          <WrapperThermocouple>
+                          <WrapperThermocoupleAndSimulateFaults>
                             {!settingsEditButton && (
                               <InvisibleDivForEditButton height={tesHeight} />
                             )}
@@ -738,7 +787,7 @@ function ContainerOfAdmin() {
                                 onClose={handleCloseMessageBox}
                               />
                             )}
-                          </WrapperThermocouple>
+                          </WrapperThermocoupleAndSimulateFaults>
                         )}
                       {!adminAccess && index === 2 && (
                         <LoginWrapper>
@@ -792,6 +841,26 @@ function ContainerOfAdmin() {
                             />
                           )}
                         </WrapperSys>
+                      )}
+                      {/* simulate faults */}
+                      {adminAccess && index === 3 && options === index && (
+                        <WrapperSf>
+                          <WrapperSf1>
+                            {faultsTitles?.map((value, index) => {
+                              return (
+                                <WrapperContent
+                                  key={Math.floor(Math.random() * 1555555)}
+                                >
+                                  <SimulateFaults
+                                    titles={value}
+                                    index={index}
+                                    color={index === 0}
+                                  />
+                                </WrapperContent>
+                              );
+                            })}
+                          </WrapperSf1>
+                        </WrapperSf>
                       )}
                     </Wrapper5>
                   </Wrapper4>
@@ -968,7 +1037,7 @@ const WrapperThermocoupleEss = styled.div`
   flex-direction: column;
 `;
 
-const WrapperThermocouple = styled.div`
+const WrapperThermocoupleAndSimulateFaults = styled.div`
   width: 558px;
   height: auto;
   margin-top: 5px;
@@ -1064,22 +1133,6 @@ const SysWrapper = styled.div`
   margin-bottom: 3px;
 `;
 
-const LoginWrapper = styled.div`
-  /* margin-bottom: 4px;
-  margin-bottom: 10px; */
-  width: 603px;
-  height: 391px;
-
-  position: fixed;
-  top: 195px;
-  left: 410px;
-
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 10000;
-  ${flexboxCenter};
-  align-items: flex-start;
-`;
-
 const Wrapper6 = styled.div`
   width: 554px;
   height: auto;
@@ -1095,6 +1148,54 @@ const Wrapper6 = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const LoginWrapper = styled.div`
+  /* margin-bottom: 4px;
+    margin-bottom: 10px; */
+  width: 603px;
+  height: 391px;
+
+  position: fixed;
+  top: 195px;
+  left: 410px;
+
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  ${flexboxCenter};
+  align-items: flex-start;
+`;
+
+const WrapperSf = styled.div`
+  width: 556px;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  padding: 2px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: 0px 0px 2px #000000;
+  border: 0.5px solid #142033;
+  border-radius: 16px 16px 27px 27px;
+  opacity: 1;
+  ${flexboxCenter};
+`;
+
+const WrapperSf1 = styled.div`
+  width: auto;
+  height: auto;
+  padding: 2px;
+  margin-bottom: 2rem;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 14px;
+  opacity: 1;
+  ${justifyContentSpaceEvenly}
+  flex-direction: column;
+`;
+
+const WrapperContent = styled.div``;
 
 const ControlWrapper = styled.div`
   width: 554px;

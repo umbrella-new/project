@@ -7,6 +7,27 @@ export const flexboxCenter = css`
   box-sizing: border-box;
 `;
 
+export const justifyContentSpaceEvenly = css`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
+export const justifyContentSpaceBetween = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
+export const alignItemsFlexStart = css`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+`;
+
 export const layer1 = css`
   background: #233a54;
   border-color: #707070;
