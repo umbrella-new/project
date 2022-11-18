@@ -1,26 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   faults: true,
   ess: {
     // from the backend
     faultsTypes: [
-      "GROUND FAULT",
-      "SSR FAULT",
-      "THERMOCOUPLE FAILURE",
-      "SSR LOAD EXCEED",
+      'GROUND FAULT',
+      'SSR FAULT',
+      'THERMOCOUPLE FAILURE',
+      'SSR LOAD EXCEED',
     ],
     message: [
-      "GROUND FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
-      "SSR FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
-      "THERMOCOUPLE FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
-      "SSR LOAD EXCEED - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022",
+      'GROUND FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'SSR FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'THERMOCOUPLE FAILURE - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
+      'SSR LOAD EXCEED - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
     ],
     comments: [],
     forceOptions: [
-      "max heat for 3 days",
-      "max heat for 12 hours",
-      "change and replace t/c",
+      'max heat for 3 days',
+      'max heat for 12 hours',
+      'change and replace t/c',
     ],
 
     maxHeatWithTimer: false,
@@ -28,6 +28,7 @@ const initialState = {
     displayForce: false,
     // 1. maxheat for 72hrs / 2. maxheat for 12hrs / 3. systme off
     selectedForce: null,
+    timerDescriptions: false,
 
     // for button stylings
     isForceButtonClicked: false,
@@ -41,7 +42,7 @@ const initialState = {
     actionTaken: [],
   },
   tgs: {
-    faultsTypes: ["TIMEOUT FAULT", "HP/LP FAULT", "BMS FAULT"],
+    faultsTypes: ['TIMEOUT FAULT', 'HP/LP FAULT', 'BMS FAULT'],
     message: [
       // 'TIMEOUT FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
       // 'HP/LP FAULT - MBTA-BET EAST YARD BOSTON, MASSACHUSETES-TIME & DATE: 4:50am - 02/06/2022',
@@ -55,12 +56,16 @@ const initialState = {
 };
 
 const faultsSlice = createSlice({
-  name: "faultsState",
+  name: 'faultsState',
   initialState,
   reducers: {
     handleForceSelection: (state, action) => {
       // Grap the selected force option
       state.ess.selectedForce = action.payload;
+    },
+    handleTimerDescription: (state, action) => {
+      // set the description of timer if  true to 3 days else 12 hours at tes or ess switch
+      state.ess.timerDescriptions = true;
     },
 
     handleMaxHeatWithTimerOn: (state, action) => {
@@ -76,6 +81,8 @@ const faultsSlice = createSlice({
       state.ess.maxHeatWithTimer = false;
       // no show the force selection working box
       state.ess.displayForce = false;
+
+      state.ess.timerDescriptions = false;
       // Stop the Timer
       // turn off the heater!!
     },
@@ -145,6 +152,9 @@ const faultsSlice = createSlice({
         },
       ];
     },
+    handleThermocoupleFaultSelectedOne: (state, action) => {
+      state.ess.forceOptions[action.payload] = action.payload;
+    },
   },
 });
 
@@ -164,4 +174,5 @@ export const {
   handleGsAttendButtonClick,
   handleEsRecordActionTaken,
   handleDisplayForceStatusBox,
+  handleTimerDescription,
 } = faultsSlice.actions;

@@ -118,7 +118,6 @@ function ContainerOfAdmin() {
     { title: 'typhoon gas system', button: toggleTgsButton },
     { title: 'typhoon electrical system', button: toggleTesButton },
     { title: 'system commands', button: toggleSysButton },
-    { title: 'simulate faults', button: toggleSfButton },
   ];
 
   // Ess and Sys headers information
@@ -131,7 +130,6 @@ function ContainerOfAdmin() {
       button: toggleSysButton,
       title: 'system commands',
     },
-    { button: toggleSfButton, title: 'simulate faults' },
   ];
 
   // useContext
@@ -670,7 +668,7 @@ function ContainerOfAdmin() {
                             )}
                           </Wrapper6>
                         )}
-                        {/* simulate faults */}
+                        {/* simulate faults
                         {adminAccess && index === 2 && options === index ? (
                           <WrapperSf>
                             <WrapperSf1>
@@ -689,14 +687,14 @@ function ContainerOfAdmin() {
                               })}
                             </WrapperSf1>
                           </WrapperSf>
-                        ) : (
-                          !adminAccess && (
-                            <LoginWrapper>
-                              {/* login in pop up */}
-                              <ContainerLogin />
-                            </LoginWrapper>
-                          )
+                        ) : ( */}
+                        {!adminAccess && (
+                          <LoginWrapper>
+                            {/* login in pop up */}
+                            <ContainerLogin />
+                          </LoginWrapper>
                         )}
+                        {/* )} */}
                       </WrapperEss5>
                     </Wrapper4>
                   </div>
@@ -842,7 +840,7 @@ function ContainerOfAdmin() {
                           )}
                         </WrapperSys>
                       )}
-                      {/* simulate faults */}
+                      {/* simulate faults
                       {adminAccess && index === 3 && options === index && (
                         <WrapperSf>
                           <WrapperSf1>
@@ -861,7 +859,7 @@ function ContainerOfAdmin() {
                             })}
                           </WrapperSf1>
                         </WrapperSf>
-                      )}
+                      )} */}
                     </Wrapper5>
                   </Wrapper4>
                 );

@@ -52,6 +52,14 @@ const SettingsProvider = ({ children }) => {
   const [gasSelection, setGasSelection] = useState(0);
   const [gasButtonName, setGasButtonName] = useState('confirm');
 
+  // admin: Tgs : valve settings
+  const [valveButtonColor, setValveButtonColor] = useState(false);
+  const [valveButtonName, setValveButtonName] = useState('confirm');
+
+  // admin : tes : thermocouple
+  // const [tesThermocoupleButtonColor, setTEsThermocoupleButtonColor] =
+  //   useState(false);
+
   // admin: tes: add element to bank
   const initialInputState = {
     elementName: null,
@@ -63,15 +71,6 @@ const SettingsProvider = ({ children }) => {
   };
   const [inputElement, setInputElement] = useState(initialInputState);
 
-  // admin: Tgs : valve settings
-  const [valveButtonColor, setValveButtonColor] = useState(false);
-  const [valveButtonName, setValveButtonName] = useState('confirm');
-
-  // admin : tes : thermocouple
-  // const [tesThermocoupleButtonColor, setTEsThermocoupleButtonColor] =
-  //   useState(false);
-
-  // admin : tes :add element to bank
   const [saveButtonColor, setSaveButtonColor] = useState(false);
   const [saveButtonName, setSaveButtonName] = useState('save');
 

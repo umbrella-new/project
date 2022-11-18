@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { selectFaults } from "../../store/slices/faultsSlice";
-import { handleSaveTimer, selectTimer } from "../../store/slices/timerSlice";
-import moment from "moment";
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { selectFaults } from '../../store/slices/faultsSlice';
+import { handleSaveTimer, selectTimer } from '../../store/slices/timerSlice';
+import moment from 'moment';
 
-import styled, { css } from "styled-components";
-import { flexboxCenter } from "../../styles/commonStyles";
+import styled, { css } from 'styled-components';
+import { flexboxCenter } from '../../styles/commonStyles';
 
 const FaultsDetailButton = ({
   name,
@@ -19,7 +19,7 @@ const FaultsDetailButton = ({
   const { isForceButtonClicked, isForceButtonActivated, selectedForce } =
     faultsState.ess;
   const { activatedResetButton, resetCounter, attendButtonClicked } =
-    name === "tgs" ? faultsState.tgs : faultsState.ess;
+    name === 'tgs' ? faultsState.tgs : faultsState.ess;
 
   // *********************timer
   const timerState = useSelector(selectTimer);
@@ -35,11 +35,11 @@ const FaultsDetailButton = ({
 
   useEffect(() => {
     const currentTime = moment();
-    const targetTime = moment().add(setMinuites, "minutes");
+    const targetTime = moment().add(setMinuites, 'minutes');
     const currentUnix = currentTime.unix();
     const targetUnix = targetTime.unix();
     const leftTime = targetUnix - currentUnix;
-    let duration = moment.duration(leftTime, "seconds");
+    let duration = moment.duration(leftTime, 'seconds');
 
     let setTimer;
     clearInterval(setTimer);
@@ -50,7 +50,7 @@ const FaultsDetailButton = ({
           clearInterval(setTimer);
           return false;
         } else {
-          duration = moment.duration(duration.asSeconds() - 1, "seconds");
+          duration = moment.duration(duration.asSeconds() + 1, 'seconds');
 
           const durationM = duration._milliseconds / (1000 * 60);
           setDurationMinutes(durationM);
@@ -58,15 +58,15 @@ const FaultsDetailButton = ({
           setCountdown({
             hours:
               duration._data.hours + duration._data.days * 24 < 10
-                ? "0" + duration.hours()
+                ? '0' + duration.hours()
                 : duration._data.hours + duration._data.days * 24,
             minutes:
               duration.minutes() < 10
-                ? "0" + duration.minutes()
+                ? '0' + duration.minutes()
                 : duration.minutes(),
             seconds:
               duration.seconds() < 10
-                ? "0" + duration.seconds()
+                ? '0' + duration.seconds()
                 : duration.seconds(),
           });
         }
@@ -86,36 +86,36 @@ const FaultsDetailButton = ({
 
   // Make button disabled depending on tgs fault types
   const tgsDisable =
-    name === "tgs" && faultsNumber === 2 && buttonNum === 0 ? true : false;
+    name === 'tgs' && faultsNumber === 2 && buttonNum === 0 ? true : false;
 
   // Make button disabled depending on ess and tes fault types (more conditions than tgs)
   const essDisable =
-    (name !== "tgs" && faultsNumber == 0) || faultsNumber == 3 ? true : false;
+    (name !== 'tgs' && faultsNumber == 0) || faultsNumber == 3 ? true : false;
   const essDisableMoreCondition = essDisable && buttonNum === 1;
 
-  const disable = name === "tgs" ? tgsDisable : essDisableMoreCondition;
+  const disable = name === 'tgs' ? tgsDisable : essDisableMoreCondition;
 
   // Make some buttons invisible depending on ess, tes fault types
   const inVisible =
-    name !== "tgs" && buttonNum == 0 && faultsNumber !== 2 ? true : false;
+    name !== 'tgs' && buttonNum == 0 && faultsNumber !== 2 ? true : false;
 
   // ***************for styling in force button **************
-  const forceBtnClicked = isForceButtonClicked && title === "force";
-  const forceBtnActivated = isForceButtonActivated && title === "force";
+  const forceBtnClicked = isForceButtonClicked && title === 'force';
+  const forceBtnActivated = isForceButtonActivated && title === 'force';
   // ******************************************
 
   // ***************for styling in reset button **************
   const resetBtnActivated =
-    activatedResetButton.faultsIdx === faultsNumber && title === "reset";
+    activatedResetButton.faultsIdx === faultsNumber && title === 'reset';
   // ******************************************
 
   // ***************for styling in reset button **************
   const attendBtnClicked =
-    attendButtonClicked.faultsIdx === faultsNumber && title === "attend";
+    attendButtonClicked.faultsIdx === faultsNumber && title === 'attend';
   // ******************************************
 
   const forceTypeTitle =
-    selectedForce === "change and replace t/c" ? "system off" : "remaining";
+    selectedForce === 'change and replace t/c' ? 'system off' : 'remaining';
   return (
     <WrapperHole
       onClick={() =>
@@ -153,7 +153,7 @@ const FaultsDetailButton = ({
               <ForceTop>
                 <ForceTitle>
                   {forceTypeTitle}
-                  {forceTypeTitle === "remaining" &&
+                  {forceTypeTitle === 'remaining' &&
                     countdown &&
                     `      ${countdown.hours} : ${countdown.minutes} : ${countdown.seconds}`}
                 </ForceTitle>

@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled, { css } from "styled-components";
-import { handleTimerOff, selectFaults } from "../../store/slices/faultsSlice";
-import { handleSaveTimer, selectTimer } from "../../store/slices/timerSlice";
-import moment from "moment";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled, { css } from 'styled-components';
+import { handleTimerOff, selectFaults } from '../../store/slices/faultsSlice';
+import { handleSaveTimer, selectTimer } from '../../store/slices/timerSlice';
+import moment from 'moment';
 
-import { flexboxCenter } from "../../styles/commonStyles";
+import { flexboxCenter } from '../../styles/commonStyles';
 
 const DisplayForceSelectionBox = () => {
   const faultsState = useSelector(selectFaults);
-  const { selectedForce } = faultsState.ess;
+  const { selectedForce, timerDescriptions } = faultsState.ess;
   const timerState = useSelector(selectTimer);
   const { setMinuites, setTime, pauseTime } = timerState;
   const dispatch = useDispatch();
 
   const initialState =
-    selectedForce === "change and replace t/c" ? true : false;
+    selectedForce === 'change and replace t/c' ? true : false;
 
   const [selectedOption, setSelectedOption] = useState(initialState);
 
@@ -29,11 +29,11 @@ const DisplayForceSelectionBox = () => {
 
   useEffect(() => {
     const currentTime = moment();
-    const targetTime = moment().add(setMinuites, "minutes");
+    const targetTime = moment().add(setMinuites, 'minutes');
     const currentUnix = currentTime.unix();
     const targetUnix = targetTime.unix();
     const leftTime = targetUnix - currentUnix;
-    let duration = moment.duration(leftTime, "seconds");
+    let duration = moment.duration(leftTime, 'seconds');
 
     let setTimer;
     clearInterval(setTimer);
@@ -44,7 +44,7 @@ const DisplayForceSelectionBox = () => {
           clearInterval(setTimer);
           return false;
         } else {
-          duration = moment.duration(duration.asSeconds() - 1, "seconds");
+          duration = moment.duration(duration.asSeconds() + 1, 'seconds');
 
           const durationM = duration._milliseconds / (1000 * 60);
           setDurationMinutes(durationM);
@@ -52,15 +52,15 @@ const DisplayForceSelectionBox = () => {
           setCountdown({
             hours:
               duration._data.hours + duration._data.days * 24 < 10
-                ? "0" + duration.hours()
+                ? '0' + duration.hours()
                 : duration._data.hours + duration._data.days * 24,
             minutes:
               duration.minutes() < 10
-                ? "0" + duration.minutes()
+                ? '0' + duration.minutes()
                 : duration.minutes(),
             seconds:
               duration.seconds() < 10
-                ? "0" + duration.seconds()
+                ? '0' + duration.seconds()
                 : duration.seconds(),
           });
         }
@@ -97,9 +97,15 @@ const DisplayForceSelectionBox = () => {
                     {countdown &&
                       `${countdown.hours} : ${countdown.minutes} : ${countdown.seconds}`}
                   </MainContent>
-                  <SubContent>
-                    max <br></br> heat <br></br> {setTime} hrs
-                  </SubContent>
+                  {timerDescriptions ? (
+                    <SubContent>
+                      max <br></br> heat <br></br> 3 days
+                    </SubContent>
+                  ) : (
+                    <SubContent>
+                      max <br></br> heat <br></br> {setTime} hrs
+                    </SubContent>
+                  )}
                 </>
               )}
             </Top>
@@ -172,8 +178,10 @@ const Top = styled.div`
 `;
 
 const MainContent = styled.div`
-  margin-top: 0.3rem;
-  text-align: right;
+  display: inline;
+  white-space: nowrap;
+  margin-left: 0.3rem;
+  text-align: center;
   font-size: 12px;
   color: #233a54;
   width: 60%;
@@ -182,6 +190,7 @@ const MainContent = styled.div`
     css`
       font-size: 9px;
     `}
+  ${flexboxCenter}
 `;
 const SubContent = styled.div`
   color: #233a54;

@@ -1,20 +1,21 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled, { css } from "styled-components";
-import { handleTurnOffTheHeater } from "../../store/slices/essSwitchSlice";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled, { css } from 'styled-components';
+import { handleTurnOffTheHeater } from '../../store/slices/essSwitchSlice';
 import {
   handleDisplayForceMessageBox,
   handleDisplayForceStatusBox,
   handleForceButtonActivated,
   handleForceSelection,
   handleMaxHeatWithTimerOn,
+  handleTimerDescription,
   selectFaults,
-} from "../../store/slices/faultsSlice";
-import { handleTimer } from "../../store/slices/timerSlice";
+} from '../../store/slices/faultsSlice';
+import { handleTimer } from '../../store/slices/timerSlice';
 
-import { flexboxCenter } from "../../styles/commonStyles";
+import { flexboxCenter } from '../../styles/commonStyles';
 
-import MessageButton from "../userMessages/MessageButton";
+import MessageButton from '../userMessages/MessageButton';
 
 const SelectForce = ({ title, handleClose }) => {
   const faultsState = useSelector(selectFaults);
@@ -36,6 +37,8 @@ const SelectForce = ({ title, handleClose }) => {
         dispatch(handleTimer(72));
         // 2.display the box, timer on with time set
         dispatch(handleMaxHeatWithTimerOn(selectedOne));
+        // sets the description of timer at Ess or Tes for either 12 hours or 3 days
+        dispatch(handleTimerDescription());
         break;
       }
       case options[1]: {

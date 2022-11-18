@@ -6,16 +6,16 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-} from "recharts";
+} from 'recharts';
 
-import moment from "moment";
+import moment from 'moment';
 
-import { flexboxCenter } from "../../../styles/commonStyles";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { selectSystemIdentification } from "../../../store/slices/settingSystemIdentificationSlice";
-import { selectSettingsOfTgsTes } from "../../../store/slices/settingsOfTgsTesSlice";
-import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
+import { flexboxCenter } from '../../../styles/commonStyles';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { selectSystemIdentification } from '../../../store/slices/settingSystemIdentificationSlice';
+import { selectSettingsOfTgsTes } from '../../../store/slices/settingsOfTgsTesSlice';
+import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 
 const Chart = () => {
   const unitsState = useSelector(selectSettingsOfEss);
@@ -26,103 +26,103 @@ const Chart = () => {
   const { sysIdentification } = sysState;
 
   const unitValue = unitsMeasurement
-    ? "HEATER TEMPERATURE (°F)"
-    : "HEATER TEMPERATURE (°C)";
+    ? 'HEATER TEMPERATURE (°F)'
+    : 'HEATER TEMPERATURE (°C)';
 
   const data = [
     {
-      name: "1",
+      name: '1',
       HT: -50,
       ET: 400,
       OT: 200,
       date: 13,
     },
     {
-      name: "2",
+      name: '2',
       HT: 300,
       ET: 398,
       OT: 210,
       date: 12,
     },
     {
-      name: "3",
+      name: '3',
       HT: 100,
       ET: 400,
       OT: 290,
       date: 11,
     },
     {
-      name: "4",
+      name: '4',
       HT: 270,
       ET: 398,
       OT: 200,
       date: 10,
     },
     {
-      name: "5",
+      name: '5',
       HT: 180,
       ET: 480,
       OT: 181,
       date: 9,
     },
     {
-      name: "6",
+      name: '6',
       HT: 390,
       ET: 380,
       OT: 250,
       date: 8,
     },
     {
-      name: "7",
+      name: '7',
       HT: 340,
       ET: 400,
       OT: 210,
       date: 7,
     },
     {
-      name: "8",
+      name: '8',
       HT: -50,
       ET: 400,
       OT: 200,
       date: 6,
     },
     {
-      name: "9",
+      name: '9',
       HT: 300,
       ET: 398,
       OT: 210,
       date: 5,
     },
     {
-      name: "10",
+      name: '10',
       HT: 100,
       ET: 400,
       OT: 290,
       date: 4,
     },
     {
-      name: "11",
+      name: '11',
       HT: 270,
       ET: 398,
       OT: 200,
       date: 3,
     },
     {
-      name: "12",
+      name: '12',
       HT: 180,
       ET: 700,
       OT: 181,
       date: 2,
     },
     {
-      name: "13",
+      name: '13',
       HT: 390,
       ET: 380,
       OT: 250,
       date: 1,
     },
     {
-      name: "14",
+      name: '14',
       HT: 340,
       ET: 700,
       OT: 210,
@@ -133,26 +133,26 @@ const Chart = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     const switchName =
       sysIdentification.switchName.length < 1
-        ? "switch information"
+        ? 'switch information'
         : sysIdentification.locationName +
-          "-" +
+          '-' +
           sysIdentification.switchName +
-          "-" +
+          '-' +
           sysIdentification.switchSize +
-          " " +
+          ' ' +
           sysIdentification.application +
-          "-" +
-          sysIdentification.heatingSystem.split(" - ")[0];
+          '-' +
+          sysIdentification.heatingSystem.split(' - ')[0];
 
     // console.log(moment().subtract(1, 'days').format('MMMM dddd DD, YYYY'));
 
     if (active) {
-      const unit = unitsMeasurement ? "°F" : "°C";
+      const unit = unitsMeasurement ? '°F' : '°C';
       const payloadName1st = switchName;
       const payloadName2nd = `( HT : ${payload[0].value} ${unit}, ET : ${payload[1].value} ${unit}, OT : ${payload[2].value} ${unit} )`;
       const payloadName3rd = `${moment()
-        .subtract(payload[0].payload.date, "days")
-        .format("MMMM dddd DD, YYYY")}`;
+        .subtract(payload[0].payload.date, 'days')
+        .format('MMMM dddd DD, YYYY')}`;
 
       return (
         <PayloadWrapper className='custom-tooltip'>
@@ -185,9 +185,9 @@ const Chart = () => {
             stroke='#FFFFFF'
             dataKey='name'
             label={{
-              value: "TIME (DAY)",
-              position: "BottomRight",
-              fill: "#ffff",
+              value: 'TIME (DAY)',
+              position: 'BottomRight',
+              fill: '#ffff',
               dx: 220,
               dy: 10,
               fontSize: 8,
@@ -201,12 +201,12 @@ const Chart = () => {
             tick={{ fontSize: 8 }}
             tickCount={7}
             ticks={[-100, 0, 150, 300, 450, 600, 700]}
-            domain={["dataMin", 700]}
-            unit={unitsMeasurement ? "°F" : "°C"}
+            domain={['dataMin', 700]}
+            unit={unitsMeasurement ? '°F' : '°C'}
             label={{
-              fill: "#ffff",
+              fill: '#ffff',
               value: unitValue,
-              position: "outsideLeft",
+              position: 'outsideLeft',
               angle: -90,
               dx: -45,
               dy: 0,
@@ -219,8 +219,8 @@ const Chart = () => {
           <Tooltip
             wrapperStyle={{
               // color: "#9bbcd1",
-              backgroundColor: "#233a54",
-              outline: "1px solid #1B2B44",
+              backgroundColor: '#233a54',
+              outline: '1px solid #1B2B44',
 
               // border: "1px solid #394e5a",
             }}

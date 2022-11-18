@@ -24,7 +24,7 @@ const InputKeyboard = ({
     } else {
       if (name) {
         handleOnSubmit(name, input);
-        closeKeyboard();
+        // closeKeyboard();
       } else {
         handleOnSubmit(input);
         closeKeyboard();
@@ -45,6 +45,9 @@ const InputKeyboard = ({
       const layoutName = layout === 'default' ? 'shift' : 'default';
       setLayout(layoutName);
     } else if (button === '{escape}') {
+      closeKeyboard();
+    }
+    if (button === '{enter}') {
       closeKeyboard();
     }
   };

@@ -56,7 +56,7 @@ const AddElementToBank = () => {
   }, [settingsEditButton]);
 
   const handleInput = (name, input) => {
-    const copyState = { ...inputElement };
+    let copyState = { ...inputElement };
     copyState[name] = input;
     setInputElement(copyState);
   };
@@ -111,7 +111,6 @@ const AddElementToBank = () => {
                     <Input
                       type='text'
                       placeholder='---------'
-                      value={settingsEditButton && inputElement}
                       onClick={() => {
                         setInputFocus('elementName');
                         setActivateKeyboard(true);
@@ -124,7 +123,7 @@ const AddElementToBank = () => {
                           event.target.value.toUpperCase()
                         )
                       }
-                      value={inputElement.name}
+                      value={inputElement.elementName}
                     />
                   ) : (
                     <FakeInput>---------</FakeInput>
@@ -141,14 +140,12 @@ const AddElementToBank = () => {
                     <Input
                       type='text'
                       placeholder='---------'
-                      value={inputElement}
                       name='partNumber'
                       onClick={() => {
                         setInputFocus('partNumber');
                         setActivateKeyboard(true);
                         setActivateKeypad(false);
                       }}
-                      name='partNumber'
                       onChange={(event) =>
                         handleInput(
                           'partNumber',
