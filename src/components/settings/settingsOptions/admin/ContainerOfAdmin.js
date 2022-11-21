@@ -496,7 +496,7 @@ function ContainerOfAdmin() {
 
   // admin : Tes : message box shows what was changed
   const handleTesMessageBox = () => {
-    const titleThermocouple = 'thermocouple';
+    const titleThermocouple = 'track temperature control t/c ';
     const titleAddElementToBank = 'add element to bank';
     if (
       toggleThermocoupleSwitch !== checkPrevThermocoupleState &&

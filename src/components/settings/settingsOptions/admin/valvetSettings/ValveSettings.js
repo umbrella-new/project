@@ -7,6 +7,8 @@ import { selectSettingsOfEss } from '../../../../../store/slices/settingsOfEssSl
 import { setValveInputs } from '../../../../../store/slices/settingsOfTgsTesSlice';
 import InputKeyPad from '../../../../keyboard/InputKeyPad';
 import { SettingsContext } from '../../../../../context/ContextOfSettings';
+import { selectSystemIdentification } from '../../../../../store/slices/settingSystemIdentificationSlice';
+import { selectSettingsOfTgsTes } from '../../../../../store/slices/settingsOfTgsTesSlice';
 
 function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const data = [
@@ -27,10 +29,22 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const [inputFocus, setInputFocus] = useState(null);
   const [options, setOptions] = useState('');
 
+  const dispatch = useDispatch();
   const state = useSelector(selectSettingsOfEss);
+  const systemIdentification = useSelector(selectSystemIdentification);
+  const tgsTesSettingState = useSelector(selectSettingsOfTgsTes);
   const mode = state.interfaceMode;
   const editState = state.buttonsOfSettings.settingsEditButton;
-  const dispatch = useDispatch();
+  const { locationName, switchName, application, switchSize, heatingSystem } =
+    systemIdentification.sysIdentification;
+  const { gasType } = tgsTesSettingState;
+
+  const sysId =
+    switchName.length < 1
+      ? 'switch'
+      : `${locationName}-${switchName} ${switchSize} ${application}-${
+          heatingSystem.split(' - ')[0]
+        } / ${gasType ? 'NG' : 'LP'}`;
 
   // saves the 3 input fields to useContext state
   const handleInputs = (e, index) => {
@@ -81,6 +95,8 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
     setActivateKeypad(true);
   };
 
+  // ,we-cove-03-04-05 #10 s.t.tgs
+
   return (
     <WrapperTitleAndSettings>
       <WrapperTitleAndSettings2>
@@ -91,7 +107,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
           <MachineSerialNumberBackground
             src={'./images/machineSerialNumberBackground.svg'}
           />
-          <MachineName>we-cove-03-04-05 #10 s.t.tgs</MachineName>
+          <MachineName>{sysId}</MachineName>
           <WrapperData>
             <WrapperData2>
               <WrapperData3>
@@ -235,7 +251,7 @@ const MachineName = styled.p`
   text-transform: uppercase;
   opacity: 1;
   position: absolute;
-  left: 3%;
+  left: 1%;
   top: 7%;
 `;
 

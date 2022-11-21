@@ -59,6 +59,7 @@ function ContainerOfSnowSensor() {
   const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
   const essSnowSensorState = essState.snowSensorState;
   const tgsTesSnowSensorState = tgsTesState.snowSensorTemp;
+  const unitsState = essState.buttonsOfSettings.unitsMeasurement;
   // const cancelState = essState.buttonsOfSettings.settingsCancelButton;
   // const applyState = essState.buttonsOfSettings.settingsApplyButton;
 
@@ -179,7 +180,7 @@ function ContainerOfSnowSensor() {
             editState={editState}
             options={options}
             setOptions={setOptions}
-            metricImperialToggle={metricImperialToggle}
+            metricImperialToggle={unitsState}
           />
         </Wrapper1>
         {messageBox && (

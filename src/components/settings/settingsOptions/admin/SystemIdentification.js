@@ -483,7 +483,7 @@ const Section = styled.div`
 
 const ComponentWrapperHole = styled.div`
   width: 260px;
-
+  height: auto;
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 13px;
@@ -498,7 +498,9 @@ const ComponentWrapperHole = styled.div`
 
 const ComponentWrapper = styled.div`
   width: 258px;
-
+  height: auto;
+  margin-top: 1px;
+  margin-bottom: 1px;
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;

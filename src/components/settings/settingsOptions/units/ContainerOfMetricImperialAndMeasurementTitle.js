@@ -33,7 +33,7 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
       title: 'Metric',
       temp: 'C ° - CENTIGRADE',
       energy: 'Kw - KILOWATTS',
-      measure: 'Cms - CENTIMETERS M - METERS',
+      measure: 'M - METERS',
       gas: 'M³ - CUBIC METERS',
       backgroundColor: '180',
     },

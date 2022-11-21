@@ -44,17 +44,17 @@ function ContainerOfForceAndCommand() {
 
   // the contents of select ATS of GP and EBP of Ess, Tgs and Tes
   const essGpEbp = [
-    'block and do not allow ess to operate when on ebp-emergency backup power',
-    'reactivates ess when powered by ebp emergency backup power',
+    'block and do not allow ess to operate when on ebp (emergency backup power)',
+    'reactivates ess when powered by ebp (emergency backup power)',
   ];
   const tesGpEbp = [
-    'switch to typhoon gas powered heating system when on emergency backup power',
-    'reactivates tes when powered by ebp emergency backup power',
-    'tes to remain off when powered by ebp emergency backup power',
+    'switch to  typhoon gas powered heating system when on (emergency backup power)',
+    'reactivates tes when powered by ebp (emergency backup power)',
+    'tes to remain off when powered by ebp (emergency backup power)',
   ];
   const tgsGpEbp = [
-    'reactive to tgs typhoon gas power heating system when on ebp emergency backup power',
-    'block and do not allow tgs to operate when on ebp emergency backup power',
+    'reactive to tgs-typhoon gas power heating system when on ebp emergency backup power',
+    'block and do not allow tgs to operate when on ebp (emergency backup power)',
   ];
 
   // the names of 3 main buttons to make changes

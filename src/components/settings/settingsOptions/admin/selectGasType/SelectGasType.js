@@ -49,8 +49,8 @@ const Wrapper = styled.div`
 `;
 
 const WrapperSelection = styled.div`
-  width: 252px;
-  height: 74px;
+  width: auto;
+  height: auto;
 
   background: #233a54;
   box-shadow: inset 0px 0px 3px #000000;
@@ -62,11 +62,11 @@ const WrapperSelection = styled.div`
 
 const ControlContainer = styled.div`
   width: 252px;
-  height: 74px;
+  height: 63px;
 
   background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')};
   box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 18px;
+  border-radius: 16px;
   opacity: 1;
   display: flex;
   flex-direction: column;
