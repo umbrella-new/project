@@ -457,7 +457,7 @@ const TitleWrapper = styled.div`
 const TitleTop = styled.div`
   width: 533px;
   height: 26px;
-
+  margin-top: 6px;
   font-size: 10px;
 
   text-transform: uppercase;
@@ -587,7 +587,7 @@ const ButtonGroupWrapper = styled.div`
   height: 26px;
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 19px;
+  border-radius: 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -627,18 +627,18 @@ const ButtonHole = styled.div`
 
   width: 116px;
   height: 16px;
-  background: #142033 0% 0% no-repeat padding-box;
+  background: #233a54;
   box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 18px;
+  border-radius: 21px;
 `;
 const ButtonTop = styled.div`
-  width: 114px;
-  height: 14px;
+  width: 112px;
+  height: 12px;
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 25px;
+  border-radius: 19px;
 
   ${({ color, index }) =>
     color &&
@@ -649,7 +649,7 @@ const ButtonTop = styled.div`
     `}
 
   ${flexboxCenter}
-  font-size: 10px;
+  font-size: 8px;
   text-transform: uppercase;
 `;
 

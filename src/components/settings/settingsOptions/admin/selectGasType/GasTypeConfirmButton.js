@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 18px;
+  border-radius: 26px;
   opacity: 1;
   display: flex;
   align-items: center;
@@ -58,8 +58,8 @@ const Wrapper1 = styled.button`
     color &&
     'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
   opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,7 +69,7 @@ const ButtonHole = styled.div`
   width: 112px;
   height: 28px;
 
-  border-radius: 20px;
+  border-radius: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,9 +82,9 @@ const ButtonHole = styled.div`
 `;
 
 const ButtonTop = styled.div`
-  width: 110px;
-  height: 26px;
-  border-radius: 25px;
+  width: 108px;
+  height: 24px;
+  border-radius: 20px;
 
   border-style: solid;
   border-width: 0.5px;
@@ -99,9 +99,8 @@ const ButtonTop = styled.div`
     color &&
     'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
   opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   display: flex;
   align-items: center;
   justify-content: center;

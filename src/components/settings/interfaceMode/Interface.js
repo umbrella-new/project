@@ -112,13 +112,13 @@ const InterfaceP = styled.p`
 `;
 
 const ControlContainer = styled.div`
-  width: 272px;
+  width: 267px;
   height: 74px;
 
   background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')} 0% 0% no-repeat
     padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 18px;
+  border-radius: 19px;
   opacity: 1;
   ${flexboxCenter}
   flex-direction: column;

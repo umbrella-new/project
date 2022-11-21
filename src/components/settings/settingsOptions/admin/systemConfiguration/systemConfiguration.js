@@ -187,10 +187,11 @@ const WrapperTitle2 = styled.div`
 `;
 
 const Title = styled.p`
-  width: 120px;
-  height: 18px;
+  width: auto;
+  height: auto;
   margin-bottom: 1px;
 
+  display: inline-block;
   text-align: center;
   font-size: var(--space2);
   letter-spacing: 0.8px;
@@ -270,7 +271,7 @@ const IndividualContainer = styled.div`
 
 const Text = styled.span`
   width: 218px;
-  font-size: var(--space2);
+  font-size: 7px;
 
   text-transform: uppercase;
   color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};

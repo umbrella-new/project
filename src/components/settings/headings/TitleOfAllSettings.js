@@ -12,7 +12,7 @@ function TitleOfAllSettings() {
   } = state.allSettingsOptions;
 
   const settingsTitles = settingsOptionsUnits
-    ? 'units'
+    ? 'units settings'
     : settingsOptionsWindFactor
     ? 'wind factor trigger'
     : settingsOptionsSnowFactor

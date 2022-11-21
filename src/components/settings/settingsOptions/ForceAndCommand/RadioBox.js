@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  width: 239px;
+  width: 236px;
   height: 20px;
   border: 1px solid #233a54;
   border-radius: 16px;
