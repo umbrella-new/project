@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -464,28 +464,27 @@ function ContainerOfForceAndCommand() {
             ? essHeaders.map((value, index) => {
                 return (
                   <Wrapper4 key={index}>
-                    <WrapperEss5
-                      changeBorder0={options === index && index === 0}
-                      changeBorder1={options === index && index === 1}
-                    >
-                      {/* Ess and Sys headers */}
-                      <Wrapper6>
-                        {settingsApplyButton && (
-                          <WrapperApplyButton>
-                            <ApplyButtonInvisibleDiv />
-                          </WrapperApplyButton>
-                        )}
-                        <SystemHeaderForceAndCommand
-                          name={value.title}
-                          toggleButtonColor={value.button}
-                          handleSelect={handleSelect}
-                          index={index}
-                          options={options}
-                          essSwitch={essSwitch}
-                        />
-                      </Wrapper6>
-                      {/* Ess contents */}
-                      {options === index && index === 0 && (
+                    {/* Ess and Sys headers */}
+                    <Wrapper6>
+                      {settingsApplyButton && (
+                        <WrapperApplyButton>
+                          <ApplyButtonInvisibleDiv />
+                        </WrapperApplyButton>
+                      )}
+                      <SystemHeaderForceAndCommand
+                        name={value.title}
+                        toggleButtonColor={value.button}
+                        handleSelect={handleSelect}
+                        index={index}
+                        options={options}
+                        essSwitch={essSwitch}
+                      />
+                    </Wrapper6>
+                    {/* Ess contents */}
+                    {options === index && index === 0 && (
+                      <WrapperEss5
+                        changeBorder0={options === index && index === 0}
+                      >
                         <NewWrapper>
                           <FlexWrapper>
                             {!settingsEditButton && (
@@ -503,12 +502,6 @@ function ContainerOfForceAndCommand() {
                             />
                           </FlexWrapper>
 
-                          <WrapperButtons>
-                            <EditCancelApplyButtons
-                              handleClick={handleEssDispatches}
-                              buttonsName={buttonsName}
-                            />
-                          </WrapperButtons>
                           {messageBox && (
                             <SettingAppliedMessage
                               title={'change options'}
@@ -517,9 +510,19 @@ function ContainerOfForceAndCommand() {
                             />
                           )}
                         </NewWrapper>
-                      )}
-                      {/* Ess: Sys contents */}
-                      {options === index && index === 1 && (
+                        <WrapperButtons>
+                          <EditCancelApplyButtons
+                            handleClick={handleEssDispatches}
+                            buttonsName={buttonsName}
+                          />
+                        </WrapperButtons>
+                      </WrapperEss5>
+                    )}
+                    {/* Ess: Sys contents */}
+                    {options === index && index === 1 && (
+                      <WrapperEss6
+                        changeBorder1={options === index && index === 1}
+                      >
                         <NewWrapper>
                           {!settingsEditButton && (
                             <InvisibleDivForEditButton height={'192px'} />
@@ -529,12 +532,6 @@ function ContainerOfForceAndCommand() {
                             tgs={['tgs', 'tes']}
                             essSwitch={essSwitch}
                           />
-                          <WrapperButtons>
-                            <EditCancelApplyButtons
-                              handleClick={handleEssSysDispatches}
-                              buttonsName={buttonsName}
-                            />
-                          </WrapperButtons>
                           {messageBox && (
                             <SettingAppliedMessage
                               title={'change options'}
@@ -543,8 +540,14 @@ function ContainerOfForceAndCommand() {
                             />
                           )}
                         </NewWrapper>
-                      )}
-                    </WrapperEss5>
+                        <WrapperButtons>
+                          <EditCancelApplyButtons
+                            handleClick={handleEssSysDispatches}
+                            buttonsName={buttonsName}
+                          />
+                        </WrapperButtons>
+                      </WrapperEss6>
+                    )}
                   </Wrapper4>
                 );
               })
@@ -592,12 +595,6 @@ function ContainerOfForceAndCommand() {
                                 setAtsState={setTgsAtsState}
                               />
                             </FlexWrapper>
-                            <WrapperButtons>
-                              <EditCancelApplyButtons
-                                handleClick={handleTgsDispatches}
-                                buttonsName={buttonsName}
-                              />
-                            </WrapperButtons>
                             {messageBox && (
                               <SettingAppliedMessage
                                 title={'change options'}
@@ -606,6 +603,12 @@ function ContainerOfForceAndCommand() {
                               />
                             )}
                           </NewWrapper>
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleTgsDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
                         </NewWrapper1>
                       )}
                       {/* Tes contents */}
@@ -627,12 +630,6 @@ function ContainerOfForceAndCommand() {
                                 tesGpEbp={tesGpEbp}
                               />
                             </FlexWrapper>
-                            <WrapperButtons>
-                              <EditCancelApplyButtons
-                                handleClick={handleTesDispatches}
-                                buttonsName={buttonsName}
-                              />
-                            </WrapperButtons>
                             {messageBox && (
                               <SettingAppliedMessage
                                 title={'change options'}
@@ -641,6 +638,12 @@ function ContainerOfForceAndCommand() {
                               />
                             )}
                           </NewWrapper>
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleTesDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
                         </NewWrapper1>
                       )}
                       {/* Tgs and Tes: Sys Contents */}
@@ -657,12 +660,6 @@ function ContainerOfForceAndCommand() {
                               ess={'ess'}
                               essSwitch={essSwitch}
                             />
-                            <WrapperButtons>
-                              <EditCancelApplyButtons
-                                handleClick={handleTgsTesSysDispatches}
-                                buttonsName={buttonsName}
-                              />
-                            </WrapperButtons>
                             {messageBox && (
                               <SettingAppliedMessage
                                 title={'change options'}
@@ -671,6 +668,12 @@ function ContainerOfForceAndCommand() {
                               />
                             )}
                           </NewWrapper>
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleTgsTesSysDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
                         </NewWrapper1>
                       )}
                     </Wrapper5>
@@ -755,14 +758,43 @@ const Wrapper4 = styled.div`
 const WrapperEss5 = styled.div`
   width: 560px;
   height: auto;
-  ${({ changeBorder1 }) => changeBorder1 && 'margin-bottom: 1px'};
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 2px;
 
   background: transparent
     linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(20, 32, 51) 100%) 0% 0% no-repeat
     padding-box;
-  border-radius: ${({ changeBorder0 }) =>
-    changeBorder0 ? '28px 28px 14px 14px' : '28px'};
-  /* border-radius: 28px; */
+  ${({ changeBorder0 }) =>
+    changeBorder0
+      ? css`
+          border-radius: 14px;
+        `
+      : css`
+          border-radius: 28px;
+        `};
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const WrapperEss6 = styled.div`
+  width: 560px;
+  height: auto;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 1px;
+
+  background: transparent
+    linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(20, 32, 51) 100%) 0% 0% no-repeat
+    padding-box;
+
+  border-radius: ${({ changeBorder1 }) =>
+    changeBorder1 ? '14px 14px 28px 28px ' : '28px'};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -802,7 +834,7 @@ const NewWrapper1 = styled.div`
   width: 556px;
   height: auto;
   padding-top: 2px;
-  padding-bottom: 2px;
+  /* padding-bottom: 2px; */
   margin-top: 5px;
   margin-bottom: 2px;
 
@@ -815,19 +847,15 @@ const NewWrapper1 = styled.div`
     changeBorder2 ? '14px 14px 26px 26px' : '12px'};
   opacity: 1;
   ${flexboxCenter};
-  align-items: flex-start;
+  flex-direction: column;
 `;
 
 const NewWrapper = styled.div`
   width: 552px;
   height: auto;
 
-  margin-bottom: 20px;
-  /* background-image: -webkit-linear-gradient(
-    90deg,
-    rgb(0, 0, 0) 0%,
-    rgb(35, 58, 84) 100%
-  ); */
+  margin-bottom: 10px;
+
   background: #233a54;
   box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 100%);
   /* box-shadow: 0 0 2px rgba(0, 0, 0, 100%); */
@@ -835,8 +863,7 @@ const NewWrapper = styled.div`
   border: none;
   opacity: 1;
   ${flexboxCenter}
-  flex-direction:column;
-  align-items: flex-start;
+  flex-direction: column;
 `;
 
 const WrapperButtons = styled.div`

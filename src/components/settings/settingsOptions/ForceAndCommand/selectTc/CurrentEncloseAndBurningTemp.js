@@ -25,6 +25,7 @@ function CurrentEncloseAndBurningTemp({
 }) {
   // useState
   const [zIndex, setZIndex] = useState();
+  const [selectBoxCss, setSelectBoxCss] = useState(false);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -75,6 +76,7 @@ function CurrentEncloseAndBurningTemp({
                 essSwitch={essSwitch}
                 index={index}
                 zIndex={zIndex}
+                boxCss={selectBoxCss}
               >
                 <WrapperTitleAndImg>
                   <SelectionIndentWrapper
@@ -109,9 +111,11 @@ function CurrentEncloseAndBurningTemp({
                         editState &&
                         (index === 0
                           ? (displayOptions(essHeaterTempName, e),
-                            setZIndex(index))
+                            setZIndex(index),
+                            setSelectBoxCss(!selectBoxCss))
                           : (displayOptions(essEncloseTempName, e),
-                            setZIndex(index)))
+                            setZIndex(index),
+                            setSelectBoxCss(!selectBoxCss)))
                       }
                     />
                   ) : !tesSwitch && index === 1 ? (
@@ -123,13 +127,16 @@ function CurrentEncloseAndBurningTemp({
                         editState &&
                         (index === 0
                           ? (displayOptions(tgsHeaterTempName, e),
-                            setZIndex(index))
+                            setZIndex(index),
+                            setSelectBoxCss(!selectBoxCss))
                           : index === 1
                           ? (displayOptions(tesHeaterTempName, e),
-                            setZIndex(index))
+                            setZIndex(index),
+                            setSelectBoxCss(!selectBoxCss))
                           : index === 2 &&
                             (displayOptions(tgsTesEncloseTempName, e),
-                            setZIndex(index)))
+                            setZIndex(index),
+                            setSelectBoxCss(!selectBoxCss)))
                       }
                     />
                   )}
@@ -148,7 +155,9 @@ function CurrentEncloseAndBurningTemp({
                         />
                       ))}
                     </SelectWrapper>
-                    <WrapperButton>
+                    <WrapperButton
+                      onClick={() => setSelectBoxCss(!selectBoxCss)}
+                    >
                       <TcConfirmButton
                         onConfirm={onConfirmHandler}
                         essHeaterTemp={essHeaterTempName}
@@ -173,7 +182,9 @@ function CurrentEncloseAndBurningTemp({
                         />
                       ))}
                     </SelectWrapper>
-                    <WrapperButton>
+                    <WrapperButton
+                      onClick={() => setSelectBoxCss(!selectBoxCss)}
+                    >
                       <TcConfirmButton
                         onConfirm={onConfirmHandler}
                         essEncloseTemp={essEncloseTempName}
@@ -197,7 +208,9 @@ function CurrentEncloseAndBurningTemp({
                         />
                       ))}
                     </SelectWrapper>
-                    <WrapperButton>
+                    <WrapperButton
+                      onClick={() => setSelectBoxCss(!selectBoxCss)}
+                    >
                       {/* onClick, it will close the dropdown */}
                       <TcConfirmButton
                         onConfirm={onConfirmHandler}
@@ -313,7 +326,8 @@ const SelectionWrapper = styled.div`
     'transparent linear-gradient(180deg, #233a54 0%, #060d19 100%)'};
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 33px;
+  border-radius: ${({ boxCss }) =>
+    boxCss ? css`24px 24px 18px 18px` : css`24px`};
   opacity: 1;
 
   ${flexboxCenter}
@@ -326,7 +340,7 @@ const SelectionWrapper = styled.div`
     `};
 `;
 const SelectionIndentWrapper = styled.div`
-  width: 195px;
+  width: 196px;
   height: 38px;
   margin-right: 10px;
 

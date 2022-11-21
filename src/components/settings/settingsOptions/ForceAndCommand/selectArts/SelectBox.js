@@ -100,7 +100,7 @@ function SelectBox({
 export default SelectBox;
 
 const EachContainerOfSelection = styled.div`
-  width: 258px;
+  width: 259px;
   height: 38px;
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;

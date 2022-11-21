@@ -351,12 +351,13 @@ const InnerWrapper = styled.div`
   padding: 0.15rem 0;
 `;
 const TitleWrapper = styled.div`
-  ${flexboxCenter}
   width: 539px;
   height: 32px;
+  margin-top: 4px;
   background: #233a54;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 16px;
+  ${flexboxCenter}
 `;
 
 const Title = styled.div`
@@ -538,23 +539,23 @@ const SpecsGroupWrapper = styled.div`
 
 const ButtonWrapper = styled.button`
   ${flexboxCenter}
-  width: 102px;
-  height: 26px;
+  width: 104px;
+  height: 28px;
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 19px;
+  border-radius: 27px;
   /* border: ${({ color }) => color && '1px solid #95ff45'}; */
 `;
 const ButtonInnerWrapper = styled.div`
   ${flexboxCenter}
 
-  width: 100px;
-  height: 24px;
+  width: 102px;
+  height: 26px;
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 25px;
+  border-radius: 26px;
   ${({ color }) =>
     color &&
     'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};
@@ -562,11 +563,11 @@ const ButtonInnerWrapper = styled.div`
 const ButtonHole = styled.div`
   ${flexboxCenter}
 
-  width: 92px;
-  height: 16px;
-  background: #142033 0% 0% no-repeat padding-box;
+  width: 94px;
+  height: 18px;
+  background: #233a54;
   box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 18px;
+  border-radius: 22px;
 `;
 const ButtonTop = styled.div`
   ${flexboxCenter}
@@ -577,7 +578,7 @@ const ButtonTop = styled.div`
     0% no-repeat padding-box;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 25px;
+  border-radius: 20px;
   ${({ color }) =>
     color &&
     'background: transparent linear-gradient(180deg, #1E7FC1 0%, #001640 100%) 0% 0% no-repeat padding-box;'};

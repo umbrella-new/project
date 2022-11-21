@@ -66,7 +66,7 @@ const Wrapper = styled.div`
 
   background: #1b2b44 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
-  border-radius: 16px;
+  border-radius: 25px;
   opacity: 1;
   display: flex;
   align-items: center;
@@ -77,7 +77,7 @@ const Wrapper1 = styled.button`
   cursor: pointer;
   width: 83px;
   height: 32px;
-  border-radius: 25px;
+  border-radius: 24px;
   padding: 0;
 
   display: flex;
@@ -94,18 +94,19 @@ const Wrapper1 = styled.button`
     rgb(35, 58, 84) 100%
   );
   opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  /* box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%); */
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const ButtonHole = styled.div`
-  width: 75px;
-  height: 24px;
+  width: 77px;
+  height: 26px;
 
-  border-radius: 20px;
+  border-radius: 21px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,7 +121,7 @@ const ButtonHole = styled.div`
 const ButtonTop = styled.div`
   width: 73px;
   height: 22px;
-  border-radius: 25px;
+  border-radius: 19px;
 
   border-style: solid;
   border-width: 0.5px;
@@ -132,9 +133,9 @@ const ButtonTop = styled.div`
     rgb(35, 58, 84) 100%
   );
   opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
-
+  /* box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 100%); */
+  box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -111,7 +111,7 @@ const IndividualContainer = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: var(--space2);
+  font-size: var(--space0);
   margin-left: 10px;
   text-transform: uppercase;
   color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};

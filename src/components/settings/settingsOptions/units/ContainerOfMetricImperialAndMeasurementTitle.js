@@ -22,20 +22,20 @@ import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 function ContainerOfMetricImperialAndMeasurementTitle() {
   const measurementsArr = [
     {
-      title: 'Metric',
-      temp: 'C ° - CENTIGRADE',
-      energy: 'Kw - KILOWATTS',
-      measure: 'Cms - CENTIMETERS M - METERS',
-      gas: 'M³ - CUBIC METERS',
-      backgroundColor: '180',
-    },
-    {
       title: 'Imperial',
       temp: 'F °- FAHRENHEIT',
       energy: 'Kw - KILOWATTS',
       measure: 'In - INCHES - Ft - FEET',
       gas: 'FT³- CUBIC FEET',
       backgroundColor: '360',
+    },
+    {
+      title: 'Metric',
+      temp: 'C ° - CENTIGRADE',
+      energy: 'Kw - KILOWATTS',
+      measure: 'Cms - CENTIMETERS M - METERS',
+      gas: 'M³ - CUBIC METERS',
+      backgroundColor: '180',
     },
   ];
 
@@ -67,10 +67,10 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
     dispatch(setResetAllSettingsButtons());
 
     if (unitsMeasurement === false) {
-      setMetricImperialToggle(0);
+      setMetricImperialToggle(1);
       setSelectUnitsState(false);
     } else {
-      setMetricImperialToggle(1);
+      setMetricImperialToggle(0);
       setSelectUnitsState(true);
     }
   }, []);
@@ -78,10 +78,10 @@ function ContainerOfMetricImperialAndMeasurementTitle() {
   // keeps track and render last state change of either imperial or metric  when pressing cancel button
   useEffect(() => {
     if (unitsMeasurement === false) {
-      setMetricImperialToggle(0);
+      setMetricImperialToggle(1);
       setSelectUnitsState(false);
     } else {
-      setMetricImperialToggle(1);
+      setMetricImperialToggle(0);
       setSelectUnitsState(true);
     }
   }, [cancelState]);

@@ -31,6 +31,7 @@ function OutsideTemperature({
   //  useState
   const [activeSelect, setActiveSelect] = useState(true);
   const [zIndex, setZIndex] = useState(false);
+  const [selectBoxCss, setSelectBoxCss] = useState(false);
 
   // redux
   const state = useSelector(selectSettingsOfEss);
@@ -56,14 +57,16 @@ function OutsideTemperature({
     }
   }, []);
 
+  // handles enable or disable the select t/c dropdown of outside temperature
   // handles the toggle of outside temperature: internet or thermocouple
   const handleToggle = (index) => {
-    if (index !== temperatureSelection) return setTemperatureSelection(index);
-  };
+    if (index === 1) {
+      setActiveSelect(true);
+    } else {
+      setActiveSelect(false);
+    }
 
-  // handles enable or disable the select t/c dropdown of outside temperature
-  const handleSelect = () => {
-    setActiveSelect(!activeSelect);
+    if (index !== temperatureSelection) return setTemperatureSelection(index);
   };
 
   return (
@@ -83,7 +86,6 @@ function OutsideTemperature({
                   // sets the selection of internet or thermocouple and also enable or disable dropdown
                   onClick={() => {
                     editState && handleToggle(index);
-                    editState && handleSelect();
                   }}
                   mode={mode}
                 >
@@ -102,10 +104,14 @@ function OutsideTemperature({
       </ControlContainer>
 
       <SelectionShadowWrapper>
-        <SelectionWrapper color={activeSelect} zIndex={zIndex}>
+        <SelectionWrapper
+          color={activeSelect}
+          zIndex={zIndex}
+          boxBorder={selectBoxCss}
+        >
           <WrapperTitleAndImg>
             <SelectionIndentWrapper color={activeSelect}>
-              {/* check if there's a selection of tc. if not it will display 'select t/c' by default */}
+              {/* check if there's a selection of tc. if not, it will display 'select t/c' by default */}
               <Selection color={activeSelect}>
                 {!activeSelect && 'select t/c'}
                 {!activeSelect || (essSwitch && essOutsideTemp)}
@@ -117,9 +123,13 @@ function OutsideTemperature({
               src={`${activeSelect ? whiteTriangle : greyTriangle}`}
               onClick={() =>
                 activeSelect && essSwitch
-                  ? (displayOptions(essOutsideTempName), setZIndex(false))
+                  ? (displayOptions(essOutsideTempName),
+                    setZIndex(false),
+                    setSelectBoxCss(!selectBoxCss))
                   : activeSelect &&
-                    (displayOptions(tgsTesOutsideTempName), setZIndex(false))
+                    (displayOptions(tgsTesOutsideTempName),
+                    setZIndex(false),
+                    setSelectBoxCss(!selectBoxCss))
               }
             />
           </WrapperTitleAndImg>
@@ -128,6 +138,7 @@ function OutsideTemperature({
             <WrapperSelectAndConfirmButton>
               {/* dropbox */}
               <SelectWrapper>
+                {console.log(selectBoxCss)}
                 {select.map((option) => (
                   <RadioBox
                     data={`${option}`}
@@ -137,7 +148,7 @@ function OutsideTemperature({
                   />
                 ))}
               </SelectWrapper>
-              <WrapperButton>
+              <WrapperButton onClick={() => setSelectBoxCss(!selectBoxCss)}>
                 {/* confirm button. it closes the dropbox onClick */}
                 <TcConfirmButton
                   onConfirm={onConfirmHandler}
@@ -161,7 +172,7 @@ function OutsideTemperature({
             </SubTitleWrapper2>
           </SubTitleWrapper>
           <SelectionShadowWrapper>
-            <SelectionWrapper1 zIndex={zIndex}>
+            <SelectionWrapper1 zIndex={zIndex} boxBorder={selectBoxCss}>
               <WrapperTitleAndImg>
                 <SelectionIndentWrapper1>
                   <Selection1>{!essSwitch && burningChamber}</Selection1>
@@ -171,7 +182,9 @@ function OutsideTemperature({
                   src={'./images/whiteTriangle.svg'}
                   onClick={() =>
                     editState &&
-                    (displayOptions(burningChamberTempName), setZIndex(true))
+                    (displayOptions(burningChamberTempName),
+                    setZIndex(true),
+                    setSelectBoxCss(!selectBoxCss))
                   }
                 />
               </WrapperTitleAndImg>
@@ -188,7 +201,7 @@ function OutsideTemperature({
                       />
                     ))}
                   </SelectWrapper>
-                  <WrapperButton>
+                  <WrapperButton onClick={() => setSelectBoxCss(!selectBoxCss)}>
                     {/* confirm button. it closes the dropbox onClick */}
                     <TcConfirmButton
                       onConfirm={onConfirmHandler}
@@ -241,12 +254,13 @@ const SubTitle = styled.div`
 
 const ControlContainer = styled.div`
   width: 252px;
-  height: 74px;
+  height: 62px;
+  margin-top: 4px;
 
   background: ${(props) => (props.mode ? '#FFFFFF' : '#233a54')} 0% 0% no-repeat
     padding-box;
   box-shadow: inset 0px 0px 3px #000000;
-  border-radius: 18px;
+  border-radius: 16px;
   opacity: 1;
   display: flex;
   flex-direction: column;
@@ -293,7 +307,7 @@ const IndividualContainer = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: var(--space1);
+  font-size: var(--space2);
   margin-left: 10px;
   text-transform: uppercase;
   color: ${(props) => (props.mode ? '#233a54' : '#FFFFFF')};
@@ -306,8 +320,8 @@ const SelectionShadowWrapper = styled.div`
   height: 51px;
   margin-top: 4px;
 
-  background: #142033 0% 0% no-repeat padding-box;
-  border-radius: 31px;
+  background: #142033;
+  border-radius: 26px;
   opacity: 1;
   ${flexboxCenter}
 `;
@@ -316,7 +330,7 @@ const SelectionWrapper = styled.div`
   width: 248px;
   height: auto;
   padding-top: 4px;
-  padding-bottom: 4px;
+  padding-bottom: ${({ boxBorder }) => (boxBorder ? css`2px` : css`4px`)};
 
   background: transparent
     linear-gradient(
@@ -327,7 +341,9 @@ const SelectionWrapper = styled.div`
     0% 0;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 33px;
+  border-radius: ${({ boxBorder }) =>
+    boxBorder ? css`24px 24px 20px 20px` : css`24px`};
+
   opacity: 1;
   ${flexboxCenter}
   flex-direction: column;
@@ -344,7 +360,7 @@ const WrapperTitleAndImg = styled.div`
 `;
 
 const SelectionIndentWrapper = styled.div`
-  width: 195px;
+  width: 196px;
   height: 38px;
   margin-right: 8px;
 
@@ -383,7 +399,7 @@ const SelectionShadowWrapper1 = styled.div`
 
   background: #142033 0% 0% no-repeat padding-box;
   /* box-shadow: inset 0px 0px 1px #000000; */
-  border-radius: 31px;
+  border-radius: 24px;
   opacity: 1;
   ${flexboxCenter}
 `;
@@ -392,18 +408,19 @@ const SelectionWrapper1 = styled.div`
   width: 248px;
   height: auto;
   padding-top: 4px;
-  padding-bottom: 4px;
+  padding-bottom: ${({ boxBorder }) => (boxBorder ? css`2px` : css`4px`)};
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0% 0;
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
-  border-radius: 33px;
+  border-radius: ${({ boxBorder }) =>
+    boxBorder ? css`24px 24px 20px 20px` : css`24px`};
   opacity: 1;
   ${flexboxCenter}
   flex-direction: column;
 `;
 const SelectionIndentWrapper1 = styled.div`
-  width: 195px;
+  width: 196px;
   height: 38px;
   margin-right: 8px;
 
@@ -443,4 +460,6 @@ const WrapperButton = styled.div`
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
+
+  /* margin-top: 2px; */
 `;

@@ -121,7 +121,7 @@ const OutsideRingGreenCircle = styled.span`
   width: 22px;
   height: 22px;
   margin-left: 4px;
-  border: 1.5px solid #95ff45;
+  border: 1px solid #95ff45;
   border-radius: 50%;
   display: flex;
   justify-content: center;

@@ -31,7 +31,7 @@ function ContainerOfWindFactor() {
     },
     {
       title: 'high wind factor',
-      windMiles: '38-82',
+      windMiles: '38-52',
       temperatureF: '392',
       windKilo: '61-84',
       temperatureC: '200',
@@ -45,9 +45,9 @@ function ContainerOfWindFactor() {
     },
     {
       title: 'extreme wind factor',
-      windMiles: '53-65',
+      windMiles: '53-62',
       temperatureF: '437',
-      windKilo: '85-105',
+      windKilo: '85-100',
       temperatureC: '225',
     },
   ];
