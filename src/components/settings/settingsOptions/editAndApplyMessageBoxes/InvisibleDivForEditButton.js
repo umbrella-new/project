@@ -35,7 +35,7 @@ function InvisibleDivForEditButton({ height }) {
 const Div = styled.div`
   height: ${({ height }) => height};
   width: 592px;
-  background-color: white;
+  background-color: transparent;
   position: absolute;
   z-index: 10;
 `;

@@ -16,7 +16,7 @@ function Thermocouple({
     <WrapperLeftSwitch>
       <WrapperLeftSwitch2>
         <WrapperThermocouple>
-          <Title>Thermocouple</Title>
+          <Title>track temperature control t/c</Title>
         </WrapperThermocouple>
         <NoThermocoupleWrapper>
           <WrapperSubTitle>

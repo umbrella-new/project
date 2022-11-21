@@ -55,6 +55,8 @@ function SnowFactor({
     }
   };
 
+  console.log(metricImperialToggle);
+
   return (
     <>
       {essSwitch ? (
@@ -78,8 +80,7 @@ function SnowFactor({
                       handleDisplayKeyPad();
                     }}
                   ></Input>
-
-                  {metricImperialToggle === 0 ? '°c' : '°F'}
+                  {metricImperialToggle ? '°F' : '°c'}
                 </Temperature>
                 {activateKeypad && (
                   <KeyboardWrapper>
@@ -150,7 +151,7 @@ function SnowFactor({
                             }}
                           ></Input>
                         )}
-                        {metricImperialToggle === 0 ? '°c' : '°F'}
+                        {metricImperialToggle ? '°F' : '°c'}
                       </Temperature>
                       {activateKeypad && options === index && (
                         <KeyboardWrapper>
