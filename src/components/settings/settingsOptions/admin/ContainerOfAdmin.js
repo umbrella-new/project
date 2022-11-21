@@ -585,65 +585,68 @@ function ContainerOfAdmin() {
                 return (
                   <div key={index}>
                     <Wrapper4>
-                      <WrapperEss5
+                      {/* <WrapperEss5
                         changeBorder0={options === index && index === 0}
                         changeBorder1={options === index && index === 1}
                         changeBorder2={options === index && index === 2}
-                      >
-                        <EssWrapper>
-                          {/* invisible div to display message box if the changes done weren't applied */}
-                          {settingsApplyButton && (
-                            <WrapperApplyButton>
-                              <ApplyButtonInvisibleDiv />
-                            </WrapperApplyButton>
-                          )}
-                          {/* headers of ess and sys */}
-                          <SystemHeader
-                            name={value.title}
-                            toggleButtonColor={value.button}
-                            handleSelect={handleSelect}
-                            index={index}
-                            options={options}
-                            essSwitch={essSwitch}
-                            tesSwitch={tesSwitch}
-                            adminAccess={adminAccess}
-                          />
-                        </EssWrapper>
-                        {/* the content of ess */}
-                        {adminAccess && index === 0 && options === index && (
-                          <WrapperThermocoupleEss>
-                            {!settingsEditButton && (
-                              <InvisibleDivForEditButton height={'284px'} />
-                            )}
-                            <SectionWrapperEss>
-                              <WrapperThermocouple2>
-                                <Thermocouple
-                                  changeButtonColor={toggleThermocoupleSwitch}
-                                  handleLeftSwitch={handleThermocoupleSwitch}
-                                />
-                              </WrapperThermocouple2>
-                            </SectionWrapperEss>
-
-                            <SectionWrapper>
-                              <AddElementToBank />
-                            </SectionWrapper>
-                            <WrapperButtons>
-                              <EditCancelApplyButtons
-                                handleClick={handleEssDispatches}
-                                buttonsName={buttonsName}
-                              />
-                            </WrapperButtons>
-                            {messageBox && (
-                              <SettingAppliedMessage
-                                title={'change options'}
-                                message={messageBoxContent}
-                                onClose={handleCloseMessageBox}
-                              />
-                            )}
-                          </WrapperThermocoupleEss>
+                      > */}
+                      <EssWrapper>
+                        {/* invisible div to display message box if the changes done weren't applied */}
+                        {settingsApplyButton && (
+                          <WrapperApplyButton>
+                            <ApplyButtonInvisibleDiv />
+                          </WrapperApplyButton>
                         )}
-                        {/* content of general sys*/}
-                        {adminAccess && options === index && index === 1 && (
+                        {/* headers of ess and sys */}
+                        <SystemHeader
+                          name={value.title}
+                          toggleButtonColor={value.button}
+                          handleSelect={handleSelect}
+                          index={index}
+                          options={options}
+                          essSwitch={essSwitch}
+                          tesSwitch={tesSwitch}
+                          adminAccess={adminAccess}
+                        />
+                      </EssWrapper>
+                      {/* the content of ess */}
+                      {adminAccess && index === 0 && options === index && (
+                        <WrapperThermocoupleEss>
+                          {!settingsEditButton && (
+                            <InvisibleDivForEditButton height={'284px'} />
+                          )}
+                          <SectionWrapperEss>
+                            <WrapperThermocouple2>
+                              <Thermocouple
+                                changeButtonColor={toggleThermocoupleSwitch}
+                                handleLeftSwitch={handleThermocoupleSwitch}
+                              />
+                            </WrapperThermocouple2>
+                          </SectionWrapperEss>
+
+                          <SectionAddElementToBank>
+                            <AddElementToBank />
+                          </SectionAddElementToBank>
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleEssDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
+                          {messageBox && (
+                            <SettingAppliedMessage
+                              title={'change options'}
+                              message={messageBoxContent}
+                              onClose={handleCloseMessageBox}
+                            />
+                          )}
+                        </WrapperThermocoupleEss>
+                      )}
+                      {/* content of general sys*/}
+                      {adminAccess && options === index && index === 1 && (
+                        <WrapperEss5
+                          changeBorder1={options === index && index === 1}
+                        >
                           <Wrapper6>
                             {!settingsEditButton && (
                               <InvisibleDivForEditButton height={'158px'} />
@@ -653,12 +656,6 @@ function ContainerOfAdmin() {
                               <SystemIdentification />
                             </SectionWrapper>
                             {/* the 3 buttons edit cancel and apply */}
-                            <WrapperButtons>
-                              <EditCancelApplyButtons
-                                handleClick={handleEssSysDispatches}
-                                buttonsName={buttonsName}
-                              />
-                            </WrapperButtons>
                             {messageBox && (
                               <SettingAppliedMessage
                                 title={'change options'}
@@ -667,8 +664,15 @@ function ContainerOfAdmin() {
                               />
                             )}
                           </Wrapper6>
-                        )}
-                        {/* simulate faults
+                          <WrapperButtons>
+                            <EditCancelApplyButtons
+                              handleClick={handleEssSysDispatches}
+                              buttonsName={buttonsName}
+                            />
+                          </WrapperButtons>
+                        </WrapperEss5>
+                      )}
+                      {/* simulate faults
                         {adminAccess && index === 2 && options === index ? (
                           <WrapperSf>
                             <WrapperSf1>
@@ -688,14 +692,14 @@ function ContainerOfAdmin() {
                             </WrapperSf1>
                           </WrapperSf>
                         ) : ( */}
-                        {!adminAccess && (
-                          <LoginWrapper>
-                            {/* login in pop up */}
-                            <ContainerLogin />
-                          </LoginWrapper>
-                        )}
-                        {/* )} */}
-                      </WrapperEss5>
+                      {!adminAccess && (
+                        <LoginWrapper>
+                          {/* login in pop up */}
+                          <ContainerLogin />
+                        </LoginWrapper>
+                      )}
+                      {/* )} */}
+                      {/* </WrapperEss5> */}
                     </Wrapper4>
                   </div>
                 );
@@ -951,8 +955,8 @@ const WrapperEss5 = styled.div`
   background: transparent
     linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(20, 32, 51) 100%) 0% 0% no-repeat
     padding-box;
-  border-radius: ${({ changeBorder0 }) =>
-    changeBorder0 ? '28px 28px 14px 14px' : '28px'};
+  border-radius: ${({ changeBorder1 }) =>
+    changeBorder1 ? '14px 14px 28px 28px' : '28px'};
 
   display: flex;
   flex-direction: column;
@@ -1022,13 +1026,13 @@ const WrapperThermocoupleEss = styled.div`
   width: 554px;
   height: auto;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 3px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
   box-shadow: 0px 0px 2px #000000;
   border: 0.5px solid #142033;
-  border-radius: 14px;
+  border-radius: 12px;
   opacity: 1;
   ${flexboxCenter};
 
@@ -1055,7 +1059,7 @@ const WrapperThermocouple1 = styled.div`
   width: 554px;
   height: auto;
   margin-top: 1px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
@@ -1106,8 +1110,19 @@ const SectionWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -3px;
-  margin-bottom: 3px;
+  /* margin-top: -3px; */
+  margin-top: 3px;
+  margin-bottom: 5px;
+`;
+
+const SectionAddElementToBank = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: -3px; */
+  margin-top: 3px;
+  margin-bottom: 10px;
 `;
 
 const SectionWrapper1 = styled.div`
@@ -1135,7 +1150,7 @@ const Wrapper6 = styled.div`
   width: 554px;
   height: auto;
   margin-top: 1px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
@@ -1198,8 +1213,8 @@ const WrapperContent = styled.div``;
 const ControlWrapper = styled.div`
   width: 554px;
   height: auto;
-  margin-top: 4px;
-  margin-bottom: 10px;
+  /* margin-top: 4px;
+  margin-bottom: 10px; */
   display: flex;
   /* flex-direction: row; */
   align-items: flex-start;
