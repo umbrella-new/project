@@ -10,6 +10,7 @@ import {
 import {
   activeInput,
   activeLayer1,
+  ControllerDisabledBackground,
   flexboxCenter,
   layer1,
   layer90Deg,
@@ -57,29 +58,34 @@ const InstantHeat = () => {
   // Add one condition of thermocouple
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    if (!isTgsSwitchActivated) {
-      const temp = Number(inputRef.current.value);
-      setOpenKeyPad(false);
-      if (temp !== 0) {
-        if (!instantButtonToggler) {
-          unitsMeasurement
-            ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
-            : dispatch(instantHeat(temp));
-          unitsMeasurement
-            ? (inputRef.current.value = `${temp}°F`)
-            : (inputRef.current.value = `${temp}°C`);
-        } else {
-          dispatch(instantHeat(0));
+    if (thermocouple) {
+      // working with maximum heat!
+      dispatch(instantHeat(0));
+    } else {
+      if (!isTgsSwitchActivated) {
+        const temp = Number(inputRef.current.value);
+        setOpenKeyPad(false);
+        if (temp !== 0) {
+          if (!instantButtonToggler) {
+            unitsMeasurement
+              ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
+              : dispatch(instantHeat(temp));
+            unitsMeasurement
+              ? (inputRef.current.value = `${temp}°F`)
+              : (inputRef.current.value = `${temp}°C`);
+          } else {
+            dispatch(instantHeat(0));
 
-          inputRef.current.value = ``;
+            inputRef.current.value = ``;
+          }
+        } else {
+          setActivateMessageBox(true);
+          return;
         }
       } else {
-        setActivateMessageBox(true);
-        return;
+        // Activate Conflict Message Box
+        dispatch(activateEsConflictMessage());
       }
-    } else {
-      // Activate Conflict Message Box
-      dispatch(activateEsConflictMessage());
     }
   };
 
@@ -142,7 +148,7 @@ const InstantHeat = () => {
               type='text'
               ref={inputRef}
               // during heater working input disabled!
-              disabled={instantButtonToggler}
+              disabled={instantButtonToggler || thermocouple}
               // onChang={() => inputRef.current.value}
             />
           </LabelAndInputInnerWrapper>
@@ -291,7 +297,15 @@ const InputDegree = styled.input`
   font-size: 10px;
 
   ::placeholder {
-    color: white;
+    ${(p) =>
+      p.disabled
+        ? css`
+            color: #808080;
+          `
+        : css`
+            color: white;
+          `}
+
     text-align: center;
     font-size: 10px;
   }
@@ -301,6 +315,12 @@ const InputDegree = styled.input`
     p.isActivated &&
     css`
       ${activeInput}
+    `}
+
+    ${(p) =>
+    p.disabled &&
+    css`
+      background-color: #3b3b3b;
     `}
 `;
 

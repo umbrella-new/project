@@ -17,6 +17,7 @@ import {
 
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
+import { selectSettingsOfTgsTes } from '../../../../store/slices/settingsOfTgsTesSlice';
 
 const ConstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -39,9 +40,16 @@ const ConstantHeat = () => {
     ? '/images/optional-Constant-Temperature-Logo-enable.svg'
     : '/images/optional-Constant-Temperature-Logo.svg';
 
+  const settingState = useSelector(selectSettingsOfTgsTes);
+  const { thermocouple } = settingState;
+
   const isEnable = isEssSwitch
-    ? true
+    ? thermocouple
+      ? false
+      : true
     : location.pathname === '/'
+    ? false
+    : thermocouple
     ? false
     : true;
 
