@@ -55,8 +55,6 @@ function SnowFactor({
     }
   };
 
-  console.log(metricImperialToggle);
-
   return (
     <>
       {essSwitch ? (

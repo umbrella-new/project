@@ -9,6 +9,7 @@ import InputKeyPad from '../../../../keyboard/InputKeyPad';
 import { SettingsContext } from '../../../../../context/ContextOfSettings';
 import { selectSystemIdentification } from '../../../../../store/slices/settingSystemIdentificationSlice';
 import { selectSettingsOfTgsTes } from '../../../../../store/slices/settingsOfTgsTesSlice';
+import { selectUserState } from '../../../../../store/slices/userSlice';
 
 function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const data = [
@@ -33,18 +34,38 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
   const state = useSelector(selectSettingsOfEss);
   const systemIdentification = useSelector(selectSystemIdentification);
   const tgsTesSettingState = useSelector(selectSettingsOfTgsTes);
+  const userState = useSelector(selectUserState);
   const mode = state.interfaceMode;
   const editState = state.buttonsOfSettings.settingsEditButton;
   const { locationName, switchName, application, switchSize, heatingSystem } =
     systemIdentification.sysIdentification;
   const { gasType } = tgsTesSettingState;
+  const { isEssSwitch, isTesSwitch } = userState;
 
-  const sysId =
+  // Ess, Tgs and TgsTes names of the machine. it will indicate which machine depending on input datas of the system identification
+  const EssSwitchName =
     switchName.length < 1
       ? 'switch'
       : `${locationName}-${switchName} ${switchSize} ${application}-${
           heatingSystem.split(' - ')[0]
-        } / ${gasType ? 'NG' : 'LP'}`;
+        }`;
+
+  const tgsTesSwitchName =
+    switchName.length < 1
+      ? 'switch'
+      : `${locationName}-${switchName} ${switchSize} ${application}-${
+          heatingSystem.split(' - ')[0].split('-')[0]
+        }/${isEssSwitch || gasType ? 'NG-' : 'LP-'}${
+          heatingSystem.split(' - ')[0].split('-')[1]
+        }
+         `;
+
+  const tgsSwitchName =
+    switchName.length < 1
+      ? 'switch'
+      : `${locationName}-${switchName} ${switchSize} ${application}-${
+          heatingSystem.split(' - ')[0]
+        } / ${isEssSwitch || gasType ? 'NG' : 'LP'}`;
 
   // saves the 3 input fields to useContext state
   const handleInputs = (e, index) => {
@@ -107,7 +128,13 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
           <MachineSerialNumberBackground
             src={'./images/machineSerialNumberBackground.svg'}
           />
-          <MachineName>{sysId}</MachineName>
+          <MachineName>
+            {!isEssSwitch && isTesSwitch
+              ? tgsTesSwitchName
+              : !isEssSwitch && !isTesSwitch
+              ? tgsSwitchName
+              : EssSwitchName}
+          </MachineName>
           <WrapperData>
             <WrapperData2>
               <WrapperData3>
