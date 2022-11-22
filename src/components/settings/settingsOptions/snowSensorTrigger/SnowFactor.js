@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useContext } from 'react';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 import InputKeyPad from '../../../keyboard/InputKeyPad';
 
@@ -26,6 +28,10 @@ function SnowFactor({
     essSnowSensor,
   } = useContext(SettingsContext);
 
+  // redux
+  const settingsEssState = useSelector(selectSettingsOfEss);
+  const mode = settingsEssState.interfaceMode;
+  // useState
   const [activateKeypad, setActivateKeypad] = useState(false);
   const [inputFocus, setInputFocus] = useState(null);
 
@@ -59,15 +65,16 @@ function SnowFactor({
     <>
       {essSwitch ? (
         <FlexWrapper>
-          <WrapperTgsTesSnowSensor>
-            <TitleContainer>
-              <Title>{ess}</Title>
+          <WrapperTgsTesSnowSensor interfaceMode={mode}>
+            <TitleContainer interfaceMode={mode}>
+              <Title interfaceMode={mode}>{ess}</Title>
             </TitleContainer>
 
-            <ValueContainer>
-              <SmallContainer essSwitch={essSwitch}>
+            <ValueContainer interfaceMode={mode}>
+              <SmallContainer essSwitch={essSwitch} interfaceMode={mode}>
                 <Temperature>
                   <Input
+                    interfaceMode={mode}
                     type='number'
                     placeholder='enter temperature'
                     value={essSnowSensor}
@@ -104,16 +111,30 @@ function SnowFactor({
                   gradient={index === 0 ? true : index === 1 && false}
                   index={index}
                   tesSwitch={tesSwitch}
+                  interfaceMode={mode}
                 >
-                  <TitleContainer index={index} tesSwitch={tesSwitch}>
-                    <Title>{value}</Title>
+                  <TitleContainer
+                    index={index}
+                    tesSwitch={tesSwitch}
+                    interfaceMode={mode}
+                  >
+                    <Title interfaceMode={mode}>{value}</Title>
                   </TitleContainer>
 
-                  <ValueContainer index={index} tesSwitch={tesSwitch}>
-                    <SmallContainer index={index} tesSwitch={tesSwitch}>
-                      <Temperature>
+                  <ValueContainer
+                    index={index}
+                    tesSwitch={tesSwitch}
+                    interfaceMode={mode}
+                  >
+                    <SmallContainer
+                      index={index}
+                      tesSwitch={tesSwitch}
+                      interfaceMode={mode}
+                    >
+                      <Temperature interfaceMode={mode}>
                         {index === 0 && !tesSwitch && (
                           <Input
+                            interfaceMode={mode}
                             type='number'
                             placeholder='enter temperature'
                             index={index}
@@ -132,6 +153,7 @@ function SnowFactor({
                         )}
                         {tesSwitch && (index === 0 || index === 1) && (
                           <Input
+                            interfaceMode={mode}
                             type='number'
                             placeholder='enter temperature'
                             index={index}
@@ -178,6 +200,8 @@ function SnowFactor({
 
 export default SnowFactor;
 
+// ${({interfaceMode})=>(interfaceMode ? css`` : css``)}
+
 const FlexWrapper = styled.div`
   width: 286px;
   height: 94px;
@@ -194,14 +218,39 @@ const WrapperTgsTesSnowSensor = styled.div`
   height: 94px;
   opacity: 1;
 
-  ${flexboxCenter}
-  flex-direction: column;
-  justify-content: space-evenly;
   box-sizing: border-box;
   border: 0.5px solid #000000;
   border-radius: 12px;
 
-  background: -webkit-linear-gradient(
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: transparent
+            linear-gradient(270deg, #ebebeb 0%, #bbbbbb 100%);
+          box-shadow: inset 0px 1px 2px #ffffff24, 0px 0px 2px #000000;
+          border: 0.5px solid #1b2b44;
+        `
+      : css`
+          background: -webkit-linear-gradient(
+            ${({ gradient }) => (gradient ? 180 : 360)}deg,
+            rgb(0, 0, 0) 0%,
+            rgb(35, 58, 84) 100%
+          );
+          ${(p) =>
+            p.tesSwitch ||
+            (p.index === 1 &&
+              css`
+                background: -webkit-linear-gradient(
+                  180deg,
+                  #565656 0%,
+                  #1d1d1d 100%
+                );
+              `)}
+
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+          box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+        `}
+  /* background: -webkit-linear-gradient(
     ${({ gradient }) => (gradient ? 180 : 360)}deg,
     rgb(0, 0, 0) 0%,
     rgb(35, 58, 84) 100%
@@ -211,25 +260,36 @@ const WrapperTgsTesSnowSensor = styled.div`
     (p.index === 1 &&
       css`
         background: -webkit-linear-gradient(180deg, #565656 0%, #1d1d1d 100%);
-      `)}
+      `)} */
 
   opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+  ${flexboxCenter}
+  flex-direction: column;
+  justify-content: space-evenly;
 `;
 
 const TitleContainer = styled.div`
   width: 278px;
   height: 32px;
 
-  background: #233a54;
-  ${(p) =>
-    p.tesSwitch ||
-    (p.index === 1 &&
-      css`
-        background: #3b3b3b;
-      `)};
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: #ffffff;
+          border: 1px solid #1b2b44;
+        `
+      : css`
+          background: #233a54;
+          ${(p) =>
+            p.tesSwitch ||
+            (p.index === 1 &&
+              css`
+                background: #3b3b3b;
+              `)};
+        `}
+
   box-shadow: inset 0px 0px 3px #000000;
+
   border-radius: 16px;
   opacity: 1;
   ${flexboxCenter}
@@ -238,19 +298,36 @@ const TitleContainer = styled.div`
 const Title = styled.p`
   font-size: var(--font-size7);
   text-transform: uppercase;
+
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          color: #1b2b44;
+        `
+      : css`
+          color: #ffffff;
+        `}
 `;
 
 const ValueContainer = styled.div`
   width: 278px;
   height: 42px;
 
-  background: #233a54;
-  ${(p) =>
-    p.tesSwitch ||
-    (p.index === 1 &&
-      css`
-        background: #3b3b3b;
-      `)};
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: #ffffff;
+        `
+      : css`
+          background: #233a54;
+          ${(p) =>
+            p.tesSwitch ||
+            (p.index === 1 &&
+              css`
+                background: #3b3b3b;
+              `)};
+        `}
+
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 21px;
   opacity: 1;
@@ -308,10 +385,23 @@ const Input = styled.input`
   height: auto;
 
   font-size: var(--space2);
-  background-color: ${({ tesSwitch, index }) =>
-    tesSwitch
-      ? '#233a54'
-      : (!tesSwitch && index === 1 && '#3b3b3b') || '#233a54'};
+
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          color: #1b2b44;
+          background-color: #ffff;
+          &::placeholder {
+            color: #1b2b44;
+          }
+        `
+      : css`
+          background-color: ${({ tesSwitch, index }) =>
+            tesSwitch
+              ? '#233a54'
+              : (!tesSwitch && index === 1 && '#3b3b3b') || '#233a54'};
+        `}
+
   border-radius: 21px;
   opacity: 1;
   text-transform: uppercase;
