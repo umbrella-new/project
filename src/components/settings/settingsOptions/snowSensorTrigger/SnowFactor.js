@@ -42,8 +42,8 @@ function SnowFactor({
   };
 
   // handles the 2 input fields to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
-  const handleInputs = (inputNumber) => {
-    switch (inputFocus) {
+  const handleInputs = (index, inputNumber) => {
+    switch (index) {
       case 0:
         setTgsSnowSensor(inputNumber);
         break;
@@ -72,7 +72,7 @@ function SnowFactor({
                     placeholder='enter temperature'
                     value={essSnowSensor}
                     onChange={(e) => {
-                      setEssSnowSensor(e.target.value);
+                      handleInputs(0, e.target.value);
                     }}
                     onClick={() => {
                       handleDisplayKeyPad();
@@ -121,7 +121,7 @@ function SnowFactor({
                             value={tgsSnowSensor}
                             onChange={(e) => {
                               // handleInputs(e.target.value);
-                              setTgsSnowSensor(e.target.value);
+                              handleInputs(index, e.target.value);
                             }}
                             onClick={() => {
                               handleDisplayKeyPad(index);
@@ -138,9 +138,10 @@ function SnowFactor({
                             tesSwitch={tesSwitch}
                             value={index === 0 ? tgsSnowSensor : tesSnowSensor}
                             onChange={(e) => {
-                              index === 0
-                                ? setTgsSnowSensor(e.target.value)
-                                : setTesSnowSensor(e.target.value);
+                              handleInputs(index, e.target.value);
+                              // index === 0
+                              //   ? setTgsSnowSensor(e.target.value)
+                              //   : setTesSnowSensor(e.target.value);
                             }}
                             onClick={() => {
                               handleDisplayKeyPad(index);
@@ -156,6 +157,7 @@ function SnowFactor({
                           <PositionAbsoluteBox index={options}>
                             <InputKeyPad
                               closeKeyPad={() => setActivateKeypad(false)}
+                              name={inputFocus}
                               handleOnSubmit={handleInputs}
                               setMainInput={handleInputs}
                             />
@@ -288,10 +290,16 @@ const PositionAbsoluteBox = styled.div`
           top: 10rem;
           right: 21rem;
         `
-      : css`
+      : index === 1
+      ? css`
           position: absolute;
           top: 10rem;
           right: 3rem;
+        `
+      : css`
+          position: absolute;
+          top: 10rem;
+          right: 21rem;
         `}
 `;
 

@@ -3,8 +3,12 @@ import { flexboxCenter } from '../../../styles/commonStyles';
 
 const Button = ({ name, handleClick, id, editState }) => {
   return (
-    <Wrapper onClick={() => handleClick(id)} borderColor={editState} index={id}>
-      <Wrapper1>
+    <Wrapper>
+      <Wrapper1
+        borderColor={editState}
+        index={id}
+        onClick={() => handleClick(id)}
+      >
         <ButtonHole>
           <ButtonTop>
             <ButtonName>{name}</ButtonName>
