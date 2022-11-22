@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { flexboxCenter } from '../../styles/commonStyles';
 
 const InputKeyboard = ({
+  input,
   setInput,
   handleSubmit,
   handleOnSubmit,
@@ -49,6 +50,9 @@ const InputKeyboard = ({
     }
     if (button === '{enter}') {
       closeKeyboard();
+    }
+    if (button === '{backspace}') {
+      handleOnSubmit(name, '');
     }
   };
 

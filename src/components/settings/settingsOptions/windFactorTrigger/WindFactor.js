@@ -9,31 +9,18 @@ function WindFactor({
   selectedMeasurement,
   handleKeypad,
   setInputFocus,
+  handleInputs,
 }) {
-  const { windFactor, setWindFactor } = useContext(SettingsContext);
+  const { windFactor } = useContext(SettingsContext);
 
-  // saves the entered data of input fields into useState which is held in useContext
-  const handleTemp = (e, index) => {
-    e.stopPropagation();
-    const value = Number(e.target.value);
-
-    switch (index) {
-      case 0:
-        setWindFactor(() => ({ ...windFactor, lowWind: value }));
-        break;
-      case 1:
-        setWindFactor(() => ({ ...windFactor, highWind: value }));
-        break;
-      case 2:
-        setWindFactor(() => ({ ...windFactor, medWind: value }));
-        break;
-      case 3:
-        setWindFactor(() => ({ ...windFactor, extremeWind: value }));
-        break;
-      default:
-        break;
-    }
-  };
+  const inputValue =
+    index === 0
+      ? windFactor.lowWind
+      : index === 1
+      ? windFactor.highWind
+      : index === 2
+      ? windFactor.medWind
+      : windFactor.extremeWind;
 
   return (
     <ContainerWindFactors
@@ -53,20 +40,12 @@ function WindFactor({
             <Input
               type='number'
               placeholder='temp'
-              value={
-                index === 0
-                  ? windFactor.lowWind
-                  : index === 1
-                  ? windFactor.highWind
-                  : index === 2
-                  ? windFactor.medWind
-                  : windFactor.extremeWind
-              }
+              value={inputValue}
               onClick={() => {
                 handleKeypad(index);
                 setInputFocus(index);
               }}
-              onChange={(e) => handleTemp(e, index)}
+              onChange={(e) => handleInputs(index, e.target.value)}
             ></Input>
             {selectedMeasurement ? '°f' : '°c'}
           </Temperature>

@@ -120,20 +120,19 @@ function ContainerOfWindFactor() {
   };
 
   // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
-  const handleInput = (inputNumber) => {
-    const value = Number(inputNumber);
-    switch (inputFocus) {
+  const handleInput = (index, inputNumber) => {
+    switch (index) {
       case 0:
-        setWindFactor(() => ({ ...windFactor, lowWind: value }));
+        setWindFactor(() => ({ ...windFactor, lowWind: inputNumber }));
         break;
       case 1:
-        setWindFactor(() => ({ ...windFactor, highWind: value }));
+        setWindFactor(() => ({ ...windFactor, highWind: inputNumber }));
         break;
       case 2:
-        setWindFactor(() => ({ ...windFactor, medWind: value }));
+        setWindFactor(() => ({ ...windFactor, medWind: inputNumber }));
         break;
       case 3:
-        setWindFactor(() => ({ ...windFactor, extremeWind: value }));
+        setWindFactor(() => ({ ...windFactor, extremeWind: inputNumber }));
         break;
       default:
         break;
@@ -192,6 +191,7 @@ function ContainerOfWindFactor() {
                     selectedMeasurement={unitsMeasurement}
                     handleKeypad={handleDisplayKeyPad}
                     setInputFocus={setInputFocus}
+                    handleInputs={handleInput}
                   />
                 </>
                 {activateKeypad && options === index && (
@@ -199,6 +199,7 @@ function ContainerOfWindFactor() {
                     {/* <PositionAbsoluteBox index={options}> */}
                     <InputKeyPad
                       closeKeyPad={() => setActivateKeypad(false)}
+                      name={index}
                       handleOnSubmit={handleInput}
                       setMainInput={handleInput}
                     />

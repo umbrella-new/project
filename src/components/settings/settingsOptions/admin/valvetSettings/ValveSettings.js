@@ -67,27 +67,12 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
           heatingSystem.split(' - ')[0]
         } / ${isEssSwitch || gasType ? 'NG' : 'LP'}`;
 
-  // saves the 3 input fields to useContext state
-  const handleInputs = (e, index) => {
-    e.stopPropagation();
-    const value = Number(e.target.value);
-
-    if (value >= 0 && value <= 100) {
-      if (index === 0) {
-        return setInputValue(() => ({ ...inputValue, first: value }));
-      } else if (index === 1) {
-        return setInputValue(() => ({ ...inputValue, second: value }));
-      } else return setInputValue(() => ({ ...inputValue, third: value }));
-    } else {
-      setWarningMessage(true);
-    }
-  };
-
   // handles the 3 input fields to direct each data entered gets save at the right place in useState at useContext
-  const handleInput = (inputNumber) => {
+  const handleInput = (name, inputNumber) => {
     const value = Number(inputNumber);
+
     if (value >= 0 && value <= 100) {
-      switch (inputFocus) {
+      switch (name) {
         case 0:
           setInputValue(() => ({ ...inputValue, first: inputNumber }));
           break;
@@ -98,9 +83,10 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
           setInputValue(() => ({ ...inputValue, third: inputNumber }));
           break;
         default:
-          setWarningMessage(true);
           break;
       }
+    } else {
+      setWarningMessage(true);
     }
   };
 
@@ -161,7 +147,8 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                                     : inputValue.third
                                 }
                                 onChange={(e) => {
-                                  editState && handleInputs(e, index);
+                                  editState &&
+                                    handleInput(index, e.target.value);
                                 }}
                               ></DataInput>
                             </DataIndent>
@@ -172,6 +159,7 @@ function ValveSettings({ setWarningMessage, setInputValue, inputValue }) {
                               <PositionAbsoluteBox index={options}>
                                 <InputKeyPad
                                   closeKeyPad={() => setActivateKeypad(false)}
+                                  name={inputFocus}
                                   handleOnSubmit={handleInput}
                                   setMainInput={handleInput}
                                 />

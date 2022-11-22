@@ -11,10 +11,16 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
 
   const onChange = (input) => {
     setInputNum(input);
-    if (name) {
+    if (name || name === 0) {
       setMainInput(name, input);
     } else {
       setMainInput(input);
+    }
+  };
+
+  const onKeyPress = (button) => {
+    if (button === '{bksp}') {
+      handleOnSubmit(name, '');
     }
   };
 
@@ -40,6 +46,7 @@ const InputKeyPad = ({ closeKeyPad, handleOnSubmit, name, setMainInput }) => {
 
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
+        onKeyPress={(button) => onKeyPress(button)}
         onChange={onChange}
         theme={'hg-theme-default hg-layout-default myTheme'}
         display={{ '{bksp}': '⌫' }}
