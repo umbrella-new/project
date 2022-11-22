@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { useLoaderData, useLocation } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
+import { selectSettingsOfTgsTes } from '../../../store/slices/settingsOfTgsTesSlice';
 import { selectUnitsState } from '../../../store/slices/unitsSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
 import { flexboxCenter } from '../../../styles/commonStyles';
 import InputTempMessage from '../../userMessages/InputTempMessage';
 
@@ -11,20 +14,47 @@ const DefaultTemp = ({ defaultTemp }) => {
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
   const [displayMessage, setDisplayMessage] = useState(false);
 
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  const settingState = useSelector(selectSettingsOfTgsTes);
+  const { thermocouple } = settingState;
+  const location = useLocation();
+  const [disabled, setDisabled] = useState(false);
+  useEffect(() => {
+    if (isEssSwitch) {
+      thermocouple && setDisabled(true);
+    } else if (location.pathname === '/') {
+    } else {
+      thermocouple && setDisabled(true);
+    }
+  });
+
   const handleClose = (event) => {
     event.stopPropagation();
     setDisplayMessage(false);
   };
 
   return (
-    <Wrapper onClick={() => setDisplayMessage(true)}>
-      <InnerLayer>
-        <Title>
+    <Wrapper
+      onClick={() => {
+        if (isEssSwitch) {
+          thermocouple || setDisplayMessage(true);
+        } else if (location.pathname === '/') {
+          setDisplayMessage(true);
+        } else {
+          thermocouple || setDisplayMessage(true);
+        }
+      }}
+    >
+      <InnerLayer thermocouple={disabled}>
+        <Title thermocouple={disabled}>
           default<br></br> temp.
         </Title>
-        <Divider />
+        <Divider thermocouple={disabled} />
         {unitsMeasurement ? (
-          <DefaultDegree>{Number(defaultTemp) * 1.8 + 32}&deg;F</DefaultDegree>
+          <DefaultDegree thermocouple={disabled}>
+            {Number(defaultTemp) * 1.8 + 32}&deg;F
+          </DefaultDegree>
         ) : (
           <DefaultDegree>{defaultTemp}&deg;C</DefaultDegree>
         )}
@@ -70,6 +100,12 @@ const InnerLayer = styled.div`
   justify-content: space-around;
   padding: 0 7px;
   box-sizing: border-box;
+
+  ${(p) =>
+    p.thermocouple &&
+    css`
+      background-color: #3b3b3b;
+    `}
 `;
 const Title = styled.span`
   /* Layout Properties */
@@ -77,12 +113,16 @@ const Title = styled.span`
   width: 50px;
   height: 18px;
   /* UI Properties */
-  color: var(--unnamed-color-ffffff);
+
   text-align: center;
   font-size: 8px;
   letter-spacing: 0.8px;
-  color: #ffffff;
   line-height: 110%;
+  ${(p) =>
+    p.thermocouple &&
+    css`
+      color: #808080;
+    `}
 `;
 
 const Divider = styled.div`
@@ -91,7 +131,13 @@ const Divider = styled.div`
 
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #ffffff;
-  opacity: 1;
+
+  ${(p) =>
+    p.thermocouple &&
+    css`
+      background: #808080 0% 0% no-repeat padding-box;
+      border: 1px solid #808080;
+    `}
 `;
 
 const DefaultDegree = styled.span`
@@ -104,6 +150,10 @@ const DefaultDegree = styled.span`
   text-align: left;
   font-size: 10px;
   letter-spacing: 1px;
-  color: #ffffff;
-  opacity: 1;
+
+  ${(p) =>
+    p.thermocouple &&
+    css`
+      color: #808080;
+    `}
 `;

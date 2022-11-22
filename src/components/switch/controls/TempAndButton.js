@@ -14,6 +14,9 @@ import styled, { css } from 'styled-components';
 
 import InputKeyPad from '../../keyboard/InputKeyPad';
 import InputTempMessage from '../../userMessages/InputTempMessage';
+import { selectSettingsOfTgsTes } from '../../../store/slices/settingsOfTgsTesSlice';
+import { selectUserState } from '../../../store/slices/userSlice';
+import { useLocation } from 'react-router-dom';
 
 const TempAndButton = ({
   isEnable,
@@ -31,9 +34,25 @@ const TempAndButton = ({
   const [alertMessage, setAlertMessage] = useState(false);
   const [message, setMessage] = useState(null);
   const [temp, setTemp] = useState(false);
-
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
+
+  const settingState = useSelector(selectSettingsOfTgsTes);
+  const { thermocouple } = settingState;
+  const userState = useSelector(selectUserState);
+  const { isEssSwitch } = userState;
+  const location = useLocation();
+
+  const [maxHeat, setMaxHeat] = useState(false);
+
+  useEffect(() => {
+    if (isEssSwitch) {
+      thermocouple && setMaxHeat(true);
+    } else if (location.pathname !== '/') {
+      thermocouple && setMaxHeat(true);
+    }
+  });
+
   useEffect(() => {
     if (unitsMeasurement) {
       if (currTemp > 0) {
@@ -57,56 +76,30 @@ const TempAndButton = ({
     event.preventDefault();
     // Check the user input and show the user message
 
-    if (inputRef.current.value.length === 0) {
-      setMessage('in order to finalize your optional constant temp program,');
-      setTemp(true);
-      setAlertMessage(true);
-    } else {
-      const temp = Number(inputRef.current.value);
-      if (title === 'scheduler') {
-        if (temp !== 0) {
-          if (unitsMeasurement) {
-            if (!isReady) {
-              buttonHandler((temp - 32) / 1.8);
-              inputRef.current.value = `${temp}°F`;
-            } else {
-              buttonHandler(0);
-              inputRef.current.value = '';
-            }
-          } else {
-            if (!isReady) {
-              buttonHandler(temp);
-              inputRef.current.value = `${temp}°C`;
-            } else {
-              buttonHandler(0);
-              inputRef.current.value = '';
-            }
-          }
-        }
+    if (title === 'scheduler' && maxHeat) {
+      if (!isAble.date) {
+        handleSchedulerSet();
       } else {
-        if (temp !== 0) {
-          if (unitsMeasurement) {
-            if (temp > 302) {
-              setMessage('Maximum temperature is 150°F (302°C)');
-              setTemp(true);
-              setAlertMessage(true);
-              inputRef.current.value = '';
-            } else {
+        buttonHandler(0);
+        inputRef.current.value = '';
+      }
+    } else {
+      if (inputRef.current.value.length === 0) {
+        setMessage('in order to finalize your optional constant temp program,');
+        setTemp(true);
+        setAlertMessage(true);
+      } else {
+        const temp = Number(inputRef.current.value);
+        if (title === 'scheduler') {
+          if (temp !== 0) {
+            if (unitsMeasurement) {
               if (!isReady) {
                 buttonHandler((temp - 32) / 1.8);
                 inputRef.current.value = `${temp}°F`;
               } else {
                 buttonHandler(0);
-
                 inputRef.current.value = '';
               }
-            }
-          } else {
-            if (temp > 150) {
-              setMessage('Maximum temperature is 150°F (302°C)');
-              setTemp(true);
-              setAlertMessage(true);
-              inputRef.current.value = '';
             } else {
               if (!isReady) {
                 buttonHandler(temp);
@@ -117,15 +110,42 @@ const TempAndButton = ({
               }
             }
           }
+        } else {
+          if (temp !== 0) {
+            if (unitsMeasurement) {
+              if (temp > 302) {
+                setMessage('Maximum temperature is 150°F (302°C)');
+                setTemp(true);
+                setAlertMessage(true);
+                inputRef.current.value = '';
+              } else {
+                if (!isReady) {
+                  buttonHandler((temp - 32) / 1.8);
+                  inputRef.current.value = `${temp}°F`;
+                } else {
+                  buttonHandler(0);
+                  inputRef.current.value = '';
+                }
+              }
+            } else {
+              if (temp > 150) {
+                setMessage('Maximum temperature is 150°F (302°C)');
+                setTemp(true);
+                setAlertMessage(true);
+                inputRef.current.value = '';
+              } else {
+                if (!isReady) {
+                  buttonHandler(temp);
+                  inputRef.current.value = `${temp}°C`;
+                } else {
+                  buttonHandler(0);
+                  inputRef.current.value = '';
+                }
+              }
+            }
+          }
         }
       }
-    }
-  };
-
-  const handleCheck = () => {
-    if (!isAble.date) {
-      alert('Please Set Schedule First');
-      inputRef.current.value = '';
     }
   };
 
@@ -204,7 +224,10 @@ const TempAndButton = ({
 
   return (
     <Wrapper isEnable={isEnable} onSubmit={handleSubmit}>
-      <InputAndLabelWrapper isEnable={isEnable} onClick={onInputHandler}>
+      <InputAndLabelWrapper
+        isEnable={isEnable}
+        onClick={() => maxHeat || onInputHandler()}
+      >
         <Label isEnable={isEnable}> input temp.</Label>
         <InputWrapper isEnable={isEnable}>
           <InputDegree
@@ -212,9 +235,9 @@ const TempAndButton = ({
             isEnable={isEnable}
             type='text'
             placeholder={unit}
-            disabled={!isEnable}
+            maxHeat={maxHeat}
             // onChange={handleCheck}
-            disabled={isReady || isActivated || !isEnable}
+            disabled={isReady || isActivated || !isEnable || maxHeat}
           />
         </InputWrapper>
       </InputAndLabelWrapper>
@@ -322,8 +345,6 @@ const InputWrapper = styled.div`
             rgb(0, 0, 0) 0%,
             rgb(35, 58, 84) 100%
           );
-          opacity: 1;
-          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
           box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
         `
       : css`
@@ -348,8 +369,20 @@ const InputDegree = styled.input`
           ${DisableApplyButtonHole}
         `}
 
+  ${(p) =>
+    p.maxHeat &&
+    css`
+      background-color: #3b3b3b;
+    `}
+
   ::placeholder {
     color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+
+    ${(p) =>
+      p.maxHeat &&
+      css`
+        color: #808080;
+      `}
     text-align: center;
     font-size: 10px;
   }
