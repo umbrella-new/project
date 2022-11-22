@@ -226,7 +226,21 @@ const WrapperTgsTesSnowSensor = styled.div`
     interfaceMode
       ? css`
           background: transparent
-            linear-gradient(270deg, #ebebeb 0%, #bbbbbb 100%);
+            linear-gradient(
+              ${({ gradient }) => (gradient ? 90 : 270)}deg,
+              #ebebeb 0%,
+              #bbbbbb 100%
+            );
+          ${(p) =>
+            p.tesSwitch ||
+            (p.index === 1 &&
+              css`
+                background: -webkit-linear-gradient(
+                  180deg,
+                  #565656 0%,
+                  #1d1d1d 100%
+                );
+              `)}
           box-shadow: inset 0px 1px 2px #ffffff24, 0px 0px 2px #000000;
           border: 0.5px solid #1b2b44;
         `
