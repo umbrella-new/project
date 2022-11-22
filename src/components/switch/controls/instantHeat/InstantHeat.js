@@ -29,7 +29,7 @@ const InstantHeat = () => {
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
 
   const dispatch = useDispatch();
-  const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
+  const { instantButtonToggler, instantHeatTemp, isF } = state.instantHeat;
   const tgsState = useSelector(selectTgsSwitch);
   const { isTgsSwitchActivated } = tgsState;
 
@@ -44,14 +44,26 @@ const InstantHeat = () => {
   }, [instantButtonToggler]);
 
   const inputRef = useRef();
-
+  console.log('unit', isF);
   useEffect(() => {
     if (instantHeatTemp > 0) {
-      unitsMeasurement
-        ? (inputRef.current.value = `${Math.round(
-            Number(instantHeatTemp) * 1.8 + 32
-          )}\u00b0F`)
-        : (inputRef.current.value = `${instantHeatTemp}\u00b0C`);
+      if (unitsMeasurement == isF) {
+        unitsMeasurement
+          ? (inputRef.current.value = `${instantHeatTemp}°F`)
+          : (inputRef.current.value = `${instantHeatTemp}°C`);
+      } else {
+        if (isF) {
+          // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+          inputRef.current.value = `${Math.round(
+            ((instantHeatTemp - 32) * 5) / 9
+          )}°C`;
+        } else {
+          // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+          inputRef.current.value = `${Math.round(
+            instantHeatTemp * 1.8 + 32
+          )}°F`;
+        }
+      }
     }
   }, []);
 
@@ -67,20 +79,16 @@ const InstantHeat = () => {
         setOpenKeyPad(false);
         if (temp !== 0) {
           if (!instantButtonToggler) {
-            unitsMeasurement
-              ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
-              : dispatch(instantHeat(temp));
+            dispatch(instantHeat({ temp, unitsMeasurement }));
             unitsMeasurement
               ? (inputRef.current.value = `${temp}°F`)
               : (inputRef.current.value = `${temp}°C`);
           } else {
             dispatch(instantHeat(0));
-
             inputRef.current.value = ``;
           }
         } else {
           setActivateMessageBox(true);
-          return;
         }
       } else {
         // Activate Conflict Message Box
@@ -94,9 +102,8 @@ const InstantHeat = () => {
     if (!isTgsSwitchActivated) {
       if (temp !== 0) {
         if (!instantButtonToggler) {
-          unitsMeasurement
-            ? dispatch(instantHeat(Math.round((temp - 32) / 1.8)))
-            : dispatch(instantHeat(temp));
+          dispatch(instantHeat({ temp, unitsMeasurement }));
+
           unitsMeasurement
             ? (inputRef.current.value = `${temp}°F`)
             : (inputRef.current.value = `${temp}°C`);
@@ -148,7 +155,7 @@ const InstantHeat = () => {
               type='text'
               ref={inputRef}
               // during heater working input disabled!
-              disabled={instantButtonToggler || thermocouple}
+              disabled={thermocouple}
               // onChang={() => inputRef.current.value}
             />
           </LabelAndInputInnerWrapper>

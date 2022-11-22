@@ -19,13 +19,14 @@ import ControllerName from '../ControllerName';
 import Scheduler from '../Scheduler';
 import TempAndButton from '../TempAndButton';
 import ScheduleCalendar from './ScheduleCalendar';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 
 const TgsHeatingSchedule = () => {
   const CONTROLLER_NAME = 'heating schedule program';
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectTgsSwitch);
-  const { isReady, inputTemp, activated } = state.heatingSchedule;
+  const { isReady, inputTemp, activated, isF } = state.heatingSchedule;
   const { heatingScheduleList, heatingScheduleCalendar } = state;
 
   const firstHeatingSchedule = heatingScheduleList[0];
@@ -34,12 +35,15 @@ const TgsHeatingSchedule = () => {
   const esState = useSelector(selectEssSwitch);
   const { isEsSwitchActivated } = esState;
 
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
+
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
     if (!isEsSwitchActivated) {
       if (start.date) {
-        dispatch(tgsHeatingScheduleBeReady(temp));
+        dispatch(tgsHeatingScheduleBeReady({ temp, unitsMeasurement }));
       } else {
         // Change it to modal!! make it beautiful
         window.alert('input schedule');
@@ -105,6 +109,7 @@ const TgsHeatingSchedule = () => {
         currTemp={inputTemp}
         title='scheduler'
         isAble={start}
+        isF={isF}
       />
 
       {heatingScheduleCalendar.isDisplayed && (

@@ -8,6 +8,7 @@ const initialState = {
   instantHeat: {
     instantHeatTemp: 0,
     instantButtonToggler: false,
+    isF: null,
   },
   fanOnly: false,
   snowSensor: { isReady: false, activated: false, defaultTemp: 350 },
@@ -23,6 +24,7 @@ const initialState = {
     isReady: false,
     activated: false,
     disable: false,
+    isF: null,
   },
   windFactor: { isReady: false, activated: false },
   currentTemp: null,
@@ -36,7 +38,8 @@ const tgsSwitchSlice = createSlice({
   initialState,
   reducers: {
     tgsInstantHeat: (state, action) => {
-      state.instantHeat.instantHeatTemp = action.payload;
+      state.instantHeat.instantHeatTemp = action.payload.temp;
+      state.instantHeat.isF = action.payload.unitsMeasurement;
       state.instantHeat.instantButtonToggler =
         !state.instantHeat.instantButtonToggler;
       state.fanOnly = !state.fanOnly;
@@ -65,7 +68,9 @@ const tgsSwitchSlice = createSlice({
       });
     },
     tgsHeatingScheduleBeReady: (state, action) => {
-      state.heatingSchedule.inputTemp = action.payload;
+      state.heatingSchedule.inputTemp = action.payload.temp;
+      state.heatingSchedule.isF = action.payload.unitsMeasurement;
+
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
     tgsHeatingScheduleOpen: (state, action) => {

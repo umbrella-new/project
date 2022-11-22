@@ -4,9 +4,14 @@ const initialState = {
   isEsSwitchActivated: false,
   displayConflictMessage: false,
   heatingScheduleCalendar: { isDisplayed: false, id: null },
-  instantHeat: { instantHeatTemp: 0, instantButtonToggler: false },
+  instantHeat: { instantHeatTemp: 0, instantButtonToggler: false, isF: null },
   snowSensor: { isReady: false, activated: false, defaultTemp: 350 },
-  optionalConstantTemp: { inputTemp: 0, apply: false, activated: false },
+  optionalConstantTemp: {
+    inputTemp: 0,
+    apply: false,
+    activated: false,
+    isF: null,
+  },
   heatingScheduleList: [
     {
       start: { date: null, time: null },
@@ -19,6 +24,7 @@ const initialState = {
     isReady: false,
     activated: false,
     disable: false,
+    isF: null,
   },
 
   windFactor: { isReady: false, activated: false },
@@ -50,7 +56,9 @@ const essSwitchSlice = createSlice({
       state.isExpanded = !state.isExpanded;
     },
     instantHeat: (state, action) => {
-      state.instantHeat.instantHeatTemp = action.payload;
+      console.log(action.payload);
+      state.instantHeat.instantHeatTemp = action.payload.temp;
+      state.instantHeat.isF = action.payload.unitsMeasurement;
       state.instantHeat.instantButtonToggler =
         !state.instantHeat.instantButtonToggler;
     },
@@ -72,7 +80,9 @@ const essSwitchSlice = createSlice({
       });
     },
     heatingScheduleBeReady: (state, action) => {
-      state.heatingSchedule.inputTemp = action.payload;
+      state.heatingSchedule.inputTemp = action.payload.temp;
+      state.heatingSchedule.isF = action.payload.unitsMeasurement;
+
       state.heatingSchedule.isReady = !state.heatingSchedule.isReady;
     },
     heatingScheduleOpen: (state, action) => {
@@ -93,7 +103,8 @@ const essSwitchSlice = createSlice({
     },
     constantTemp: (state, action) => {
       state.optionalConstantTemp.apply = !state.optionalConstantTemp.apply;
-      state.optionalConstantTemp.inputTemp = action.payload;
+      state.optionalConstantTemp.inputTemp = action.payload.temp;
+      state.optionalConstantTemp.isF = action.payload.unitsMeasurement;
     },
     activateEsSwitchStatus: (state) => {
       state.isEsSwitchActivated = true;
