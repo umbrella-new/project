@@ -1,6 +1,8 @@
 import { useContext } from 'react';
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import styled, { css } from 'styled-components';
 import { SettingsContext } from '../../../../context/ContextOfSettings';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { flexboxCenter } from '../../../../styles/commonStyles';
 
 function WindFactor({
@@ -12,6 +14,9 @@ function WindFactor({
   handleInputs,
 }) {
   const { windFactor } = useContext(SettingsContext);
+  // redux
+  const settingsEssState = useSelector(selectSettingsOfEss);
+  const mode = settingsEssState.interfaceMode;
 
   const inputValue =
     index === 0
@@ -25,19 +30,21 @@ function WindFactor({
   return (
     <ContainerWindFactors
       gradient={index === 0 ? true : index === 1 ? true : false}
+      interfaceMode={mode}
     >
-      <TitleContainer>
-        <Title>{contents.title}</Title>
+      <TitleContainer interfaceMode={mode}>
+        <Title interfaceMode={mode}>{contents.title}</Title>
       </TitleContainer>
 
-      <ValueContainer>
-        <SmallContainer>
-          <Wind>
+      <ValueContainer interfaceMode={mode}>
+        <SmallContainer interfaceMode={mode}>
+          <Wind interfaceMode={mode}>
             {selectedMeasurement ? contents.windMiles : contents.windKilo}{' '}
             {selectedMeasurement ? 'miles/h' : 'kilometers/h'}
           </Wind>
-          <Temperature>
+          <Temperature interfaceMode={mode}>
             <Input
+              interfaceMode={mode}
               type='number'
               placeholder='temp'
               value={inputValue}
@@ -47,7 +54,9 @@ function WindFactor({
               }}
               onChange={(e) => handleInputs(index, e.target.value)}
             ></Input>
-            {selectedMeasurement ? '°f' : '°c'}
+            <Wind1 interfaceMode={mode}>
+              {selectedMeasurement ? '°f' : '°c'}
+            </Wind1>
           </Temperature>
         </SmallContainer>
       </ValueContainer>
@@ -56,6 +65,8 @@ function WindFactor({
 }
 
 export default WindFactor;
+
+// ${({interfaceMode})=>(interfaceMode ? css`` : css``)}
 
 const ContainerWindFactors = styled.div`
   width: 286px;
@@ -68,22 +79,48 @@ const ContainerWindFactors = styled.div`
   box-sizing: border-box;
   border: 0.5px solid #000000;
   border-radius: 12px;
-  background-image: -webkit-linear-gradient(
-    ${(props) => (props.gradient ? 180 : 360)}deg,
-    rgb(0, 0, 0) 0%,
-    rgb(35, 58, 84) 100%
-  );
+
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: transparent
+            linear-gradient(
+              ${(props) => (props.gradient ? 90 : 270)}deg,
+              #ebebeb 0%,
+              #bbbbbb 100%
+            )
+            0% 0% no-repeat padding-box;
+          box-shadow: inset 0px 1px 2px #ffffff24, 0px 0px 2px #000000;
+        `
+      : css`
+          background-image: -webkit-linear-gradient(
+            ${(props) => (props.gradient ? 180 : 360)}deg,
+            rgb(0, 0, 0) 0%,
+            rgb(35, 58, 84) 100%
+          );
+
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+          box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+        `}
+
   opacity: 1;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
 `;
 
 const TitleContainer = styled.div`
   width: 278px;
   height: 32px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px 0px 3px #000000;
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: #ffff;
+          border: 1px solid #1b2b44;
+        `
+      : css`
+          background: #233a54;
+          border: none;
+        `}
+
   border-radius: 16px;
   opacity: 1;
   ${flexboxCenter}
@@ -92,13 +129,29 @@ const TitleContainer = styled.div`
 const Title = styled.p`
   font-size: var(--font-size7);
   text-transform: uppercase;
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          color: #233a54;
+        `
+      : css`
+          color: #ffff;
+        `}
 `;
 
 const ValueContainer = styled.div`
   width: 278px;
   height: 42px;
 
-  background: #233a54 0% 0% no-repeat padding-box;
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: #ffff;
+        `
+      : css`
+          background: #233a54;
+        `}
+
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 21px;
   opacity: 1;
@@ -109,6 +162,12 @@ const SmallContainer = styled.div`
   width: 268px;
   height: 32px;
 
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: #ffff;
+        `
+      : css``}
   border: 1px solid #142033;
   border-radius: 17px;
   opacity: 1;
@@ -121,6 +180,14 @@ const Wind = styled.span`
   font-size: var(--space2);
   margin-left: var(--font-size6);
   text-transform: uppercase;
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          color: #1b2b44;
+        `
+      : css`
+          color: #ffff;
+        `}
 `;
 
 const Temperature = styled.span`
@@ -130,11 +197,24 @@ const Temperature = styled.span`
 `;
 
 const Input = styled.input`
-  width: 30px;
+  width: 26px;
   height: 15px;
 
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background-color: #ffff;
+          &::placeholder {
+            color: #1b2b44;
+          }
+          color: #1b2b44;
+        `
+      : css`
+          background-color: #233a54;
+        `}
+
   font-size: var(--space2);
-  background-color: #233a54;
+
   /* border-radius: 21px; */
   opacity: 1;
   text-transform: uppercase;
@@ -144,4 +224,18 @@ const Input = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+
+const Wind1 = styled.span`
+  font-size: var(--space2);
+
+  text-transform: uppercase;
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          color: #1b2b44;
+        `
+      : css`
+          color: #ffff;
+        `}
 `;

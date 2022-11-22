@@ -13,7 +13,9 @@ const Header = () => {
   const systemIdentificationState = useSelector(selectSystemIdentification);
   const userState = useSelector(selectUserState);
   const tgsTesSettingState = useSelector(selectSettingsOfTgsTes);
+  const state = useSelector(selectSettingsOfEss);
 
+  const mode = state.interfaceMode;
   const sysState = systemIdentificationState.sysIdentification;
   const { isEssSwitch, isTesSwitch } = userState;
   const { gasType } = tgsTesSettingState;
@@ -27,8 +29,6 @@ const Header = () => {
           sysState.switchSize
         } ${sysState.application}-${sysState.heatingSystem.split(' - ')[0]}`;
 
-  // console.log('EssSwitchName', EssSwitchName);
-
   const tgsTesSwitchName =
     sysState.switchName.length < 1
       ? 'switch'
@@ -41,8 +41,6 @@ const Header = () => {
         } 
          `;
 
-  // console.log('tgsTesSwitchName', tgsTesSwitchName);
-
   const tgsSwitchName =
     sysState.switchName.length < 1
       ? 'switch'
@@ -51,8 +49,6 @@ const Header = () => {
         } ${sysState.application}-${sysState.heatingSystem.split(' - ')[0]} / ${
           isEssSwitch || gasType ? 'NG' : 'LP'
         }`;
-
-  // console.log('tgsSwitchName', tgsSwitchName);
 
   const machineId = sysState.sysId > 0 ? `id : ${sysState.sysId}` : 'id';
 
@@ -70,7 +66,7 @@ const Header = () => {
                 : EssSwitchName}
             </MachineData>
           </HeaderDisplayWrapper>
-          <Logo src='/images/Umbrella-logo.png' alt='Logo Image' />
+          <Logo src={'/images/Umbrella-logo.png'} alt='Logo Image' />
           <HeaderDisplayWrapper>
             <MachineData>{machineId}</MachineData>
           </HeaderDisplayWrapper>

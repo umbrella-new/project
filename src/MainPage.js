@@ -1,20 +1,29 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Sidebar from "./components/sidebar/Sidebar";
-import Switch from "./components/switch/Switch";
-import Settings from "./components/settings/Settings";
-import Faults from "./components/faults/Faults";
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Sidebar from './components/sidebar/Sidebar';
+import Switch from './components/switch/Switch';
+import Settings from './components/settings/Settings';
+import Faults from './components/faults/Faults';
+import { useSelector } from 'react-redux';
+import { selectSettingsOfEss } from './store/slices/settingsOfEssSlice';
 
 const MainPage = () => {
+  // redux
+  const state = useSelector(selectSettingsOfEss);
+  const mode = state.interfaceMode;
   return (
-    <Wrapper>
+    <Wrapper interfaceMode={mode}>
       <Header />
-      <Title src={"/images/embrellaTitle-sm.svg"} />
+      <Title
+        src={
+          mode ? '/images/blueUmbrellaName.svg' : '/images/embrellaTitle-sm.svg'
+        }
+      />
 
       <BrowserRouter>
         <MainContentsWrapper>
@@ -47,8 +56,17 @@ const Wrapper = styled.section`
   align-items: center;
   justify-content: flex-start;
 
-  background: transparent linear-gradient(90deg, #233a54 0%, #060d19 100%) 0% 0%
-    no-repeat padding-box;
+  ${({ interfaceMode }) =>
+    interfaceMode
+      ? css`
+          background: transparent
+            linear-gradient(90deg, #ebebeb 0%, #bbbbbb 100%);
+        `
+      : css`
+          background: transparent
+            linear-gradient(90deg, #233a54 0%, #060d19 100%);
+        `}
+
   box-shadow: inset 0px 1px 1px #ffffff29, 0px 0px 2px #00000080;
   border: 0.5px solid #000000b0;
 

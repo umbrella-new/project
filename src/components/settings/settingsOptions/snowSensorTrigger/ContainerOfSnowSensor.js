@@ -19,7 +19,7 @@ import {
   selectSettingsOfTgsTes,
   setTgsTesSettingsApplySnowSensorButton,
 } from '../../../../store/slices/settingsOfTgsTesSlice';
-import InputValveSettingsMessage from '../admin/valvetSettings/InputValveSettingsMessage';
+
 import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 
 function ContainerOfSnowSensor() {
@@ -28,7 +28,6 @@ function ContainerOfSnowSensor() {
   const temp = ['350'];
 
   const buttonsName = ['edit', 'cancel', 'apply'];
-  const height = '150px';
 
   // useContext
 
