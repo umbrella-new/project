@@ -48,7 +48,7 @@ function ContainerOfForceAndCommand() {
     'reactivates ess when powered by ebp (emergency backup power)',
   ];
   const tesGpEbp = [
-    'switch to  typhoon gas powered heating system when on (emergency backup power)',
+    'switch to typhoon gas powered heating system when on (emergency backup power)',
     'reactivates tes when powered by ebp (emergency backup power)',
     'tes to remain off when powered by ebp (emergency backup power)',
   ];

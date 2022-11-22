@@ -59,7 +59,6 @@ export const settingsOfTgsTesSlice = createSlice({
       state.windFactorTemp.extreme = action.payload.extremeWind;
     },
     setTgsTesSettingsApplySnowSensorButton: (state, action) => {
-      console.log('setTgsTesSettingsApplySnowSensorButton', action.payload);
       state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
       state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
     },
@@ -93,18 +92,15 @@ export const settingsOfTgsTesSlice = createSlice({
     },
     //admin: this is used for ess and tes
     setThermocouple: (state, action) => {
-      console.log('slice', action.payload);
       state.thermocouple = action.payload;
     },
     setTgsAts: (state, action) => {
-      console.log('tgs ats', action.payload);
       state.allSelects.selectAtsTgsState = action.payload;
     },
     setTesAts: (state, action) => {
       state.allSelects.selectAtsTesState = action.payload;
     },
     setTgsTesTelemetry: (state, action) => {
-      console.log('actions', action.payload);
       state.tgsTesTelemetry.tgsTesOutsideTemp = action.payload.tgsTesOutside;
       state.tgsTesTelemetry.burningChamberTemp = action.payload.burningChamber;
       state.tgsTesTelemetry.tgsHeaterTemp = action.payload.tgsHeater;

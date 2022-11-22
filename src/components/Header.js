@@ -7,18 +7,43 @@ import { flexboxCenter } from '../styles/commonStyles';
 import DateAndWeather from './DateAndWeather';
 import { selectSettingsOfTgsTes } from '../store/slices/settingsOfTgsTesSlice';
 import { selectUserState } from '../store/slices/userSlice';
+import { selectSettingsOfEss } from '../store/slices/settingsOfEssSlice';
 
 const Header = () => {
   const systemIdentificationState = useSelector(selectSystemIdentification);
-  const sysState = systemIdentificationState.sysIdentification;
   const userState = useSelector(selectUserState);
-  const { isEssSwitch } = userState;
-
   const tgsTesSettingState = useSelector(selectSettingsOfTgsTes);
+
+  const sysState = systemIdentificationState.sysIdentification;
+  const { isEssSwitch, isTesSwitch } = userState;
   const { gasType } = tgsTesSettingState;
+
   // true == ng / lp
 
-  const switchName =
+  const EssSwitchName =
+    sysState.switchName.length < 1
+      ? 'switch'
+      : `${sysState.locationName}-${sysState.switchName} ${
+          sysState.switchSize
+        } ${sysState.application}-${sysState.heatingSystem.split(' - ')[0]}`;
+
+  // console.log('EssSwitchName', EssSwitchName);
+
+  const tgsTesSwitchName =
+    sysState.switchName.length < 1
+      ? 'switch'
+      : `${sysState.locationName}-${sysState.switchName} ${
+          sysState.switchSize
+        } ${sysState.application}-${
+          sysState.heatingSystem.split(' - ')[0].split('-')[0]
+        }/${isEssSwitch || gasType ? 'NG-' : 'LP-'}${
+          sysState.heatingSystem.split(' - ')[0].split('-')[1]
+        } 
+         `;
+
+  // console.log('tgsTesSwitchName', tgsTesSwitchName);
+
+  const tgsSwitchName =
     sysState.switchName.length < 1
       ? 'switch'
       : `${sysState.locationName}-${sysState.switchName} ${
@@ -26,6 +51,8 @@ const Header = () => {
         } ${sysState.application}-${sysState.heatingSystem.split(' - ')[0]} / ${
           isEssSwitch || gasType ? 'NG' : 'LP'
         }`;
+
+  // console.log('tgsSwitchName', tgsSwitchName);
 
   const machineId = sysState.sysId > 0 ? `id : ${sysState.sysId}` : 'id';
 
@@ -35,7 +62,13 @@ const Header = () => {
       <HeaderHole>
         <HeaderTop>
           <HeaderDisplayWrapper>
-            <MachineData>{switchName}</MachineData>
+            <MachineData>
+              {!isEssSwitch && isTesSwitch
+                ? tgsTesSwitchName
+                : !isEssSwitch && !isTesSwitch
+                ? tgsSwitchName
+                : EssSwitchName}
+            </MachineData>
           </HeaderDisplayWrapper>
           <Logo src='/images/Umbrella-logo.png' alt='Logo Image' />
           <HeaderDisplayWrapper>

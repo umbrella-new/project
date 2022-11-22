@@ -168,7 +168,7 @@ function OutsideTemperature({
         <SubTitleSelectionWrapper>
           <SubTitleWrapper>
             <SubTitleWrapper2>
-              <SubTitle>burning chamber current temp</SubTitle>
+              <SubTitle>burning chamber current temp.</SubTitle>
             </SubTitleWrapper2>
           </SubTitleWrapper>
           <SelectionShadowWrapper>

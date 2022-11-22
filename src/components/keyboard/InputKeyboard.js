@@ -27,7 +27,7 @@ const InputKeyboard = ({
         // closeKeyboard();
       } else {
         handleOnSubmit(input);
-        closeKeyboard();
+        // closeKeyboard();
       }
     }
   };
