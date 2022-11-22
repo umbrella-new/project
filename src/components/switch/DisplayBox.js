@@ -31,13 +31,9 @@ const DisplayBox = ({ currData, label, unit, name }) => {
               <DisplayUnit>{unit}</DisplayUnit>
             ) : name === 'energyConsumption' ? (
               unitsMeasurement ? (
-                <DisplayUnit>
-                  ft<Sup>3</Sup>
-                </DisplayUnit>
+                <DisplayUnit>FT³</DisplayUnit>
               ) : (
-                <DisplayUnit>
-                  M<Sup>3</Sup>
-                </DisplayUnit>
+                <DisplayUnit>M³</DisplayUnit>
               )
             ) : (
               <DisplayUnit>{unit}</DisplayUnit>
@@ -46,9 +42,7 @@ const DisplayBox = ({ currData, label, unit, name }) => {
         ) : (
           <DisplayDataWrapper>
             <DisplayData>{currData}</DisplayData>
-            <DisplayUnit>
-              {unitsMeasurement ? `\u00b0F` : `\u00b0C`}
-            </DisplayUnit>
+            <DisplayUnit>{unitsMeasurement ? `°F` : `°C`}</DisplayUnit>
           </DisplayDataWrapper>
         )}
 
@@ -126,10 +120,4 @@ const DisplayLabel = styled.span`
   color: #1b2b44;
 
   line-height: 0.9;
-`;
-
-const Sup = styled.span`
-  font-size: 0.5rem;
-  color: #1b2b44;
-  vertical-align: super;
 `;

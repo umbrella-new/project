@@ -16,7 +16,7 @@ const DateAndWeather = () => {
       <DateAndWeatherWrapper>
         <Date>{date ? date : 'september wednesday 21, 2022'}</Date>
         <WeatherIcon alt='weather icon' src={iconSrc} />
-        <Weather>{weather ? weather : `15 Montreal`}</Weather>
+        <Weather>{weather ? weather : `27 °F Montreal`}</Weather>
       </DateAndWeatherWrapper>
       <LongDash>
         <img alt='Long dash' src={'/images/long-dash.svg'} />

@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { selectEssSwitch } from '../../store/slices/essSwitchSlice';
+import { selectSettingsOfEss } from '../../store/slices/settingsOfEssSlice';
 import { selectTgsSwitch } from '../../store/slices/tgsSwitchSlice';
 import { selectUserState } from '../../store/slices/userSlice';
 import { flexboxCenter } from '../../styles/commonStyles';
@@ -9,8 +10,9 @@ import { flexboxCenter } from '../../styles/commonStyles';
 const DisplayEnergyConsumption = () => {
   const ssState = useSelector(selectEssSwitch);
   const gsState = useSelector(selectTgsSwitch);
-
   const userState = useSelector(selectUserState);
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
   const location = useLocation();
 
   const energyConsumption = userState.isEssSwitch
@@ -39,10 +41,10 @@ const DisplayEnergyConsumption = () => {
           <EnergyConsumption>Kw</EnergyConsumption>
         ) : location.pathname !== '/' ? (
           <EnergyConsumption>Kw</EnergyConsumption>
+        ) : unitsMeasurement ? (
+          <EnergyConsumption>FT³</EnergyConsumption>
         ) : (
-          <EnergyConsumption>
-            M<Sup>3</Sup>
-          </EnergyConsumption>
+          <EnergyConsumption>M³</EnergyConsumption>
         )}
       </EnergyConsumption>
     </Wrapper>
