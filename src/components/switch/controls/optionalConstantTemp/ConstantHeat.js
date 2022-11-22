@@ -18,10 +18,11 @@ import {
 import ControllerName from '../ControllerName';
 import TempAndButton from '../TempAndButton';
 import { selectSettingsOfTgsTes } from '../../../../store/slices/settingsOfTgsTesSlice';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 
 const ConstantHeat = () => {
   const state = useSelector(selectEssSwitch);
-  const { inputTemp } = state.optionalConstantTemp;
+  const { inputTemp, isF } = state.optionalConstantTemp;
 
   const userState = useSelector(selectUserState);
   const { isEssSwitch } = userState;
@@ -43,6 +44,9 @@ const ConstantHeat = () => {
   const settingState = useSelector(selectSettingsOfTgsTes);
   const { thermocouple } = settingState;
 
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
+
   const isEnable = isEssSwitch
     ? thermocouple
       ? false
@@ -54,9 +58,8 @@ const ConstantHeat = () => {
     : true;
 
   const handleDispatch = (temp) => {
-    console.log('body', temp);
     if (!isTgsSwitchActivated) {
-      dispatch(constantTemp(temp));
+      dispatch(constantTemp({ temp, unitsMeasurement }));
     } else {
       // Activate Conflict Message Box
       dispatch(activateEsConflictMessage());
@@ -77,6 +80,7 @@ const ConstantHeat = () => {
         isReady={apply}
         currTemp={inputTemp}
         isAble={true}
+        isF={isF}
       />
     </Wrapper>
   );

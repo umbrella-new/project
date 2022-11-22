@@ -10,6 +10,7 @@ import {
   activateEsConflictMessage,
   addHeatingSchedule,
 } from '../../../../store/slices/essSwitchSlice';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
 import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
 
 import { flexboxCenter } from '../../../../styles/commonStyles';
@@ -25,7 +26,7 @@ const HeatingSchedule = () => {
   const IMG_SRC = '/images/heating-Schedule-Program-Logo.svg';
 
   const state = useSelector(selectEssSwitch);
-  const { isReady, inputTemp, activated } = state.heatingSchedule;
+  const { isReady, inputTemp, activated, isF } = state.heatingSchedule;
   const { heatingScheduleCalendar, heatingScheduleList } = state;
 
   const firstHeatingSchedule = heatingScheduleList[0];
@@ -34,11 +35,14 @@ const HeatingSchedule = () => {
   const tgsState = useSelector(selectTgsSwitch);
   const { isTgsSwitchActivated } = tgsState;
 
+  const unitsState = useSelector(selectSettingsOfEss);
+  const { unitsMeasurement } = unitsState.buttonsOfSettings;
+
   const dispatch = useDispatch();
 
   const handleDispatch = (temp) => {
     if (!isTgsSwitchActivated) {
-      dispatch(heatingScheduleBeReady(temp));
+      dispatch(heatingScheduleBeReady({ temp, unitsMeasurement }));
     } else {
       // Activate Conflict Message Box
       dispatch(activateEsConflictMessage());
@@ -107,6 +111,7 @@ const HeatingSchedule = () => {
         title='scheduler'
         currTemp={inputTemp}
         isAble={start}
+        isF={isF}
       />
 
       {heatingScheduleCalendar.isDisplayed && (

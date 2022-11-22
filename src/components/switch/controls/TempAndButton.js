@@ -26,6 +26,7 @@ const TempAndButton = ({
   title,
   currTemp,
   isAble,
+  isF,
 }) => {
   const inputRef = useRef();
 
@@ -53,23 +54,30 @@ const TempAndButton = ({
     }
   });
 
+  // Display the saved temp into the input box
   useEffect(() => {
-    if (unitsMeasurement) {
-      if (currTemp > 0) {
-        inputRef.current.value = `${Math.round(Number(currTemp) * 1.8 + 32)}°F`;
-        if (!isEnable) {
-          inputRef.current.value = ``;
-        }
-      }
+    if (!isEnable) {
+      inputRef.current.value = '';
     } else {
       if (currTemp > 0) {
-        inputRef.current.value = `${currTemp}°C`;
-        if (!isEnable) {
-          inputRef.current.value = ``;
+        if (unitsMeasurement == isF) {
+          unitsMeasurement
+            ? (inputRef.current.value = `${currTemp}°F`)
+            : (inputRef.current.value = `${currTemp}°C`);
+        } else {
+          if (isF) {
+            // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+            inputRef.current.value = `${Math.round(
+              ((currTemp - 32) * 5) / 9
+            )}°C`;
+          } else {
+            // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+            inputRef.current.value = `${Math.round(currTemp * 1.8 + 32)}°F`;
+          }
         }
       }
     }
-  });
+  }, []);
 
   // Button handler
   const handleSubmit = (event) => {
@@ -92,22 +100,14 @@ const TempAndButton = ({
         const temp = Number(inputRef.current.value);
         if (title === 'scheduler') {
           if (temp !== 0) {
-            if (unitsMeasurement) {
-              if (!isReady) {
-                buttonHandler((temp - 32) / 1.8);
-                inputRef.current.value = `${temp}°F`;
-              } else {
-                buttonHandler(0);
-                inputRef.current.value = '';
-              }
+            if (!isReady) {
+              buttonHandler(temp);
+              unitsMeasurement
+                ? (inputRef.current.value = `${temp}°F`)
+                : (inputRef.current.value = `${temp}°C`);
             } else {
-              if (!isReady) {
-                buttonHandler(temp);
-                inputRef.current.value = `${temp}°C`;
-              } else {
-                buttonHandler(0);
-                inputRef.current.value = '';
-              }
+              buttonHandler(0);
+              inputRef.current.value = '';
             }
           }
         } else {
@@ -120,7 +120,7 @@ const TempAndButton = ({
                 inputRef.current.value = '';
               } else {
                 if (!isReady) {
-                  buttonHandler((temp - 32) / 1.8);
+                  buttonHandler(temp);
                   inputRef.current.value = `${temp}°F`;
                 } else {
                   buttonHandler(0);
@@ -170,15 +170,11 @@ const TempAndButton = ({
     const temp = Number(input);
 
     if (title === 'scheduler') {
-      if (unitsMeasurement) {
-        buttonHandler(Math.round((temp - 32) / 1.8));
-        setOpenKeyPad(false);
-        inputRef.current.value = `${temp}°F`;
-      } else {
-        buttonHandler(temp);
-        setOpenKeyPad(false);
-        inputRef.current.value = `${temp}°C`;
-      }
+      buttonHandler(temp);
+      setOpenKeyPad(false);
+      unitsMeasurement
+        ? (inputRef.current.value = `${temp}°F`)
+        : (inputRef.current.value = `${temp}°C`);
     } else {
       if (unitsMeasurement) {
         if (temp > 302) {
@@ -189,7 +185,7 @@ const TempAndButton = ({
           setOpenKeyPad(false);
           inputRef.current.value = '';
         } else {
-          buttonHandler(Math.round((temp - 32) / 1.8));
+          buttonHandler(temp);
           setOpenKeyPad(false);
           inputRef.current.value = `${temp}°F`;
         }

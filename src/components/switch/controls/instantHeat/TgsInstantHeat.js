@@ -24,7 +24,7 @@ import InputTempMessage from '../../../userMessages/InputTempMessage';
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
   const dispatch = useDispatch();
-  const { instantButtonToggler, instantHeatTemp } = state.instantHeat;
+  const { instantButtonToggler, instantHeatTemp, isF } = state.instantHeat;
   const { fanOnly } = state;
   const inputRef = useRef();
 
@@ -42,13 +42,23 @@ const TgsInstantHeat = () => {
   }, [instantButtonToggler]);
 
   useEffect(() => {
-    if (unitsMeasurement) {
-      if (instantHeatTemp > 0) {
-        inputRef.current.value = `${Number(instantHeatTemp) * 1.8 + 32}\u00b0F`;
-      }
-    } else {
-      if (instantHeatTemp > 0) {
-        inputRef.current.value = `${instantHeatTemp}\u00b0C`;
+    if (instantHeatTemp > 0) {
+      if (unitsMeasurement == isF) {
+        unitsMeasurement
+          ? (inputRef.current.value = `${instantHeatTemp}°F`)
+          : (inputRef.current.value = `${instantHeatTemp}°C`);
+      } else {
+        if (isF) {
+          // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+          inputRef.current.value = `${Math.round(
+            ((instantHeatTemp - 32) * 5) / 9
+          )}°C`;
+        } else {
+          // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+          inputRef.current.value = `${Math.round(
+            instantHeatTemp * 1.8 + 32
+          )}°F`;
+        }
       }
     }
   }, []);
@@ -58,30 +68,18 @@ const TgsInstantHeat = () => {
     if (!isEsSwitchActivated) {
       const temp = Number(inputRef.current.value);
       setOpenKeyPad(false);
-      if (unitsMeasurement) {
-        if (temp !== 0) {
-          if (!instantButtonToggler) {
-            dispatch(tgsInstantHeat(Math.round(temp - 32 / 1.8)));
-            inputRef.current.value = `${temp}\u00b0F`;
-          } else {
-            dispatch(tgsInstantHeat(0));
-            inputRef.current.value = ``;
-          }
+      if (temp !== 0) {
+        if (!instantButtonToggler) {
+          dispatch(tgsInstantHeat({ temp, unitsMeasurement }));
+          unitsMeasurement
+            ? (inputRef.current.value = `${temp}°F`)
+            : (inputRef.current.value = `${temp}°C`);
         } else {
-          setActivateMessageBox(true);
+          dispatch(tgsInstantHeat(0));
+          inputRef.current.value = ``;
         }
       } else {
-        if (temp !== 0) {
-          if (!instantButtonToggler) {
-            dispatch(tgsInstantHeat(temp));
-            inputRef.current.value = `${temp}\u00b0C`;
-          } else {
-            dispatch(tgsInstantHeat(0));
-            inputRef.current.value = ``;
-          }
-        } else {
-          setActivateMessageBox(true);
-        }
+        setActivateMessageBox(true);
       }
     } else {
       // Activate Conflict Message Box
@@ -93,32 +91,19 @@ const TgsInstantHeat = () => {
   const handleVirtualKeyboardInput = (input) => {
     if (!isEsSwitchActivated) {
       const temp = Number(input);
-      if (unitsMeasurement) {
-        if (temp !== 0) {
-          if (!instantButtonToggler) {
-            dispatch(tgsInstantHeat(Math.round((temp - 32) / 1.8)));
-            inputRef.current.value = `${temp}\u00b0F`;
-            handleKeypadClosed();
-          } else {
-            dispatch(tgsInstantHeat(0));
-            inputRef.current.value = ``;
-          }
+
+      if (temp !== 0) {
+        if (!instantButtonToggler) {
+          dispatch(tgsInstantHeat({ temp, unitsMeasurement }));
+          unitsMeasurement
+            ? (inputRef.current.value = `${temp}°F`)
+            : (inputRef.current.value = `${temp}°C`);
         } else {
-          return;
+          dispatch(tgsInstantHeat(0));
+          inputRef.current.value = ``;
         }
       } else {
-        if (temp !== 0) {
-          if (!instantButtonToggler) {
-            dispatch(tgsInstantHeat(temp));
-            inputRef.current.value = `${temp}\u00b0C`;
-            handleKeypadClosed();
-          } else {
-            dispatch(tgsInstantHeat(0));
-            inputRef.current.value = ``;
-          }
-        } else {
-          return;
-        }
+        return;
       }
     } else {
       setOpenKeyPad(false);
@@ -145,7 +130,7 @@ const TgsInstantHeat = () => {
     instantButtonToggler || dispatch(fanOnlyToggler());
   };
 
-  const unit = unitsMeasurement ? `\u00b0F` : `\u00b0C`;
+  const unit = unitsMeasurement ? `°F` : `°C`;
 
   return (
     <Wrapper toggler={instantButtonToggler}>
@@ -184,7 +169,7 @@ const TgsInstantHeat = () => {
 
       <ContentWrapperNotForm toggler={fanOnly} onClick={handleFanToggler}>
         <ActiveButtonWrapper>
-          <ActiveButton toggler={fanOnly} onClick={handleFanToggler}>
+          <ActiveButton toggler={fanOnly}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
                 <ButtonImage src={'/images/fan-only-icon.svg'} />
