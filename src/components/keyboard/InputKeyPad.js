@@ -88,7 +88,7 @@ const Wrapper = styled.div`
   background: transparent linear-gradient(180deg, #233A54 0%, #060D19 100%) 0% 0% no-repeat padding-box;
   border: 1px solid #142033;
   opacity: 1;
-  z-index: 100;
+  z-index: 50;
 `;
 
 const InputAndButtonWrapper = styled.div`

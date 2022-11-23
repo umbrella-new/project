@@ -37,7 +37,7 @@ const Div = styled.div`
   width: 592px;
   background-color: transparent;
   position: absolute;
-  z-index: 10;
+  z-index: 100;
 `;
 
 export default InvisibleDivForEditButton;

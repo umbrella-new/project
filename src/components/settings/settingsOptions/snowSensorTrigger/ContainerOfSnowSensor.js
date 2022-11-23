@@ -119,7 +119,6 @@ function ContainerOfSnowSensor() {
 
   // handles the 2 input fields to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
   const handleInputs = (index, inputNumber) => {
-    console.log(index, inputNumber);
     switch (index) {
       case 0:
         if (essSwitch) {
@@ -234,9 +233,16 @@ function ContainerOfSnowSensor() {
 
   const handleSnowSensorMessageBox = () => {
     if (
+      typeof tgsSnowSensor === 'number' &&
+      typeof tesSnowSensor === 'number'
+    ) {
+      setMessageBoxContent({
+        title: ['snow sensor trigger'],
+        content: 'settings have been applied',
+      });
+    } else if (
       typeof essSnowSensor === 'number' ||
-      typeof tgsSnowSensor === 'number' ||
-      (typeof tgsSnowSensor === 'number' && typeof tesSnowSensor === 'number')
+      typeof tgsSnowSensor === 'number'
     ) {
       setMessageBoxContent({
         title: ['snow sensor trigger'],
@@ -260,19 +266,25 @@ function ContainerOfSnowSensor() {
     <Wrapper2>
       <Wrapper essSwitch={essSwitch}>
         {essSwitch && !settingsEditButton && essSnowSensor !== null && (
-          <InvisibleDivForEditButton height={'100px'} />
+          <InvisibleDiv>
+            <InvisibleDivForEditButton height={'100px'} />
+          </InvisibleDiv>
         )}
         {!essSwitch &&
           !settingsEditButton &&
           tgsSnowSensor !== null &&
           tesSnowSensor !== null && (
-            <InvisibleDivForEditButton height={'100px'} />
+            <InvisibleDiv>
+              <InvisibleDivForEditButton height={'100px'} />
+            </InvisibleDiv>
           )}
         {!essSwitch &&
           !tesSwitch &&
           !settingsEditButton &&
           tgsSnowSensor !== null && (
-            <InvisibleDivForEditButton height={'100px'} />
+            <InvisibleDiv>
+              <InvisibleDivForEditButton height={'100px'} />
+            </InvisibleDiv>
           )}
 
         <Wrapper1 essSwitch={essSwitch}>
@@ -314,6 +326,10 @@ function ContainerOfSnowSensor() {
 }
 
 export default ContainerOfSnowSensor;
+
+const InvisibleDiv = styled.div`
+  z-index: 1000000;
+`;
 
 const Wrapper2 = styled.div`
   width: 596px;
