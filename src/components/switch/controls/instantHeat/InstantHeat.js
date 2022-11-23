@@ -44,7 +44,7 @@ const InstantHeat = () => {
   }, [instantButtonToggler]);
 
   const inputRef = useRef();
-  console.log('unit', isF);
+
 
   useEffect(() => {
     if (instantHeatTemp > 0) {
@@ -66,7 +66,7 @@ const InstantHeat = () => {
         }
       }
     }
-  }, [instantHeatTemp]);
+  }, []);
 
   // Add one condition of thermocouple
   const handleOnSubmit = (event) => {
@@ -92,19 +92,19 @@ const InstantHeat = () => {
           setActivateMessageBox(true);
         }
       } else {
-        inputRef.current.value = '';
+
         // Activate Conflict Message Box
         dispatch(activateEsConflictMessage());
       }
     }
   };
+
   // Virtual keyboard input handler
   const handleVirtualKeyboardInput = (temp) => {
     if (!isTgsSwitchActivated) {
       if (temp !== 0) {
         if (!instantButtonToggler) {
           dispatch(instantHeat({ temp, unitsMeasurement }));
-
           unitsMeasurement
             ? (inputRef.current.value = `${temp}°F`)
             : (inputRef.current.value = `${temp}°C`);
@@ -117,7 +117,7 @@ const InstantHeat = () => {
       }
     } else {
       setOpenKeyPad(false);
-      inputRef.current.value = '';
+
       // Activate Conflict Message Box
       dispatch(activateEsConflictMessage());
     }
