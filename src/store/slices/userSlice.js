@@ -5,7 +5,7 @@ import moment from 'moment';
 const initialState = {
   isEssSwitch: false,
 
-  isTesSwitch: false,
+  isTesSwitch: true,
   isExpanded: false,
   isPasswordOpen: false,
   isAdministrator: false,

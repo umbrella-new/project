@@ -72,17 +72,38 @@ function ContainerOfWindFactor() {
   const tgsTesState = useSelector(selectSettingsOfTgsTes);
   const unitsMeasurement = state.buttonsOfSettings.unitsMeasurement;
   const settingsEditButton = state.buttonsOfSettings.settingsEditButton;
-  const windFactorState = tgsTesState.windFactorTemp;
-  const cancelState = state.buttonsOfSettings.settingsCancelButton;
+  const { low, med, high, extreme, isF } = tgsTesState.windFactorTemp;
 
   // set backs the data into input fields to what was entered previously
   useEffect(() => {
-    setWindFactor({
-      lowWind: windFactorState.low,
-      medWind: windFactorState.med,
-      highWind: windFactorState.high,
-      extremeWind: windFactorState.extreme,
-    });
+    if (low > 0 || med > 0 || high > 0 || extreme > 0) {
+      if (unitsMeasurement === isF) {
+        setWindFactor({
+          lowWind: low,
+          medWind: med,
+          highWind: high,
+          extremeWind: extreme,
+        });
+      } else {
+        if (isF) {
+          // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+          setWindFactor({
+            lowWind: `${Math.round(((low - 32) * 5) / 9)}`,
+            medWind: `${Math.round(((med - 32) * 5) / 9)}`,
+            highWind: `${Math.round(((high - 32) * 5) / 9)}`,
+            extremeWind: `${Math.round(((extreme - 32) * 5) / 9)}`,
+          });
+        } else {
+          // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+          setWindFactor({
+            lowWind: `${Math.round(low * 1.8 + 32)}`,
+            medWind: `${Math.round(med * 1.8 + 32)}`,
+            highWind: `${Math.round(high * 1.8 + 32)}`,
+            extremeWind: `${Math.round(extreme * 1.8 + 32)}`,
+          });
+        }
+      }
+    }
   }, []);
 
   // 3 buttons(edit, cancel and apply). dispatch on click of apply button. it will sends the data to tgs tes slice which ess and tgs/tes will share the slice since they never operate at the same time so no need to seperate them into 2 slices
@@ -109,7 +130,12 @@ function ContainerOfWindFactor() {
           typeof windFactor.extremeWind === 'number'
         ) {
           dispatch(setResetAllSettingsButtons());
-          dispatch(setTgsTesSettingsApplyWindFactor(windFactor));
+          dispatch(
+            setTgsTesSettingsApplyWindFactor({
+              windFactor,
+              isF: unitsMeasurement,
+            })
+          );
         }
         setMessageBox(true);
         handleWindFactorMessageBox();
@@ -174,10 +200,7 @@ function ContainerOfWindFactor() {
     <Wrapper1>
       <Wrapper>
         {!settingsEditButton &&
-          (windFactorState.low !== null ||
-            windFactorState.med !== null ||
-            windFactorState.high !== null ||
-            windFactorState.extreme) && (
+          (low !== null || med !== null || high !== null || extreme) && (
             <InvisibleDivForEditButton height={height} />
           )}
         <FlexWrapper>

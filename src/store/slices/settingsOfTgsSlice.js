@@ -6,6 +6,10 @@ const initialState = {
     settingsCancelButton: false,
   },
   unitsMeasurement: false,
+  snowSensorTemp: {
+    tgsTempOnly: null,
+    isFTgs: null,
+  },
 
   tgsSelectTelemetry: {
     tgsHeaterTemp: null,
@@ -31,10 +35,10 @@ export const settingsOfTgsSlice = createSlice({
       // state.buttonsOfSettings.settingsCancelButton = false;
       state.buttonsOfSettings.unitsMeasurement = action.payload;
     },
-    // setTgsSettingsApplySnowSensorButton: (state) => {
-    //   state.buttonsOfSettings.settingsEditButton = false;
-    //   state.buttonsOfSettings.settingsCancelButton = false;
-    // },
+    setTgsSettingsApplySnowSensorButton: (state, action) => {
+      state.snowSensorTemp.tgsTempOnly = action.payload.tgsSnowSensor;
+      state.snowSensorTemp.isFTgs = action.payload.isF;
+    },
     setTgsSettingsApplyForceAndCommandButton: (state, action) => {
       // todo ess select arts
 

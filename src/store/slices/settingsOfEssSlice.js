@@ -23,7 +23,10 @@ const initialState = {
     essEncloseTemp: null,
     essOutSideTemp: null,
   },
-  snowSensorState: null,
+  snowSensorTemp: {
+    essTemp: null,
+    isFEss: null,
+  },
   selectAtsState: null,
   telemetry: {
     essHeaterTemp: selectInitialState,
@@ -105,7 +108,8 @@ export const settingsOfEssSlice = createSlice({
       state.buttonsOfSettings.settingsEditButton = false;
       state.buttonsOfSettings.settingsCancelButton = false;
       state.buttonsOfSettings.settingsApplyButton = true;
-      state.snowSensorState = action.payload;
+      state.snowSensorTemp.essTemp = action.payload.essSnowSensor;
+      state.snowSensorTemp.isFEss = action.payload.isF;
     },
     setSettingsApplyForceCommandButton: (state, action) => {
       // todo ess select arts

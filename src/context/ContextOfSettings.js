@@ -20,9 +20,9 @@ const SettingsProvider = ({ children }) => {
   // const [windInputValue, setWindInputValue] = useState();
 
   // snow sensor state
-  const [essSnowSensor, setEssSnowSensor] = useState();
-  const [tgsSnowSensor, setTgsSnowSensor] = useState();
-  const [tesSnowSensor, setTesSnowSensor] = useState();
+  const [essSnowSensor, setEssSnowSensor] = useState(null);
+  const [tgsSnowSensor, setTgsSnowSensor] = useState(null);
+  const [tesSnowSensor, setTesSnowSensor] = useState(null);
 
   // force & commands: Ess: Ats
   const [essAtsState, setEssAtsState] = useState(null);

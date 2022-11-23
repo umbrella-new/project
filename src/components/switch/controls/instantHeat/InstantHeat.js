@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useState, useEffect } from 'react';
 
 import {
   activateEsConflictMessage,
   instantHeat,
   selectEssSwitch,
-} from "../../../../store/slices/essSwitchSlice";
+} from '../../../../store/slices/essSwitchSlice';
 
 import {
   activeInput,
@@ -14,14 +14,14 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from "../../../../styles/commonStyles";
-import styled, { css } from "styled-components";
+} from '../../../../styles/commonStyles';
+import styled, { css } from 'styled-components';
 
-import InputKeyPad from "../../../keyboard/InputKeyPad";
-import { selectTgsSwitch } from "../../../../store/slices/tgsSwitchSlice";
-import { selectSettingsOfEss } from "../../../../store/slices/settingsOfEssSlice";
-import InputTempMessage from "../../../userMessages/InputTempMessage";
-import { selectSettingsOfTgsTes } from "../../../../store/slices/settingsOfTgsTesSlice";
+import InputKeyPad from '../../../keyboard/InputKeyPad';
+import { selectTgsSwitch } from '../../../../store/slices/tgsSwitchSlice';
+import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
+import InputTempMessage from '../../../userMessages/InputTempMessage';
+import { selectSettingsOfTgsTes } from '../../../../store/slices/settingsOfTgsTesSlice';
 
 const InstantHeat = () => {
   const state = useSelector(selectEssSwitch);
@@ -44,7 +44,8 @@ const InstantHeat = () => {
   }, [instantButtonToggler]);
 
   const inputRef = useRef();
-  console.log("unit", isF);
+  console.log('unit', isF);
+
   useEffect(() => {
     if (instantHeatTemp > 0) {
       if (unitsMeasurement == isF) {
@@ -91,7 +92,7 @@ const InstantHeat = () => {
           setActivateMessageBox(true);
         }
       } else {
-        inputRef.current.value = "";
+        inputRef.current.value = '';
         // Activate Conflict Message Box
         dispatch(activateEsConflictMessage());
       }
@@ -116,7 +117,7 @@ const InstantHeat = () => {
       }
     } else {
       setOpenKeyPad(false);
-      inputRef.current.value = "";
+      inputRef.current.value = '';
       // Activate Conflict Message Box
       dispatch(activateEsConflictMessage());
     }
@@ -165,7 +166,7 @@ const InstantHeat = () => {
         <ActiveButton isActivated={instantButtonToggler}>
           <ActiveButtonOuterWrapper isActivated={instantButtonToggler}>
             <ActiveButtonInnerWrapper isActivated={instantButtonToggler}>
-              <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
+              <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
             </ActiveButtonInnerWrapper>
           </ActiveButtonOuterWrapper>
         </ActiveButton>
@@ -299,7 +300,7 @@ const InputDegree = styled.input`
   height: 20px;
   width: 58px;
   border-radius: 20px;
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   box-shadow: 0 0 3px black;
   margin-right: 5.06px;
   font-size: 10px;

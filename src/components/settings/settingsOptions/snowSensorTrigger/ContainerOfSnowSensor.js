@@ -21,6 +21,10 @@ import {
 } from '../../../../store/slices/settingsOfTgsTesSlice';
 
 import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
+import {
+  SelectSettingsOfTgs,
+  setTgsSettingsApplySnowSensorButton,
+} from '../../../../store/slices/settingsOfTgsSlice';
 
 function ContainerOfSnowSensor() {
   const tgsTes = ['tgs-snow sensor trigger', 'tes-snow sensor trigger'];
@@ -51,28 +55,86 @@ function ContainerOfSnowSensor() {
   const state = useSelector(selectUserState);
   const essState = useSelector(selectSettingsOfEss);
   const tgsTesState = useSelector(selectSettingsOfTgsTes);
+  const tgsState = useSelector(SelectSettingsOfTgs);
   const tesSwitch = state.isTesSwitch;
   const essSwitch = state.isEssSwitch;
   const editState = essState.buttonsOfSettings.settingsEditButton;
   const mode = essState.interfaceMode;
   const settingsEditButton = essState.buttonsOfSettings.settingsEditButton;
-  const essSnowSensorState = essState.snowSensorState;
-  const tgsTesSnowSensorState = tgsTesState.snowSensorTemp;
   const unitsState = essState.buttonsOfSettings.unitsMeasurement;
-  // const cancelState = essState.buttonsOfSettings.settingsCancelButton;
-  // const applyState = essState.buttonsOfSettings.settingsApplyButton;
+  const { essTemp, isFEss } = essState.snowSensorTemp;
+  const { tgsTemp, tesTemp, isFTgsTes } = tgsTesState.snowSensorTemp;
+  const { tgsTempOnly, isFTgs } = tgsState.snowSensorTemp;
 
-  // sets back previous data entered in the input fields
-  // onClick of cancel button, it will clear the input fields
+  // sets back previous data entered in the input fields either in imperial or metric. if it was metric before and user changes the units, the input(s) will be converted.
   useEffect(() => {
     dispatch(setResetAllSettingsButtons());
     if (essSwitch) {
-      setEssSnowSensor(essSnowSensorState);
+      if (essTemp > 0) {
+        if (unitsState === isFEss) {
+          setEssSnowSensor(essTemp);
+        } else {
+          if (isFEss) {
+            // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+            setEssSnowSensor(`${Math.round(((essTemp - 32) * 5) / 9)}`);
+          } else {
+            // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+            setEssSnowSensor(`${Math.round(essTemp * 1.8 + 32)}`);
+          }
+        }
+      }
+    } else if (!tesSwitch) {
+      if (tgsTempOnly > 0) {
+        if (unitsState === isFTgs) {
+          setTgsSnowSensor(tgsTempOnly);
+        } else {
+          if (isFTgs) {
+            // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+            setTgsSnowSensor(`${Math.round(((tgsTempOnly - 32) * 5) / 9)}`);
+          } else {
+            // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+            setTgsSnowSensor(`${Math.round(tgsTempOnly * 1.8 + 32)}`);
+          }
+        }
+      }
     } else {
-      setTesSnowSensor(tgsTesSnowSensorState.tesTemp);
-      setTgsSnowSensor(tgsTesSnowSensorState.tgsTemp);
+      if (tesTemp > 0 && tgsTemp > 0) {
+        if (unitsState === isFTgsTes) {
+          setTesSnowSensor(tesTemp);
+          setTgsSnowSensor(tgsTemp);
+        } else {
+          if (isFTgsTes) {
+            // saved unit is F but current unit is C -> formula c = (f-32) * 5/9
+            setTesSnowSensor(`${Math.round(((tesTemp - 32) * 5) / 9)}`);
+            setTgsSnowSensor(`${Math.round(((tgsTemp - 32) * 5) / 9)}`);
+          } else {
+            // saved unit is C but current unit is F -> formula f = c * 1.8 + 32
+            setTesSnowSensor(`${Math.round(tesTemp * 1.8 + 32)}`);
+            setTgsSnowSensor(`${Math.round(tgsTemp * 1.8 + 32)}`);
+          }
+        }
+      }
     }
   }, []);
+
+  // handles the 2 input fields to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
+  const handleInputs = (index, inputNumber) => {
+    console.log(index, inputNumber);
+    switch (index) {
+      case 0:
+        if (essSwitch) {
+          setEssSnowSensor(inputNumber);
+        } else {
+          setTgsSnowSensor(inputNumber);
+        }
+        break;
+      case 1:
+        setTesSnowSensor(inputNumber);
+        break;
+      default:
+        break;
+    }
+  };
 
   // 3 buttons(edit, cancel and apply).dispatch the input fields for Ess into ess slice when apply button is clicked
   const handleEssButtons = (value) => {
@@ -87,7 +149,12 @@ function ContainerOfSnowSensor() {
         break;
       case 2:
         if (typeof essSnowSensor === 'number') {
-          dispatch(setSettingsApplySnowSensorTriggerButton(essSnowSensor));
+          dispatch(
+            setSettingsApplySnowSensorTriggerButton({
+              essSnowSensor,
+              isF: unitsState,
+            })
+          );
           dispatch(setResetAllSettingsButtons());
         }
         setMessageBox(true);
@@ -122,6 +189,37 @@ function ContainerOfSnowSensor() {
             setTgsTesSettingsApplySnowSensorButton({
               tgsSnowSensor,
               tesSnowSensor,
+              isF: unitsState,
+            })
+          );
+        }
+        setMessageBox(true);
+        handleSnowSensorMessageBox();
+
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleTgsButtons = (value) => {
+    const buttonsIndex = Number(value);
+    switch (buttonsIndex) {
+      case 0:
+        dispatch(setSettingsEditButton());
+        break;
+      case 1:
+        dispatch(setSettingsCancelButton());
+        setTesSnowSensor('');
+        setTgsSnowSensor('');
+        break;
+      case 2:
+        if (typeof tgsSnowSensor === 'number') {
+          dispatch(setResetAllSettingsButtons());
+          dispatch(
+            setTgsSettingsApplySnowSensorButton({
+              tgsSnowSensor,
+              isF: unitsState,
             })
           );
         }
@@ -137,6 +235,7 @@ function ContainerOfSnowSensor() {
   const handleSnowSensorMessageBox = () => {
     if (
       typeof essSnowSensor === 'number' ||
+      typeof tgsSnowSensor === 'number' ||
       (typeof tgsSnowSensor === 'number' && typeof tesSnowSensor === 'number')
     ) {
       setMessageBoxContent({
@@ -169,6 +268,13 @@ function ContainerOfSnowSensor() {
           tesSnowSensor !== null && (
             <InvisibleDivForEditButton height={'100px'} />
           )}
+        {!essSwitch &&
+          !tesSwitch &&
+          !settingsEditButton &&
+          tgsSnowSensor !== null && (
+            <InvisibleDivForEditButton height={'100px'} />
+          )}
+
         <Wrapper1 essSwitch={essSwitch}>
           <SnowFactor
             tgsTes={tgsTes}
@@ -180,6 +286,7 @@ function ContainerOfSnowSensor() {
             options={options}
             setOptions={setOptions}
             metricImperialToggle={unitsState}
+            handleInputs={handleInputs}
           />
         </Wrapper1>
         {messageBox && (
@@ -192,7 +299,13 @@ function ContainerOfSnowSensor() {
       </Wrapper>
       <WrapperButtons position={essSwitch}>
         <EditCancelApplyButtons
-          handleClick={essSwitch ? handleEssButtons : handleTgsTesButtons}
+          handleClick={
+            essSwitch
+              ? handleEssButtons
+              : tesSwitch
+              ? handleTgsTesButtons
+              : handleTgsButtons
+          }
           buttonsName={buttonsName}
         />
       </WrapperButtons>

@@ -385,23 +385,11 @@ const Img = styled.img`
 `;
 
 const SubTitleSelectionWrapper = styled.div`
-  margin-top: 21px;
+  margin-top: 1.8rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-`;
-
-const SelectionShadowWrapper1 = styled.div`
-  width: 252px;
-  height: 51px;
-  margin-top: 4px;
-
-  background: #142033 0% 0% no-repeat padding-box;
-  /* box-shadow: inset 0px 0px 1px #000000; */
-  border-radius: 24px;
-  opacity: 1;
-  ${flexboxCenter}
 `;
 
 const SelectionWrapper1 = styled.div`
