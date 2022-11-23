@@ -33,8 +33,6 @@ const AdminSSRItemDetails = ({
   const { partNumberSuggestions, elementsOptions } = descriptionState;
   const { specs } = data;
 
-  console.log(elementsOptions);
-
   const initialInputState = [
     {
       partNumber: '',
@@ -82,7 +80,6 @@ const AdminSSRItemDetails = ({
         setElementSpec([{}, {}, {}]);
       }
     } else {
-      console.log('2 renew');
       setElementSpec([{}, {}, {}]);
     }
   }, [inputDetails[0].partNumber]);
@@ -93,7 +90,7 @@ const AdminSSRItemDetails = ({
       const elementIdx = partNumberSuggestions.indexOf(
         inputDetails[1].partNumber
       );
-      console.log('idx', elementIdx);
+
       if (elementIdx >= 0) {
         // 2. Save element specs with idx from elementsOptions
         setElementSpec([elementSpec[0], elementsOptions[elementIdx], {}]);
@@ -107,7 +104,7 @@ const AdminSSRItemDetails = ({
       const elementIdx = partNumberSuggestions.indexOf(
         inputDetails[2].partNumber
       );
-      console.log('idx', elementIdx);
+
       if (elementIdx >= 0) {
         // 2. Save element specs with idx from elementsOptions
         setElementSpec([
@@ -181,7 +178,6 @@ const AdminSSRItemDetails = ({
       }
     } else if (name === 'apply') {
       // name === 'apply' do Dispatch
-      console.log('here');
       switch (hiddenNumber) {
         case 1: {
           if (elementSpec[0].current) {
@@ -193,7 +189,6 @@ const AdminSSRItemDetails = ({
               })
             );
           } else {
-            console.log('here2');
             setMessage(
               'element not found! please check again the input specifications'
             );
@@ -320,9 +315,6 @@ const AdminSSRItemDetails = ({
   };
 
   // ********************************auto complete*****************************
-  // console.log('input partNumber', inputPartNumber);
-  // console.log('suggestions', filteredSuggestions);
-  // console.log('is ready to render', displaySuggestions);
 
   return (
     <Wrapper>
