@@ -17,6 +17,7 @@ function SnowFactor({
   options,
   setOptions,
   metricImperialToggle,
+  handleInputs,
 }) {
   // useContext
   const {
@@ -42,24 +43,30 @@ function SnowFactor({
   };
 
   // handles the input field to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
-  const handleInput = (inputNumber) => {
-    const value = Number(inputNumber);
-    setEssSnowSensor(value);
-  };
+  // const handleInput = (index, inputNumber) => {
+  //   const value = Number(inputNumber);
+  //   switch (index) {
+  //     case 0:
+  //       setEssSnowSensor(value);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   // handles the 2 input fields to direct each data entered  from keypad gets save at the right place in useState in useContext and it will display in the input field as you type
-  const handleInputs = (index, inputNumber) => {
-    switch (index) {
-      case 0:
-        setTgsSnowSensor(inputNumber);
-        break;
-      case 1:
-        setTesSnowSensor(inputNumber);
-        break;
-      default:
-        break;
-    }
-  };
+  // const handleInputs = (index, inputNumber) => {
+  //   switch (index) {
+  //     case 0:
+  //       setTgsSnowSensor(inputNumber);
+  //       break;
+  //     case 1:
+  //       setTesSnowSensor(inputNumber);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <>
@@ -92,8 +99,9 @@ function SnowFactor({
                     <PositionAbsoluteBox index={true}>
                       <InputKeyPad
                         closeKeyPad={() => setActivateKeypad(false)}
-                        handleOnSubmit={handleInput}
-                        setMainInput={handleInput}
+                        handleOnSubmit={handleInputs}
+                        setMainInput={handleInputs}
+                        name={0}
                       />
                     </PositionAbsoluteBox>
                   </KeyboardWrapper>
@@ -162,8 +170,8 @@ function SnowFactor({
                             onChange={(e) => {
                               handleInputs(index, e.target.value);
                               // index === 0
-                              //   ? setTgsSnowSensor(e.target.value)
-                              //   : setTesSnowSensor(e.target.value);
+                              //   ? handleInput(index, e.target.value);
+                              //   :  handleInputs(index, e.target.value);
                             }}
                             onClick={() => {
                               handleDisplayKeyPad(index);
@@ -226,9 +234,25 @@ const WrapperTgsTesSnowSensor = styled.div`
     interfaceMode
       ? css`
           background: transparent
-            linear-gradient(270deg, #ebebeb 0%, #bbbbbb 100%);
+            linear-gradient(
+              ${({ gradient }) => (gradient ? 90 : 270)}deg,
+              #ebebeb 0%,
+              #bbbbbb 100%
+            );
           box-shadow: inset 0px 1px 2px #ffffff24, 0px 0px 2px #000000;
           border: 0.5px solid #1b2b44;
+          ${(p) =>
+            p.tesSwitch ||
+            (p.index === 1 &&
+              css`
+                background: -webkit-linear-gradient(
+                  180deg,
+                  #565656 0%,
+                  #1d1d1d 100%
+                );
+                box-shadow: inset 0 1px 1px rgba(255, 255, 255, 14%);
+                box-shadow: 0 0 2px rgba(0, 0, 0, 100%);
+              `)}
         `
       : css`
           background: -webkit-linear-gradient(

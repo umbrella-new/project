@@ -13,10 +13,12 @@ const initialState = {
     med: null,
     high: null,
     extreme: null,
+    isF: null,
   },
   snowSensorTemp: {
     tgsTemp: null,
     tesTemp: null,
+    isFTgsTes: null,
   },
   tgsTesSelectTelemetry: {
     tgsHeaterTemp: null,
@@ -53,14 +55,16 @@ export const settingsOfTgsTesSlice = createSlice({
     // },
 
     setTgsTesSettingsApplyWindFactor: (state, action) => {
-      state.windFactorTemp.low = action.payload.lowWind;
-      state.windFactorTemp.med = action.payload.medWind;
-      state.windFactorTemp.high = action.payload.highWind;
-      state.windFactorTemp.extreme = action.payload.extremeWind;
+      state.windFactorTemp.low = action.payload.windFactor.lowWind;
+      state.windFactorTemp.med = action.payload.windFactor.medWind;
+      state.windFactorTemp.high = action.payload.windFactor.highWind;
+      state.windFactorTemp.extreme = action.payload.windFactor.extremeWind;
+      state.windFactorTemp.isF = action.payload.isF;
     },
     setTgsTesSettingsApplySnowSensorButton: (state, action) => {
       state.snowSensorTemp.tgsTemp = action.payload.tgsSnowSensor;
       state.snowSensorTemp.tesTemp = action.payload.tesSnowSensor;
+      state.snowSensorTemp.isFTgsTes = action.payload.isF;
     },
     setTgsTesSettingsApplyForceAndCommandButton: (state, action) => {
       // state.buttonsOfSettings.settingsEditButton = false;

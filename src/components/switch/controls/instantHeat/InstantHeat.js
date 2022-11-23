@@ -45,6 +45,7 @@ const InstantHeat = () => {
 
   const inputRef = useRef();
 
+
   useEffect(() => {
     if (instantHeatTemp > 0) {
       if (unitsMeasurement == isF) {
@@ -91,6 +92,7 @@ const InstantHeat = () => {
           setActivateMessageBox(true);
         }
       } else {
+
         // Activate Conflict Message Box
         dispatch(activateEsConflictMessage());
       }
@@ -115,6 +117,7 @@ const InstantHeat = () => {
       }
     } else {
       setOpenKeyPad(false);
+
       // Activate Conflict Message Box
       dispatch(activateEsConflictMessage());
     }
