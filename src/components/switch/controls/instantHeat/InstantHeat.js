@@ -39,11 +39,15 @@ const InstantHeat = () => {
   const settingState = useSelector(selectSettingsOfTgsTes);
   const { thermocouple } = settingState;
 
+  const inputRef = useRef();
+
   useEffect(() => {
     setOpenKeyPad(false);
-  }, [instantButtonToggler]);
-
-  const inputRef = useRef();
+    if (thermocouple) {
+      console.log(thermocouple);
+      inputRef.current.value = '';
+    }
+  }, [instantButtonToggler, thermocouple]);
 
 
   useEffect(() => {

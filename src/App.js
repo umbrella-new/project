@@ -1,11 +1,11 @@
-import GlobalStyle from "./styles/GlobalStyles";
+import GlobalStyle from './styles/GlobalStyles';
 
-import styled from "styled-components";
-import MainPage from "./MainPage";
-import { flexboxCenter } from "./styles/commonStyles";
+import styled from 'styled-components';
+import MainPage from './MainPage';
+import { flexboxCenter } from './styles/commonStyles';
 
-import { Provider } from "react-redux";
-import store from "./store/store";
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 function App() {
   return (
@@ -21,5 +21,6 @@ function App() {
 export default App;
 
 const Wrapper = styled.div`
-  /* ${flexboxCenter} */
+  display: flex;
+  justify-content: center;
 `;
