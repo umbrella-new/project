@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectSettingsOfEss } from "../../../store/slices/settingsOfEssSlice";
 import {
   flexboxCenter,
   DisableApplyButtonBG,
@@ -8,15 +8,15 @@ import {
   activeLayer1,
   activeInput,
   ButtonReady,
-} from '../../../styles/commonStyles';
+} from "../../../styles/commonStyles";
 
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
-import InputKeyPad from '../../keyboard/InputKeyPad';
-import InputTempMessage from '../../userMessages/InputTempMessage';
-import { selectSettingsOfTgsTes } from '../../../store/slices/settingsOfTgsTesSlice';
-import { selectUserState } from '../../../store/slices/userSlice';
-import { useLocation } from 'react-router-dom';
+import InputKeyPad from "../../keyboard/InputKeyPad";
+import InputTempMessage from "../../userMessages/InputTempMessage";
+import { selectSettingsOfTgsTes } from "../../../store/slices/settingsOfTgsTesSlice";
+import { selectUserState } from "../../../store/slices/userSlice";
+import { useLocation } from "react-router-dom";
 
 const TempAndButton = ({
   isEnable,
@@ -49,7 +49,7 @@ const TempAndButton = ({
   useEffect(() => {
     if (isEssSwitch) {
       thermocouple && setMaxHeat(true);
-    } else if (location.pathname !== '/') {
+    } else if (location.pathname !== "/") {
       thermocouple && setMaxHeat(true);
     }
   });
@@ -57,7 +57,7 @@ const TempAndButton = ({
   // Display the saved temp into the input box
   useEffect(() => {
     if (!isEnable) {
-      inputRef.current.value = '';
+      inputRef.current.value = "";
     } else {
       if (currTemp > 0) {
         if (unitsMeasurement == isF) {
@@ -77,69 +77,71 @@ const TempAndButton = ({
         }
       }
     }
-  }, []);
+  }, [currTemp]);
 
   // Button handler
   const handleSubmit = (event) => {
     event.preventDefault();
     // Check the user input and show the user message
 
-    if (title === 'scheduler' && maxHeat) {
+    if (title === "scheduler" && maxHeat) {
       if (!isAble.date) {
         handleSchedulerSet();
       } else {
         buttonHandler(0);
-        inputRef.current.value = '';
+        inputRef.current.value = "";
       }
     } else {
       if (inputRef.current.value.length === 0) {
-        setMessage('in order to finalize your optional constant temp program,');
+        setMessage("in order to finalize your optional constant temp program,");
         setTemp(true);
         setAlertMessage(true);
       } else {
         const temp = Number(inputRef.current.value);
-        if (title === 'scheduler') {
+        if (title === "scheduler") {
           if (temp !== 0) {
             if (!isReady) {
               buttonHandler(temp);
-              unitsMeasurement
-                ? (inputRef.current.value = `${temp}°F`)
-                : (inputRef.current.value = `${temp}°C`);
+              // unitsMeasurement
+              //   ? (inputRef.current.value = `${temp}°F`)
+              //   : (inputRef.current.value = `${temp}°C`);
+              inputRef.current.value = "";
             } else {
               buttonHandler(0);
-              inputRef.current.value = '';
+              inputRef.current.value = "";
             }
           }
         } else {
           if (temp !== 0) {
             if (unitsMeasurement) {
               if (temp > 302) {
-                setMessage('Maximum temperature is 150°F (302°C)');
+                setMessage("Maximum temperature is 150°F (302°C)");
                 setTemp(true);
                 setAlertMessage(true);
-                inputRef.current.value = '';
+                inputRef.current.value = "";
               } else {
                 if (!isReady) {
                   buttonHandler(temp);
-                  inputRef.current.value = `${temp}°F`;
+                  inputRef.current.value = "";
                 } else {
                   buttonHandler(0);
-                  inputRef.current.value = '';
+                  inputRef.current.value = "";
                 }
               }
             } else {
               if (temp > 150) {
-                setMessage('Maximum temperature is 150°F (302°C)');
+                setMessage("Maximum temperature is 150°F (302°C)");
                 setTemp(true);
                 setAlertMessage(true);
-                inputRef.current.value = '';
+                inputRef.current.value = "";
               } else {
                 if (!isReady) {
                   buttonHandler(temp);
-                  inputRef.current.value = `${temp}°C`;
+                  // inputRef.current.value = `${temp}°C`;
+                  inputRef.current.value = "";
                 } else {
                   buttonHandler(0);
-                  inputRef.current.value = '';
+                  inputRef.current.value = "";
                 }
               }
             }
@@ -150,13 +152,13 @@ const TempAndButton = ({
   };
 
   const handleSchedulerSet = () => {
-    setMessage('Please set schedule first');
+    setMessage("Please set schedule first");
     setTemp(false);
     setAlertMessage(true);
   };
   // Handlers for keypad
   const onInputHandler = () => {
-    if (title === 'scheduler') {
+    if (title === "scheduler") {
       !isEnable || isActivated || isReady || isAble.date
         ? setOpenKeyPad(true)
         : handleSchedulerSet();
@@ -169,37 +171,40 @@ const TempAndButton = ({
   const handleVirtualKeyboardInput = (input) => {
     const temp = Number(input);
 
-    if (title === 'scheduler') {
+    if (title === "scheduler") {
       buttonHandler(temp);
       setOpenKeyPad(false);
-      unitsMeasurement
-        ? (inputRef.current.value = `${temp}°F`)
-        : (inputRef.current.value = `${temp}°C`);
+      // unitsMeasurement
+      //   ? (inputRef.current.value = `${temp}°F`)
+      //   : (inputRef.current.value = `${temp}°C`);
+      inputRef.current.value = "";
     } else {
       if (unitsMeasurement) {
         if (temp > 302) {
           console.log(temp);
-          setMessage('Maximum temperature is 150°F (302°C)');
+          setMessage("Maximum temperature is 150°F (302°C)");
           setTemp(true);
           setAlertMessage(true);
           setOpenKeyPad(false);
-          inputRef.current.value = '';
+          inputRef.current.value = "";
         } else {
           buttonHandler(temp);
           setOpenKeyPad(false);
-          inputRef.current.value = `${temp}°F`;
+          // inputRef.current.value = `${temp}°F`;
+          inputRef.current.value = "";
         }
       } else {
         if (temp > 150) {
-          setMessage('Maximum temperature is 150°F (302°C)');
+          setMessage("Maximum temperature is 150°F (302°C)");
           setTemp(true);
           setAlertMessage(true);
           setOpenKeyPad(false);
-          inputRef.current.value = '';
+          inputRef.current.value = "";
         } else {
           buttonHandler(temp);
           setOpenKeyPad(false);
-          inputRef.current.value = `${temp}°C`;
+          // inputRef.current.value = `${temp}°C`;
+          inputRef.current.value = "";
         }
       }
     }
@@ -212,9 +217,9 @@ const TempAndButton = ({
   };
 
   const messageBoxTitle =
-    title === 'scheduler'
-      ? 'heating schedule program'
-      : 'optional constant temp';
+    title === "scheduler"
+      ? "heating schedule program"
+      : "optional constant temp";
 
   const unit = unitsMeasurement ? `°F` : `°C`;
 
@@ -251,7 +256,7 @@ const TempAndButton = ({
             isReady={isReady}
           >
             <ButtonName isEnable={isEnable}>
-              {isReady ? 'ready' : isActivated ? 'activated' : 'apply'}
+              {isReady ? "ready" : isActivated ? "activated" : "apply"}
             </ButtonName>
           </ButtonTop>
         </ButtonHole>
@@ -323,7 +328,7 @@ const Label = styled.label`
   font-size: 8px;
 
   text-align: center;
-  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 `;
 
 const InputWrapper = styled.div`
@@ -372,7 +377,7 @@ const InputDegree = styled.input`
     `}
 
   ::placeholder {
-    color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+    color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 
     ${(p) =>
       p.maxHeat &&
@@ -385,7 +390,7 @@ const InputDegree = styled.input`
 `;
 
 const ButtonWrapper = styled.button`
-  cursor: ${(p) => (p.isEnable ? `pointer` : 'default')};
+  cursor: ${(p) => (p.isEnable ? `pointer` : "default")};
   height: 30px;
   width: 126px;
   border-radius: 25px;
@@ -494,9 +499,9 @@ const ButtonName = styled.span`
   display: inline-block;
   font-size: 10px;
 
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   text-align: center;
-  color: ${(p) => (p.isEnable ? '#ffff' : '#808080')};
+  color: ${(p) => (p.isEnable ? "#ffff" : "#808080")};
 `;
 
 const KeyPadWrapper = styled.div`

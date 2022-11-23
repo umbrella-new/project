@@ -1,13 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectTgsSwitch,
   tgsInstantHeat,
   fanOnlyToggler,
   activateTgsConflictMessage,
-} from '../../../../store/slices/tgsSwitchSlice';
-import { selectEssSwitch } from '../../../../store/slices/essSwitchSlice';
-import { selectSettingsOfEss } from '../../../../store/slices/settingsOfEssSlice';
+} from "../../../../store/slices/tgsSwitchSlice";
+import { selectEssSwitch } from "../../../../store/slices/essSwitchSlice";
+import { selectSettingsOfEss } from "../../../../store/slices/settingsOfEssSlice";
 
 import {
   activeInput,
@@ -15,11 +15,11 @@ import {
   flexboxCenter,
   layer1,
   layer90Deg,
-} from '../../../../styles/commonStyles';
-import styled, { css } from 'styled-components';
+} from "../../../../styles/commonStyles";
+import styled, { css } from "styled-components";
 
-import InputKeyPad from '../../../keyboard/InputKeyPad';
-import InputTempMessage from '../../../userMessages/InputTempMessage';
+import InputKeyPad from "../../../keyboard/InputKeyPad";
+import InputTempMessage from "../../../userMessages/InputTempMessage";
 
 const TgsInstantHeat = () => {
   const state = useSelector(selectTgsSwitch);
@@ -61,7 +61,7 @@ const TgsInstantHeat = () => {
         }
       }
     }
-  }, []);
+  }, [instantHeatTemp]);
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
@@ -82,6 +82,7 @@ const TgsInstantHeat = () => {
         setActivateMessageBox(true);
       }
     } else {
+      inputRef.current.value = "";
       // Activate Conflict Message Box
       dispatch(activateTgsConflictMessage());
     }
@@ -107,6 +108,7 @@ const TgsInstantHeat = () => {
       }
     } else {
       setOpenKeyPad(false);
+      inputRef.current.value = "";
       // Activate Conflict Message Box
       dispatch(activateTgsConflictMessage());
     }
@@ -139,7 +141,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={instantButtonToggler}>
             <ActiveButtonOuterWrapper toggler={instantButtonToggler}>
               <ActiveButtonInnerWrapper toggler={instantButtonToggler}>
-                <ButtonImage src={'/images/instant-Heat-Program -Logo.svg'} />
+                <ButtonImage src={"/images/instant-Heat-Program -Logo.svg"} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -172,7 +174,7 @@ const TgsInstantHeat = () => {
           <ActiveButton toggler={fanOnly}>
             <ActiveButtonOuterWrapper toggler={fanOnly}>
               <ActiveButtonInnerWrapper toggler={fanOnly}>
-                <ButtonImage src={'/images/fan-only-icon.svg'} />
+                <ButtonImage src={"/images/fan-only-icon.svg"} />
               </ActiveButtonInnerWrapper>
             </ActiveButtonOuterWrapper>
           </ActiveButton>
@@ -317,7 +319,7 @@ const InputDegree = styled.input`
   width: 84px;
   border-radius: 20px;
 
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   box-shadow: 0 0 3px black;
   font-size: 7px;
 
