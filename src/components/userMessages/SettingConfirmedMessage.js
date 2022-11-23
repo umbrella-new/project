@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   left: 0px;
 
   background-color: rgba(0, 0, 0, 0.2);
-  z-index: 10000;
+  z-index: 100;
   ${flexboxCenter};
 `;
 
@@ -56,6 +56,7 @@ const MessageOuter = styled.div`
 
   border-radius: 14px;
   ${flexboxCenter}
+  z-index: 100;
 `;
 const MessageInner = styled.div`
   width: 384px;
