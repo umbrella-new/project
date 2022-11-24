@@ -17,7 +17,6 @@ function App() {
     </Wrapper>
   );
 }
-
 export default App;
 
 const Wrapper = styled.div`

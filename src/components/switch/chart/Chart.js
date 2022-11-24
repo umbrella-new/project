@@ -20,6 +20,8 @@ import { selectSettingsOfEss } from '../../../store/slices/settingsOfEssSlice';
 const Chart = () => {
   const unitsState = useSelector(selectSettingsOfEss);
   const { unitsMeasurement } = unitsState.buttonsOfSettings;
+  const settingState = useSelector(selectSettingsOfTgsTes);
+  const { thermocouple } = settingState;
 
   const sysState = useSelector(selectSystemIdentification);
 
@@ -32,98 +34,98 @@ const Chart = () => {
   const data = [
     {
       name: '1',
-      HT: -50,
+      HT: thermocouple || -50,
       ET: 400,
       OT: 200,
       date: 13,
     },
     {
       name: '2',
-      HT: 300,
+      HT: thermocouple || 300,
       ET: 398,
       OT: 210,
       date: 12,
     },
     {
       name: '3',
-      HT: 100,
+      HT: thermocouple || 100,
       ET: 400,
       OT: 290,
       date: 11,
     },
     {
       name: '4',
-      HT: 270,
+      HT: thermocouple || 270,
       ET: 398,
       OT: 200,
       date: 10,
     },
     {
       name: '5',
-      HT: 180,
+      HT: thermocouple || 180,
       ET: 480,
       OT: 181,
       date: 9,
     },
     {
       name: '6',
-      HT: 390,
+      HT: thermocouple || 390,
       ET: 380,
       OT: 250,
       date: 8,
     },
     {
       name: '7',
-      HT: 340,
+      HT: thermocouple || 340,
       ET: 400,
       OT: 210,
       date: 7,
     },
     {
       name: '8',
-      HT: -50,
+      HT: thermocouple || -50,
       ET: 400,
       OT: 200,
       date: 6,
     },
     {
       name: '9',
-      HT: 300,
+      HT: thermocouple || 300,
       ET: 398,
       OT: 210,
       date: 5,
     },
     {
       name: '10',
-      HT: 100,
+      HT: thermocouple || 100,
       ET: 400,
       OT: 290,
       date: 4,
     },
     {
       name: '11',
-      HT: 270,
+      HT: thermocouple || 270,
       ET: 398,
       OT: 200,
       date: 3,
     },
     {
       name: '12',
-      HT: 180,
+      HT: thermocouple || 180,
       ET: 700,
       OT: 181,
       date: 2,
     },
     {
       name: '13',
-      HT: 390,
+      HT: thermocouple || 390,
       ET: 380,
       OT: 250,
       date: 1,
     },
     {
       name: '14',
-      HT: 340,
+      HT: thermocouple || 340,
       ET: 700,
       OT: 210,
       date: 0,
@@ -149,7 +151,11 @@ const Chart = () => {
     if (active) {
       const unit = unitsMeasurement ? '°F' : '°C';
       const payloadName1st = switchName;
-      const payloadName2nd = `( HT : ${payload[0].value} ${unit}, ET : ${payload[1].value} ${unit}, OT : ${payload[2].value} ${unit} )`;
+      const payloadName2nd = `( H.T- ${
+        thermocouple ? 'xxx' : payload[0].value
+      } ${unit}, E.T- ${payload[1].value} ${unit}, O.T- ${
+        payload[2].value
+      } ${unit} )`;
       const payloadName3rd = `${moment()
         .subtract(payload[0].payload.date, 'days')
         .format('MMMM dddd DD, YYYY')}`;
