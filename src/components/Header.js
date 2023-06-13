@@ -23,14 +23,14 @@ const Header = () => {
   // true == ng / lp
 
   const EssSwitchName =
-    sysState.switchName.length < 1
+    sysState.switches.length < 2
       ? 'switch'
       : `${sysState.locationName}-${sysState.switchName} ${
           sysState.switchSize
         } ${sysState.application}-${sysState.heatingSystem.split(' - ')[0]}`;
 
   const tgsTesSwitchName =
-    sysState.switchName.length < 1
+    sysState.switches.length < 2
       ? 'switch'
       : `${sysState.locationName}-${sysState.switchName} ${
           sysState.switchSize
@@ -42,7 +42,7 @@ const Header = () => {
          `;
 
   const tgsSwitchName =
-    sysState.switchName.length < 1
+    sysState.switches.length < 2
       ? 'switch'
       : `${sysState.locationName}-${sysState.switchName} ${
           sysState.switchSize

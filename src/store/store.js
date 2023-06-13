@@ -15,6 +15,7 @@ import settingsSystemIdentificationSlice from './slices/settingSystemIdentificat
 import settingsOfSysSlice from './slices/settingsOfSysSlice';
 import timerSlice from './slices/timerSlice';
 import settingsOfAdminSlice from './slices/settingsOfAdminSlice';
+import settingsSelectSystemUOSSlice from './slices/settingsSelectSystemUOSSlice';
 
 const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ const store = configureStore({
     settingsOfSys: settingsOfSysSlice.reducer,
     timer: timerSlice.reducer,
     settingsOfAdmin: settingsOfAdminSlice.reducer,
+    selectSystemUOS: settingsSelectSystemUOSSlice.reducer,
   },
 });
 
