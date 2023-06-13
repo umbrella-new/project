@@ -26,7 +26,7 @@ import Thermocouple from './sysControl/Thermocouple';
 import ForceGasElectricSystem from './sysControl/ForceGasElectricSystem';
 import TgsTesSwitch from './systemConfiguration/systemConfiguration';
 import AddElementToBank from './AddElementToBank';
-import SystemIdentification from './SystemIdentification';
+// import SystemIdentification from './SystemIdentification';
 import InvisibleDivForEditButton from '../editAndApplyMessageBoxes/InvisibleDivForEditButton';
 
 import EditCancelApplyButtons from '../EditCancelApplyButtons';
@@ -39,13 +39,13 @@ import {
 import { SettingsContext } from '../../../../context/ContextOfSettings';
 import { handleAddNewElement } from '../../../../store/slices/ssrDescriptionSlice';
 import { setForceGasAndElectricSystem } from '../../../../store/slices/settingsOfSysSlice';
-import settingsSystemIdentificationSlice, {
-  handleAdditionalSystemIdentification,
-} from '../../../../store/slices/settingSystemIdentificationSlice';
+// import settingsSystemIdentificationSlice from '../../../../store/slices/settingSystemIdentificationSlice';
+// handleAdditionalSystemIdentification,
 // import SettingConfirmedMessage from '../../../userMessages/SettingConfirmedMessage';
 import SettingAppliedMessage from '../../../userMessages/SettingAppliedMessage';
 import ApplyButtonInvisibleDiv from '../editAndApplyMessageBoxes/ApplyButtonInvisibleDiv';
-import SimulateFaults from './simulateFaults/SimulateFaults';
+// import SimulateFaults from './simulateFaults/SimulateFaults';
+import NewSystemIdentification from './systemIdentification/NewSystemIdentification';
 
 function ContainerOfAdmin() {
   // all the buttons for headers. blue and green.
@@ -292,7 +292,7 @@ function ContainerOfAdmin() {
         break;
       case 2:
         if (sysIdentification) {
-          dispatch(handleAdditionalSystemIdentification(inputData));
+          // dispatch(handleAdditionalSystemIdentification(inputData));
           setButtonNames(['edit system', 'save']);
           setSysIdentification(false);
         }
@@ -392,7 +392,7 @@ function ContainerOfAdmin() {
           setForceGasAndElectric(false);
         }
         if (sysIdentification) {
-          dispatch(handleAdditionalSystemIdentification(inputData));
+          // dispatch(handleAdditionalSystemIdentification(inputData));
           setSysIdentification(false);
           setButtonNames(['edit system', 'save']);
         }
@@ -653,7 +653,8 @@ function ContainerOfAdmin() {
                             )}
 
                             <SectionWrapper>
-                              <SystemIdentification />
+                              <NewSystemIdentification />
+                              {/* <SystemIdentification /> */}
                             </SectionWrapper>
                             {/* the 3 buttons edit cancel and apply */}
                             {messageBox && (
@@ -824,7 +825,8 @@ function ContainerOfAdmin() {
                             </SectionWrapper>
 
                             <SectionWrapper>
-                              <SystemIdentification />
+                              <NewSystemIdentification />
+                              {/* <SystemIdentification /> */}
                             </SectionWrapper>
                           </Wrapper6>
                           {/* the 3 buttons edit cancel and apply

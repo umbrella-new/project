@@ -134,7 +134,7 @@ const Chart = () => {
 
   const CustomTooltip = ({ active, payload, label }) => {
     const switchName =
-      sysIdentification.switchName.length < 1
+      sysIdentification.switches.length < 2
         ? 'switch information'
         : sysIdentification.locationName +
           '-' +

@@ -21,6 +21,13 @@ export const justifyContentSpaceBetween = css`
   box-sizing: border-box;
 `;
 
+export const justifyContentSpaceAround = css`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
 export const alignItemsFlexStart = css`
   display: flex;
   justify-content: center;
