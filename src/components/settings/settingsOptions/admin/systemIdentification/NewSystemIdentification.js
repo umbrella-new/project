@@ -7,18 +7,52 @@ import { useState } from 'react';
 import SelectBox from './SelectBox';
 import { useSelector } from 'react-redux';
 import { selectSelectSystemUOS } from '../../../../../store/slices/settingsSelectSystemUOSSlice';
+import { useEffect } from 'react';
 
 const NewSystemIdentification = () => {
   const [select, setSelect] = useState({});
   const [openSelectBox, setOpenSelectBox] = useState(false);
+  const [data, setData] = useState([]);
+  const [selectedUOSName, setSelectedUOSName] = useState('');
+  const [selectedUOSInfo, setSelectedUOSInfo] = useState([]);
+  const [selectedSwitchesInfo, setSelectedSwitchesInfo] = useState([]);
 
-  const reduxState = useSelector(selectSelectSystemUOS);
+  // redux
+  const allLocations = useSelector(selectSelectSystemUOS);
 
-  // !!!! PROBLEM WITH SELECT SYSTEM UOS SLICE!!!!
-  console.log(reduxState, '/*/*/*/*/*/redux');
+  useEffect(() => {
+    // format the data that I need to render at return
+    if (allLocations) {
+      const filteredLocation = allLocations.locations.map((location, idx) => {
+        const sortedArr = [];
+        location.switchInfo.forEach((el, switchIdx) => {
+          const filteredSwitchesArr = [];
+          location.switchInfo.forEach((switchEl) => {
+            const UOSNum =
+              switchIdx < 10 ? '0' + switchIdx : toString(switchEl);
+            if (switchEl.UOS === UOSNum) {
+              filteredSwitchesArr.push(switchEl);
+            }
+          });
+          if (filteredSwitchesArr.length > 0) {
+            sortedArr.push(filteredSwitchesArr);
+          }
+        });
+        return sortedArr;
+      });
+      setData(filteredLocation);
+    }
+  }, []);
 
-  const handleAssignButton = (select) => {};
+  // handle the assign button of select box of assign UOS Control Panel Identification
+  const handleAssignButton = (select) => {
+    handleSelectBox();
+    setSelectedUOSInfo(allLocations.locations[select?.locationIdx]);
+    setSelectedSwitchesInfo(data[select?.locationIdx][select?.UOSIdx]);
+    setSelectedUOSName(select.select);
+  };
 
+  // open and closes the select box of assign UOS Control Panel Identification
   const handleSelectBox = () => {
     setOpenSelectBox(!openSelectBox);
   };
@@ -39,7 +73,7 @@ const NewSystemIdentification = () => {
                   <SelectBox
                     select={select}
                     setSelect={setSelect}
-                    // data={data}
+                    data={data}
                     handleAssignButton={handleAssignButton}
                     handleSelectBox={handleSelectBox}
                   />
@@ -50,24 +84,24 @@ const NewSystemIdentification = () => {
         </SelectUOSWrapper>
         <SubWrapper isFirstRow={true}>
           <DisplayLabel isLocationName={true}>location name</DisplayLabel>
-          <Display isFirstRow={true}></Display>
+          <Display isFirstRow={true}>{selectedUOSInfo?.location}</Display>
           <DisplayLabel isCivicAddress={true}>civic address</DisplayLabel>
-          <Display isFirstRow={true}></Display>
+          <Display isFirstRow={true}>{selectedUOSInfo?.address}</Display>
         </SubWrapper>
         <SubWrapper isSecondRow={true}>
           <DisplayLabel isSecondRow={true}>
             number of <br />
             uos panels
           </DisplayLabel>
-          <Display isSecondRow={true}></Display>
+          <Display isSecondRow={true}>{selectedUOSInfo?.numOfUOS}</Display>
           <DisplayLabel isSecondRow={true}>
             ssr <br /> qty.
           </DisplayLabel>
-          <Display isSecondRow={true}></Display>
+          <Display isSecondRow={true}>{selectedUOSInfo?.numOfSSR}</Display>
           <DisplayLabel isSecondRow={true}>
             number of <br /> switches
           </DisplayLabel>
-          <Display isSecondRow={true}></Display>
+          <Display isSecondRow={true}>{selectedUOSInfo?.switchesNum}</Display>
         </SubWrapper>
         <SubWrapper isThirdRow={true}>
           {/* all the labels */}
@@ -104,22 +138,81 @@ const NewSystemIdentification = () => {
 
           <InfoBaseLayer>
             <InfoWrapper>
-              <Display isUOS={true}></Display>
-              <InfoBaseLayer isSecondLayer={true}>
-                <InfoWrapper isSecondLayer={true}>
-                  <Display isSwitchName={true}></Display>
-                  <Display isSwitchSize={true}></Display>
-                  <Display isSysID={true}></Display>
-                  <Display isHeatingSysAndSSRRating={true}></Display>
-                  <Display isGasTypeAndSSRQty={true}></Display>
-                  <Display isGasTypeAndSSRQty={true}></Display>
-                  <Display isHeatingSysAndSSRRating={true}></Display>
-                  <Display isAppli={true}></Display>
-                </InfoWrapper>
-              </InfoBaseLayer>
+              <Flex isRow={true}>
+                <Display isUOS={true}>
+                  {selectedSwitchesInfo && selectedSwitchesInfo[0]?.UOS}
+                </Display>
+                <Flex isColumn={true}>
+                  {selectedSwitchesInfo.length > 0 ? (
+                    selectedSwitchesInfo?.map((switchData, switchIdx) => {
+                      return (
+                        <InfoBaseLayer isSecondLayer={true}>
+                          <InfoWrapper isSecondLayer={true} key={switchIdx}>
+                            <Display isSwitchName={true}>
+                              <P> {switchData.switchName}</P>
+                            </Display>
+                            <Display isSwitchSize={true}>
+                              {switchData.switchSize}
+                            </Display>
+                            <Display isSysID={true}>{switchData.sysId}</Display>
+                            <Display isHeatingSysAndSSRRating={true}>
+                              {switchData.heatingSys}
+                            </Display>
+
+                            <Display
+                              isGasTypeAndSSRQty={true}
+                              disabled={
+                                switchData.heatingSys === 'ess' ||
+                                switchData.heatingSys === 'tes'
+                              }
+                            >
+                              {switchData.gasType}
+                            </Display>
+                            <Display isGasTypeAndSSRQty={true}>
+                              {switchData.selectedSSR.length}
+                            </Display>
+                            <Display isHeatingSysAndSSRRating={true}>
+                              {switchData.heatingSys}
+                            </Display>
+                            <Display isAppli={true}>
+                              {switchData.application}
+                            </Display>
+                          </InfoWrapper>
+                        </InfoBaseLayer>
+                      );
+                    })
+                  ) : (
+                    <InfoBaseLayer isSecondLayer={true}>
+                      <InfoWrapper isSecondLayer={true}>
+                        <Display isSwitchName={true}></Display>
+                        <Display isSwitchSize={true}></Display>
+                        <Display isSysID={true}></Display>
+                        <Display isHeatingSysAndSSRRating={true}></Display>
+                        <Display isGasTypeAndSSRQty={true}></Display>
+                        <Display isGasTypeAndSSRQty={true}></Display>
+                        <Display isHeatingSysAndSSRRating={true}></Display>
+                        <Display isAppli={true}></Display>
+                      </InfoWrapper>
+                    </InfoBaseLayer>
+                  )}
+                </Flex>
+              </Flex>
+              <SubWrapper isFifthRow={true}>
+                <DisplayUOSName>{selectedUOSName}</DisplayUOSName>
+                <ButtonWrapper isHeatLoad={true}>
+                  <Button isHeatLoad={true}>
+                    <ButtonIndent isHeatLoad={true}>
+                      <ButtonTop isHeatLoad={true}>
+                        heat load configuration
+                      </ButtonTop>
+                    </ButtonIndent>
+                  </Button>
+                </ButtonWrapper>
+              </SubWrapper>
             </InfoWrapper>
           </InfoBaseLayer>
         </SubWrapper>
+
         <SubWrapper isFourthRow={true}>
           <ButtonWrapper>
             <Button>
@@ -142,7 +235,7 @@ export default NewSystemIdentification;
 
 const BaseLayer = styled.div`
   width: 544px;
-  height: 262px;
+  min-height: 262px;
 
   background: transparent linear-gradient(89deg, #233a54 0%, #060d19 100%) 0% 0%
     no-repeat;
@@ -153,7 +246,7 @@ const BaseLayer = styled.div`
 
 const Wrapper = styled.div`
   width: 538px;
-  height: 214px;
+  min-height: 214px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -208,10 +301,14 @@ const InputWrapper = styled.div`
 const SelectBoxDisplay = styled.div`
   width: 341px;
   height: 18px;
+  font-size: 8px;
+  letter-spacing: 0.8px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
   border-radius: 10px;
+
+  ${flexboxCenter}
 `;
 
 const Icon = styled.img`
@@ -228,7 +325,7 @@ const SelectBoxWrapper = styled.div`
 const SubWrapper = styled.div`
   width: 100%;
 
-  ${({ isFirstRow, isSecondRow, isThirdRow, isFourthRow }) =>
+  ${({ isFirstRow, isSecondRow, isThirdRow, isFourthRow, isFifthRow }) =>
     isFirstRow
       ? css`
           ${justifyContentSpaceAround}
@@ -244,12 +341,19 @@ const SubWrapper = styled.div`
           ${flexboxCenter}
           flex-direction: column;
         `
-      : isFourthRow &&
-        css`
+      : isFourthRow
+      ? css`
           width: 99%;
           display: flex;
           justify-content: flex-end;
           align-items: center;
+        `
+      : isFifthRow &&
+        css`
+          width: 100%;
+          margin-top: 8px;
+          margin-bottom: 2px;
+          ${justifyContentSpaceAround};
         `}
 `;
 
@@ -353,6 +457,10 @@ const DisplayLabel = styled.div`
 `;
 
 const Display = styled.div`
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  ${flexboxCenter}
+
   ${({ isFirstRow, isSecondRow }) =>
     isFirstRow
       ? css`
@@ -445,6 +553,61 @@ const Display = styled.div`
           box-shadow: inset 0px 0px 2px #000000;
           border-radius: 12px;
         `}
+
+        ${({ disabled }) =>
+    disabled &&
+    css`
+      background-color: #3b3b3b;
+    `}
+
+    overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 13px;
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+    height: 60%;
+  }
+
+  ::-webkit-scrollbar-button:start:decrement {
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    height: 10px;
+
+    background-image: url('/static/images/scrollbar-button-start.svg');
+  }
+  ::-webkit-scrollbar-button:end:increment {
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    height: 10px;
+
+    background-image: url('/static/images/scrollbar-button-end.svg');
+  }
+`;
+
+const P = styled.div`
+  max-height: 10px;
+  max-width: 54px;
+
+  white-space: nowrap;
+  /* 
+  text-overflow: hidden; */
+  /* max-width: 58px;
+  margin-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
 `;
 
 const InfoBaseLayer = styled.div`
@@ -460,7 +623,9 @@ const InfoBaseLayer = styled.div`
         `
       : css`
           width: 531px;
-          height: 36px;
+          min-height: 36px;
+          padding-top: 2px;
+          padding-bottom: 2px;
         `}
 
   ${flexboxCenter}
@@ -483,19 +648,30 @@ const InfoWrapper = styled.div`
         `
       : css`
           width: 529px;
-          height: 34px;
+          min-height: 34px;
+          padding-top: 2px;
+          padding-bottom: 2px;
 
           ${justifyContentSpaceAround}
+          flex-direction: column;
         `}
 `;
 
 const ButtonWrapper = styled.div`
-  width: 132px;
-  height: 35px;
-
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 3px #000000;
   border-radius: 18px;
+
+  ${({ isHeatLoad }) =>
+    isHeatLoad
+      ? css`
+          width: 221px;
+          height: 29px;
+        `
+      : css`
+          width: 132px;
+          height: 35px;
+        `}
 
   ${flexboxCenter}
 `;
@@ -510,6 +686,17 @@ const Button = styled.button`
   border: 0.5px solid #000000;
   border-radius: 17px;
   ${flexboxCenter}
+
+  ${({ isHeatLoad }) =>
+    isHeatLoad
+      ? css`
+          width: 219px;
+          height: 27px;
+        `
+      : css`
+          width: 130px;
+          height: 33px;
+        `}
 `;
 
 const ButtonIndent = styled.div`
@@ -517,12 +704,18 @@ const ButtonIndent = styled.div`
   box-shadow: inset 0px 0px 1px #000000;
   ${flexboxCenter}
 
-  ${({ isFirstLayer }) =>
+  ${({ isFirstLayer, isHeatLoad }) =>
     isFirstLayer
       ? css`
           width: 126px;
           height: 29px;
           border-radius: 15px;
+        `
+      : isHeatLoad
+      ? css`
+          width: 213px;
+          height: 21px;
+          border-radius: 20px;
         `
       : css`
           width: 118px;
@@ -537,19 +730,87 @@ const ButtonTop = styled.div`
   box-shadow: inset 0px 0.5px 1px #ffffff24, 0px 0px 1px #000000;
   border: 0.5px solid #000000;
   border-radius: 25px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #ffffff;
 
-  ${({ isFirstLayer }) =>
+  ${flexboxCenter}
+
+  ${({ isFirstLayer, isHeatLoad }) =>
     isFirstLayer
       ? css`
           width: 124px;
           height: 27px;
-          ${flexboxCenter}
+          /* ${flexboxCenter} */
+        `
+      : isHeatLoad
+      ? css`
+          width: 211px;
+          height: 19px;
         `
       : css`
           width: 116px;
           height: 19px;
-          font-size: 10px;
-          letter-spacing: 1px;
-          color: #ffffff;
         `}
+`;
+
+const Flex = styled.div`
+  ${({ isColumn, isRow }) =>
+    isColumn
+      ? css`
+          display: flex;
+          flex-direction: column;
+        `
+      : isRow &&
+        css`
+          width: 100%;
+          ${justifyContentSpaceAround};
+        `}
+`;
+
+const DisplayUOSName = styled.div`
+  width: 287px;
+  height: 29px;
+
+  font-size: 10px;
+  letter-spacing: 1px;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 15px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 13px;
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+    height: 60%;
+  }
+
+  ::-webkit-scrollbar-button:start:decrement {
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    height: 10px;
+
+    background-image: url('/static/images/scrollbar-button-start.svg');
+  }
+  ::-webkit-scrollbar-button:end:increment {
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    height: 10px;
+
+    background-image: url('/static/images/scrollbar-button-end.svg');
+  }
 `;

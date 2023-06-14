@@ -28,6 +28,20 @@ export const justifyContentSpaceAround = css`
   box-sizing: border-box;
 `;
 
+export const justifyContentFlexStart = css`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
+export const justifyContentFlexEnd = css`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
 export const alignItemsFlexStart = css`
   display: flex;
   justify-content: center;
