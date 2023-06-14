@@ -755,17 +755,16 @@ const sysIdentificationState = {
     },
   ],
 };
-console.log(sysIdentificationState, 'sysIdentificationState');
 
-const settingsSelectSystemUOSSlice = createSlice({
-  name: 'selectSystemUOS',
-  sysIdentificationState,
+const settingsSelectionSystemUOSSlice = createSlice({
+  name: 'selectionSystemUOS',
+  initialState: sysIdentificationState,
   reducers: {
     // handleSaveUOSIdentification: (state, action) => {},
   },
 });
 
-export default settingsSelectSystemUOSSlice;
-export const selectSelectSystemUOS = (state) => state.selectSystemUOS;
+export default settingsSelectionSystemUOSSlice;
+export const selectSelectionSystemUOS = (state) => state.selectSystemUOS;
 export const { handleSaveUOSIdentification } =
-  settingsSelectSystemUOSSlice.actions;
+  settingsSelectionSystemUOSSlice.actions;

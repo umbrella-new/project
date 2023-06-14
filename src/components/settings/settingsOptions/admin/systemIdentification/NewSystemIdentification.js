@@ -6,13 +6,13 @@ import {
 import { useState } from 'react';
 import SelectBox from './SelectBox';
 import { useSelector } from 'react-redux';
-import { selectSelectSystemUOS } from '../../../../../store/slices/settingsSelectSystemUOSSlice';
+import { selectSelectionSystemUOS } from '../../../../../store/slices/settingsSelectSystemUOSSlice';
 
 const NewSystemIdentification = () => {
   const [select, setSelect] = useState({});
   const [openSelectBox, setOpenSelectBox] = useState(false);
 
-  const reduxState = useSelector(selectSelectSystemUOS);
+  const reduxState = useSelector(selectSelectionSystemUOS);
 
   // !!!! PROBLEM WITH SELECT SYSTEM UOS SLICE!!!!
   console.log(reduxState, '/*/*/*/*/*/redux');
