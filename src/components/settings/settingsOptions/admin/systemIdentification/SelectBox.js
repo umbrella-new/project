@@ -2,8 +2,11 @@ import styled, { css } from 'styled-components';
 import {
   alignItemsFlexStart,
   flexboxCenter,
+  justifyContentFlexStart,
   justifyContentSpaceAround,
 } from '../../../../../styles/commonStyles';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const SelectBox = ({
   select,
@@ -12,6 +15,45 @@ const SelectBox = ({
   setSelect,
   handleSelectBox,
 }) => {
+  const [dataList, setDataList] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      const selectionList = data?.map((location, locationIdx) => {
+        return location.map((UOS, UOSIdx) => {
+          if (UOS.length > 1) {
+            const combinedSwitchesName = UOS.reduce((acc, prev) => {
+              const combinedName = `${prev.switchName} ${prev.switchSize} ${
+                prev.application
+              } ${
+                prev.heatingSys === 'tgs/tes'
+                  ? 'tgs:' + `${prev.gasType}` + 'tes'
+                  : prev.heatingSys === 'tgs'
+                  ? 'tgs:' + `${prev.gasType}`
+                  : prev.heatingSys
+              }/`;
+              return acc + combinedName;
+            }, '');
+            return combinedSwitchesName;
+          } else {
+            return `${UOS[0].switchName} ${UOS[0].switchSize} ${
+              UOS[0].application
+            } ${
+              UOS[0].heatingSys === 'tgs/tes'
+                ? 'tgs:' + `${UOS[0].gasType}` + 'tes'
+                : UOS[0].heatingSys === 'tgs'
+                ? 'tgs:' + `${UOS[0].gasType}`
+                : UOS[0].heatingSys
+            }`;
+          }
+        });
+      });
+      setDataList(selectionList);
+    }
+  }, [data]);
+
+  console.log(dataList, 'dataList');
+
   return (
     <Wrapper>
       <FlexWrapper>
@@ -20,19 +62,32 @@ const SelectBox = ({
       </FlexWrapper>
       <ListWrapper>
         <List>
-          {data?.map((el, idx) => {
-            return (
-              <IndivSelectionWrapper
-                key={idx}
-                onClick={() => setSelect({ idx, select: el })}
-              >
-                <OuterCircle>
-                  <InnerCircle isSelected={idx === select?.idx}></InnerCircle>
-                </OuterCircle>
-                <IndivSelection>{el}</IndivSelection>
-              </IndivSelectionWrapper>
-            );
-          })}
+          {dataList?.map((location, locationIdx) =>
+            location.map((UOS, UOSIdx) => {
+              return (
+                <IndivSelectionWrapper
+                  key={UOSIdx}
+                  onClick={() =>
+                    setSelect({
+                      locationIdx,
+                      UOSIdx,
+                      select: UOS,
+                    })
+                  }
+                >
+                  <OuterCircle>
+                    <InnerCircle
+                      isSelected={
+                        UOSIdx === select?.UOSIdx &&
+                        locationIdx === select?.locationIdx
+                      }
+                    ></InnerCircle>
+                  </OuterCircle>
+                  <IndivSelection>{UOS}</IndivSelection>
+                </IndivSelectionWrapper>
+              );
+            })
+          )}
         </List>
       </ListWrapper>
       <ButtonWrapper>
@@ -70,10 +125,14 @@ const FlexWrapper = styled.div`
 const Display = styled.div`
   width: 341px;
   height: 18px;
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  text-overflow: clip;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
   border-radius: 10px;
+  ${flexboxCenter}
 `;
 
 const Icon = styled.img`
@@ -90,15 +149,17 @@ const ListWrapper = styled.div`
 
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const List = styled.ul`
   width: 356px;
   max-height: 78px;
   min-height: 60px;
+  padding: 2px;
 
-  background: inherit;
+  background: transparent;
+  border-radius: 13px 8px 8px 13px;
 
   overflow-y: auto;
   scroll-behavior: smooth;
@@ -136,10 +197,14 @@ const List = styled.ul`
     background-image: url('/static/images/scrollbar-button-end.svg');
   }
 
-  ${alignItemsFlexStart}
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2px;
+  flex-direction: column;
 `;
 
-const IndivSelectionWrapper = styled.div`
+const IndivSelectionWrapper = styled.li`
   width: 340px;
   height: 24px;
 
@@ -152,14 +217,20 @@ const IndivSelectionWrapper = styled.div`
 `;
 
 const IndivSelection = styled.li`
+  max-width: 317px;
+  text-overflow: clip;
   font-size: 8px;
   letter-spacing: 0.8px;
   color: #ffffff;
 `;
 
 const OuterCircle = styled.div`
-  width: 18px;
+  min-width: 18px;
   height: 18px;
+  margin-left: 1px;
+  margin-right: 2px;
+
+  border-radius: 50%;
 
   border: 1px solid #95ff45;
 
@@ -174,7 +245,7 @@ const InnerCircle = styled.div`
     isSelected &&
     css`
       border-radius: 50%;
-      color: #95ff45;
+      background-color: #95ff45;
     `}
 `;
 
