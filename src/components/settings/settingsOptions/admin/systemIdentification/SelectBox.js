@@ -1,8 +1,6 @@
 import styled, { css } from 'styled-components';
 import {
-  alignItemsFlexStart,
   flexboxCenter,
-  justifyContentFlexStart,
   justifyContentSpaceAround,
 } from '../../../../../styles/commonStyles';
 import { useEffect } from 'react';
@@ -18,9 +16,10 @@ const SelectBox = ({
   const [dataList, setDataList] = useState([]);
 
   useEffect(() => {
+    // format the UOS names depending on the data received from backend.
     if (data) {
-      const selectionList = data?.map((location, locationIdx) => {
-        return location.map((UOS, UOSIdx) => {
+      const selectionList = data?.map((location) => {
+        return location.map((UOS) => {
           if (UOS.length > 1) {
             const combinedSwitchesName = UOS.reduce((acc, prev) => {
               const combinedName = `${prev.switchName} ${prev.switchSize} ${
@@ -51,8 +50,6 @@ const SelectBox = ({
       setDataList(selectionList);
     }
   }, [data]);
-
-  console.log(dataList, 'dataList');
 
   return (
     <Wrapper>
@@ -186,7 +183,7 @@ const List = styled.ul`
     background-position: center;
     height: 10px;
 
-    background-image: url('/static/images/scrollbar-button-start.svg');
+    background: url('/static/images/scrollbar-button-start.svg');
   }
   ::-webkit-scrollbar-button:end:increment {
     background-repeat: no-repeat;
@@ -194,7 +191,7 @@ const List = styled.ul`
     background-position: center;
     height: 10px;
 
-    background-image: url('/static/images/scrollbar-button-end.svg');
+    background: url('/static/images/scrollbar-button-end.svg');
   }
 
   display: flex;

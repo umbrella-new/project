@@ -2,6 +2,8 @@ import styled, { css } from 'styled-components';
 import {
   flexboxCenter,
   justifyContentSpaceAround,
+  justifyContentSpaceBetween,
+  justifyContentSpaceEvenly,
 } from '../../../../../styles/commonStyles';
 import { useState } from 'react';
 import SelectBox from './SelectBox';
@@ -16,12 +18,14 @@ const NewSystemIdentification = () => {
   const [selectedUOSName, setSelectedUOSName] = useState('');
   const [selectedUOSInfo, setSelectedUOSInfo] = useState([]);
   const [selectedSwitchesInfo, setSelectedSwitchesInfo] = useState([]);
+  const [openHeatLoadConfig, setOpenHeatLoadConfig] = useState(false);
+  const [heatLoadConfigData, setHeatLoadConfigData] = useState([]);
 
   // redux
   const allLocations = useSelector(selectSelectSystemUOS);
 
   useEffect(() => {
-    // format the data that I need to render at return
+    // format the data that I need to render at jsx
     if (allLocations) {
       const filteredLocation = allLocations.locations.map((location, idx) => {
         const sortedArr = [];
@@ -50,6 +54,29 @@ const NewSystemIdentification = () => {
     setSelectedUOSInfo(allLocations.locations[select?.locationIdx]);
     setSelectedSwitchesInfo(data[select?.locationIdx][select?.UOSIdx]);
     setSelectedUOSName(select.select);
+    handleHeatLoadConfigDataFormat(select);
+  };
+
+  const handleHeatLoadConfigDataFormat = (select) => {
+    const sortedSSRArr = Array.from(
+      { length: allLocations.locations[select?.locationIdx].numOfSSR },
+      (_, i) => []
+    );
+
+    data[select?.locationIdx][select?.UOSIdx].forEach((UOS) => {
+      UOS.selectedSSR.forEach((SSR, SSRIdx) => {
+        const objKey = Object.keys(SSR)[0];
+        let modifiedObj = {
+          ...SSR,
+          switchName: UOS.switchName,
+        };
+
+        if ('ssr' + (Number(SSRIdx) + 1) === objKey) {
+          sortedSSRArr[SSRIdx].push(modifiedObj);
+        }
+      });
+    });
+    setHeatLoadConfigData(sortedSSRArr);
   };
 
   // open and closes the select box of assign UOS Control Panel Identification
@@ -57,176 +84,305 @@ const NewSystemIdentification = () => {
     setOpenSelectBox(!openSelectBox);
   };
 
+  const handleHeatLoadConfigButton = () => {
+    if (selectedUOSName) {
+      setOpenHeatLoadConfig(!openHeatLoadConfig);
+    }
+  };
+
+  console.log(heatLoadConfigData, '-------HeatLoadConfigData');
+
   return (
-    <BaseLayer>
-      <Wrapper>
-        <SelectUOSWrapper>
-          <SelectBoxLabel>
-            assign uos control panel identification
-          </SelectBoxLabel>
-          <InputBaseLayer>
-            <InputWrapper>
-              <SelectBoxDisplay>{select?.select}</SelectBoxDisplay>
-              <Icon src='/images/arrow-down.svg' onClick={handleSelectBox} />
-              {openSelectBox && (
-                <SelectBoxWrapper>
-                  <SelectBox
-                    select={select}
-                    setSelect={setSelect}
-                    data={data}
-                    handleAssignButton={handleAssignButton}
-                    handleSelectBox={handleSelectBox}
+    <BaseLayer isFirstLayer={true}>
+      <Wrapper1>
+        <TitleTop>system identification</TitleTop>
+        <BaseLayer>
+          <Wrapper2>
+            {/* select box of UOS panel */}
+            <SelectUOSWrapper>
+              <SelectBoxLabel>
+                assign uos control panel identification
+              </SelectBoxLabel>
+              <InputBaseLayer>
+                <InputWrapper>
+                  <SelectBoxDisplay>
+                    {selectedUOSName && selectedUOSName}
+                  </SelectBoxDisplay>
+                  <Icon
+                    src='/images/arrow-down.svg'
+                    onClick={handleSelectBox}
                   />
-                </SelectBoxWrapper>
-              )}
-            </InputWrapper>
-          </InputBaseLayer>
-        </SelectUOSWrapper>
-        <SubWrapper isFirstRow={true}>
-          <DisplayLabel isLocationName={true}>location name</DisplayLabel>
-          <Display isFirstRow={true}>{selectedUOSInfo?.location}</Display>
-          <DisplayLabel isCivicAddress={true}>civic address</DisplayLabel>
-          <Display isFirstRow={true}>{selectedUOSInfo?.address}</Display>
-        </SubWrapper>
-        <SubWrapper isSecondRow={true}>
-          <DisplayLabel isSecondRow={true}>
-            number of <br />
-            uos panels
-          </DisplayLabel>
-          <Display isSecondRow={true}>{selectedUOSInfo?.numOfUOS}</Display>
-          <DisplayLabel isSecondRow={true}>
-            ssr <br /> qty.
-          </DisplayLabel>
-          <Display isSecondRow={true}>{selectedUOSInfo?.numOfSSR}</Display>
-          <DisplayLabel isSecondRow={true}>
-            number of <br /> switches
-          </DisplayLabel>
-          <Display isSecondRow={true}>{selectedUOSInfo?.switchesNum}</Display>
-        </SubWrapper>
-        <SubWrapper isThirdRow={true}>
-          {/* all the labels */}
-          <DisplayLabelWrapper>
-            <DisplayLabel isUOS={true} isThirdRow={true}>
-              uos
-            </DisplayLabel>
-            <DisplayLabel isSwitchName={true} isThirdRow={true}>
-              switch <br /> name
-            </DisplayLabel>
-            <DisplayLabel isSwitchSize={true} isThirdRow={true}>
-              switch <br /> size
-            </DisplayLabel>
-            <DisplayLabel isSysID={true} isThirdRow={true}>
-              system i.d.
-            </DisplayLabel>
-            <DisplayLabel isHeatingSys={true} isThirdRow={true}>
-              heating <br /> system
-            </DisplayLabel>
-            <DisplayLabel isGasType={true} isThirdRow={true}>
-              gas <br /> type
-            </DisplayLabel>
-            <DisplayLabel isSSRQty={true} isThirdRow={true}>
-              ssr <br /> qty.
-            </DisplayLabel>
-            <DisplayLabel isSSRRating={true} isThirdRow={true}>
-              ssr <br /> rating
-            </DisplayLabel>
-            <DisplayLabel isAppli={true} isThirdRow={true}>
-              application
-            </DisplayLabel>
-          </DisplayLabelWrapper>
-          {/* all the display info */}
+                  {openSelectBox && (
+                    <SelectBoxWrapper>
+                      <SelectBox
+                        select={select}
+                        setSelect={setSelect}
+                        data={data}
+                        handleAssignButton={handleAssignButton}
+                        handleSelectBox={handleSelectBox}
+                      />
+                    </SelectBoxWrapper>
+                  )}
+                </InputWrapper>
+              </InputBaseLayer>
+            </SelectUOSWrapper>
 
-          <InfoBaseLayer>
-            <InfoWrapper>
-              <Flex isRow={true}>
-                <Display isUOS={true}>
-                  {selectedSwitchesInfo && selectedSwitchesInfo[0]?.UOS}
-                </Display>
-                <Flex isColumn={true}>
-                  {selectedSwitchesInfo.length > 0 ? (
-                    selectedSwitchesInfo?.map((switchData, switchIdx) => {
-                      return (
+            {/* location name, civic address */}
+            <SubWrapper isFirstRow={true}>
+              <DisplayLabel isLocationName={true}>location name</DisplayLabel>
+              <Display isFirstRow={true}>{selectedUOSInfo?.location}</Display>
+              <DisplayLabel isCivicAddress={true}>civic address</DisplayLabel>
+              <Display isFirstRow={true}>{selectedUOSInfo?.address}</Display>
+            </SubWrapper>
+
+            {/* Num of UOS panel, SSR Qty, Num of switches */}
+            <SubWrapper isSecondRow={true}>
+              <DisplayLabel isSecondRow={true}>
+                number of <br />
+                uos panels
+              </DisplayLabel>
+              <Display isSecondRow={true}>{selectedUOSInfo?.numOfUOS}</Display>
+              <DisplayLabel isSecondRow={true}>
+                ssr <br /> qty.
+              </DisplayLabel>
+              <Display isSecondRow={true}>{selectedUOSInfo?.numOfSSR}</Display>
+              <DisplayLabel isSecondRow={true}>
+                number of <br /> switches
+              </DisplayLabel>
+              <Display isSecondRow={true}>
+                {selectedUOSInfo?.switchesNum}
+              </Display>
+            </SubWrapper>
+
+            {/* subtitles of the info box of each switch */}
+            <SubWrapper isThirdRow={true}>
+              {/* all the labels */}
+              <DisplayLabelWrapper>
+                <DisplayLabel isUOS={true} isThirdRow={true}>
+                  uos
+                </DisplayLabel>
+                <DisplayLabel isSwitchName={true} isThirdRow={true}>
+                  switch <br /> name
+                </DisplayLabel>
+                <DisplayLabel isSwitchSize={true} isThirdRow={true}>
+                  switch <br /> size
+                </DisplayLabel>
+                <DisplayLabel isSysID={true} isThirdRow={true}>
+                  system i.d.
+                </DisplayLabel>
+                <DisplayLabel isHeatingSys={true} isThirdRow={true}>
+                  heating <br /> system
+                </DisplayLabel>
+                <DisplayLabel isGasType={true} isThirdRow={true}>
+                  gas <br /> type
+                </DisplayLabel>
+                <DisplayLabel isSSRQty={true} isThirdRow={true}>
+                  ssr <br /> qty.
+                </DisplayLabel>
+                <DisplayLabel isSSRRating={true} isThirdRow={true}>
+                  ssr <br /> rating
+                </DisplayLabel>
+                <DisplayLabel isAppli={true} isThirdRow={true}>
+                  application
+                </DisplayLabel>
+              </DisplayLabelWrapper>
+
+              {/* all the display info of each switch */}
+              <InfoBaseLayer>
+                <InfoWrapper>
+                  <Flex isRow={true}>
+                    <Display isUOS={true}>
+                      {selectedSwitchesInfo && selectedSwitchesInfo[0]?.UOS}
+                    </Display>
+                    <Flex isColumn={true}>
+                      {selectedSwitchesInfo.length > 0 ? (
+                        selectedSwitchesInfo?.map((switchData, switchIdx) => {
+                          return (
+                            <InfoBaseLayer isSecondLayer={true}>
+                              <InfoWrapper isSecondLayer={true} key={switchIdx}>
+                                <Display isSwitchName={true}>
+                                  <P> {switchData.switchName}</P>
+                                </Display>
+                                <Display isSwitchSize={true}>
+                                  {switchData.switchSize}
+                                </Display>
+                                <Display isSysID={true}>
+                                  {switchData.sysId}
+                                </Display>
+                                <Display isHeatingSysAndSSRRating={true}>
+                                  {switchData.heatingSys}
+                                </Display>
+
+                                <Display
+                                  isGasTypeAndSSRQty={true}
+                                  disabled={
+                                    switchData.heatingSys === 'ess' ||
+                                    switchData.heatingSys === 'tes'
+                                  }
+                                >
+                                  {switchData.gasType}
+                                </Display>
+                                <Display isGasTypeAndSSRQty={true}>
+                                  {switchData.selectedSSR.length}
+                                </Display>
+                                <Display isHeatingSysAndSSRRating={true}>
+                                  {switchData.heatingSys}
+                                </Display>
+                                <Display isAppli={true}>
+                                  {switchData.application}
+                                </Display>
+                              </InfoWrapper>
+                            </InfoBaseLayer>
+                          );
+                        })
+                      ) : (
                         <InfoBaseLayer isSecondLayer={true}>
-                          <InfoWrapper isSecondLayer={true} key={switchIdx}>
-                            <Display isSwitchName={true}>
-                              <P> {switchData.switchName}</P>
-                            </Display>
-                            <Display isSwitchSize={true}>
-                              {switchData.switchSize}
-                            </Display>
-                            <Display isSysID={true}>{switchData.sysId}</Display>
-                            <Display isHeatingSysAndSSRRating={true}>
-                              {switchData.heatingSys}
-                            </Display>
-
-                            <Display
-                              isGasTypeAndSSRQty={true}
-                              disabled={
-                                switchData.heatingSys === 'ess' ||
-                                switchData.heatingSys === 'tes'
-                              }
-                            >
-                              {switchData.gasType}
-                            </Display>
-                            <Display isGasTypeAndSSRQty={true}>
-                              {switchData.selectedSSR.length}
-                            </Display>
-                            <Display isHeatingSysAndSSRRating={true}>
-                              {switchData.heatingSys}
-                            </Display>
-                            <Display isAppli={true}>
-                              {switchData.application}
-                            </Display>
+                          <InfoWrapper isSecondLayer={true}>
+                            <Display isSwitchName={true}></Display>
+                            <Display isSwitchSize={true}></Display>
+                            <Display isSysID={true}></Display>
+                            <Display isHeatingSysAndSSRRating={true}></Display>
+                            <Display isGasTypeAndSSRQty={true}></Display>
+                            <Display isGasTypeAndSSRQty={true}></Display>
+                            <Display isHeatingSysAndSSRRating={true}></Display>
+                            <Display isAppli={true}></Display>
                           </InfoWrapper>
                         </InfoBaseLayer>
-                      );
-                    })
-                  ) : (
-                    <InfoBaseLayer isSecondLayer={true}>
-                      <InfoWrapper isSecondLayer={true}>
-                        <Display isSwitchName={true}></Display>
-                        <Display isSwitchSize={true}></Display>
-                        <Display isSysID={true}></Display>
-                        <Display isHeatingSysAndSSRRating={true}></Display>
-                        <Display isGasTypeAndSSRQty={true}></Display>
-                        <Display isGasTypeAndSSRQty={true}></Display>
-                        <Display isHeatingSysAndSSRRating={true}></Display>
-                        <Display isAppli={true}></Display>
-                      </InfoWrapper>
-                    </InfoBaseLayer>
-                  )}
-                </Flex>
-              </Flex>
-              <SubWrapper isFifthRow={true}>
-                <DisplayUOSName>{selectedUOSName}</DisplayUOSName>
-                <ButtonWrapper isHeatLoad={true}>
-                  <Button isHeatLoad={true}>
-                    <ButtonIndent isHeatLoad={true}>
-                      <ButtonTop isHeatLoad={true}>
-                        heat load configuration
-                      </ButtonTop>
-                    </ButtonIndent>
-                  </Button>
-                </ButtonWrapper>
-              </SubWrapper>
-            </InfoWrapper>
-          </InfoBaseLayer>
-        </SubWrapper>
+                      )}
+                    </Flex>
+                  </Flex>
+                  {/* Heat Load Configuration */}
+                  {openHeatLoadConfig && (
+                    <>
+                      <Title>heat load configuration</Title>
+                      <HeatLoadConfigWrapper>
+                        {heatLoadConfigData.map((SSR, SSRIdx) => {
+                          const isExisting = SSR.length > 0;
+                          const SSRTitle = isExisting
+                            ? Object.keys(SSR[0])[0]
+                            : 'ssr' + (Number(SSRIdx) + 1);
+                          return (
+                            <div key={SSRIdx}>
+                              {/* labels */}
+                              <DisplayLabelWrapper isSecondRow={true}>
+                                <DisplaySSRLabel>
+                                  <SSR>{SSRTitle}</SSR>
+                                  <TCWrapper>
+                                    <TC>
+                                      {isExisting &&
+                                        SSR[0][SSRTitle].thermoCouple}
+                                    </TC>
+                                  </TCWrapper>
+                                </DisplaySSRLabel>
+                                <DisplayLabel isPartNum={true}>
+                                  part number
+                                </DisplayLabel>
+                                <DisplayLabel isCurrent={true}>
+                                  current (a)
+                                </DisplayLabel>
+                                <DisplayLabel isWattage={true}>
+                                  wattage (w)
+                                </DisplayLabel>
+                                <DisplayLabel isVoltage={true}>
+                                  voltage (v)
+                                </DisplayLabel>
+                                <DisplayLabel isLength={true}>
+                                  length (m)
+                                </DisplayLabel>
+                              </DisplayLabelWrapper>
+                              {SSR.map((el, elIdx) => {
+                                return (
+                                  <div key={elIdx * 14444}>
+                                    {/* switch Info */}
+                                    <SSRInfoWrapper>
+                                      <IndivSSRInfo>
+                                        <Display isSSRSwitchName={true}>
+                                          {isExisting && el.switchName}
+                                        </Display>
+                                        <Display isPartNum={true}>
+                                          {isExisting &&
+                                            el[SSRTitle].specs.partNumber}
+                                        </Display>
+                                        <Display isCurrent={true}>
+                                          {isExisting &&
+                                            el[SSRTitle].specs.current}
+                                        </Display>
+                                        <Display isWattage={true}>
+                                          {isExisting &&
+                                            el[SSRTitle].specs.wattage}
+                                        </Display>
+                                        <Display isVoltage={true}>
+                                          {isExisting &&
+                                            el[SSRTitle].specs.voltage}
+                                        </Display>
+                                        <Display isLength={true}>
+                                          {isExisting &&
+                                            el[SSRTitle].specs.lengths}
+                                        </Display>
+                                      </IndivSSRInfo>
+                                    </SSRInfoWrapper>
 
-        <SubWrapper isFourthRow={true}>
-          <ButtonWrapper>
-            <Button>
-              <ButtonIndent isFirstLayer={true}>
-                <ButtonTop isFirstLayer={true}>
-                  <ButtonIndent>
-                    <ButtonTop>save</ButtonTop>
+                                    {/* name of UOS */}
+                                    <DescriptionWrapper>
+                                      <DisplayLabel isDescription={true}>
+                                        description
+                                      </DisplayLabel>
+                                      <Display isDescription={true}>
+                                        {isExisting &&
+                                          `${el.elementName} -
+                                            ${el.partNumber}/
+                                            ${el.current}/${el.wattage}/${el.voltage}/${el.lengths}`}
+                                      </Display>
+                                    </DescriptionWrapper>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+                      </HeatLoadConfigWrapper>
+                    </>
+                  )}
+
+                  {/* display the full name of UOS machine, the heat load button */}
+                  <SubWrapper isFifthRow={true}>
+                    <DisplayUOSName>{selectedUOSName}</DisplayUOSName>
+                    <ButtonWrapper isHeatLoad={true}>
+                      <Button
+                        isHeatLoad={true}
+                        onClick={handleHeatLoadConfigButton}
+                      >
+                        <ButtonIndent isHeatLoad={true}>
+                          <ButtonTop isHeatLoad={true}>
+                            {openHeatLoadConfig
+                              ? 'close'
+                              : 'heat load configuration'}
+                          </ButtonTop>
+                        </ButtonIndent>
+                      </Button>
+                    </ButtonWrapper>
+                  </SubWrapper>
+                </InfoWrapper>
+              </InfoBaseLayer>
+            </SubWrapper>
+
+            {/* save button */}
+            <SubWrapper isFourthRow={true}>
+              <ButtonWrapper>
+                <Button>
+                  <ButtonIndent isFirstLayer={true}>
+                    <ButtonTop isFirstLayer={true}>
+                      <ButtonIndent>
+                        <ButtonTop>save</ButtonTop>
+                      </ButtonIndent>
+                    </ButtonTop>
                   </ButtonIndent>
-                </ButtonTop>
-              </ButtonIndent>
-            </Button>
-          </ButtonWrapper>
-        </SubWrapper>
-      </Wrapper>
+                </Button>
+              </ButtonWrapper>
+            </SubWrapper>
+          </Wrapper2>
+        </BaseLayer>
+      </Wrapper1>
     </BaseLayer>
   );
 };
@@ -234,6 +390,25 @@ const NewSystemIdentification = () => {
 export default NewSystemIdentification;
 
 const BaseLayer = styled.div`
+  width: auto;
+  height: auto;
+
+  background: #1b2b44 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 2px #000000;
+
+  ${({ isFirstLayer }) =>
+    isFirstLayer
+      ? css`
+          border-radius: 11px;
+          padding: 2px;
+        `
+      : css`
+          border-radius: 8px;
+          padding: 1px;
+        `}
+`;
+
+const Wrapper1 = styled.div`
   width: 544px;
   min-height: 262px;
 
@@ -242,11 +417,30 @@ const BaseLayer = styled.div`
   box-shadow: inset 0px 1px 1px #ffffff24, 0px 0px 2px #000000;
   border: 1px solid #000000;
   border-radius: 9px;
+
+  ${justifyContentSpaceAround}
+  flex-direction: column;
+  gap: 4px;
 `;
 
-const Wrapper = styled.div`
+const TitleTop = styled.div`
+  width: 539px;
+  height: 32px;
+  margin-top: 6px;
+
+  font-size: 10px;
+
+  background: #233a54;
+  box-shadow: inset 0px 0px 3px #000000;
+  border-radius: 16px;
+
+  ${flexboxCenter}
+`;
+
+const Wrapper2 = styled.div`
   width: 538px;
   min-height: 214px;
+  padding-top: 6px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -260,6 +454,7 @@ const Wrapper = styled.div`
 
 const SelectUOSWrapper = styled.div`
   width: 100%;
+  margin-bottom: 6px;
   ${justifyContentSpaceAround}
 `;
 
@@ -324,6 +519,7 @@ const SelectBoxWrapper = styled.div`
 
 const SubWrapper = styled.div`
   width: 100%;
+  margin-bottom: 6px;
 
   ${({ isFirstRow, isSecondRow, isThirdRow, isFourthRow, isFifthRow }) =>
     isFirstRow
@@ -344,6 +540,8 @@ const SubWrapper = styled.div`
       : isFourthRow
       ? css`
           width: 99%;
+          margin-bottom: 4px;
+
           display: flex;
           justify-content: flex-end;
           align-items: center;
@@ -352,7 +550,7 @@ const SubWrapper = styled.div`
         css`
           width: 100%;
           margin-top: 8px;
-          margin-bottom: 2px;
+          margin-bottom: 4px;
           ${justifyContentSpaceAround};
         `}
 `;
@@ -387,7 +585,6 @@ const DisplayLabel = styled.div`
       ? css`
           font-size: 8px;
           letter-spacing: 0.8px;
-          color: #ffffff;
           text-align: center;
 
           position: absolute;
@@ -408,6 +605,11 @@ const DisplayLabel = styled.div`
     isSSRQty,
     isSSRRating,
     isAppli,
+    isPartNum,
+    isCurrent,
+    isWattage,
+    isVoltage,
+    isLength,
   }) =>
     isUOS
       ? css`
@@ -449,10 +651,35 @@ const DisplayLabel = styled.div`
           top: 0px;
           left: 412px;
         `
-      : isAppli &&
-        css`
+      : isAppli
+      ? css`
           top: 4px;
           left: 460px;
+        `
+      : isPartNum
+      ? css`
+          font-size: 8px;
+          letter-spacing: 0.8px;
+        `
+      : isCurrent
+      ? css`
+          font-size: 8px;
+          letter-spacing: 0.8px;
+        `
+      : isWattage
+      ? css`
+          font-size: 8px;
+          letter-spacing: 0.8px;
+        `
+      : isVoltage
+      ? css`
+          font-size: 8px;
+          letter-spacing: 0.8px;
+        `
+      : isLength &&
+        css`
+          font-size: 8px;
+          letter-spacing: 0.8px;
         `}
 `;
 
@@ -494,6 +721,7 @@ const Display = styled.div`
       ? css`
           width: 28px;
           height: 18px;
+          margin-top: 4px;
 
           background: #142033 0% 0% no-repeat padding-box;
           box-shadow: inset 0px 0px 2px #000000;
@@ -503,6 +731,7 @@ const Display = styled.div`
       ? css`
           width: 60px;
           height: 18px;
+          margin-left: 1px;
 
           background: #233a54 0% 0% no-repeat padding-box;
           box-shadow: inset 0px 0px 2px #000000;
@@ -548,6 +777,7 @@ const Display = styled.div`
         css`
           width: 65px;
           height: 18px;
+          margin-right: 1px;
 
           background: #233a54 0% 0% no-repeat padding-box;
           box-shadow: inset 0px 0px 2px #000000;
@@ -601,13 +831,6 @@ const P = styled.div`
   max-width: 54px;
 
   white-space: nowrap;
-  /* 
-  text-overflow: hidden; */
-  /* max-width: 58px;
-  margin-left: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; */
 `;
 
 const InfoBaseLayer = styled.div`
@@ -620,12 +843,11 @@ const InfoBaseLayer = styled.div`
       ? css`
           width: 493px;
           height: 26px;
+          margin-bottom: 2px;
         `
       : css`
           width: 531px;
           min-height: 36px;
-          padding-top: 2px;
-          padding-bottom: 2px;
         `}
 
   ${flexboxCenter}
@@ -644,7 +866,7 @@ const InfoWrapper = styled.div`
           width: 491px;
           height: 24px;
 
-          ${justifyContentSpaceAround}
+          ${justifyContentSpaceEvenly}
         `
       : css`
           width: 529px;
@@ -764,13 +986,94 @@ const Flex = styled.div`
       : isRow &&
         css`
           width: 100%;
-          ${justifyContentSpaceAround};
+          display: flex;
+          justify-content: space-around;
+          align-items: flex-start;
         `}
 `;
+
+const Title = styled.div`
+  width: 100%;
+  font-size: 10px;
+  letter-spacing: 1px;
+
+  ::before,
+  ::after {
+    background-color: #ffff;
+    content: '';
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 30%;
+  }
+  ::before {
+    right: 0.5em;
+    margin-left: 2%;
+  }
+
+  ::after {
+    left: 0.5em;
+  }
+`;
+
+const HeatLoadConfigWrapper = styled.div``;
+
+const DisplaySSRLabel = styled.div`
+  width: 111px;
+  height: 20px;
+
+  background: #142033 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 2px #000000;
+  border-radius: 12px;
+
+  ${justifyContentSpaceBetween}
+`;
+
+const SSR = styled.div`
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  color: #fcff01;
+`;
+
+const TCWrapper = styled.div`
+  width: 60px;
+  height: 18px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 12px;
+
+  ${flexboxCenter}
+`;
+
+const TC = styled.div`
+  width: 56px;
+  height: 14px;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 2px #000000;
+  border-radius: 12px;
+
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+`;
+
+const SSRInfoWrapper = styled.div``;
+
+const IndivSSRInfo = styled.div``;
+
+const DescriptionWrapper = styled.div``;
+
+const Description = styled.div``;
 
 const DisplayUOSName = styled.div`
   width: 287px;
   height: 29px;
+  padding-left: 16px;
 
   font-size: 10px;
   letter-spacing: 1px;
@@ -786,7 +1089,7 @@ const DisplayUOSName = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-  ::-webkit-scrollbar-track {
+  /* ::-webkit-scrollbar-track {
   }
 
   ::-webkit-scrollbar-thumb {
@@ -812,5 +1115,7 @@ const DisplayUOSName = styled.div`
     height: 10px;
 
     background-image: url('/static/images/scrollbar-button-end.svg');
-  }
+  } */
+
+  ${flexboxCenter}
 `;
