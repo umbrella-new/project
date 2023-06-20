@@ -54,7 +54,9 @@ const SelectBox = ({
   return (
     <Wrapper>
       <FlexWrapper>
-        <Display>{select?.select}</Display>
+        <Display>
+          <Text>{select?.select}</Text>
+        </Display>
         <Icon src='/images/arrow-down.svg' onClick={handleSelectBox} />
       </FlexWrapper>
       <ListWrapper>
@@ -80,7 +82,9 @@ const SelectBox = ({
                       }
                     ></InnerCircle>
                   </OuterCircle>
-                  <IndivSelection>{UOS}</IndivSelection>
+                  <IndivSelection>
+                    <Text>{UOS}</Text>
+                  </IndivSelection>
                 </IndivSelectionWrapper>
               );
             })
@@ -116,15 +120,14 @@ const Wrapper = styled.div`
 
 const FlexWrapper = styled.div`
   width: 100%;
+  margin-top: -1px;
+  margin-left: 1px;
   ${justifyContentSpaceAround};
 `;
 
 const Display = styled.div`
   width: 341px;
   height: 18px;
-  font-size: 8px;
-  letter-spacing: 0.8px;
-  text-overflow: clip;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 2px #000000;
@@ -132,8 +135,28 @@ const Display = styled.div`
   ${flexboxCenter}
 `;
 
+const Text = styled.div`
+  width: 96%;
+
+  font-size: 8px;
+  letter-spacing: 0.8px;
+
+  text-align: center;
+  white-space: nowrap;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const Icon = styled.img`
   cursor: pointer;
+  margin-top: 2px;
+  margin-right: 1px;
 `;
 
 const ListWrapper = styled.div`
@@ -159,6 +182,7 @@ const List = styled.ul`
   border-radius: 13px 8px 8px 13px;
 
   overflow-y: auto;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 
   ::-webkit-scrollbar {
@@ -215,6 +239,8 @@ const IndivSelectionWrapper = styled.li`
 
 const IndivSelection = styled.li`
   max-width: 317px;
+  margin-left: 2px;
+
   text-overflow: clip;
   font-size: 8px;
   letter-spacing: 0.8px;
