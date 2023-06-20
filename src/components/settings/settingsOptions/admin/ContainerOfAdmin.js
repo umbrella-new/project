@@ -653,8 +653,9 @@ function ContainerOfAdmin() {
                             )}
 
                             <SectionWrapper>
-                              <NewSystemIdentification />
-                              {/* <SystemIdentification /> */}
+                              <NewSystemIdentification
+                                setSysIdentification={setSysIdentification}
+                              />
                             </SectionWrapper>
                             {/* the 3 buttons edit cancel and apply */}
                             {messageBox && (
@@ -825,8 +826,9 @@ function ContainerOfAdmin() {
                             </SectionWrapper>
 
                             <SectionWrapper>
-                              <NewSystemIdentification />
-                              {/* <SystemIdentification /> */}
+                              <NewSystemIdentification
+                                setSysIdentification={setSysIdentification}
+                              />
                             </SectionWrapper>
                           </Wrapper6>
                           {/* the 3 buttons edit cancel and apply

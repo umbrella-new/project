@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { selectSelectSystemUOS } from '../../../../../store/slices/settingsSelectSystemUOSSlice';
 import { useEffect } from 'react';
 
-const NewSystemIdentification = () => {
+const NewSystemIdentification = ({ setSysIdentification }) => {
   const [select, setSelect] = useState({});
   const [openSelectBox, setOpenSelectBox] = useState(false);
   const [data, setData] = useState([]);
@@ -20,6 +20,7 @@ const NewSystemIdentification = () => {
   const [selectedSwitchesInfo, setSelectedSwitchesInfo] = useState([]);
   const [openHeatLoadConfig, setOpenHeatLoadConfig] = useState(false);
   const [heatLoadConfigData, setHeatLoadConfigData] = useState([]);
+  const [greenContour, setGreenContour] = useState(false);
 
   // redux
   const allLocations = useSelector(selectSelectSystemUOS);
@@ -58,6 +59,7 @@ const NewSystemIdentification = () => {
   };
 
   const handleHeatLoadConfigDataFormat = (select) => {
+    // creates empty arrays depending on the number of SSR Qty.
     const sortedSSRArr = Array.from(
       { length: allLocations.locations[select?.locationIdx].numOfSSR },
       (_, i) => []
@@ -84,13 +86,22 @@ const NewSystemIdentification = () => {
     setOpenSelectBox(!openSelectBox);
   };
 
+  // open and closes Heat load configuration
   const handleHeatLoadConfigButton = () => {
     if (selectedUOSName) {
       setOpenHeatLoadConfig(!openHeatLoadConfig);
     }
   };
 
-  // console.log(heatLoadConfigData, '-------HeatLoadConfigData');
+  const handleSaveButton = () => {
+    if (heatLoadConfigData.length > 0) {
+      setSysIdentification(true);
+      setGreenContour(true);
+      setTimeout(() => {
+        setGreenContour(false);
+      }, 1000);
+    }
+  };
 
   return (
     <BaseLayer isFirstLayer={true}>
@@ -106,7 +117,7 @@ const NewSystemIdentification = () => {
               <InputBaseLayer>
                 <InputWrapper>
                   <SelectBoxDisplay>
-                    {selectedUOSName && selectedUOSName}
+                    <Text>{selectedUOSName && selectedUOSName}</Text>
                   </SelectBoxDisplay>
                   <Icon
                     src='/images/arrow-down.svg'
@@ -359,9 +370,11 @@ const NewSystemIdentification = () => {
                                                     description
                                                   </DisplayLabel>
                                                   <Display isDescription={true}>
-                                                    {isExisting &&
-                                                      `${spec.elementName} -
+                                                    <Text>
+                                                      {isExisting &&
+                                                        `${spec.elementName} -
                                             ${spec.partNumber}/${spec.current} a/${spec.wattage} w/${spec.voltage} v/${spec.lengths} m`}
+                                                    </Text>
                                                   </Display>
                                                 </DescriptionWrapper>
                                               </IndivWrapper>
@@ -404,7 +417,7 @@ const NewSystemIdentification = () => {
             {/* save button */}
             <SubWrapper isFourthRow={true}>
               <ButtonWrapper>
-                <Button>
+                <Button onClick={handleSaveButton} greenContour={greenContour}>
                   <ButtonIndent isFirstLayer={true}>
                     <ButtonTop isFirstLayer={true}>
                       <ButtonIndent>
@@ -440,6 +453,7 @@ const BaseLayer = styled.div`
       : css`
           border-radius: 8px;
           padding: 1px;
+          margin-bottom: 1px;
         `}
 `;
 
@@ -531,6 +545,8 @@ const InputWrapper = styled.div`
 const SelectBoxDisplay = styled.div`
   width: 341px;
   height: 18px;
+  margin-left: 1px;
+
   font-size: 8px;
   letter-spacing: 0.8px;
 
@@ -538,16 +554,32 @@ const SelectBoxDisplay = styled.div`
   box-shadow: inset 0px 0px 2px #000000;
   border-radius: 10px;
 
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   ${flexboxCenter}
+`;
+
+const Text = styled.div`
+  width: 94%;
+  text-align: center;
+  white-space: nowrap;
 `;
 
 const Icon = styled.img`
   cursor: pointer;
+  margin-top: 2px;
+  margin-right: 1px;
 `;
 
 const SelectBoxWrapper = styled.div`
   position: absolute;
-  top: -1px;
+  top: 0;
   left: 0;
   z-index: 10;
 `;
@@ -636,7 +668,10 @@ const DisplayLabel = styled.div`
       : isSecondRow &&
         css`
           margin-right: 4px;
-          margin-left: 4px;
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 4px;
+          }
         `};
 
   ${({
@@ -707,7 +742,7 @@ const DisplayLabel = styled.div`
           letter-spacing: 0.8px;
 
           top: 5px;
-          left: 130px;
+          left: 120px;
         `
       : isCurrent
       ? css`
@@ -715,7 +750,7 @@ const DisplayLabel = styled.div`
           letter-spacing: 0.8px;
 
           top: 5px;
-          left: 212px;
+          left: 204px;
         `
       : isWattage
       ? css`
@@ -723,7 +758,7 @@ const DisplayLabel = styled.div`
           letter-spacing: 0.8px;
 
           top: 5px;
-          left: 286px;
+          left: 282px;
         `
       : isVoltage
       ? css`
@@ -739,10 +774,12 @@ const DisplayLabel = styled.div`
           letter-spacing: 0.8px;
 
           top: 5px;
-          left: 440px;
+          left: 450px;
         `
       : isDescription &&
         css`
+          margin-left: 22px;
+
           font-size: 8px;
           letter-spacing: 0.8px;
           color: #ffffff;
@@ -785,7 +822,6 @@ const Display = styled.div`
     isSSRSwitchName,
     isSharedSize,
     isDescription,
-    isPartNum,
   }) =>
     isUOS
       ? css`
@@ -844,6 +880,8 @@ const Display = styled.div`
         css`
           width: 402px;
           height: 20px;
+
+          margin-left: 20px;
         `}
 
         ${({ disabled }) =>
@@ -858,33 +896,6 @@ const Display = styled.div`
 
   ::-webkit-scrollbar {
     display: none;
-  }
-  ::-webkit-scrollbar-track {
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #ffffff;
-    border-radius: 13px;
-    border: 1.5px solid transparent;
-    background-clip: padding-box;
-    height: 60%;
-  }
-
-  ::-webkit-scrollbar-button:start:decrement {
-    background-repeat: no-repeat;
-    background-size: 70%;
-    background-position: center;
-    height: 10px;
-
-    background-image: url('/static/images/scrollbar-button-start.svg');
-  }
-  ::-webkit-scrollbar-button:end:increment {
-    background-repeat: no-repeat;
-    background-size: 70%;
-    background-position: center;
-    height: 10px;
-
-    background-image: url('/static/images/scrollbar-button-end.svg');
   }
 `;
 
@@ -981,6 +992,12 @@ const Button = styled.button`
           width: 130px;
           height: 33px;
         `}
+
+        ${({ greenContour }) =>
+    greenContour &&
+    css`
+      border-color: #95ff45;
+    `}
 `;
 
 const ButtonIndent = styled.div`
@@ -1157,47 +1174,20 @@ const DisplayUOSName = styled.div`
   height: 29px;
   padding-left: 16px;
 
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 8px;
+  letter-spacing: 0.8px;
 
   background: #233a54 0% 0% no-repeat padding-box;
   box-shadow: inset 0px 0px 6px #000000;
   border-radius: 15px;
 
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
 
   ::-webkit-scrollbar {
     display: none;
   }
-  /* ::-webkit-scrollbar-track {
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #ffffff;
-    border-radius: 13px;
-    border: 1.5px solid transparent;
-    background-clip: padding-box;
-    height: 60%;
-  }
-
-  ::-webkit-scrollbar-button:start:decrement {
-    background-repeat: no-repeat;
-    background-size: 70%;
-    background-position: center;
-    height: 10px;
-
-    background-image: url('/static/images/scrollbar-button-start.svg');
-  }
-  ::-webkit-scrollbar-button:end:increment {
-    background-repeat: no-repeat;
-    background-size: 70%;
-    background-position: center;
-    height: 10px;
-
-    background-image: url('/static/images/scrollbar-button-end.svg');
-  } */
 
   ${flexboxCenter}
 `;
