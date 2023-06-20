@@ -90,7 +90,7 @@ const NewSystemIdentification = () => {
     }
   };
 
-  console.log(heatLoadConfigData, '-------HeatLoadConfigData');
+  // console.log(heatLoadConfigData, '-------HeatLoadConfigData');
 
   return (
     <BaseLayer isFirstLayer={true}>
@@ -261,12 +261,13 @@ const NewSystemIdentification = () => {
                           const SSRTitle = isExisting
                             ? Object.keys(SSR[0])[0]
                             : 'ssr' + (Number(SSRIdx) + 1);
+
                           return (
-                            <div key={SSRIdx}>
+                            <Div key={SSRIdx}>
                               {/* labels */}
                               <DisplayLabelWrapper isSecondRow={true}>
                                 <DisplaySSRLabel>
-                                  <SSR>{SSRTitle}</SSR>
+                                  <SSRDisplay>{SSRTitle}</SSRDisplay>
                                   <TCWrapper>
                                     <TC>
                                       {isExisting &&
@@ -274,70 +275,104 @@ const NewSystemIdentification = () => {
                                     </TC>
                                   </TCWrapper>
                                 </DisplaySSRLabel>
-                                <DisplayLabel isPartNum={true}>
+                                <DisplayLabel
+                                  isPartNum={true}
+                                  isThirdRow={true}
+                                >
                                   part number
                                 </DisplayLabel>
-                                <DisplayLabel isCurrent={true}>
+                                <DisplayLabel
+                                  isCurrent={true}
+                                  isThirdRow={true}
+                                >
                                   current (a)
                                 </DisplayLabel>
-                                <DisplayLabel isWattage={true}>
+                                <DisplayLabel
+                                  isWattage={true}
+                                  isThirdRow={true}
+                                >
                                   wattage (w)
                                 </DisplayLabel>
-                                <DisplayLabel isVoltage={true}>
+                                <DisplayLabel
+                                  isVoltage={true}
+                                  isThirdRow={true}
+                                >
                                   voltage (v)
                                 </DisplayLabel>
-                                <DisplayLabel isLength={true}>
+                                <DisplayLabel isLength={true} isThirdRow={true}>
                                   length (m)
                                 </DisplayLabel>
                               </DisplayLabelWrapper>
-                              {SSR.map((el, elIdx) => {
-                                return (
-                                  <div key={elIdx * 14444}>
-                                    {/* switch Info */}
-                                    <SSRInfoWrapper>
-                                      <IndivSSRInfo>
-                                        <Display isSSRSwitchName={true}>
-                                          {isExisting && el.switchName}
-                                        </Display>
-                                        <Display isPartNum={true}>
-                                          {isExisting &&
-                                            el[SSRTitle].specs.partNumber}
-                                        </Display>
-                                        <Display isCurrent={true}>
-                                          {isExisting &&
-                                            el[SSRTitle].specs.current}
-                                        </Display>
-                                        <Display isWattage={true}>
-                                          {isExisting &&
-                                            el[SSRTitle].specs.wattage}
-                                        </Display>
-                                        <Display isVoltage={true}>
-                                          {isExisting &&
-                                            el[SSRTitle].specs.voltage}
-                                        </Display>
-                                        <Display isLength={true}>
-                                          {isExisting &&
-                                            el[SSRTitle].specs.lengths}
-                                        </Display>
-                                      </IndivSSRInfo>
-                                    </SSRInfoWrapper>
+                              <SSRWrapper>
+                                {SSR.map((el, elIdx) => {
+                                  return (
+                                    <Div key={elIdx * 14444} noMargin={true}>
+                                      {isExisting &&
+                                        el[SSRTitle].specs.map((spec) => {
+                                          return (
+                                            <IndivBaseLayer>
+                                              <IndivWrapper
+                                                key={Math.floor(
+                                                  Math.random() * 5656521
+                                                )}
+                                              >
+                                                {/* switch Info */}
+                                                <SSRInfoWrapper>
+                                                  <Display
+                                                    isSSRSwitchName={true}
+                                                  >
+                                                    {isExisting &&
+                                                      el.switchName}
+                                                  </Display>
+                                                  <Display isSharedSize={true}>
+                                                    <SizeBox isPartNum={true}>
+                                                      {isExisting &&
+                                                        spec.partNumber}
+                                                    </SizeBox>
+                                                  </Display>
+                                                  <Display
+                                                    isSharedSize={true}
+                                                    isPartNum={true}
+                                                  >
+                                                    {isExisting &&
+                                                      spec.current + ' ' + 't'}
+                                                  </Display>
+                                                  <Display isSharedSize={true}>
+                                                    {isExisting &&
+                                                      spec.wattage + ' ' + 'w'}
+                                                  </Display>
+                                                  <Display isSharedSize={true}>
+                                                    {isExisting &&
+                                                      spec.voltage + ' ' + 'v'}
+                                                  </Display>
+                                                  <Display isSharedSize={true}>
+                                                    {isExisting &&
+                                                      spec.lengths + ' ' + 'm'}
+                                                  </Display>
+                                                </SSRInfoWrapper>
 
-                                    {/* name of UOS */}
-                                    <DescriptionWrapper>
-                                      <DisplayLabel isDescription={true}>
-                                        description
-                                      </DisplayLabel>
-                                      <Display isDescription={true}>
-                                        {isExisting &&
-                                          `${el.elementName} -
-                                            ${el.partNumber}/
-                                            ${el.current}/${el.wattage}/${el.voltage}/${el.lengths}`}
-                                      </Display>
-                                    </DescriptionWrapper>
-                                  </div>
-                                );
-                              })}
-                            </div>
+                                                {/* name of UOS */}
+                                                <DescriptionWrapper>
+                                                  <DisplayLabel
+                                                    isDescription={true}
+                                                  >
+                                                    description
+                                                  </DisplayLabel>
+                                                  <Display isDescription={true}>
+                                                    {isExisting &&
+                                                      `${spec.elementName} -
+                                            ${spec.partNumber}/${spec.current} a/${spec.wattage} w/${spec.voltage} v/${spec.lengths} m`}
+                                                  </Display>
+                                                </DescriptionWrapper>
+                                              </IndivWrapper>
+                                            </IndivBaseLayer>
+                                          );
+                                        })}
+                                    </Div>
+                                  );
+                                })}
+                              </SSRWrapper>
+                            </Div>
                           );
                         })}
                       </HeatLoadConfigWrapper>
@@ -557,8 +592,17 @@ const SubWrapper = styled.div`
 
 const DisplayLabelWrapper = styled.div`
   width: 100%;
-  height: 26px;
+
   position: relative;
+
+  ${({ isSecondRow }) =>
+    isSecondRow
+      ? css`
+          height: 22px;
+        `
+      : css`
+          height: 26px;
+        `}
 `;
 
 const DisplayLabel = styled.div`
@@ -610,6 +654,7 @@ const DisplayLabel = styled.div`
     isWattage,
     isVoltage,
     isLength,
+    isDescription,
   }) =>
     isUOS
       ? css`
@@ -660,26 +705,47 @@ const DisplayLabel = styled.div`
       ? css`
           font-size: 8px;
           letter-spacing: 0.8px;
+
+          top: 5px;
+          left: 130px;
         `
       : isCurrent
       ? css`
           font-size: 8px;
           letter-spacing: 0.8px;
+
+          top: 5px;
+          left: 212px;
         `
       : isWattage
       ? css`
           font-size: 8px;
           letter-spacing: 0.8px;
+
+          top: 5px;
+          left: 286px;
         `
       : isVoltage
       ? css`
           font-size: 8px;
           letter-spacing: 0.8px;
+
+          top: 5px;
+          left: 364px;
         `
-      : isLength &&
+      : isLength
+      ? css`
+          font-size: 8px;
+          letter-spacing: 0.8px;
+
+          top: 5px;
+          left: 440px;
+        `
+      : isDescription &&
         css`
           font-size: 8px;
           letter-spacing: 0.8px;
+          color: #ffffff;
         `}
 `;
 
@@ -688,24 +754,24 @@ const Display = styled.div`
   letter-spacing: 0.8px;
   ${flexboxCenter}
 
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 2px #000000;
+  border-radius: 12px;
+
   ${({ isFirstRow, isSecondRow }) =>
     isFirstRow
       ? css`
           width: 185px;
           height: 24px;
 
-          background: #233a54 0% 0% no-repeat padding-box;
           box-shadow: inset 0px 0px 6px #000000;
-          border-radius: 12px;
         `
       : isSecondRow &&
         css`
           width: 34px;
           height: 24px;
 
-          background: #233a54 0% 0% no-repeat padding-box;
           box-shadow: inset 0px 0px 6px #000000;
-          border-radius: 12px;
         `}
 
   ${({
@@ -716,78 +782,74 @@ const Display = styled.div`
     isGasTypeAndSSRQty,
     isHeatingSysAndSSRRating,
     isAppli,
+    isSSRSwitchName,
+    isSharedSize,
+    isDescription,
+    isPartNum,
   }) =>
     isUOS
       ? css`
           width: 28px;
           height: 18px;
           margin-top: 4px;
-
-          background: #142033 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
         `
       : isSwitchName
       ? css`
           width: 60px;
           height: 18px;
           margin-left: 1px;
-
-          background: #233a54 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
         `
       : isSwitchSize
       ? css`
           width: 42px;
           height: 18px;
-
-          background: #233a54 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
         `
       : isSysID
       ? css`
           width: 128px;
           height: 18px;
-
-          background: #233a54 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
         `
       : isHeatingSysAndSSRRating
       ? css`
           width: 54px;
           height: 18px;
-
-          background: #233a54 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
         `
       : isGasTypeAndSSRQty
       ? css`
           width: 34px;
           height: 18px;
-
-          background: #233a54 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
         `
-      : isAppli &&
-        css`
+      : isAppli
+      ? css`
           width: 65px;
           height: 18px;
           margin-right: 1px;
-
-          background: #233a54 0% 0% no-repeat padding-box;
-          box-shadow: inset 0px 0px 2px #000000;
-          border-radius: 12px;
+        `
+      : isSSRSwitchName
+      ? css`
+          width: 106px;
+          height: 20px;
+        `
+      : isSharedSize
+      ? css`
+          width: 76px;
+          height: 20px;
+          ${({ isPartNum }) =>
+            isPartNum &&
+            css`
+              color: #95ff45;
+            `}
+        `
+      : isDescription &&
+        css`
+          width: 402px;
+          height: 20px;
         `}
 
         ${({ disabled }) =>
     disabled &&
     css`
-      background-color: #3b3b3b;
+      background: #3b3b3b;
     `}
 
     overflow-x: auto;
@@ -1017,7 +1079,9 @@ const Title = styled.div`
   }
 `;
 
-const HeatLoadConfigWrapper = styled.div``;
+const HeatLoadConfigWrapper = styled.div`
+  width: 100%;
+`;
 
 const DisplaySSRLabel = styled.div`
   width: 111px;
@@ -1028,9 +1092,15 @@ const DisplaySSRLabel = styled.div`
   border-radius: 12px;
 
   ${justifyContentSpaceBetween}
+
+  position:absolute;
+  top: 0;
+  left: 4px;
 `;
 
-const SSR = styled.div`
+const SSRDisplay = styled.p`
+  margin-left: 12%;
+
   font-size: 8px;
   letter-spacing: 0.8px;
   color: #fcff01;
@@ -1039,6 +1109,7 @@ const SSR = styled.div`
 const TCWrapper = styled.div`
   width: 60px;
   height: 18px;
+  margin-right: 1px;
 
   background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
     0% no-repeat padding-box;
@@ -1060,15 +1131,26 @@ const TC = styled.div`
   font-size: 8px;
   letter-spacing: 0.8px;
   color: #ffffff;
+
+  ${flexboxCenter}
 `;
 
-const SSRInfoWrapper = styled.div``;
+const SSRInfoWrapper = styled.div`
+  width: 100%;
+  ${justifyContentSpaceAround}
+`;
 
-const IndivSSRInfo = styled.div``;
+const SizeBox = styled.div`
+  width: 57px;
+  height: 18px;
 
-const DescriptionWrapper = styled.div``;
+  text-align: center;
+`;
 
-const Description = styled.div``;
+const DescriptionWrapper = styled.div`
+  width: 100%;
+  ${justifyContentSpaceAround}
+`;
 
 const DisplayUOSName = styled.div`
   width: 287px;
@@ -1118,4 +1200,59 @@ const DisplayUOSName = styled.div`
   } */
 
   ${flexboxCenter}
+`;
+
+const Div = styled.div`
+  width: 100%;
+
+  ${flexboxCenter}
+  flex-direction: column;
+
+  ${({ noMargin }) =>
+    !noMargin &&
+    css`
+      margin-top: 4px;
+    `}
+`;
+
+const SSRWrapper = styled.div`
+  width: 524px;
+  min-height: 54px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 15px;
+
+  ${justifyContentSpaceAround}
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const IndivBaseLayer = styled.div`
+  width: 520px;
+  height: 50px;
+
+  background: #233a54 0% 0% no-repeat padding-box;
+  box-shadow: inset 0px 0px 6px #000000;
+  border-radius: 13px;
+
+  ${flexboxCenter}
+`;
+
+const IndivWrapper = styled.div`
+  width: 518px;
+  height: 48px;
+
+  background: transparent linear-gradient(180deg, #233a54 0%, #060d19 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: inset 0px 0.5px 1px #ffffff29, 0px 0px 1px #000000;
+  border: 0.5px solid #000000;
+  border-radius: 12px;
+
+  ${justifyContentSpaceAround}
+  flex-direction: column;
 `;
